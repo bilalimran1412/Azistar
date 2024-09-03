@@ -1,51 +1,35 @@
 import React from 'react';
-import { Handle, useReactFlow } from 'reactflow'; // Import useReactFlow here
+import { Handle } from 'reactflow';
 import { MdAdd } from 'react-icons/md';
-import { handleDeleteNode, handleAddButton, addNewNode, useDropdownToggle } from '../utils/nodeutils';
-
+import { useDropdownToggle } from '../utils/nodeutils';
+import NodeDropdownMenu from './NodeDropdownMenu';
+import { useNodeContext } from '../views/canvas/NodeContext';  // Correct the import path
 
 const StartingNode = ({ id, data }) => {
-  const { isDropdownVisible, toggleDropdown, setDropdownVisible, dropdownPosition, nodeRef } = useDropdownToggle();
-  const reactFlowInstance = useReactFlow(); // Call useReactFlow at the top level
+  const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef } = useDropdownToggle();
+  const { addNewNode } = useNodeContext();  // Correctly extracting from context
 
-  const handleAddNode = (typ) => {
-    // handleAddButton(id, data, setDropdownVisible);// enabling side bar , button  
-    addNewNode(id, data, reactFlowInstance,typ); // Pass reactFlowInstance to addNewNode
+  const handleAddNode = (type) => {
+    addNewNode(id, type, `New ${type}`);  // Simplified call, assuming you manage types and labels elsewhere
   };
 
   return (
     <div className="text-node" ref={nodeRef}>
       <div className="node-content custom-node">
         <h4>{data.label}</h4>
-      </div>
-      <div className="icon_dropdown" onClick={toggleDropdown}>
-        <MdAdd />
-      </div>
-      {isDropdownVisible && (
-        <div
-          className="selected_dropdown-main"
-          style={{
-            position: 'absolute',
-            top: dropdownPosition.y,
-            left: dropdownPosition.x,
-            zIndex: 10,
-          }}
-        >
-          <div className='selected_dropdown-menu'>
-            <div className='box_node' onClick={() => handleAddNode('customNode',)}>
-            {console.log(data)}
-              <MdAdd />
-
-              {/* addbuton -> sidebar/ -1> customnode */}
-              {/*hmare saare nodes*/}
-
-              Add Node
-            </div>
-            
-          </div>
+        <div className="icon_dropdown" onClick={toggleDropdown}>
+          <MdAdd />
         </div>
-      )}
-      <Handle type="source" position="right" id={`source-${id}`} />
+        {isDropdownVisible && (
+          <NodeDropdownMenu
+            handleAddNode={handleAddNode}
+            data={data}
+            dropdownPosition={dropdownPosition}
+          />
+        )}
+        <Handle type="source" position="right" id={`source-${id}`} />
+        <Handle type="target" position="left" id={`target-${id}`} />
+      </div>
     </div>
   );
 };

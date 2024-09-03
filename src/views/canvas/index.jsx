@@ -5,6 +5,10 @@ import axios from 'axios';
 import CustomNode from '../../components/CustomNode';
 import SideView from '../../components/SideView';
 import StartingNode from '../../components/StartingNode';
+import AskAQuestion from '../../components/StartingNode';
+
+import { NodeProvider } from './NodeContext';
+
 import ReactFlow, {
   Controls, Background,
   applyNodeChanges,
@@ -15,12 +19,13 @@ import 'reactflow/dist/style.css';
 import './canvas.css';
 import '../../index.css';
 
-
+import { useNodeContext } from './NodeContext'; 
 
 // Node type mapping
 const nodeTypes = {
   customNode: CustomNode,
-  startingNode:StartingNode
+  startingNode:StartingNode,
+  askaquestion:AskAQuestion,
 };
 
 const Canvas = () => {
@@ -30,7 +35,7 @@ const Canvas = () => {
   const [currentNodeId, setCurrentNodeId] = useState(null);
   const [messageForm, setMessageForm] = useState('closeform');
   const [lastNodeId, setLastNodeId] = useState(null);
-
+  const { addNewNode } = useNodeContext();
 
   
 
@@ -130,6 +135,7 @@ const Canvas = () => {
   };
 
   return (
+    <NodeProvider>
     <div className="canvas" style={{ height: '100vh', zIndex: '1000', background: '#454b6b', position: 'relative' }}>
       <ReactFlow
         nodes={nodes}
@@ -148,7 +154,7 @@ const Canvas = () => {
       </ReactFlow>
 
       <Button
-        onClick={addNewField}
+        onClick={addNewNode}
         leftIcon={<MdAdd />}
         className="add-node-button"
       >
@@ -166,6 +172,7 @@ const Canvas = () => {
         </div>
       )}
     </div>
+    </NodeProvider>
   );
 };
 

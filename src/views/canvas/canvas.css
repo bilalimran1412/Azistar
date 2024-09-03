@@ -20,3 +20,31 @@
   top: 10px;
   right: 10px;
 }
+
+/* Add this CSS to your component's stylesheet or an appropriate global file */
+.text-node {
+  background: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.node-content {
+  padding: 10px;
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333333; /* Dark text for readability */
+}
+
+.icon_dropdown {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: #E0E0E0; /* Light grey background for the icon area */
+}

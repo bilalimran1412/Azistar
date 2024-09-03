@@ -55,20 +55,20 @@ export const handleAddButton = (id, data, setDropdownVisible) => {
   }
 };
 
-// Function to add a new node
-export const addNewNode = (id, data, reactFlowInstance,tp) => {
-  const newNode = {
-    id: `${Date.now()}`, 
-    type: tp, 
-    position: { x: 20, y: 30 },
-    data: {
-      label: `New Node`,
-      onAddButton: data.onAddButton,
-      onButtonClick: data.onButtonClick,
-      onDeleteNode: () => handleDeleteNode(id, data),
-      buttons: []
-    }
-  };
+// // Function to add a new node
+// export const addNewNode = (id, data, reactFlowInstance,tp,label) => {
+//   const newNode = {
+//     id: `${Date.now()}`, 
+//     type: tp, 
+//     position: { x: 20, y: 30 },
+//     data: {
+//       label: label,
+//       onAddButton: data.onAddButton,
+//       onButtonClick: data.onButtonClick,
+//       onDeleteNode: () => handleDeleteNode(id, data),
+//       buttons: []
+//     }
+//   };
 
-  reactFlowInstance.addNodes([newNode]);
-};
+//   reactFlowInstance.addNodes([newNode]);
+// };
