@@ -1,14 +1,18 @@
+// App.js
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
-import Canvas from './views/canvas/index';
 import { ReactFlowProvider } from 'reactflow';
+import Canvas from './views/canvas/index';
+import { NodeProvider } from './views/canvas/NodeContext'; // Correct import path
 
 const App = () => {
   return (
     <ReactFlowProvider>
-    <ChakraProvider>
-      <Canvas />
-    </ChakraProvider>
+      <ChakraProvider>
+        <NodeProvider>
+          <Canvas />
+        </NodeProvider>
+      </ChakraProvider>
     </ReactFlowProvider>
   );
 };

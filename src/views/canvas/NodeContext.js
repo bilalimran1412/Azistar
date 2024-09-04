@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 const NodeContext = createContext({
   nodes: [],
   edges: [],
-  addNewNode: () => {},  // Provide a default no-op function
+  addNewNode: () => {}, 
   setNodes: () => {},
   setEdges: () => {}
 });
@@ -13,7 +13,7 @@ export const useNodeContext = () => useContext(NodeContext);
 export const NodeProvider = ({ children }) => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
-  console.log(nodes);
+
   const addNewNode = useCallback((sourceId, type, label) => {
     const newNodeId = `node_${Date.now()}`;
     const newNode = {
@@ -32,8 +32,6 @@ export const NodeProvider = ({ children }) => {
 
     setNodes(prev => [...prev, newNode]);
     setEdges(prev => [...prev, newEdge]);
-    
-    
   }, [setNodes, setEdges]);
 
   return (
