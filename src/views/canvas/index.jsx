@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import CustomNode from '../../components/CustomNode';
+import React, { useCallback, useEffect } from 'react';
+import { CustomNode, askName, askPhone, askNumber, askEmail } from '../../components/CustomNode';
 import SideView from '../../components/SideView';
 import StartingNode from '../../components/StartingNode';
 import AskAQuestion from '../../components/AskAQuestion';
@@ -21,13 +21,14 @@ const nodeTypes = {
   customNode: CustomNode,
   startingNode: StartingNode,
   AskAQuestion: AskAQuestion,
+  askName: askName,
+  askPhone: askPhone,
+  askNumber: askNumber,
+  askEmail: askEmail,
 };
 
 const Canvas = () => {
-  const { nodes, setNodes, edges, setEdges } = useNodeContext();
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [currentNodeId, setCurrentNodeId] = useState(null);
-  const [nodeType, setNodeType] = useState(null);
+  const { nodes, setNodes, edges, setEdges, setSideView, currentNode, sideViewVisible } = useNodeContext();
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -45,14 +46,13 @@ const Canvas = () => {
   );
 
   const closeForm = () => {
-    setIsFormVisible(false);
-    setNodeType(null);
-  };
-
-  const handleAddNode = (type) => {
-    setNodeType(type);
-    setCurrentNodeId(null);
-    setIsFormVisible(true);
+    console.log('Attempting to close SideView');
+    if (typeof setSideView === 'function') {
+      setSideView(false);
+      console.log('setSideView executed');
+    } else {
+      console.error('setSideView is not a function');
+    }
   };
 
   useEffect(() => {
@@ -86,12 +86,12 @@ const Canvas = () => {
         <Background variant="dots" />
       </ReactFlow>
 
-      {isFormVisible && (
+      {sideViewVisible && currentNode && (
         <div className="newsetmessage absolute bg-gray-300 w-[400px] rounded-md">
           <SideView 
             closeForm={closeForm}
-            nodeType={nodeType}
-            currentNodeId={currentNodeId}
+            nodeType={currentNode.type}
+            currentNodeId={currentNode.id}
             setNodes={setNodes}
           />
         </div>

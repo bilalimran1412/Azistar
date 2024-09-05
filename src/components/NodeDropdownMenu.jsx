@@ -4,9 +4,12 @@ import { MdAdd } from 'react-icons/md';
 
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
   const menuItems = [
-    { type: 'customNode', label: 'Custom Node' },
-    { type: 'askQuestion', label: 'Ask A Question' },
-    { type: 'startingNode', label: 'Starting Node' }
+    { type: 'customNode', label: 'Buttons' },
+    { type: 'AskAQuestion', label: 'Ask a question' },
+    { type: 'askName', label: 'Ask for a name' },
+    { type: 'askEmail', label: 'Ask for a email' },
+    { type: 'askPhone', label: 'Ask for a phone' },
+    { type: 'askNumber', label: 'Ask for a number' }
   ];
 
   return (

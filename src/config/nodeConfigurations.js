@@ -2,6 +2,12 @@ const nodeConfigurations = {
   customNode: {
     title: "Ask a Question",
     fields: [
+      { label: "Buttons", type: "text", variable: "hello", placeholder: "text body" }
+    ]
+  },
+  AskAQuestion: {
+    title: "Ask a Question",
+    fields: [
       { label: "Question text", type: "text", variable: "hello", placeholder: "Ask anything" }
     ]
   },
@@ -30,5 +36,6 @@ const nodeConfigurations = {
     ]
   }
 };
-
+  
 export default nodeConfigurations;
+  
