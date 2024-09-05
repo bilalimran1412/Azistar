@@ -1,6 +1,6 @@
 const nodeConfigurations = {
   customNode: {
-    title: "Ask a Question",
+    title: "Write a message",
     fields: [
       { label: "Buttons", type: "text", variable: "hello", placeholder: "text body" }
     ]
@@ -60,7 +60,7 @@ const nodeConfigurations = {
     ]
   },
   rating: {
-    title: "Picture choice",
+    title: "Rating",
     fields: [
       { label: "Message", type: "text", variable: "number", placeholder: "Create an evaluation" }
     ]

@@ -23,6 +23,7 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
       className="dropdown-menu"
       style={{
         position: 'absolute',
+        padding: '10px 10px',
         top: dropdownPosition.y,
         left: dropdownPosition.x,
         zIndex: 10,
@@ -30,8 +31,7 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
         border: '1px solid #ddd',
         borderRadius: '4px',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        padding: '8px',
-        minWidth: '150px'
+        minWidth: '220px'
       }}
     >
       {menuItems.map(({ type, label }) => (
@@ -47,7 +47,8 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
             borderRadius: '4px',
             transition: 'background-color 0.3s',
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            fontSize: '16px',
           }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}

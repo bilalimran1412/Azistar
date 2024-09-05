@@ -4,20 +4,23 @@ import { useReactFlow } from 'reactflow';
 
 
 // Function to toggle the visibility of a dropdown
+
 export const useDropdownToggle = (initialState = false) => {
   const [isDropdownVisible, setDropdownVisible] = useState(initialState);
   const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0 });
   const nodeRef = useRef(null);
 
   const toggleDropdown = (event) => {
-    event.stopPropagation();
-    setDropdownVisible(!isDropdownVisible);
+    if (event && event.stopPropagation) {
+      event.stopPropagation(); // Stop event propagation only if event is defined
+    }
+    setDropdownVisible((prev) => !prev);
 
     if (nodeRef.current) {
       const nodeRect = nodeRef.current.getBoundingClientRect();
       setDropdownPosition({
-        x: 130,
-        y: 100,
+        x: nodeRect.left, // Adjust position as needed
+        y: nodeRect.top + 0,  // Adjust position as needed
       });
     }
   };
@@ -25,11 +28,12 @@ export const useDropdownToggle = (initialState = false) => {
   return {
     isDropdownVisible,
     toggleDropdown,
-    setDropdownVisible, // Make sure this is returned
+    setDropdownVisible,
     dropdownPosition,
     nodeRef,
   };
 };
+
 
 // Function to handle node deletion
 export const handleDeleteNode = (id, data) => {

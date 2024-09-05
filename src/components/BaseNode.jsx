@@ -8,7 +8,7 @@ import nodeConfigurations from '../config/nodeConfigurations';
 import { useNodeContext } from '../views/canvas/NodeContext';
 
 const BaseNode = ({ id, data, type, label }) => {
-  const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef } = useDropdownToggle();
+  const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef, dropdownRef } = useDropdownToggle();
   const config = nodeConfigurations[type] || { title: 'Unknown Node Type', fields: [] };
   const { addNewNode } = useNodeContext();  
 
@@ -18,6 +18,7 @@ const BaseNode = ({ id, data, type, label }) => {
   const handleAddNode = (newType) => {
     console.log('Adding node of type:', newType); // Debugging line
     addNewNode(id, newType);
+    toggleDropdown();
   };
 
   return (
@@ -32,6 +33,7 @@ const BaseNode = ({ id, data, type, label }) => {
         <NodeDropdownMenu
             handleAddNode={handleAddNode}
             dropdownPosition={dropdownPosition}
+            dropdownRef={dropdownRef}
         />
       )}
       <Handle

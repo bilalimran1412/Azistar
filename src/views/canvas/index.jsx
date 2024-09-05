@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
-import { CustomNode, askName, askPhone, askNumber, askEmail } from '../../components/CustomNode';
+import { CustomNode, askName, askPhone, askNumber, askEmail, autoComplete, picChoice
+  , rating, askUrl, askAddress
+ } from '../../components/CustomNode';
+
 import SideView from '../../components/SideView';
 import StartingNode from '../../components/StartingNode';
 import AskAQuestion from '../../components/AskAQuestion';
-
+import NodeDropdownMenu from '../../components/NodeDropdownMenu';
 import ReactFlow, {
   Controls,
   Background,
@@ -25,10 +28,17 @@ const nodeTypes = {
   askPhone: askPhone,
   askNumber: askNumber,
   askEmail: askEmail,
+  autoComplete: autoComplete,
+  picChoice: picChoice,
+  askUrl: askUrl,
+  askAddress: askAddress,
+  rating: rating
 };
 
 const Canvas = () => {
   const { nodes, setNodes, edges, setEdges, setSideView, currentNode, sideViewVisible } = useNodeContext();
+  const [dropdownPosition, setDropdownPosition] = React.useState({ x: 0, y: 0 });
+  const [showDropdown, setShowDropdown] = React.useState(false);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -44,6 +54,17 @@ const Canvas = () => {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
+
+  const handleAddNode = (type) => {
+    const newNode = {
+      id: `${nodes.length + 1}`,
+      data: { label: type },
+      position: { x: Math.random() * 500, y: Math.random() * 500 },
+      type,
+    };
+    
+    setNodes((nds) => [...nds, newNode]);
+  };
 
   const closeForm = () => {
     console.log('Attempting to close SideView');
@@ -95,6 +116,13 @@ const Canvas = () => {
             setNodes={setNodes}
           />
         </div>
+      )}
+
+      {showDropdown && (
+        <NodeDropdownMenu 
+          handleAddNode={handleAddNode}
+          dropdownPosition={dropdownPosition}
+        />
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Input, Box, FormControl, FormLabel } from '@chakra-ui/react';
 import nodeConfigurations from '../config/nodeConfigurations'; // Adjust the import path as needed
+import '../views/canvas/canvas.css';
 
 const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   const [formData, setFormData] = useState({});
@@ -21,9 +22,12 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
 
   return (
     <div className="ask-button-container">
-      <div className="grid grid-cols-2 px-4 justify-between items-center"></div>
+      <div className="grid grid-cols-2 px-4 justify-between items-center">
+      <h1>{config.title}</h1>
+      <Button onClick={closeForm} mt={4} colorScheme="red">X</Button>
+        
+      </div>
     <Box bg="white" p={4} shadow="md" borderWidth="1px">
-      <h2>{config.title}</h2>
       {config.fields.map((field, index) => (
         <FormControl key={index} mt={4}>
           <FormLabel>{field.label}</FormLabel>
@@ -35,9 +39,16 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
           />
         </FormControl>
       ))}
-      <Button onClick={handleSubmit} mt={4} colorScheme="blue">Save</Button>
-      <Button onClick={closeForm} mt={4} colorScheme="red">Close</Button>
+        <Box
+        position="absolute" bottom={4}
+        left={0} width="full" px={5}
+        display="flex" justifyContent="space-between"
+      >
+        <Button onClick={closeForm} mt={4} colorScheme="red">Cancel</Button>
+        <Button onClick={handleSubmit} mt={4} colorScheme="blue">Apply</Button>
+      </Box>
     </Box>
+    
     </div>
   );
 };
