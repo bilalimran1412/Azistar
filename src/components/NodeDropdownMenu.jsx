@@ -9,7 +9,13 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
     { type: 'askName', label: 'Ask for a name' },
     { type: 'askEmail', label: 'Ask for a email' },
     { type: 'askPhone', label: 'Ask for a phone' },
-    { type: 'askNumber', label: 'Ask for a number' }
+    { type: 'askNumber', label: 'Ask for a number' },
+    { type: 'autoComplete', label: 'Autocomplete' },
+    { type: 'askUrl', label: 'Ask for a url' },
+    { type: 'askAddress', label: 'Ask for an address' },
+    { type: 'picChoice', label: 'Picture choice' },
+    { type: 'rating', label: 'Rating' },
+
   ];
 
   return (

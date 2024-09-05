@@ -34,7 +34,37 @@ const nodeConfigurations = {
     fields: [
       { label: "Question text", type: "text", variable: "number", placeholder: "Type a number, please" }
     ]
-  }
+  },
+  autoComplete: {
+    title: "Autocomplete",
+    fields: [
+      { label: "Question text", type: "text", variable: "number", placeholder: "Input suggestions" }
+    ]
+  },
+  askUrl: {
+    title: "Ask for a url",
+    fields: [
+      { label: "Question text", type: "text", variable: "number", placeholder: "Type a Url" }
+    ]
+  },
+  askAddress: {
+    title: "Ask for an address",
+    fields: [
+      { label: "Question text", type: "text", variable: "number", placeholder: "Type your address, please" }
+    ]
+  },
+  picChoice: {
+    title: "Picture choice",
+    fields: [
+      { label: "Message", type: "text", variable: "number", placeholder: "Image carousel" }
+    ]
+  },
+  rating: {
+    title: "Picture choice",
+    fields: [
+      { label: "Message", type: "text", variable: "number", placeholder: "Create an evaluation" }
+    ]
+  },
 };
   
 export default nodeConfigurations;
