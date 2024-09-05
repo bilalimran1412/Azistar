@@ -19,8 +19,8 @@ export const useDropdownToggle = (initialState = false) => {
     if (nodeRef.current) {
       const nodeRect = nodeRef.current.getBoundingClientRect();
       setDropdownPosition({
-        x: nodeRect.left, // Adjust position as needed
-        y: nodeRect.top + 0,  // Adjust position as needed
+        x: 150, // Adjust position as needed
+        y: 30,  // Adjust position as needed
       });
     }
   };

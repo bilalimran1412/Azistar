@@ -11,6 +11,7 @@ const BaseNode = ({ id, data, type, label }) => {
   const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef, dropdownRef } = useDropdownToggle();
   const config = nodeConfigurations[type] || { title: 'Unknown Node Type', fields: [] };
   const { addNewNode } = useNodeContext();  
+  const { setCurrentNode, setSideView } = useNodeContext();  
 
   const displayLabel = label || data.label || config.title;
 
@@ -21,11 +22,17 @@ const BaseNode = ({ id, data, type, label }) => {
     toggleDropdown();
   };
 
+  const handleClick = () => {
+    setCurrentNode({ id, type, data });
+    setSideView(true);
+  };
+
   return (
-    <div className={`text-node ${type}-node`} ref={nodeRef}>
+    <div className={`text-node ${type}-node`} ref={nodeRef} onClick={handleClick}>
       <div className="node-content">
         <h4>{displayLabel}</h4>
-      </div>
+        <p>{data.textareaFieldData || 'No data available'}</p>
+        </div>
       <div className="icon_dropdown" onClick={toggleDropdown}>
         <MdAdd />
       </div>
