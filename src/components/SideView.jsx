@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Box, FormControl, FormLabel, Textarea } from '@chakra-ui/react';
-import nodeConfigurations from '../config/nodeConfigurations'; // Adjust the import path as needed
+import nodeConfigurations from '../config/nodeConfigurations';
 
 const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   const [formData, setFormData] = useState({});
   const config = nodeConfigurations[nodeType] || { title: "Unknown Node Type", fields: [] };
 
-  // Initialize form data when currentNodeId or nodeType changes
   useEffect(() => {
     if (currentNodeId) {
       setNodes(prevNodes => {
         const currentNode = prevNodes.find(node => node.id === currentNodeId);
         if (currentNode && currentNode.data) {
-          setFormData(currentNode.data); // Initialize form data with current node data
+          setFormData(currentNode.data);
         }
         return prevNodes;
       });
@@ -24,7 +23,7 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   };
 
   const handleSubmit = () => {
-    console.log("Form Data on Submit:", formData); // Verify that textareaFieldData is present and correct
+    console.log("Form Data on Submit:", formData);
     setNodes(prevNodes =>
       prevNodes.map(node =>
         node.id === currentNodeId ? { ...node, data: { ...node.data, textareaFieldData: formData.textareaFieldData } } : node
@@ -32,7 +31,6 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
     );
     closeForm();
   };
-    
 
   return (
     <div className="ask-button-container">

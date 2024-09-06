@@ -33,16 +33,27 @@
   border: 1px solid #CCCCCC;
   border-radius: 8px;
   padding: 8px;
+  min-height: 55px;
+  padding: 8px 16px;
+  gap: 16px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
+.node-content h4 {
+  font-size: 14px;
+  font-weight: 500;
+}
 .node-content {
-  padding: 10px;
-  font-size: 16px; /* Adjust font size as needed */
-  color: #333333; /* Dark text for readability */
+  color: #333333;
+}
+.text-node {
+  animation: 0.3s ease-in-out 0s 1 normal none running bounceIn;
+}
+.text-node:hover {
+    --box-shadow-color: #c8c8fa;
+    box-shadow: 0 0 0 4px var(--box-shadow-color);
 }
 
 .icon_dropdown {
