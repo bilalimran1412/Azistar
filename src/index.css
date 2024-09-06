@@ -457,17 +457,18 @@ flex-direction: column;
 align-items: center; /* Center contents horizontally */
 }
 
-.icon_dropdown, .node-header button.chakra-button.delete-button svg{
-position: absolute;
-top: 50%;
-transform: translateY(-50%); 
-right: -8px;
-background: #CC3C79;
-border-radius: 50%;; 
-cursor: pointer; 
-color:#fff;
-font-size: 16px;
-z-index: 1; 
+.icon_dropdown, .node-header button.chakra-button.delete-button svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -11px;
+  background: #CC3C79;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  background: #4AB8B3 !important;
+  z-index: 1;
 }
 .node-header button.chakra-button.delete-button svg{
 padding: 2px;

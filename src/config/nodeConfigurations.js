@@ -35,6 +35,12 @@ const nodeConfigurations = {
       { label: "Question text", type: "text", variable: "textareaFieldData", placeholder: "Type a number, please" }
     ]
   },
+  askFile: {
+    title: "Ask for a file",
+    fields: [
+      { label: "Question text", type: "text", variable: "textareaFieldData", placeholder: "File Upload" }
+    ]
+  },
   autoComplete: {
     title: "Autocomplete",
     fields: [
@@ -63,6 +69,12 @@ const nodeConfigurations = {
     title: "Rating",
     fields: [
       { label: "Message", type: "text", variable: "textareaFieldData", placeholder: "Create an evaluation" }
+    ]
+  },
+  uploadMedia: {
+    title: "Upload a File",
+    fields: [
+      { label: "Upload File", type: "file", variable: "fileField", placeholder: "Choose a file" }
     ]
   },
 };

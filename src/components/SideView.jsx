@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Box, FormControl, FormLabel, Textarea } from '@chakra-ui/react';
+import { Button, Box, FormControl, FormLabel } from '@chakra-ui/react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import nodeConfigurations from '../config/nodeConfigurations';
+
+// Configuration for Quill editor
+const modules = {
+  toolbar: [
+    ['bold', 'italic', 'underline'],
+    [{ 'header': '1' }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['link'],
+    ['blockquote', 'code-block'],
+  ],
+};
 
 const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   const [formData, setFormData] = useState({});
@@ -38,15 +51,16 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
         <h1>{config.title}</h1>
         <Button onClick={closeForm} mt={4} colorScheme="red">X</Button>
       </div>
-      <Box bg="white" p={4} shadow="md" borderWidth="1px">
+      <Box pt={4}>
         {config.fields.map((field, index) => (
           <FormControl key={index} mt={4}>
             <FormLabel>{field.label}</FormLabel>
-            <Textarea
-              type={field.type}
-              placeholder={field.placeholder}
+            <ReactQuill
+              theme="snow"
               value={formData[field.variable] || ''}
-              onChange={(e) => handleChange(field.variable, e.target.value)}
+              onChange={(value) => handleChange(field.variable, value)}
+              placeholder={field.placeholder}
+              modules={modules}
             />
           </FormControl>
         ))}

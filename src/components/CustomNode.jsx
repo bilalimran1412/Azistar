@@ -26,6 +26,10 @@ const autoComplete = (props) => {
   return <BaseNode {...props} type="autoComplete" label="Autocomplete" />;
 };
 
+const askFile = (props) => {
+  return <BaseNode {...props} type="askFile" label="Ask for a File" />;
+};
+
 const askUrl = (props) => {
   return <BaseNode {...props} type="askUrl" label="Ask for a url" />;
 };
@@ -41,5 +45,9 @@ const picChoice = (props) => {
 const rating = (props) => {
   return <BaseNode {...props} type="rating" label="Rating" />;
 };
+
+const uploadMedia = (props) => {
+  return <BaseNode {...props} type="uploadMedia" label="Upload a file" />;
+};
 // Named exports
-export { CustomNode, askName, askEmail, askPhone, askNumber, askUrl, askAddress, autoComplete, picChoice, rating };
+export { CustomNode, askName, askEmail, askPhone, askNumber, askUrl, askAddress, autoComplete, askFile, picChoice, rating, uploadMedia };

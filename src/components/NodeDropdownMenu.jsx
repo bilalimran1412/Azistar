@@ -1,28 +1,37 @@
-// NodeDropdownMenu.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Menu items with types and labels
   const menuItems = [
     { type: 'customNode', label: 'Buttons' },
     { type: 'AskAQuestion', label: 'Ask a question' },
     { type: 'askName', label: 'Ask for a name' },
-    { type: 'askEmail', label: 'Ask for a email' },
+    { type: 'askEmail', label: 'Ask for an email' },
     { type: 'askPhone', label: 'Ask for a phone' },
     { type: 'askNumber', label: 'Ask for a number' },
+    { type: 'askFile', label: 'Ask for a file' },
     { type: 'autoComplete', label: 'Autocomplete' },
-    { type: 'askUrl', label: 'Ask for a url' },
+    { type: 'askUrl', label: 'Ask for a URL' },
     { type: 'askAddress', label: 'Ask for an address' },
     { type: 'picChoice', label: 'Picture choice' },
-    { type: 'rating', label: 'Rating' }
+    { type: 'rating', label: 'Rating' },
+    { type: 'uploadMedia', label: 'Upload a file' }
   ];
+
+  // Filter menu items based on the search query
+  const filteredMenuItems = menuItems.filter(item =>
+    item.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div
       className="dropdown-menu"
       style={{
         position: 'absolute',
-        padding: '10px 10px',
+        padding: '10px',
         top: dropdownPosition.y,
         left: dropdownPosition.x,
         zIndex: 10,
@@ -42,34 +51,45 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
               </svg>
             </span>
           </div>
-          <input placeholder="Search by name" className="sc-gsFSjX hwwsqP" />
+          <input 
+            placeholder="Search by name"
+            className="sc-gsFSjX hwwsqP"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
       <div className='selected_dropdown-menu'>
-      {menuItems.map(({ type, label }) => (
-        <div
-        className='menu_btn'
-          key={type}
-          onClick={() => {
-            console.log('Menu item clicked:', type); // Debugging line
-            handleAddNode(type);
-          }}
-          style={{
-            padding: '3px',
-            cursor: 'pointer',
-            borderRadius: '4px',
-            transition: 'background-color 0.3s',
-            display: 'flex',
-            alignItems: 'center',
-            fontSize: '15px',
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-        >
-          <MdAdd style={{ marginRight: '8px', fontSize: '16px' }} />
-          {label}
-        </div>
-      ))}
+        {filteredMenuItems.length > 0 ? (
+          filteredMenuItems.map(({ type, label }) => (
+            <div
+              className='menu_btn'
+              key={type}
+              onClick={() => {
+                console.log('Menu item clicked:', type); // Debugging line
+                handleAddNode(type);
+              }}
+              style={{
+                padding: '3px',
+                cursor: 'pointer',
+                borderRadius: '4px',
+                transition: 'background-color 0.3s',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '15px',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+            >
+              <MdAdd style={{ marginRight: '8px', fontSize: '16px' }} />
+              {label}
+            </div>
+          ))
+        ) : (
+          <div style={{ padding: '10px', textAlign: 'center' }}>
+            No results found
+          </div>
+        )}
       </div>
     </div>
   );

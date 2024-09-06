@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { CustomNode, askName, askPhone, askNumber, askEmail, autoComplete, picChoice
-  , rating, askUrl, askAddress
+  , rating, askUrl, askAddress, uploadMedia, askFile
  } from '../../components/CustomNode';
 
 import SideView from '../../components/SideView';
@@ -28,11 +28,13 @@ const nodeTypes = {
   askPhone: askPhone,
   askNumber: askNumber,
   askEmail: askEmail,
+  askFile: askFile,
   autoComplete: autoComplete,
   picChoice: picChoice,
   askUrl: askUrl,
   askAddress: askAddress,
-  rating: rating
+  rating: rating,
+  uploadMedia: uploadMedia,
 };
 
 const Canvas = () => {
