@@ -2,7 +2,7 @@ const nodeConfigurations = {
   customNode: {
     title: "Write a message",
     fields: [
-      { label: "Buttons", type: "text", variable: "textareaFieldData", placeholder: "text body" }
+      { label: "Buttons", type: "customNode", variable: "textareaFieldData", placeholder: "text body" }
     ]
   },
   AskAQuestion: {

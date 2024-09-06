@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Handle } from 'reactflow';
 import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 import { useDropdownToggle, handleCopyNode, handleReplaceNode, handleDeleteNode, handleDuplicateNode, handleCopyNodeId } from './utils/nodeutils';
@@ -6,6 +6,7 @@ import NodeDropdownMenu from './NodeDropdownMenu';
 import NodeActionDropdown from './NodeActionDropdown';
 import nodeConfigurations from '../config/nodeConfigurations';
 import { useNodeContext } from '../views/canvas/NodeContext';
+import icons from '../config/nodeIcons';
 
 const BaseNode = ({ id, data, type, label }) => {
   const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef, dropdownRef } = useDropdownToggle();
@@ -59,16 +60,32 @@ const BaseNode = ({ id, data, type, label }) => {
     handleReplaceNode(id, nodes, setNodes, newType); // Pass newType for replacement
     setShowReplaceMenu(false);
   };
+  const NodeIcon = icons[type] || null; // Default to null if type not found
 
   return (
     <div className={`text-node ${type}-node`} ref={nodeRef}>
       <div className="node-content" onClick={handleClick}>
-        <h4>{displayLabel}</h4>
-        <p dangerouslySetInnerHTML={displayContent} />
+        <div className='node_outer'>
+          <div className='icon_different'>
+            {NodeIcon}
+          </div>
+          <div className='node_date'>
+            <h4>{displayLabel}</h4>
+            <p dangerouslySetInnerHTML={displayContent} />
+          </div>
+          <div className='drop_down' onClick={() => setIsMenuVisible(!isMenuVisible)}>
+            <MdMoreHoriz size={24} />
+          </div>
+        </div>
+        <div className="item-list">
+          {data.items && data.items.map((item) => (
+            <div key={item.id} className="item-buttons">
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className='drop_down' onClick={() => setIsMenuVisible(!isMenuVisible)}>
-        <MdMoreHoriz size={24} />
-      </div>
+      
       {isMenuVisible && (
         <NodeActionDropdown
           onCopy={() => handleAction('copy')}

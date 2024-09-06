@@ -164,3 +164,11 @@ button.ql-bold {
   background: #f0f0f0;
   color: #323232;
 }
+.icon_different svg {
+  font-size: 20px;
+}
+.icon_different {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

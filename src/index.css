@@ -187,6 +187,7 @@ height: auto;
 
 .newsetmessage input {
 margin-bottom: 20px;
+height: auto !important;
 box-shadow: 0 2px 24px #0000001c;
 background-color: #fff;
 }
@@ -413,19 +414,60 @@ border-color: #464D6C !important;
 }
 
 
-.item-list .item-buttons {
-background: #CD3C79;
-border-radius: 4px;
-display: flex;
-margin-bottom: 10px !important;
-position: relative;
-justify-content: space-between;
-padding: 0px 20px 0px 0px !important;
+.item-buttons {
+  background: #CD3C79;
+  border-radius: 4px;
+  display: flex;
+  margin: 3px 0px !important;
+  position: relative;
+  justify-content: space-between;
+  padding: 2px 6px;
+  justify-content: start;
+  color: #fff;
+  text-transform: capitalize;
+}
+.button_editor .item-list {
+  margin-top: 16px;
+}
+.button_editor .item-list {
+  padding: 10px 10px 5px;
+  background-color: #42456a;
+  border-radius: 3px;
+  margin-bottom: 7px;
+}
+button.chakra-button.add-new-button.css-ez23ye {
+  border-radius: 100px;
+  text-align: left;
+  background: #3a3c5d !important;
+  border-radius: 100px !important;
+  height: 36px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  position: relative;
+  cursor: pointer;
+  color: #fff;
+  width: 100%;
+  font-size: 14px !important;
+  font-weight: 400;
+}
+.button_editor .item-buttons {
+  padding: 0px;
 }
 .item-list {
-background: #454B6B;
-padding: 10px;
-border-radius: 4px;
+width: 100%;
+}
+.node_outer {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+.item-buttons {
+  padding: 6px 25px;
+  width: 100%;
+  font-size: 14px;
+  outline: 0;
+  border: 0;
+  color: #fff;
 }
 button.item-button {
 padding: 12px 20px;
