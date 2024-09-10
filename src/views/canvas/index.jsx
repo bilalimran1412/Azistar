@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SideView from '../../components/SideView';
 import NodeDropdownMenu from '../../components/NodeDropdownMenu';
 
@@ -35,19 +35,6 @@ const Canvas = () => {
     }
   };
 
-  useEffect(() => {
-    const initialNode = {
-      id: '1',
-      data: {
-        label: 'This is our parent',
-        buttons: [],
-      },
-      position: { x: 650, y: 300 },
-      type: 'startingNode',
-    };
-
-    setNodes([initialNode]);
-  }, [setNodes]);
   return (
     <div className="canvas" style={{ height: '100vh', zIndex: '1000', background: '#454b6b', position: 'relative' }}>
 
