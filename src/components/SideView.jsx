@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import nodeConfigurations from '../config/nodeConfigurations';
 import { MdDelete } from 'react-icons/md'; // Import MdDelete icon
+import { useUpdateNodeInternals } from 'reactflow';
 
 // Configuration for Quill editor
 const modules = {
@@ -21,6 +22,7 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   const [file, setFile] = useState(null); // To handle file upload
   const [items, setItems] = useState([]); // To manage dynamic items
   const config = nodeConfigurations[nodeType] || { title: "Unknown Node Type", fields: [] };
+  const updateNodeInternals = useUpdateNodeInternals();
 
   useEffect(() => {
     if (currentNodeId) {
@@ -28,7 +30,9 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
         const currentNode = prevNodes.find(node => node.id === currentNodeId);
         if (currentNode && currentNode.data) {
           setFormData(currentNode.data);
-          setItems(currentNode.data.items || []); // Restore items if available
+        if(currentNode.data?.items?.length){
+        setItems(currentNode.data.items);
+      }
           if (nodeType === 'uploadMedia' && currentNode.data.file) {
             setFile(currentNode.data.file); // Restore file if available
           }
@@ -73,7 +77,8 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
 
   const handleAddAnotherButton = () => {
     const newId = Date.now(); // or use another unique ID generation method
-    setItems([...items, { id: newId, label: '' }]);
+    setItems([...items, { id: newId, label: 'Button' }]);
+    updateNodeInternals(currentNodeId)
   };
 
   useEffect(() => {

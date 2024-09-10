@@ -1,8 +1,15 @@
 // CustomNode.jsx
 import React from 'react';
 import BaseNode from './BaseNode';
+import nodeConfigurations from '../config/nodeConfigurations';
+import MultiHandleBaseNode from './MultiHandleBaseNode';
 
 const CustomNode = (props) => {
+  const config = nodeConfigurations[props.type] || { title: 'Unknown Node Type', fields: [] };
+  
+  if(!!config.multiHandle){
+    return <MultiHandleBaseNode  {...props} type="customNode" label="Custom Node"  />
+  }
   return <BaseNode {...props} type="customNode" label="Custom Node" />;
 };
 
