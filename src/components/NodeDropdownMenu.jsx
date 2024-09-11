@@ -1,31 +1,14 @@
 import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
+import { menuOptionList } from '../config/nodeConfigurations';
 
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Menu items with types and labels
-  const menuItems = [
-    { type: 'customNode', label: 'Buttons' },
-    { type: 'AskAQuestion', label: 'Ask a question' },
-    { type: 'askName', label: 'Ask for a name' },
-    { type: 'askEmail', label: 'Ask for an email' },
-    { type: 'askPhone', label: 'Ask for a phone' },
-    { type: 'askNumber', label: 'Ask for a number' },
-    { type: 'askFile', label: 'Ask for a file' },
-    { type: 'autoComplete', label: 'Autocomplete' },
-    { type: 'askUrl', label: 'Ask for a URL' },
-    { type: 'askAddress', label: 'Ask for an address' },
-    { type: 'picChoice', label: 'Picture choice' },
-    { type: 'rating', label: 'Rating' },
-    { type: 'uploadMedia', label: 'Upload a file' }
-  ];
 
-  // Filter menu items based on the search query
-  const filteredMenuItems = menuItems.filter(item =>
+  const filteredMenuItems = menuOptionList.filter(item =>
     item.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   return (
     <div
       className="dropdown-menu"
@@ -61,13 +44,12 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
       </div>
       <div className='selected_dropdown-menu'>
         {filteredMenuItems.length > 0 ? (
-          filteredMenuItems.map(({ type, label }) => (
+          filteredMenuItems.map(({ blockId, label }) => (
             <div
               className='menu_btn'
-              key={type}
+              key={blockId}
               onClick={() => {
-                console.log('Menu item clicked:', type); // Debugging line
-                handleAddNode(type);
+                handleAddNode(blockId);
               }}
               style={{
                 padding: '3px',

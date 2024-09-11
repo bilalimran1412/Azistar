@@ -1,60 +1,6 @@
-// CustomNode.jsx
 import React from 'react';
 import BaseNode from './BaseNode';
-import nodeConfigurations from '../config/nodeConfigurations';
-import MultiHandleBaseNode from './MultiHandleBaseNode';
 
-const CustomNode = (props) => {
-  const config = nodeConfigurations[props.type] || { title: 'Unknown Node Type', fields: [] };
-  
-  if(!!config.multiHandle){
-    return <MultiHandleBaseNode  {...props} type="customNode" label="Custom Node"  />
-  }
-  return <BaseNode {...props} type="customNode" label="Custom Node" />;
+export const CustomNode = (props) => {
+  return <BaseNode {...props} />;
 };
-
-const askName = (props) => {
-  return <BaseNode {...props} type="askName" label="Ask for a Name" />;
-};
-
-const askEmail = (props) => {
-  return <BaseNode {...props} type="askEmail" label="Ask for an Email" />;
-};
-
-const askPhone = (props) => {
-  return <BaseNode {...props} type="askPhone" label="Ask for a Phone" />;
-};
-
-const askNumber = (props) => {
-  return <BaseNode {...props} type="askNumber" label="Ask for a Number" />;
-};
-
-const autoComplete = (props) => {
-  return <BaseNode {...props} type="autoComplete" label="Autocomplete" />;
-};
-
-const askFile = (props) => {
-  return <BaseNode {...props} type="askFile" label="Ask for a File" />;
-};
-
-const askUrl = (props) => {
-  return <BaseNode {...props} type="askUrl" label="Ask for a url" />;
-};
-
-const askAddress = (props) => {
-  return <BaseNode {...props} type="askAddress" label="Ask for an address" />;
-};
-
-const picChoice = (props) => {
-  return <BaseNode {...props} type="picChoice" label="Picture choice" />;
-};
-
-const rating = (props) => {
-  return <BaseNode {...props} type="rating" label="Rating" />;
-};
-
-const uploadMedia = (props) => {
-  return <BaseNode {...props} type="uploadMedia" label="Upload a file" />;
-};
-// Named exports
-export { CustomNode, askName, askEmail, askPhone, askNumber, askUrl, askAddress, autoComplete, askFile, picChoice, rating, uploadMedia };

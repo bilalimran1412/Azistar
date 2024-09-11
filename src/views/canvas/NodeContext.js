@@ -1,40 +1,42 @@
 import React, { createContext, useContext, useState, useCallback } from 'react'
-import { buttonNodeData, edgeType } from '../../config/constant'
+import { edgeType, initialNode } from '../../config/constant'
+import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations'
+import { v4 as uuidv4 } from 'uuid';
 
 const NodeContext = createContext({
   nodes: [],
   edges: [],
-  addNewNode: () => {},
-  setNodes: () => {},
-  setEdges: () => {},
-  setSideView: () => {}, // Function to control SideView visibility
-  currentNode: null,
-  setCurrentNode: () => {},
+  addNewNode: () => { },
+  setNodes: () => { },
+  setEdges: () => { },
+  setSideView: () => { },
+  currentNodeId: null,
+  setCurrentNodeId: () => { },
+  getNodeById: () => { },
+  updateNodeById: () => { },
 })
 
 export const useNodeContext = () => useContext(NodeContext)
 
 export const NodeProvider = ({ children }) => {
-  const [nodes, setNodes] = useState([])
+  const [nodes, setNodes] = useState([initialNode])
   const [edges, setEdges] = useState([])
   const [sideViewVisible, setSideViewVisible] = useState(false) // State to control SideView visibility
-  const [currentNode, setCurrentNode] = useState(null)
+  const [currentNodeId, setCurrentNodeId] = useState('')
 
   const addNewNode = useCallback(
-    (sourceId, type, label, sourceHandleId) => {
-      const newNodeId = `node_${Date.now()}`
-      const data =
-        type === 'customNode'
-          ? { label: label || `${type} Node`, ...buttonNodeData }
-          : { label: label || `${type} Node` }
+    (sourceId, blockId, sourceHandleId) => {
+      const nodeToCreate = nodeConfigurationBlockIdMap[blockId]
+      const sourceNode = nodes.find(n => n.id === sourceId)
+      const newNodeId = uuidv4()
+      setCurrentNodeId(newNodeId)
+
+      const position = { x: sourceNode.position.x + 400 || 100, y: sourceNode.position.y || 20 }
       const newNode = {
-        id: newNodeId,
-        type: type,
-        position: {
-          x: Math.random() * window.innerWidth * 0.8,
-          y: Math.random() * window.innerHeight * 0.8,
-        },
-        data: data,
+        ...nodeToCreate, id: newNodeId, position: position, type: nodeToCreate.nodeType, data: {
+          ...nodeToCreate?.data,
+          blockId: nodeToCreate.blockId,
+        }
       }
 
       const newEdge = {
@@ -48,16 +50,26 @@ export const NodeProvider = ({ children }) => {
 
       setNodes((prev) => [...prev, newNode])
       setEdges((prev) => [...prev, newEdge])
-      setCurrentNode(newNode)
       setSideViewVisible(true) // Show SideView
     },
-    [setNodes, setEdges, setCurrentNode]
+    [nodes]
   )
 
   const setSideView = (visible) => {
     setSideViewVisible(visible)
   }
 
+  const getNodeById = React.useCallback((nodeID) => {
+    return nodes.find(node => node.id === nodeID)
+  }, [nodes])
+
+  const updateNodeById = React.useCallback((nodeID, updatedNodeData) => {
+    setNodes(prevNodes =>
+      prevNodes.map(n =>
+        n.id === nodeID ? { ...n, data: { ...n.data, ...updatedNodeData, isReplaced: false } } : n
+      )
+    );
+  }, [])
   return (
     <NodeContext.Provider
       value={{
@@ -67,9 +79,11 @@ export const NodeProvider = ({ children }) => {
         setEdges,
         addNewNode,
         setSideView, // Expose the function
-        currentNode,
-        setCurrentNode,
-        sideViewVisible, // Provide the state for visibility
+        currentNodeId,
+        setCurrentNodeId,
+        sideViewVisible,
+        getNodeById,
+        updateNodeById
       }}
     >
       {children}

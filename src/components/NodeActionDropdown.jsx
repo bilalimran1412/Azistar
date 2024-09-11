@@ -1,6 +1,6 @@
 import React from 'react';
-import { Menu, MenuButton, MenuItems, MenuItem } from '@reach/menu-button';
-import '@reach/menu-button/styles.css'; 
+import { Menu, MenuItems, MenuItem } from '@reach/menu-button';
+import '@reach/menu-button/styles.css';
 
 const NodeActionDropdown = ({ onCopy, onReplace, onDelete, onDuplicate, onCopyId, nodeId }) => {
   return (

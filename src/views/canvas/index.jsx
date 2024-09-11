@@ -10,7 +10,7 @@ import { useNodeContext } from './NodeContext';
 import ReactFlowCanvas from './ReactFlowCanvas';
 
 const Canvas = () => {
-  const { nodes, setNodes, setSideView, currentNode, sideViewVisible } = useNodeContext();
+  const { nodes, setNodes, setSideView, sideViewVisible, currentNodeId } = useNodeContext();
   const [dropdownPosition] = React.useState({ x: 0, y: 0 });
   const [showDropdown] = React.useState(false);
 
@@ -39,17 +39,14 @@ const Canvas = () => {
     <div className="canvas" style={{ height: '100vh', zIndex: '1000', background: '#454b6b', position: 'relative' }}>
 
       <ReactFlowCanvas />
-      {sideViewVisible && currentNode && (
+      {sideViewVisible && currentNodeId && (
         <div className="newsetmessage absolute bg-gray-300 w-[400px] rounded-md">
           <SideView
             closeForm={closeForm}
-            nodeType={currentNode.type}
-            currentNodeId={currentNode.id}
-            setNodes={setNodes}
+            key={currentNodeId}
           />
         </div>
       )}
-
       {showDropdown && (
         <NodeDropdownMenu
           handleAddNode={handleAddNode}

@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
-import {
-    CustomNode, askName, askPhone, askNumber, askEmail, autoComplete, picChoice
-    , rating, askUrl, askAddress, uploadMedia, askFile
-} from '../../components/CustomNode';
-import StartingNode from '../../components/StartingNode';
-import AskAQuestion from '../../components/AskAQuestion';
+import { CustomNode } from '../../components/CustomNode';
+
 import ReactFlow, {
     Controls,
     Background,
@@ -19,20 +15,8 @@ import '../../index.css';
 import { useNodeContext } from './NodeContext';
 
 const nodeTypes = {
-    customNode: CustomNode,
-    startingNode: StartingNode,
-    AskAQuestion: AskAQuestion,
-    askName: askName,
-    askPhone: askPhone,
-    askNumber: askNumber,
-    askEmail: askEmail,
-    askFile: askFile,
-    autoComplete: autoComplete,
-    picChoice: picChoice,
-    askUrl: askUrl,
-    askAddress: askAddress,
-    rating: rating,
-    uploadMedia: uploadMedia,
+    baseNode: CustomNode,
+
 };
 
 
@@ -54,19 +38,7 @@ const ReactFlowCanvas = () => {
         [setEdges]
     );
 
-    useEffect(() => {
-        const initialNode = {
-            id: '1',
-            data: {
-                label: 'This is our parent',
-                buttons: [],
-            },
-            position: { x: 650, y: 300 },
-            type: 'startingNode',
-        };
 
-        setNodes([initialNode]);
-    }, [setNodes]);
 
     return (
         <ReactFlow

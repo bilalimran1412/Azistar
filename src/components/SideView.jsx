@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Button, Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-import nodeConfigurations from '../config/nodeConfigurations';
+import { nodeConfigurationBlockIdMap } from '../config/nodeConfigurations';
 import { MdDelete } from 'react-icons/md'; // Import MdDelete icon
 import { useUpdateNodeInternals } from 'reactflow';
+import { useNodeContext } from '../views/canvas/NodeContext';
 
 // Configuration for Quill editor
 const modules = {
@@ -17,30 +18,26 @@ const modules = {
   ],
 };
 
-const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
-  const [formData, setFormData] = useState({});
-  const [file, setFile] = useState(null); // To handle file upload
-  const [items, setItems] = useState([]); // To manage dynamic items
-  const config = nodeConfigurations[nodeType] || { title: "Unknown Node Type", fields: [] };
+const SideView = ({ closeForm }) => {
+  const { getNodeById, currentNodeId, updateNodeById: updateNodeData } = useNodeContext()
+
+  const updateNodeById = React.useCallback((id, updatedData) => {
+    return updateNodeData(id, updatedData)
+  }, [updateNodeData])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const currentNode = React.useMemo(() => getNodeById(currentNodeId), [currentNodeId])
+
+  const [formData, setFormData] = useState(() => currentNode?.data || {});
+
+  const [file, setFile] = useState(() =>
+    currentNode?.data?.file && currentNode.data?.contentType === 'uploadMedia' ? currentNode.data.file : null
+  );
+  const [items, setItems] = useState(() => currentNode?.data?.items || []);
+
+  const config = nodeConfigurationBlockIdMap[currentNode.data.blockId]
   const updateNodeInternals = useUpdateNodeInternals();
 
-  useEffect(() => {
-    if (currentNodeId) {
-      setNodes(prevNodes => {
-        const currentNode = prevNodes.find(node => node.id === currentNodeId);
-        if (currentNode && currentNode.data) {
-          setFormData(currentNode.data);
-        if(currentNode.data?.items?.length){
-        setItems(currentNode.data.items);
-      }
-          if (nodeType === 'uploadMedia' && currentNode.data.file) {
-            setFile(currentNode.data.file); // Restore file if available
-          }
-        }
-        return prevNodes;
-      });
-    }
-  }, [currentNodeId, nodeType, setNodes]);
 
   const handleChange = (variable, value) => {
     setFormData(prev => ({ ...prev, [variable]: value }));
@@ -53,13 +50,8 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   };
 
   const handleSubmit = () => {
-    setNodes(prevNodes =>
-      prevNodes.map(node =>
-        node.id === currentNodeId
-          ? { ...node, data: { ...node.data, ...formData, file, items } }
-          : node
-      )
-    );
+    const updatedData = { ...currentNode.data, ...formData, file, items }
+    updateNodeById(currentNodeId, updatedData)
     closeForm();
   };
 
@@ -82,15 +74,15 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
   };
 
   useEffect(() => {
-    // Whenever items change, update the node data
-    setNodes(prevNodes =>
-      prevNodes.map(node =>
-        node.id === currentNodeId
-          ? { ...node, data: { ...node.data, ...formData, file, items } }
-          : node
-      )
-    );
-  }, [items, formData, file, currentNodeId, setNodes]);
+    const updatedData = { ...currentNode.data, ...formData, file, items }
+    updateNodeById(currentNodeId, updatedData)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [file, formData, items]);
+
+  if (!currentNodeId) {
+    return <></>
+  }
 
   return (
     <div className="ask-button-container">
@@ -110,7 +102,7 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
               />
               {file && <p>Selected file: {file.name}</p>}
             </FormControl>
-          ) : field.type === 'customNode' ? (
+          ) : currentNode.data.contentType === 'buttonNode' ? (
             <FormControl key={index} mt={4}>
               <FormLabel>{field.label}</FormLabel>
               <ReactQuill
@@ -131,12 +123,16 @@ const SideView = ({ closeForm, currentNodeId, setNodes, nodeType }) => {
                         placeholder="Click to Edit"
                         onChange={(e) => handleItemChange(e, item.id)}
                       />
-                      <Button
-                        className="delete-button"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <MdDelete />
-                      </Button>
+                      {
+                        item.isDeletable !== false && (
+                          <Button
+                            className="delete-button"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            <MdDelete />
+                          </Button>
+                        )
+                      }
                     </div>
                   ))}
                   <Button
