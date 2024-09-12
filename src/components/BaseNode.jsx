@@ -217,7 +217,7 @@ const BaseNode = (props) => {
             position='right'
             id={`source-${handle.id}`}
             style={{
-              background: handle.type === "success" ? '#4AB8B3' : "red",
+              background: handle.type === "success" ? '#4AB8B3' : "#d7376b",
               padding: '10px',
               right: '-10px',
               cursor: "pointer",
