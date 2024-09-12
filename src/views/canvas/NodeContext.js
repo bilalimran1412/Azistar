@@ -14,6 +14,7 @@ const NodeContext = createContext({
   setCurrentNodeId: () => { },
   getNodeById: () => { },
   updateNodeById: () => { },
+  insertNodeFromEdge: () => { },
 })
 
 export const useNodeContext = () => useContext(NodeContext)
@@ -54,6 +55,60 @@ export const NodeProvider = ({ children }) => {
     },
     [nodes]
   )
+  const insertNodeFromEdge = useCallback(
+    (edgeID, sourceId, blockId, sourceHandleId, targetId) => {
+      const nodeToCreate = nodeConfigurationBlockIdMap[blockId];
+      const sourceNode = nodes.find((n) => n.id === sourceId);
+      const newNodeId = uuidv4();
+      setCurrentNodeId(newNodeId);
+
+      const position = {
+        x: sourceNode?.position?.x + 300 || 100,
+        y: sourceNode?.position?.y || 100,
+      };
+
+      const newNode = {
+        ...nodeToCreate,
+        id: newNodeId,
+        position,
+        type: nodeToCreate.nodeType,
+        data: {
+          ...nodeToCreate?.data,
+          blockId: nodeToCreate.blockId,
+        },
+      };
+
+      const edgeToUpdate = edges.find((edge) => edge.id === edgeID);
+
+      if (edgeToUpdate) {
+        const updatedEdge = {
+          ...edgeToUpdate,
+          target: newNodeId,
+        };
+
+        const newEdge = {
+          id: `e${newNodeId}-${targetId}`,
+          source: newNodeId,
+          target: targetId,
+          animated: true,
+          type: edgeType,
+          ...(sourceHandleId && { sourceHandle: `source-${sourceHandleId}` }),
+        };
+
+        setNodes((prev) => [...prev, newNode]);
+        setEdges((prev) => [
+          ...prev.map((edge) => (edge.id === edgeID ? updatedEdge : edge)),
+          newEdge,
+        ]);
+      } else {
+        console.warn(`Edge with ID ${edgeID} not found.`);
+      }
+
+      setSideViewVisible(true);
+    },
+    [nodes, edges]
+  );
+
 
   const setSideView = (visible) => {
     setSideViewVisible(visible)
@@ -83,7 +138,8 @@ export const NodeProvider = ({ children }) => {
         setCurrentNodeId,
         sideViewVisible,
         getNodeById,
-        updateNodeById
+        updateNodeById,
+        insertNodeFromEdge
       }}
     >
       {children}

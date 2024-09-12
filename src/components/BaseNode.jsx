@@ -72,6 +72,7 @@ const BaseNode = (props) => {
   };
 
   const NodeIcon = icons[data.contentType] || null; // Default to null if type not found
+
   const onClick = (id) => {
     setHandleId(id)
     toggleDropdown()
@@ -169,9 +170,6 @@ const BaseNode = (props) => {
           </div>
         )}
       </div>
-      {!isMultiHandleNode && <div className="icon_dropdown" onClick={toggleDropdown}>
-        <MdAdd />
-      </div>}
       {isMenuVisible && (
         <NodeActionDropdown
           onCopy={() => handleAction('copy')}
@@ -197,15 +195,36 @@ const BaseNode = (props) => {
         />
       )}
       {!isMultiHandleNode && (
-        <Handle
-          type="source"
-          position="right"
-          id={`source-${id}`}
-          style={{ background: '#555' }}
-        />
+        <div
+          onClick={
+            toggleDropdown
+          }
+        >
+          <Handle
+            type='source'
+            position='right'
+            style={{
+              background: '#4AB8B3',
+              padding: '10px',
+              right: '-10px',
+              cursor: "pointer",
+            }}
+          >
+            <div
+              style={{
+                position: 'absolute',
+                top: '3px',
+                left: '3px',
+                pointerEvents: 'none',
+                fontSize: "14px",
+                color: "white"
+              }}
+            >
+              <MdAdd />
+            </div>
+          </Handle>
+        </div>
       )}
-
-
       {!!customHandles && customHandles.map((handle, idx) =>
         <div
           onClick={() => {

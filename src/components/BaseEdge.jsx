@@ -5,10 +5,13 @@ import {
   getBezierPath,
   useReactFlow,
 } from 'reactflow';
+import BaseEdgeLayout from './BaseEdgeLayout';
 
 
 export default function CustomEdge({
   id,
+  source,
+  target,
   sourceX,
   sourceY,
   targetX,
@@ -17,7 +20,10 @@ export default function CustomEdge({
   targetPosition,
   style = {},
   markerEnd,
+  data,
+  sourceHandleId,
 }) {
+
   const { setEdges } = useReactFlow();
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
@@ -27,6 +33,7 @@ export default function CustomEdge({
     targetY,
     targetPosition,
   });
+  const { isHover = false } = data || {}
 
   const onEdgeClick = () => {
     setEdges((edges) => edges.filter((edge) => edge.id !== id));
@@ -36,17 +43,13 @@ export default function CustomEdge({
     <>
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
       <EdgeLabelRenderer>
-        <div
-          style={{
-            position: 'absolute',
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            fontSize: 12,
-            pointerEvents: 'all',
-          }}
-          className="nodrag nopan"
-        >
-     
-        </div>
+        <BaseEdgeLayout
+          edgeId={id}
+          isHover={isHover}
+          labelX={labelX} labelY={labelY}
+          onEdgeClick={onEdgeClick} sourceNodeId={source}
+          sourceHandleId={sourceHandleId} targetId={target}
+        />
       </EdgeLabelRenderer>
     </>
   );
