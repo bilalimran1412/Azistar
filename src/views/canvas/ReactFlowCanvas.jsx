@@ -72,7 +72,6 @@ const ReactFlowCanvas = () => {
             onEdgeMouseEnter={onEdgeMouseEnter}
             onEdgeMouseLeave={onEdgeMouseLeave}
             nodeTypes={nodeTypes}
-            elevateEdgesOnSelect
             edgeTypes={edgeTypes}
             snapToGrid={true}
             snapGrid={[15, 15]}
