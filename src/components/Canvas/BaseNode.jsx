@@ -4,9 +4,9 @@ import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 import { useDropdownToggle, handleCopyNode, handleReplaceNode, handleDeleteNode, handleDuplicateNode, handleCopyNodeId } from './utils/nodeutils';
 import NodeDropdownMenu from './NodeDropdownMenu';
 import NodeActionDropdown from './NodeActionDropdown';
-import { nodeConfigurationBlockIdMap } from '../config/nodeConfigurations';
-import { useNodeContext } from '../views/canvas/NodeContext';
-import icons from '../config/nodeIcons';
+import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
+import { useNodeContext } from '../../views/canvas/NodeContext';
+import icons from '../../config/nodeIcons';
 
 const BaseNode = (props) => {
   const { id, data, type } = props

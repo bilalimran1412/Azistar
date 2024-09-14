@@ -1,21 +1,17 @@
 // App.js
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
-import { ReactFlowProvider } from 'reactflow';
-import Canvas from './views/canvas/index';
-import { NodeProvider } from './views/canvas/NodeContext'; // Correct import path
 import MainApp from './views/Main';
+import { BrowserRouter } from 'react-router-dom';
 
 const App = () => {
   return (
-    <ReactFlowProvider>
+    <BrowserRouter>
       <ChakraProvider>
-        <NodeProvider>
-          <MainApp />
-          {/* <Canvas /> */}
-        </NodeProvider>
+        <MainApp />
       </ChakraProvider>
-    </ReactFlowProvider>
+    </BrowserRouter>
+
   );
 };
 

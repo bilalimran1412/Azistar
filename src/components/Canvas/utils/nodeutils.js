@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useReactFlow } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
-import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
+import { nodeConfigurationBlockIdMap } from '../../../config/nodeConfigurations';
 
 // Function to toggle the visibility of a dropdown
 export const useDropdownToggle = (initialState = false) => {

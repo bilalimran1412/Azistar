@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState, useCallback } from 'react'
-import { edgeType, initialNode } from '../../config/constant'
+import { edgeType, } from '../../config/constant'
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations'
 import { v4 as uuidv4 } from 'uuid';
+import { fetchWrapper } from '../../utils/fetchWrapper';
+
 
 const NodeContext = createContext({
   nodes: [],
@@ -15,15 +17,22 @@ const NodeContext = createContext({
   getNodeById: () => { },
   updateNodeById: () => { },
   insertNodeFromEdge: () => { },
+  canvasInstance: null,
+  setCanvasInstance: () => { },
+  setBotID: () => { },
+  updateBot: () => { },
+  botID: null
 })
 
 export const useNodeContext = () => useContext(NodeContext)
 
 export const NodeProvider = ({ children }) => {
-  const [nodes, setNodes] = useState([initialNode])
+  const [nodes, setNodes] = useState([])
+  const [botID, setBotID] = React.useState('')
   const [edges, setEdges] = useState([])
-  const [sideViewVisible, setSideViewVisible] = useState(false) // State to control SideView visibility
+  const [sideViewVisible, setSideViewVisible] = useState(false)
   const [currentNodeId, setCurrentNodeId] = useState('')
+  const [canvasInstance, setCanvasInstance] = React.useState(null)
 
   const addNewNode = useCallback(
     (sourceId, blockId, sourceHandleId) => {
@@ -125,6 +134,26 @@ export const NodeProvider = ({ children }) => {
       )
     );
   }, [])
+
+  const patchBot = React.useCallback(async () => {
+    const diagram = {
+      nodes, edges
+    }
+    if (!botID)
+      return
+    try {
+      await fetchWrapper({
+        url: `/bot/${botID}/update`,
+        method: 'PATCH',
+        body: {
+          diagram: JSON.stringify(diagram),
+        },
+      });
+    } catch (error) {
+      console.error('Failed to update bot:', error);
+    }
+  }, [botID, edges, nodes])
+
   return (
     <NodeContext.Provider
       value={{
@@ -139,7 +168,12 @@ export const NodeProvider = ({ children }) => {
         sideViewVisible,
         getNodeById,
         updateNodeById,
-        insertNodeFromEdge
+        insertNodeFromEdge,
+        setCanvasInstance,
+        canvasInstance,
+        setBotID,
+        botID,
+        updateBot: patchBot
       }}
     >
       {children}

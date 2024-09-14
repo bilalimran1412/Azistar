@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react'
-import { CustomNode } from '../../components/CustomNode'
 
 import ReactFlow, {
     Controls,
@@ -13,7 +12,8 @@ import './canvas.css'
 import '../../index.css'
 
 import { useNodeContext } from './NodeContext'
-import CustomEdge from '../../components/BaseEdge'
+import { CustomNode } from '../../components/Canvas/CustomNode'
+import CustomEdge from '../../components/Canvas/BaseEdge'
 
 const nodeTypes = {
     baseNode: CustomNode,
@@ -24,7 +24,7 @@ const edgeTypes = {
 }
 
 const ReactFlowCanvas = () => {
-    const { nodes, setNodes, edges, setEdges } = useNodeContext()
+    const { nodes, setNodes, edges, setEdges, setCanvasInstance } = useNodeContext()
 
     const onNodesChange = useCallback(
         (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -64,6 +64,7 @@ const ReactFlowCanvas = () => {
     return (
         <ReactFlow
             nodes={nodes}
+            onInit={setCanvasInstance}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}

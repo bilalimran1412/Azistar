@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
-import { menuOptionList } from '../config/nodeConfigurations';
+import { menuOptionList } from '../../config/nodeConfigurations';
 
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,7 +34,7 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
               </svg>
             </span>
           </div>
-          <input 
+          <input
             placeholder="Search by name"
             className="sc-gsFSjX hwwsqP"
             value={searchQuery}

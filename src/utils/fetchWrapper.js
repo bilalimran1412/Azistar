@@ -7,7 +7,6 @@ export const fetchWrapper = async ({
 }) => {
     const baseURL = process.env.REACT_APP_API_BASE_URL
     const token = process.env.REACT_APP_API_TOKEN
-    console.log(baseURL, "bb")
     try {
         const fullUrl = `${baseURL}${url}`
         const options = {

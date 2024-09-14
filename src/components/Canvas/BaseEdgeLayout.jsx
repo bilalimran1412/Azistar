@@ -2,7 +2,7 @@ import React from 'react'
 import { MdAdd, MdDelete } from 'react-icons/md'
 import { useDropdownToggle } from './utils/nodeutils';
 import NodeDropdownMenu from './NodeDropdownMenu';
-import { useNodeContext } from '../views/canvas/NodeContext';
+import { useNodeContext } from '../../views/canvas/NodeContext';
 
 function BaseEdgeLayout({ edgeId, sourceNodeId, onEdgeClick, labelX, labelY, isHover, sourceHandleId, targetId }) {
     const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef, dropdownRef } = useDropdownToggle();

@@ -1,60 +1,70 @@
-import React from 'react';
-import SideView from '../../components/SideView';
-import NodeDropdownMenu from '../../components/NodeDropdownMenu';
+import React from 'react'
+import BotBuilderCanvas from './BotBuilderCanvas'
+import { useFetchData } from '../../hooks/bot/useFetchData';
+import { useParams } from 'react-router-dom';
+import { Alert, AlertIcon, Spinner, Text } from '@chakra-ui/react';
+import { ReactFlowProvider } from 'reactflow';
+import { NodeProvider, useNodeContext } from './NodeContext';
 
-import 'reactflow/dist/style.css';
-import './canvas.css';
-import '../../index.css';
+function BotBuilderPage() {
+  const { id: botId = null } = useParams();
 
-import { useNodeContext } from './NodeContext';
-import ReactFlowCanvas from './ReactFlowCanvas';
+  if (!botId) {
+    return <>
+      Bot ID is Required
+    </>
+  }
+  return (
+    <ReactFlowProvider >
+      <NodeProvider>
+        <BotBuilder />
+      </NodeProvider>
+    </ReactFlowProvider>
 
-const Canvas = () => {
-  const { nodes, setNodes, setSideView, sideViewVisible, currentNodeId } = useNodeContext();
-  const [dropdownPosition] = React.useState({ x: 0, y: 0 });
-  const [showDropdown] = React.useState(false);
+  )
+}
 
-  const handleAddNode = (type) => {
-    const newNode = {
-      id: `${nodes.length + 1}`,
-      data: { label: type },
-      position: { x: Math.random() * 500, y: Math.random() * 500 },
-      type,
-    };
+export default BotBuilderPage
 
-    setNodes((nds) => [...nds, newNode]);
-  };
 
-  const closeForm = () => {
-    console.log('Attempting to close SideView');
-    if (typeof setSideView === 'function') {
-      setSideView(false);
-      console.log('setSideView executed');
-    } else {
-      console.error('setSideView is not a function');
+
+
+function BotBuilder() {
+  const { id: botId = null } = useParams();
+  const { setNodes, setEdges, setBotID, botID: contextBotId } = useNodeContext()
+
+  const { data: botCopy, loading, error, } = useFetchData(`/bot/${botId}/copy`);
+
+  const diagram = React.useMemo(() => JSON.parse(botCopy?.data[0]?.diagram || "{}"), [botCopy])
+  const { nodes, edges } = diagram
+  React.useEffect(() => {
+    if (nodes?.length)
+      setNodes(nodes)
+    if (edges?.length)
+      setEdges(edges)
+    if (!contextBotId) {
+      setBotID(botId)
     }
-  };
+  }, [botId, contextBotId, edges, nodes, setBotID, setEdges, setNodes])
+
+  if (loading) {
+    return <>
+      <Spinner size="lg" />
+    </>
+  }
+  if (error) {
+    return <>
+      <Alert status="error">
+        <AlertIcon />
+        <Text>{error.message}</Text>
+      </Alert>
+    </>
+  }
+
 
   return (
-    <div className="canvas" style={{ height: '100vh', zIndex: '1000', background: '#454b6b', position: 'relative' }}>
-
-      <ReactFlowCanvas />
-      {sideViewVisible && currentNodeId && (
-        <div className="newsetmessage absolute bg-gray-300 w-[400px] rounded-md">
-          <SideView
-            closeForm={closeForm}
-            key={currentNodeId}
-          />
-        </div>
-      )}
-      {showDropdown && (
-        <NodeDropdownMenu
-          handleAddNode={handleAddNode}
-          dropdownPosition={dropdownPosition}
-        />
-      )}
-    </div>
-  );
-};
-
-export default Canvas;
+    <>
+      {botCopy && <BotBuilderCanvas />}
+    </>
+  )
+}
