@@ -3,8 +3,8 @@ import BotBuilderSidebar from './BotBuilderSidebar'
 import { useFetchData } from '../../hooks/bot/useFetchData';
 import { useParams } from 'react-router-dom';
 import { Alert, AlertIcon, Spinner, Text } from '@chakra-ui/react';
-import { ReactFlowProvider } from 'reactflow';
 import { NodeProvider, useNodeContext } from './NodeContext';
+import { ReactFlowProvider } from '@xyflow/react';
 
 function BotBuilderPage() {
   const { id: botId = null } = useParams();

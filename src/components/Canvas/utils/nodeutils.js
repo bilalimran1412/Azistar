@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import { useReactFlow } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
 import { nodeConfigurationBlockIdMap } from '../../../config/nodeConfigurations';
 

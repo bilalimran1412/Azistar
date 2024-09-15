@@ -1,5 +1,5 @@
+import { Handle } from '@xyflow/react'
 import React from 'react'
-import { Handle } from 'reactflow'
 
 
 function TargetHandle({ id }) {

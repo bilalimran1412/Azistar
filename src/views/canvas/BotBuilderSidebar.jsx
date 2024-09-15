@@ -1,8 +1,4 @@
 import React from 'react';
-import 'reactflow/dist/style.css';
-import './canvas.css';
-import '../../index.css';
-
 import { useNodeContext } from './NodeContext';
 import ReactFlowCanvas from './ReactFlowCanvas';
 import NodeDropdownMenu from '../../components/Canvas/NodeDropdownMenu';

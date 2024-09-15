@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Handle } from 'reactflow';
 import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 import { useDropdownToggle, handleCopyNode, handleReplaceNode, handleDuplicateNode, handleCopyNodeId } from './utils/nodeutils';
 import NodeDropdownMenu from './NodeDropdownMenu';
@@ -8,6 +7,7 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import TargetHandle from './TargetHandle';
 import { initialNode } from '../../config/constant';
+import { Handle } from '@xyflow/react';
 
 const BaseNode = (props) => {
   const { id, data, type } = props

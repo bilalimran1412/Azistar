@@ -4,8 +4,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { MdDelete } from 'react-icons/md'; // Import MdDelete icon
-import { useUpdateNodeInternals } from 'reactflow';
 import { useNodeContext } from '../../views/canvas/NodeContext';
+import { useUpdateNodeInternals } from '@xyflow/react';
 
 // Configuration for Quill editor
 const modules = {
