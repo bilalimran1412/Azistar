@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Handle } from 'reactflow';
 import { MdAdd, MdMoreHoriz } from 'react-icons/md';
-import { useDropdownToggle, handleCopyNode, handleReplaceNode, handleDeleteNode, handleDuplicateNode, handleCopyNodeId } from './utils/nodeutils';
+import { useDropdownToggle, handleCopyNode, handleReplaceNode, handleDuplicateNode, handleCopyNodeId } from './utils/nodeutils';
 import NodeDropdownMenu from './NodeDropdownMenu';
 import NodeActionDropdown from './NodeActionDropdown';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
-import icons from '../../config/nodeIcons';
+import TargetHandle from './TargetHandle';
+import { initialNode } from '../../config/constant';
 
 const BaseNode = (props) => {
   const { id, data, type } = props
   const { isDropdownVisible, toggleDropdown, dropdownPosition, nodeRef, dropdownRef } = useDropdownToggle();
-  const { addNewNode, setCurrentNodeId, setSideView, nodes, setNodes } = useNodeContext();
+  const { addNewNode, setCurrentNodeId, setSideView, nodes, handleAddNewNode, handleNodeRemove } = useNodeContext();
   const [handleId, setHandleId] = React.useState("")
 
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -47,16 +48,17 @@ const BaseNode = (props) => {
 
     switch (actionType) {
       case 'copy':
-        handleCopyNode(id, nodes, setNodes);
+        handleCopyNode(id, nodes, handleAddNewNode);
         break;
       case 'replace':
         setShowReplaceMenu(true); // Show replacement menu
         break;
       case 'delete':
-        handleDeleteNode(id, nodes, setNodes, setSideView);
+        setSideView(false)
+        handleNodeRemove(id)
         break;
       case 'duplicate':
-        handleDuplicateNode(id, nodes, setNodes);
+        handleDuplicateNode(id, nodes, handleAddNewNode);
         break;
       case 'copyId':
         handleCopyNodeId(id, nodes);
@@ -67,16 +69,18 @@ const BaseNode = (props) => {
   };
 
   const handleReplaceNodeType = (blockId) => {
-    handleReplaceNode(id, nodes, setNodes, blockId); // Pass newType for replacement
+    handleReplaceNode(id, nodes, handleAddNewNode, blockId); // Pass newType for replacement
     setShowReplaceMenu(false);
   };
 
-  const NodeIcon = icons[data.contentType] || null; // Default to null if type not found
+  const NodeIcon = isStartingNode ? initialNode.icon : config?.icon
 
   const onClick = (id) => {
     setHandleId(id)
     toggleDropdown()
   }
+
+
   return (
     <div className={`text-node ${type}-node`} ref={nodeRef}>
       <div className="node-content" onClick={handleClick}>
@@ -90,7 +94,11 @@ const BaseNode = (props) => {
           </div>
           {!isStartingNode &&
             (
-              <div className='drop_down' onClick={() => setIsMenuVisible(!isMenuVisible)}>
+              <div className='drop_down' onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setIsMenuVisible(!isMenuVisible)
+              }}>
                 <MdMoreHoriz size={24} />
               </div>
             )}
@@ -260,11 +268,9 @@ const BaseNode = (props) => {
       )}
 
       {
-        (!isStartingNode) && <Handle
-          type="target"
-          position="left"
-          id={`target-${id}`}
-          style={{ background: '#555' }}
+        (!isStartingNode) &&
+        <TargetHandle
+          id={id}
         />
       }
     </div >

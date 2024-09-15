@@ -29,8 +29,8 @@
 
 /* Add this CSS to your component's stylesheet or an appropriate global file */
 .text-node {
-  background: #FFFFFF;
-  border: 1px solid #CCCCCC;
+  background: #ffffff;
+  border: 1px solid #cccccc;
   border-radius: 8px;
   padding: 8px;
   min-height: 55px;
@@ -52,8 +52,8 @@
   animation: 0.3s ease-in-out 0s 1 normal none running bounceIn;
 }
 .text-node:hover {
-    --box-shadow-color: #c8c8fa;
-    box-shadow: 0 0 0 4px var(--box-shadow-color);
+  --box-shadow-color: #c8c8fa;
+  box-shadow: 0 0 0 4px var(--box-shadow-color);
 }
 
 .icon_dropdown {
@@ -63,12 +63,13 @@
   justify-content: center;
   padding: 2px;
   border-radius: 50%;
-  background-color: #E0E0E0; /* Light grey background for the icon area */
+  background-color: #e0e0e0; /* Light grey background for the icon area */
 }
 
-
-
-.ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button, .ql-snow.ql-toolbar button, .ql-snow .ql-toolbar button {
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button,
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button {
   min-width: 4px !important;
   width: max-content;
   padding: 5px !important;
@@ -76,7 +77,7 @@
 .quill {
   display: flex;
   flex-direction: column-reverse;
-  border-top: 1px solid #CCCCCC;
+  border-top: 1px solid #cccccc;
 }
 
 .ql-toolbar.ql-snow {
@@ -104,7 +105,7 @@ button.ql-bold {
   background-color: #fff;
   border-radius: 2px;
   position: relative;
-  border: 1px solid rgba(16,22,26,.2);
+  border: 1px solid rgba(16, 22, 26, 0.2);
   cursor: text;
   font-size: 13px;
   padding: 11px 13px;
@@ -147,20 +148,20 @@ button.ql-bold {
   min-width: 80px;
   padding: 0px 16px;
   white-space: nowrap;
-    font-family: "DM Sans", sans-serif;
-    font-size: 1rem;
-    letter-spacing: 0px;
-    line-height: 24px;
-    font-weight: 400;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0px;
+  line-height: 24px;
+  font-weight: 400;
 }
 
-.dropdown_menu > [role="menuitem"] {
+.dropdown_menu > [role='menuitem'] {
   padding: 8px 12px;
   cursor: pointer;
   justify-content: flex-start;
 }
 
-.dropdown_menu > [role="menuitem"]:hover {
+.dropdown_menu > [role='menuitem']:hover {
   background: #f0f0f0;
   color: #323232;
 }
@@ -171,4 +172,20 @@ button.ql-bold {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.react-flow__edge.animated path {
+  stroke-width: 3px;
+  stroke: rgb(79, 204, 194);
+}
+
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:focus .react-flow__edge-path,
+.react-flow__edge:focus-visible .react-flow__edge-path {
+  stroke: rgb(79, 204, 194);
+}
+.react-flow__handle.target {
+  opacity: 0;
+}
+.react-flow__handle.target.react-flow__handle-connecting.valid {
+  opacity: 1;
 }

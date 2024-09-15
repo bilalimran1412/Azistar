@@ -1,5 +1,5 @@
 import React from 'react'
-import BotBuilderCanvas from './BotBuilderCanvas'
+import BotBuilderSidebar from './BotBuilderSidebar'
 import { useFetchData } from '../../hooks/bot/useFetchData';
 import { useParams } from 'react-router-dom';
 import { Alert, AlertIcon, Spinner, Text } from '@chakra-ui/react';
@@ -37,6 +37,7 @@ function BotBuilder() {
 
   const diagram = React.useMemo(() => JSON.parse(botCopy?.data[0]?.diagram || "{}"), [botCopy])
   const { nodes, edges } = diagram
+
   React.useEffect(() => {
     if (nodes?.length)
       setNodes(nodes)
@@ -64,7 +65,7 @@ function BotBuilder() {
 
   return (
     <>
-      {botCopy && <BotBuilderCanvas />}
+      {botCopy && <BotBuilderSidebar />}
     </>
   )
 }

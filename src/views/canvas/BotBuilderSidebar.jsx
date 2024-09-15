@@ -8,7 +8,7 @@ import ReactFlowCanvas from './ReactFlowCanvas';
 import NodeDropdownMenu from '../../components/Canvas/NodeDropdownMenu';
 import SideView from '../../components/Canvas/SideView';
 
-const BotBuilderCanvas = () => {
+const BotBuilderSidebar = () => {
     const { nodes, setNodes, setSideView, sideViewVisible, currentNodeId, updateBot } = useNodeContext();
     const [dropdownPosition] = React.useState({ x: 0, y: 0 });
     const [showDropdown] = React.useState(false);
@@ -20,6 +20,7 @@ const BotBuilderCanvas = () => {
             position: { x: Math.random() * 500, y: Math.random() * 500 },
             type,
         };
+        alert("ran handle in BotBuilderSidebar.")
 
         setNodes((nds) => [...nds, newNode]);
     };
@@ -68,4 +69,4 @@ const BotBuilderCanvas = () => {
     );
 };
 
-export default BotBuilderCanvas;
+export default BotBuilderSidebar;

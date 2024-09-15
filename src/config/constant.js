@@ -1,5 +1,6 @@
-export const edgeType = 'baseEdge'
+import { FaFlag } from 'react-icons/fa';
 
+export const edgeType = 'baseEdge'
 const buttonsList = {
   id: 'button1',
   label: 'Edit Button',
@@ -112,6 +113,7 @@ export const initialNode = {
     contentType: "startingNode"
   },
   position: { x: 50, y: 100 },
+  icon: <FaFlag />,
   type: 'baseNode',
 };
 

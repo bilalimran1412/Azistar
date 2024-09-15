@@ -35,7 +35,7 @@ export const useDropdownToggle = (initialState = false) => {
 
 // Action Handlers
 
-export const handleCopyNode = (nodeId, nodes, setNodes) => {
+export const handleCopyNode = (nodeId, nodes, handleAddNewNode) => {
   console.log('handleCopyNode called with nodeId:', nodeId);
   const nodeToCopy = nodes.find((node) => node.id === nodeId);
   const newPosition = {
@@ -50,41 +50,37 @@ export const handleCopyNode = (nodeId, nodes, setNodes) => {
       position: newPosition,
       data: { ...nodeToCopy.data, label: `${nodeToCopy.title} (Copy)` } // Modify data if needed
     };
-    console.log(newNode)
-    setNodes((nds) => [...nds, newNode]);
+    handleAddNewNode(newNode)
   }
 };
 
 
-export const handleReplaceNode = (nodeId, nodes, setNodes, blockId) => {
+export const handleReplaceNode = (nodeId, nodes, handleAddNewNode, blockId) => {
   console.log('handleReplaceNode called with nodeId:', nodeId, 'newType:', blockId);
   const block = nodeConfigurationBlockIdMap[blockId]
+  const nodeToReplace = nodes.find((node) => node.id === nodeId);
 
-  setNodes((nds) =>
-    nds.map((node) =>
-      node.id === nodeId
-        ? { ...node, data: { ...block.data, blockId, } } // Replace the node type
-        : node
-    )
-  );
-};
-
-
-// Delete Node
-export const handleDeleteNode = (nodeId, nodes, setNodes, setSideView) => {
-  console.log('handleDeleteNode called with nodeId:', nodeId);
-  const nodeExists = nodes.some(node => node.id === nodeId);
-  if (nodeExists) {
-    setSideView(false)
-    setNodes((nds) => nds.filter((node) => node.id !== nodeId));
-    console.log('Node deleted:', nodeId);
-  } else {
-    console.warn('Node not found for deletion:', nodeId);
+  if (nodeToReplace) {
+    handleAddNewNode({ ...nodeToReplace, data: { ...block?.data, blockId } })
   }
 };
 
 
-export const handleDuplicateNode = (nodeId, nodes, setNodes) => {
+// // Delete Node
+// export const handleDeleteNode = (nodeId, nodes, setNodes, setSideView) => {
+//   console.log('handleDeleteNode called with nodeId:', nodeId);
+//   const nodeExists = nodes.some(node => node.id === nodeId);
+//   if (nodeExists) {
+//     setSideView(false)
+//     setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+//     console.log('Node deleted:', nodeId);
+//   } else {
+//     console.warn('Node not found for deletion:', nodeId);
+//   }
+// };
+
+
+export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
   console.log('handleDuplicateNode called with nodeId:', nodeId);
   const nodeToDuplicate = nodes.find((node) => node.id === nodeId);
   if (nodeToDuplicate) {
@@ -101,11 +97,7 @@ export const handleDuplicateNode = (nodeId, nodes, setNodes) => {
       data: { ...nodeToDuplicate.data, label: `${nodeToDuplicate.label} (Copy)` } // Modify data if needed
     };
     console.log('Duplicating node:', newNode);
-    setNodes((nds) => {
-      const updatedNodes = [...nds, newNode];
-      console.log('Updated nodes:', updatedNodes);
-      return updatedNodes;
-    });
+    handleAddNewNode(newNode)
   } else {
     console.warn('Node not found for duplication:', nodeId);
   }

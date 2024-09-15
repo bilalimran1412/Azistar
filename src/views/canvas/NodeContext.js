@@ -21,6 +21,8 @@ const NodeContext = createContext({
   setCanvasInstance: () => { },
   setBotID: () => { },
   updateBot: () => { },
+  handleAddNewNode: () => { },
+  handleNodeRemove: () => { },
   botID: null
 })
 
@@ -57,13 +59,14 @@ export const NodeProvider = ({ children }) => {
         type: edgeType,
         ...(sourceHandleId && { sourceHandle: `source-${sourceHandleId}` }),
       }
-
+      setEdges(pre => pre.filter(edge => edge.source !== sourceId))
       setNodes((prev) => [...prev, newNode])
       setEdges((prev) => [...prev, newEdge])
-      setSideViewVisible(true) // Show SideView
+      setSideViewVisible(true)
     },
     [nodes]
   )
+
   const insertNodeFromEdge = useCallback(
     (edgeID, sourceId, blockId, sourceHandleId, targetId) => {
       const nodeToCreate = nodeConfigurationBlockIdMap[blockId];
@@ -154,6 +157,17 @@ export const NodeProvider = ({ children }) => {
     }
   }, [botID, edges, nodes])
 
+  const handleAddNewNode = useCallback((node) => {
+    setNodes(pre => [...pre, node])
+  }, [])
+
+  const handleNodeRemove = useCallback((nodeId) => {
+    //Remove Edges and That single node.
+    //To remove edge filter sourceId or targetID.
+    setNodes(pre => pre.filter(n => n.id !== nodeId))
+    setEdges(pre => pre.filter(edge => edge.target !== nodeId || edge.source !== nodeId))
+  }, [])
+
   return (
     <NodeContext.Provider
       value={{
@@ -173,7 +187,9 @@ export const NodeProvider = ({ children }) => {
         canvasInstance,
         setBotID,
         botID,
-        updateBot: patchBot
+        updateBot: patchBot,
+        handleAddNewNode,
+        handleNodeRemove
       }}
     >
       {children}

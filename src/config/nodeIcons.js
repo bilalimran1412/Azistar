@@ -4,7 +4,7 @@ import { FaFile, FaQuestionCircle, FaUser, FaEnvelope, FaPhone, FaHashtag, FaFil
 import { FaFlag } from 'react-icons/fa';
 
 const icons = {
-  startingNode:   <FaFlag />,
+  startingNode: <FaFlag />,
   customNode: <FaFile />,
   AskAQuestion: <FaQuestionCircle />,
   askName: <FaUser />,
