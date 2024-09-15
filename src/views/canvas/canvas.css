@@ -173,15 +173,16 @@ button.ql-bold {
   align-items: center;
   justify-content: center;
 }
+.react-flow__connectionline .react-flow__connection-path,
 .react-flow__edge.animated path {
-  stroke-width: 3px;
-  stroke: rgb(79, 204, 194);
+  stroke-width: 3px !important;
+  stroke: rgb(79, 204, 194) !important;
 }
 
 .react-flow__edge.selected .react-flow__edge-path,
 .react-flow__edge:focus .react-flow__edge-path,
 .react-flow__edge:focus-visible .react-flow__edge-path {
-  stroke: rgb(79, 204, 194);
+  stroke: rgb(79, 204, 194) !important;
 }
 .react-flow__handle.target {
   opacity: 0;

@@ -80,7 +80,6 @@ const BaseNode = (props) => {
     toggleDropdown()
   }
 
-
   return (
     <div className={`text-node ${type}-node`} ref={nodeRef}>
       <div className="node-content" onClick={handleClick}>

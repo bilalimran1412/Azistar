@@ -37,9 +37,23 @@ const ReactFlowCanvas = () => {
     )
 
     const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds).map(e => ({ ...e, type: "baseEdge", animated: true }))),
+        (params) => {
+            setEdges((eds) => {
+                const existingEdges = eds.filter(edge => {
+                    return (params.sourceHandle ? edge.sourceHandle !== params.sourceHandle : edge.source !== params.source);
+                });
+                const newEdges = addEdge(params, existingEdges).map(e => ({
+                    ...e,
+                    type: "baseEdge",
+                    animated: true,
+                }));
+                return newEdges;
+            });
+        },
         [setEdges]
-    )
+    );
+
+
 
     const onEdgeMouseEnter = React.useCallback(
         (event, edge) => {

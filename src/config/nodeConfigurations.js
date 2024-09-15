@@ -1,4 +1,4 @@
-import { FaClipboardList, FaCommentAlt, FaCommentSlash, FaEnvelope, FaFile, FaFilm, FaInternetExplorer, FaPhone, FaRegAddressCard, FaRegImage, FaRegSquare, FaRocketchat, FaSearch, FaSlidersH, FaStar, FaTasks, FaToggleOn, FaUserCircle } from "react-icons/fa";
+import { FaAlignCenter, FaBars, FaBolt, FaBox, FaBullseye, FaCalendarCheck, FaClipboardList, FaClock, FaCode, FaCodeBranch, FaCodepen, FaCogs, FaCommentAlt, FaCommentSlash, FaCompress, FaDatabase, FaEnvelope, FaExchangeAlt, FaFile, FaFileExcel, FaFilm, FaGlobe, FaGoogle, FaHubspot, FaInternetExplorer, FaKeyboard, FaLink, FaMailBulk, FaMailchimp, FaMapMarker, FaMemory, FaPhone, FaRandom, FaRegAddressCard, FaRegImage, FaRegSquare, FaRobot, FaRocketchat, FaSalesforce, FaSearch, FaSignOutAlt, FaSlack, FaSlidersH, FaSortNumericDown, FaStar, FaStickyNote, FaStripeS, FaTasks, FaToggleOn, FaUser, FaUserCircle } from "react-icons/fa";
 
 export const contentType = {
   uploadMedia: "uploadMedia",
@@ -260,6 +260,8 @@ export const nodeConfigurations = {
       title: "Conditions",
       label: "Conditions",
       nodeType: "baseNode",
+      icon: <FaCodeBranch />,
+
       data: {
         multipleHandles: true,
         customHandle: [
@@ -280,6 +282,7 @@ export const nodeConfigurations = {
       blockId: "a070b269-079e-57f0-ab92-4db0b03d0aa7",
       title: "Set a Variable",
       label: "Set a Variable",
+      icon: <FaMemory />,
       nodeType: "baseNode",
       data: {
         multipleHandles: true,
@@ -302,6 +305,8 @@ export const nodeConfigurations = {
       title: "Keyword Jump",
       label: "Keyword Jump",
       nodeType: "baseNode",
+      icon: <FaKeyboard />,
+
       data: {
         multipleHandles: true,
         customHandle: [
@@ -322,6 +327,7 @@ export const nodeConfigurations = {
       blockId: "6002b8e7-027c-5f10-9d47-06bb0de58b55",
       title: "Global Keywords",
       label: "Global Keywords",
+      icon: <FaGlobe />,
       nodeType: "baseNode",
       data: {
         contentType: contentType.placeholderNodes
@@ -334,6 +340,8 @@ export const nodeConfigurations = {
       title: "Formulas",
       label: "Formulas",
       nodeType: "baseNode",
+      icon: <FaCompress />,
+
       data: {
         multipleHandles: true,
         customHandle: [
@@ -355,6 +363,8 @@ export const nodeConfigurations = {
       title: "Jump to",
       label: "Jump to",
       nodeType: "baseNode",
+      icon: <FaExchangeAlt />,
+
       fields: [{ label: "Jump Target", type: "text", variable: "textareaFieldData", placeholder: "Jump to an other bot" }]
     },
     {
@@ -362,6 +372,8 @@ export const nodeConfigurations = {
       blockId: "dac4200e-7c8b-5719-8e3a-7c9df19cd1d3",
       title: "Lead Scoring",
       label: "Lead Scoring",
+      icon: <FaSortNumericDown />,
+
       nodeType: "baseNode",
       fields: [{ label: "Scoring Logic", type: "text", variable: "textareaFieldData", placeholder: "Give each lead a score" }]
     },
@@ -370,6 +382,8 @@ export const nodeConfigurations = {
       blockId: "14647fb4-292e-5490-89eb-e925b7a89c40",
       title: "Goal",
       label: "Goal",
+      icon: <FaMapMarker />,
+
       nodeType: "baseNode",
       fields: [{ label: "Goal Setup", type: "text", variable: "textareaFieldData", placeholder: "Track conversion rates" }]
     },
@@ -379,6 +393,8 @@ export const nodeConfigurations = {
       title: "A/B Test",
       label: "A/B Test",
       nodeType: "baseNode",
+      icon: <FaRandom />,
+
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -394,6 +410,7 @@ export const nodeConfigurations = {
       blockId: "0aba4cea-8172-5492-9a24-21703395b4d6",
       title: "Persistent Menu",
       label: "Persistent Menu",
+      icon: <FaBars />,
       nodeType: "baseNode",
       fields: [{ label: "Menu Items", type: "text", variable: "textareaFieldData", placeholder: "Add & set the menu's items" }]
     }
@@ -405,6 +422,7 @@ export const nodeConfigurations = {
       blockId: "3a687dab-b550-5863-b47e-5ec295fe8bac",
       title: "Send an Email",
       label: "Send an Email",
+      icon: <FaMailBulk />,
       nodeType: "baseNode",
       fields: [{ label: "Email Content", type: "textarea", variable: "textareaFieldData", placeholder: "To your leads & team" }]
     },
@@ -413,6 +431,7 @@ export const nodeConfigurations = {
       blockId: "f4f6a177-a1d0-5e96-ae88-ab215a391396",
       title: "Google Sheets",
       label: "Google Sheets",
+      icon: <FaFileExcel />,
       nodeType: "baseNode",
       fields: [{ label: "Sheet Link", type: "text", variable: "textareaFieldData", placeholder: "Save & obtain data" }]
     },
@@ -421,6 +440,7 @@ export const nodeConfigurations = {
       blockId: "eda7f4d5-d702-51a5-80f0-fdecb30a7296",
       title: "Zapier",
       label: "Zapier",
+      icon: <FaBolt />,
       nodeType: "baseNode",
       fields: [{ label: "Zap Setup", type: "text", variable: "textareaFieldData", placeholder: "Integrate with zapier" }]
     },
@@ -429,6 +449,7 @@ export const nodeConfigurations = {
       blockId: "794665d9-f7ab-55bf-8cc3-8b3d49080d3d",
       title: "Airtable",
       label: "Airtable",
+      icon: <FaAlignCenter />,
       nodeType: "baseNode",
       fields: [{ label: "Airtable Link", type: "text", variable: "textareaFieldData", placeholder: "Save & get user data" }]
     },
@@ -437,6 +458,7 @@ export const nodeConfigurations = {
       blockId: "220e251b-4f7e-5b96-89d3-5df84e90e087",
       title: "Dialogflow",
       label: "Dialogflow",
+      icon: <FaAlignCenter />,
       nodeType: "baseNode",
       fields: [{ label: "Dialogflow Setup", type: "text", variable: "textareaFieldData", placeholder: "Add NLP" }]
     },
@@ -445,6 +467,7 @@ export const nodeConfigurations = {
       blockId: "173663dd-d54c-5abc-b57c-37c9f6c48cbd",
       title: "Hubspot",
       label: "Hubspot",
+      icon: <FaHubspot />,
       nodeType: "baseNode",
       fields: [{ label: "Hubspot Setup", type: "text", variable: "textareaFieldData", placeholder: "Connect your CRM" }]
     },
@@ -453,6 +476,7 @@ export const nodeConfigurations = {
       blockId: "345790a5-9f3a-5395-ad36-3e045e5ae80d",
       title: "Slack",
       label: "Slack",
+      icon: <FaSlack />,
       nodeType: "baseNode",
       fields: [{ label: "Slack Setup", type: "text", variable: "textareaFieldData", placeholder: "Send notifications" }]
     },
@@ -461,6 +485,7 @@ export const nodeConfigurations = {
       blockId: "79b8674c-c485-5eca-93f6-a6491f73e487",
       title: "Calendly",
       label: "Calendly",
+      icon: <FaCalendarCheck />,
       nodeType: "baseNode",
       data: {
         multipleHandles: true,
@@ -477,6 +502,7 @@ export const nodeConfigurations = {
       blockId: "48ff9e8f-7567-5db9-adb9-aac489c583a3",
       title: "Stripe",
       label: "Stripe",
+      icon: <FaStripeS />,
       nodeType: "baseNode",
       data: {
         multipleHandles: true,
@@ -493,6 +519,7 @@ export const nodeConfigurations = {
       blockId: "d6ca1ed1-810f-544a-bd7a-9d9feca6e144",
       title: "Google Analytics",
       label: "Google Analytics",
+      icon: <FaGoogle />,
       nodeType: "baseNode",
       fields: [{ label: "Analytics Setup", type: "text", variable: "textareaFieldData", placeholder: "Send a GA event" }]
     },
@@ -501,6 +528,7 @@ export const nodeConfigurations = {
       blockId: "0c6fee80-ccae-5d89-b2b6-0484d34f4803",
       title: "Segment",
       label: "Segment",
+      icon: <FaAlignCenter />,
       nodeType: "baseNode",
       fields: [{ label: "Segment Setup", type: "text", variable: "textareaFieldData", placeholder: "Collect user events" }]
     },
@@ -509,6 +537,7 @@ export const nodeConfigurations = {
       blockId: "f29c80a2-85b1-5499-ac50-6c682599b9e1",
       title: "Salesforce",
       label: "Salesforce",
+      icon: <FaSalesforce />,
       nodeType: "baseNode",
       fields: [{ label: "Salesforce Integration", type: "text", variable: "textareaFieldData", placeholder: "Add leads" }]
     },
@@ -517,6 +546,7 @@ export const nodeConfigurations = {
       blockId: "2eef6c57-fc89-5c90-8f70-d0bec2546724",
       title: "Mailchimp",
       label: "Mailchimp",
+      icon: <FaMailchimp />,
       nodeType: "baseNode",
       fields: [{ label: "Mailchimp Integration", type: "text", variable: "textareaFieldData", placeholder: "Add a contact" }]
     }
@@ -529,6 +559,7 @@ export const nodeConfigurations = {
       blockId: "567d4330-eba2-5eb8-8213-9fc397752a0c",
       title: "AI FAQs Assistant",
       label: "AI FAQs Assistant",
+      icon: <FaRobot />,
       nodeType: "baseNode",
       fields: [{ label: "FAQs Setup", type: "text", variable: "textareaFieldData", placeholder: "Automated help" }]
     },
@@ -537,6 +568,7 @@ export const nodeConfigurations = {
       blockId: "3e05a8b2-32d1-520d-ad4e-9697fac8bc34",
       title: "AI Lead Gen Assistant",
       label: "AI Lead Gen Assistant",
+      icon: <FaBullseye />,
       nodeType: "baseNode",
       fields: [{ label: "Lead Gen Setup", type: "text", variable: "textareaFieldData", placeholder: "Smart lead engagement" }]
     }
@@ -549,6 +581,7 @@ export const nodeConfigurations = {
       title: "Business Hours",
       label: "Business Hours",
       nodeType: "baseNode",
+      icon: <FaClock />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -564,6 +597,7 @@ export const nodeConfigurations = {
       blockId: "f5baed1c-01b1-5a0c-bb73-157eac902473",
       title: "Human Takeover",
       label: "Human Takeover",
+      icon: <FaUser />,
       nodeType: "baseNode",
       fields: [{ label: "Takeover Trigger", type: "text", variable: "textareaFieldData", placeholder: "Chat to your users" }]
     },
@@ -572,6 +606,7 @@ export const nodeConfigurations = {
       blockId: "00ce8611-8885-563d-9240-37d4942c8e3d",
       title: "Close Chat",
       label: "Close Chat",
+      icon: <FaSignOutAlt />,
       nodeType: "baseNode",
       fields: [{ label: "Close Message", type: "text", variable: "textareaFieldData", placeholder: "Set status to closed" }]
     },
@@ -580,6 +615,7 @@ export const nodeConfigurations = {
       blockId: "29d89034-306b-5feb-a242-e0cbe1c330d9",
       title: "Bricks",
       label: "Bricks",
+      icon: <FaBox />,
       nodeType: "baseNode",
       fields: [{ label: "Brick Configuration", type: "text", variable: "textareaFieldData", placeholder: "Configure chat bricks" }]
     },
@@ -589,6 +625,7 @@ export const nodeConfigurations = {
       title: "Add a Note",
       label: "Add a Note",
       nodeType: "baseNode",
+      icon: <FaStickyNote />,
       data: {
         contentType: "noteNode",
       },
@@ -603,6 +640,7 @@ export const nodeConfigurations = {
       title: "Webhook",
       label: "Webhook",
       nodeType: "baseNode",
+      icon: <FaLink />,
       data: {
         multipleHandles: true,
         customHandle: [
@@ -623,6 +661,8 @@ export const nodeConfigurations = {
       blockId: "78142b1a-9f25-58b2-bba2-651c081adcbb",
       title: "Trigger Automation",
       label: "Trigger Automation",
+      icon: <FaCogs />,
+
       nodeType: "baseNode",
       data: {
         multipleHandles: true,
@@ -644,6 +684,8 @@ export const nodeConfigurations = {
       blockId: "9d136442-9115-54b8-8a24-971b484f64e7",
       title: "Code",
       label: "Code",
+      icon: <FaCode />,
+
       nodeType: "baseNode",
       fields: [{ label: "Code Snippet", type: "textarea", variable: "textareaFieldData", placeholder: "Enter custom code" }]
     },
@@ -652,6 +694,8 @@ export const nodeConfigurations = {
       blockId: "adc831c1-dfe5-564a-b319-a0600bbe52d2",
       title: "Code Set",
       label: "Code Set",
+      icon: <FaCodepen />,
+
       nodeType: "baseNode",
       fields: [{ label: "Code Set", type: "text", variable: "textareaFieldData", placeholder: "Define a set of codes" }]
     },
@@ -661,6 +705,7 @@ export const nodeConfigurations = {
       title: "Dynamic Data",
       label: "Dynamic Data",
       nodeType: "baseNode",
+      icon: <FaDatabase />,
       fields: [{ label: "Data Source", type: "text", variable: "textareaFieldData", placeholder: "Display dynamic values" }]
     }
   ]
