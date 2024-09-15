@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react'
 import { edgeType, } from '../../config/constant'
-import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations'
+import { contentType, nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations'
 import { v4 as uuidv4 } from 'uuid';
 import { fetchWrapper } from '../../utils/fetchWrapper';
 
@@ -45,7 +45,7 @@ export const NodeProvider = ({ children }) => {
 
       const position = { x: sourceNode.position.x + 400 || 100, y: sourceNode.position.y || 20 }
       const newNode = {
-        ...nodeToCreate, id: newNodeId, position: position, type: nodeToCreate.nodeType, data: {
+        id: newNodeId, position: position, type: nodeToCreate.nodeType, data: {
           ...nodeToCreate?.data,
           blockId: nodeToCreate.blockId,
         }
@@ -59,9 +59,16 @@ export const NodeProvider = ({ children }) => {
         type: edgeType,
         ...(sourceHandleId && { sourceHandle: `source-${sourceHandleId}` }),
       }
-      setEdges(pre => pre.filter(edge => edge.source !== sourceId))
+
+      if (nodeToCreate?.data?.contentType !== contentType.placeholderNodes) {
+        if (sourceHandleId) {
+          setEdges(pre => pre.filter(edge => edge.sourceHandle !== sourceHandleId))
+        } else {
+          setEdges(pre => pre.filter(edge => edge.source !== sourceId))
+        }
+        setEdges((prev) => [...prev, newEdge])
+      }
       setNodes((prev) => [...prev, newNode])
-      setEdges((prev) => [...prev, newEdge])
       setSideViewVisible(true)
     },
     [nodes]
@@ -80,7 +87,6 @@ export const NodeProvider = ({ children }) => {
       };
 
       const newNode = {
-        ...nodeToCreate,
         id: newNodeId,
         position,
         type: nodeToCreate.nodeType,

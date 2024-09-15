@@ -1,14 +1,21 @@
 import { FaAlignCenter, FaBars, FaBolt, FaBox, FaBullseye, FaCalendarCheck, FaClipboardList, FaClock, FaCode, FaCodeBranch, FaCodepen, FaCogs, FaCommentAlt, FaCommentSlash, FaCompress, FaDatabase, FaEnvelope, FaExchangeAlt, FaFile, FaFileExcel, FaFilm, FaGlobe, FaGoogle, FaHubspot, FaInternetExplorer, FaKeyboard, FaLink, FaMailBulk, FaMailchimp, FaMapMarker, FaMemory, FaPhone, FaRandom, FaRegAddressCard, FaRegImage, FaRegSquare, FaRobot, FaRocketchat, FaSalesforce, FaSearch, FaSignOutAlt, FaSlack, FaSlidersH, FaSortNumericDown, FaStar, FaStickyNote, FaStripeS, FaTasks, FaToggleOn, FaUser, FaUserCircle } from "react-icons/fa";
+import { initialNode } from "./constant";
 
 export const contentType = {
   uploadMedia: "uploadMedia",
   buttonNode: "buttonNode",
   //such nodes which do not have incoming/outgoing edges (note, global keyword)
-  placeholderNodes: "placeHolderNods"
+  placeholderNodes: "placeHolderNodes",
+  incomingOnly: "incomingOnly",
+  startingNode: "startingNode"
 }
-const sideViewLayoutType = {
 
+export const sideViewLayoutType = {
+  forms: "form",
+  buttons: "button",
+  uploadMedia: "uploadMedia",
 }
+
 //groups for creating nodes
 
 const Groups = {
@@ -40,7 +47,8 @@ export const nodeConfigurations = {
       nodeType: "baseNode",
       icon: <FaFilm />,
       data: {
-        contentType: contentType.uploadMedia
+        contentType: contentType.uploadMedia,
+        layoutType: sideViewLayoutType.uploadMedia
       },
       fields: [{ label: "Media File", type: "file", variable: "fileField", placeholder: "Upload media" }]
     },
@@ -51,6 +59,9 @@ export const nodeConfigurations = {
       label: "Goodbye Message",
       icon: <FaCommentSlash />,
       nodeType: "baseNode",
+      data: {
+        contentType: contentType.incomingOnly
+      },
       fields: [{ label: "Message", type: "text", variable: "textareaFieldData", placeholder: "Enter a goodbye message" }]
     }
   ],
@@ -65,6 +76,7 @@ export const nodeConfigurations = {
       icon: <FaRegSquare />,
       data: {
         multipleHandles: true,
+        layoutType: sideViewLayoutType.buttons,
         contentType: contentType.buttonNode,
         items: [{ id: "button-1", label: "Edit Button", isDeletable: false }]
       },
@@ -627,7 +639,7 @@ export const nodeConfigurations = {
       nodeType: "baseNode",
       icon: <FaStickyNote />,
       data: {
-        contentType: "noteNode",
+        contentType: contentType.placeholderNodes,
       },
       fields: [{ label: "Note", type: "text", variable: "textareaFieldData", placeholder: "Type your note here..." }]
     }
@@ -711,9 +723,12 @@ export const nodeConfigurations = {
   ]
 };
 
-export const nodeConfigurationBlockIdMap = Array.from(Object.values(nodeConfigurations)).flatMap(a => a).reduce((acc, curr) => {
-  acc[curr.blockId] = curr;
-  return acc;
-}, {});
+export const nodeConfigurationBlockIdMap = {
+  ...Array.from(Object.values(nodeConfigurations)).flatMap(a => a).reduce((acc, curr) => {
+    acc[curr.blockId] = curr;
+    return acc;
+  }, {}),
+  "1": initialNode
+};
 
 export const menuOptionList = Array.from(Object.values(nodeConfigurations)).flatMap(a => a).map(n => ({ label: n.label, blockId: n.blockId, group: n.group }))

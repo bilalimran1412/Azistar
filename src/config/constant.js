@@ -110,7 +110,8 @@ export const initialNode = {
   data: {
     label: 'This is our parent',
     buttons: [],
-    contentType: "startingNode"
+    contentType: "startingNode",
+    blockId: "1",
   },
   position: { x: 50, y: 100 },
   icon: <FaFlag />,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
+import { nodeConfigurationBlockIdMap, sideViewLayoutType } from '../../config/nodeConfigurations';
 import { MdDelete } from 'react-icons/md'; // Import MdDelete icon
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { useUpdateNodeInternals } from '@xyflow/react';
@@ -102,7 +102,7 @@ const SideView = ({ closeForm }) => {
               />
               {file && <p>Selected file: {file.name}</p>}
             </FormControl>
-          ) : currentNode.data.contentType === 'buttonNode' ? (
+          ) : currentNode?.data?.layoutType === sideViewLayoutType.buttons ? (
             <FormControl key={index} mt={4}>
               <FormLabel>{field.label}</FormLabel>
               <ReactQuill

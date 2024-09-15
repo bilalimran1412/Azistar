@@ -3,7 +3,7 @@ import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 import { useDropdownToggle, handleCopyNode, handleReplaceNode, handleDuplicateNode, handleCopyNodeId } from './utils/nodeutils';
 import NodeDropdownMenu from './NodeDropdownMenu';
 import NodeActionDropdown from './NodeActionDropdown';
-import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
+import { contentType, nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import TargetHandle from './TargetHandle';
 import { initialNode } from '../../config/constant';
@@ -19,7 +19,7 @@ const BaseNode = (props) => {
   const [showReplaceMenu, setShowReplaceMenu] = useState(false);
 
   const config = nodeConfigurationBlockIdMap[data.blockId]
-  const placeholderText = config?.fields[0]?.placeholder || 'No data available';
+  const placeholderText = config?.fields?.[0]?.placeholder || 'No data available';
 
   const displayLabel = data.label || config.title;
 
@@ -29,11 +29,12 @@ const BaseNode = (props) => {
     addNewNode(id, blockId, handleId);
     toggleDropdown();
   };
-  const isStartingNode = data?.contentType === "startingNode"
-  const isMultiHandleNode = data?.multipleHandles
-  const isButtonNode = data.contentType === "buttonNode"
-  const customHandles = !isButtonNode ? data.customHandle : []
-
+  const isStartingNode = config?.data?.contentType === contentType.startingNode
+  const isMultiHandleNode = config?.data?.multipleHandles
+  const isButtonNode = config?.data?.contentType === contentType.buttonNode
+  const customHandles = !isButtonNode ? config?.customHandle : []
+  const disableSourceHandle = config?.data?.contentType === contentType.incomingOnly
+  const disableAllHandles = config?.data?.contentType === contentType.placeholderNodes
 
   const handleClick = () => {
     if (isStartingNode) {
@@ -108,7 +109,9 @@ const BaseNode = (props) => {
               <div key={item.id} className="item-buttons">
                 <span>{item.label}</span>
                 <div
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
                     onClick(item.id)
                   }}
                 >
@@ -142,13 +145,13 @@ const BaseNode = (props) => {
               <span>Any of the above</span>
               <div
                 onClick={() => {
-                  onClick("placeholder")
+                  onClick(`placeholder-${id}`)
                 }}
               >
                 <Handle
                   type='source'
                   position='right'
-                  id='source-placeholder'
+                  id={`source-placeholder-${id}`}
                   style={{
                     background: '#4AB8B3',
                     padding: '10px',
@@ -201,7 +204,7 @@ const BaseNode = (props) => {
           dropdownRef={dropdownRef}
         />
       )}
-      {!isMultiHandleNode && (
+      {(!isMultiHandleNode && !disableSourceHandle && !disableAllHandles) && (
         <div
           onClick={
             toggleDropdown
@@ -267,7 +270,7 @@ const BaseNode = (props) => {
       )}
 
       {
-        (!isStartingNode) &&
+        (!isStartingNode && !disableAllHandles) &&
         <TargetHandle
           id={id}
         />
