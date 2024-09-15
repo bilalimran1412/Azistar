@@ -5,9 +5,8 @@ import NodeDropdownMenu from './NodeDropdownMenu';
 import NodeActionDropdown from './NodeActionDropdown';
 import { contentType, nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
-import TargetHandle from './TargetHandle';
 import { initialNode } from '../../config/constant';
-import { Handle } from '@xyflow/react';
+import CustomHandle from './CustomHandle';
 
 const BaseNode = (props) => {
   const { id, data, type } = props
@@ -108,74 +107,20 @@ const BaseNode = (props) => {
             {data.items && data.items.map((item) => (
               <div key={item.id} className="item-buttons">
                 <span>{item.label}</span>
-                <div
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    onClick(`source-${id}-${item.id}`)
+                <CustomHandle type='source' id={`source-${id}-${item.id}`} onClick={() => onClick(`source-${id}-${item.id}`)}
+                  styles={{
+                    right: '-10px',
                   }}
-                >
-                  <Handle
-                    type='source'
-                    position='right'
-                    id={`source-${id}-${item.id}`}
-                    style={{
-                      background: '#4AB8B3',
-                      padding: '10px',
-                      right: '-10px',
-                      cursor: "pointer"
-                    }}
-                  >
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '3px',
-                        left: '3px',
-                        pointerEvents: 'none',
-
-                      }}
-                    >
-                      <MdAdd />
-                    </div>
-                  </Handle>
-                </div>
+                />
               </div>
             ))}
             {isButtonNode && <div key="placeholder" className="placeholder-button">
               <span>Any of the above</span>
-              <div
-                onClick={() => {
-                  onClick(`source-placeholder-${id}`)
+              <CustomHandle type='source' id={`source-placeholder-${id}`} onClick={() => onClick(`source-placeholder-${id}`)}
+                styles={{
+                  right: '-10px',
                 }}
-              >
-                <Handle
-                  type='source'
-                  position='right'
-                  id={`source-placeholder-${id}`}
-                  style={{
-                    background: '#4AB8B3',
-                    padding: '10px',
-                    right: '-10px',
-                    color: "#fff",
-                    cursor: "pointer"
-                  }}
-                >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '3px',
-                      left: '3px',
-                      pointerEvents: 'none',
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      e.stopPropagation()
-                    }}
-                  >
-                    <MdAdd />
-                  </div>
-                </Handle>
-              </div>
+              />
             </div>}
           </div>
         )}
@@ -205,74 +150,22 @@ const BaseNode = (props) => {
         />
       )}
       {(!isMultiHandleNode && !disableSourceHandle && !disableAllHandles) && (
-        <div
-          onClick={
-            toggleDropdown
-          }
-        >
-          <Handle
-            type='source'
-            position='right'
-            style={{
-              background: '#4AB8B3',
-              padding: '10px',
-              right: '0',
-              cursor: "pointer",
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: '3px',
-                left: '3px',
-                pointerEvents: 'none',
-                fontSize: "14px",
-                color: "white"
-              }}
-            >
-              <MdAdd />
-            </div>
-          </Handle>
-        </div>
+        <CustomHandle type='source'
+          onClick={toggleDropdown}
+        />
       )}
       {!!customHandles && customHandles.map((handle, idx) =>
-        <div
-          onClick={() => {
-            onClick(`source-${id}-${handle.id}`)
-          }}
-        >
-          <Handle
-            type='source'
-            position='right'
-            id={`source-${id}-${handle.id}`}
-            style={{
-              background: handle.type === "success" ? '#4AB8B3' : "#d7376b",
-              padding: '10px',
-              right: '-10px',
-              cursor: "pointer",
-              top: `${(idx * 30) + 15}px`
-            }}
-          >
-            <div
-              style={{
-                position: 'absolute',
-                top: '3px',
-                left: '3px',
-                pointerEvents: 'none',
-                fontSize: "14px",
-                color: "white"
-              }}
-            >
-              <MdAdd />
-            </div>
-          </Handle>
-        </div>
+        <CustomHandle type='source' id={`source-${id}-${handle.id}`} status={handle.type} onClick={() => onClick(`source-${id}-${handle.id}`)} styles={
+          { top: `${(idx * 30) + 15}px` }
+        } />
+
       )}
 
       {
         (!isStartingNode && !disableAllHandles) &&
-        <TargetHandle
+        <CustomHandle
           id={id}
+          type="target"
         />
       }
     </div >
