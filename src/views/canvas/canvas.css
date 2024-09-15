@@ -35,7 +35,6 @@
   padding: 8px;
   min-height: 55px;
   padding: 8px 16px;
-  gap: 16px;
   position: relative;
   display: flex;
   align-items: center;
@@ -173,6 +172,7 @@ button.ql-bold {
   align-items: center;
   justify-content: center;
 }
+
 .react-flow__connectionline .react-flow__connection-path,
 .react-flow__edge.animated path {
   stroke-width: 3px !important;
@@ -187,6 +187,6 @@ button.ql-bold {
 .react-flow__handle.target {
   opacity: 0;
 }
-.react-flow__handle.target.react-flow__handle-connecting.valid {
+.react-flow__handle.target.connectingto.valid {
   opacity: 1;
 }

@@ -119,7 +119,7 @@ const BaseNode = (props) => {
                     style={{
                       background: '#4AB8B3',
                       padding: '10px',
-                      right: '-20px',
+                      right: '-10px',
                       cursor: "pointer"
                     }}
                   >
@@ -152,7 +152,7 @@ const BaseNode = (props) => {
                   style={{
                     background: '#4AB8B3',
                     padding: '10px',
-                    right: '-20px',
+                    right: '-10px',
                     color: "#fff",
                     cursor: "pointer"
                   }}
@@ -213,7 +213,7 @@ const BaseNode = (props) => {
             style={{
               background: '#4AB8B3',
               padding: '10px',
-              right: '-10px',
+              right: '0',
               cursor: "pointer",
             }}
           >
