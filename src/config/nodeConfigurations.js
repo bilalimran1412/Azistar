@@ -1,4 +1,4 @@
-import { FaCommentAlt, FaCommentSlash, FaEnvelope, FaFile, FaFilm, FaPhone, FaRegSquare, FaRocketchat, FaUserCircle } from "react-icons/fa";
+import { FaClipboardList, FaCommentAlt, FaCommentSlash, FaEnvelope, FaFile, FaFilm, FaInternetExplorer, FaPhone, FaRegAddressCard, FaRegImage, FaRegSquare, FaRocketchat, FaSearch, FaSlidersH, FaStar, FaTasks, FaToggleOn, FaUserCircle } from "react-icons/fa";
 
 export const contentType = {
   uploadMedia: "uploadMedia",
@@ -137,6 +137,7 @@ export const nodeConfigurations = {
       title: "Ask for an Address",
       label: "Ask for an Address",
       nodeType: "baseNode",
+      icon: <FaRegAddressCard />,
       fields: [{ label: "Question", type: "text", variable: "textareaFieldData", placeholder: "Type your address, please" }]
     },
     {
@@ -144,6 +145,7 @@ export const nodeConfigurations = {
       blockId: "a5558130-8f59-5730-89d0-de643807cad7",
       title: "Ask for a URL",
       label: "Ask for a URL",
+      icon: <FaInternetExplorer />,
       nodeType: "baseNode",
       fields: [{ label: "Question", type: "text", variable: "textareaFieldData", placeholder: "Type a Url" }]
     },
@@ -153,6 +155,7 @@ export const nodeConfigurations = {
       title: "Picture Choice",
       label: "Picture Choice",
       nodeType: "baseNode",
+      icon: <FaRegImage />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -166,6 +169,7 @@ export const nodeConfigurations = {
       title: "Auto-complete",
       label: "Auto-complete",
       nodeType: "baseNode",
+      icon: <FaSearch />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -179,6 +183,7 @@ export const nodeConfigurations = {
       title: "Yes/No",
       label: "Yes/No",
       nodeType: "baseNode",
+      icon: <FaToggleOn />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -195,6 +200,7 @@ export const nodeConfigurations = {
       title: "Rating",
       label: "Rating",
       nodeType: "baseNode",
+      icon: <FaStar />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -212,6 +218,7 @@ export const nodeConfigurations = {
       title: "Opinion Scale",
       label: "Opinion Scale",
       nodeType: "baseNode",
+      icon: <FaSlidersH />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -231,6 +238,7 @@ export const nodeConfigurations = {
       blockId: "9b750258-ea2f-55f0-b9f9-122561329231",
       title: "Forms",
       label: "Forms",
+      icon: <FaClipboardList />,
       nodeType: "baseNode",
       fields: [{ label: "Form Setup", type: "text", variable: "textareaFieldData", placeholder: "Form title: Answer the following questions" }]
     },
@@ -239,6 +247,7 @@ export const nodeConfigurations = {
       blockId: "6d0659cc-f985-5173-b92e-f0d281285050",
       title: "Multi-questions",
       label: "Multi-questions",
+      icon: <FaTasks />,
       nodeType: "baseNode",
       fields: [{ label: "Questions Setup", type: "text", variable: "textareaFieldData", placeholder: "Form title: Answer the following questions" }]
     }
