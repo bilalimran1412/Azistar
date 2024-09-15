@@ -32,7 +32,7 @@ const BaseNode = (props) => {
   const isStartingNode = config?.data?.contentType === contentType.startingNode
   const isMultiHandleNode = config?.data?.multipleHandles
   const isButtonNode = config?.data?.contentType === contentType.buttonNode
-  const customHandles = !isButtonNode ? config?.customHandle : []
+  const customHandles = !isButtonNode ? config?.data?.customHandle : []
   const disableSourceHandle = config?.data?.contentType === contentType.incomingOnly
   const disableAllHandles = config?.data?.contentType === contentType.placeholderNodes
 
@@ -112,13 +112,13 @@ const BaseNode = (props) => {
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    onClick(item.id)
+                    onClick(`source-${id}-${item.id}`)
                   }}
                 >
                   <Handle
                     type='source'
                     position='right'
-                    id={`source-${item.id}`}
+                    id={`source-${id}-${item.id}`}
                     style={{
                       background: '#4AB8B3',
                       padding: '10px',
@@ -145,7 +145,7 @@ const BaseNode = (props) => {
               <span>Any of the above</span>
               <div
                 onClick={() => {
-                  onClick(`placeholder-${id}`)
+                  onClick(`source-placeholder-${id}`)
                 }}
               >
                 <Handle
@@ -238,13 +238,13 @@ const BaseNode = (props) => {
       {!!customHandles && customHandles.map((handle, idx) =>
         <div
           onClick={() => {
-            onClick(handle.id)
+            onClick(`source-${id}-${handle.id}`)
           }}
         >
           <Handle
             type='source'
             position='right'
-            id={`source-${handle.id}`}
+            id={`source-${id}-${handle.id}`}
             style={{
               background: handle.type === "success" ? '#4AB8B3' : "#d7376b",
               padding: '10px',

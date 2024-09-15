@@ -57,7 +57,7 @@ export const NodeProvider = ({ children }) => {
         target: newNodeId,
         animated: true,
         type: edgeType,
-        ...(sourceHandleId && { sourceHandle: `source-${sourceHandleId}` }),
+        ...(sourceHandleId && { sourceHandle: sourceHandleId }),
       }
 
       if (nodeToCreate?.data?.contentType !== contentType.placeholderNodes) {
