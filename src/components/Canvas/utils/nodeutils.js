@@ -18,7 +18,7 @@ export const useDropdownToggle = (initialState = false) => {
       const nodeRect = nodeRef.current.getBoundingClientRect();
       setDropdownPosition({
         x: 150, // Adjust position as needed
-        y: 30,  // Adjust position as needed
+        y: 30, // Adjust position as needed
       });
     }
   };
@@ -47,23 +47,26 @@ export const handleCopyNode = (nodeId, nodes, handleAddNewNode) => {
       ...nodeToCopy,
       id: uuidv4(), // Generate a new unique ID
       position: newPosition,
-      data: { ...nodeToCopy.data, label: `${nodeToCopy.title} (Copy)` } // Modify data if needed
+      data: { ...nodeToCopy.data, label: `${nodeToCopy.title} (Copy)` }, // Modify data if needed
     };
-    handleAddNewNode(newNode)
+    handleAddNewNode(newNode);
   }
 };
 
-
 export const handleReplaceNode = (nodeId, nodes, handleAddNewNode, blockId) => {
-  console.log('handleReplaceNode called with nodeId:', nodeId, 'newType:', blockId);
-  const block = nodeConfigurationBlockIdMap[blockId]
+  console.log(
+    'handleReplaceNode called with nodeId:',
+    nodeId,
+    'newType:',
+    blockId
+  );
+  const block = nodeConfigurationBlockIdMap[blockId];
   const nodeToReplace = nodes.find((node) => node.id === nodeId);
 
   if (nodeToReplace) {
-    handleAddNewNode({ ...nodeToReplace, data: { ...block?.data, blockId } })
+    handleAddNewNode({ ...nodeToReplace, data: { ...block?.data, blockId } });
   }
 };
-
 
 // // Delete Node
 // export const handleDeleteNode = (nodeId, nodes, setNodes, setSideView) => {
@@ -77,7 +80,6 @@ export const handleReplaceNode = (nodeId, nodes, handleAddNewNode, blockId) => {
 //     console.warn('Node not found for deletion:', nodeId);
 //   }
 // };
-
 
 export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
   console.log('handleDuplicateNode called with nodeId:', nodeId);
@@ -93,16 +95,17 @@ export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
       ...nodeToDuplicate,
       id: uuidv4(),
       position: newPosition,
-      data: { ...nodeToDuplicate.data, label: `${nodeToDuplicate.label} (Copy)` } // Modify data if needed
+      data: {
+        ...nodeToDuplicate.data,
+        label: `${nodeToDuplicate.label} (Copy)`,
+      }, // Modify data if needed
     };
     console.log('Duplicating node:', newNode);
-    handleAddNewNode(newNode)
+    handleAddNewNode(newNode);
   } else {
     console.warn('Node not found for duplication:', nodeId);
   }
 };
-
-
 
 let copiedNode = null;
 

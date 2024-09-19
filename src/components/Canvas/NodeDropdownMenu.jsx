@@ -5,13 +5,12 @@ import { menuOptionList } from '../../config/nodeConfigurations';
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
-
-  const filteredMenuItems = menuOptionList.filter(item =>
+  const filteredMenuItems = menuOptionList.filter((item) =>
     item.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
     <div
-      className="dropdown-menu"
+      className='dropdown-menu'
       style={{
         position: 'absolute',
         padding: '10px',
@@ -22,21 +21,33 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
         border: '1px solid #ddd',
         borderRadius: '4px',
         boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        minWidth: '220px'
+        minWidth: '220px',
       }}
     >
       <div className='search_frop'>
-        <div className="sc-iGgVNO pcBUt">
-          <div className="sc-aYaIB sc-gEvDqW lfziQO hFCtfK">
-            <span className="sc-jXbVAB Cxxqa">
-              <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="magnifying-glass" className="svg-inline--fa fa-magnifying-glass" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path fill="currentColor" d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1L505 471c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L337.1 371.1z"></path>
+        <div className='sc-iGgVNO pcBUt'>
+          <div className='sc-aYaIB sc-gEvDqW lfziQO hFCtfK'>
+            <span className='sc-jXbVAB Cxxqa'>
+              <svg
+                aria-hidden='true'
+                focusable='false'
+                data-prefix='far'
+                data-icon='magnifying-glass'
+                className='svg-inline--fa fa-magnifying-glass'
+                role='img'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 512 512'
+              >
+                <path
+                  fill='currentColor'
+                  d='M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1L505 471c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L337.1 371.1z'
+                ></path>
               </svg>
             </span>
           </div>
           <input
-            placeholder="Search by name"
-            className="sc-gsFSjX hwwsqP"
+            placeholder='Search by name'
+            className='sc-gsFSjX hwwsqP'
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -60,8 +71,12 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
                 alignItems: 'center',
                 fontSize: '15px',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f0f0f0')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = '#f0f0f0')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = 'transparent')
+              }
             >
               <MdAdd style={{ marginRight: '8px', fontSize: '16px' }} />
               {label}

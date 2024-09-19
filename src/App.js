@@ -11,7 +11,6 @@ const App = () => {
         <MainApp />
       </ChakraProvider>
     </BrowserRouter>
-
   );
 };
 

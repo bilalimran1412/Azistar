@@ -7,7 +7,6 @@ import {
 } from '@xyflow/react';
 import BaseEdgeLayout from './BaseEdgeLayout';
 
-
 export default function CustomEdge({
   id,
   source,
@@ -23,7 +22,6 @@ export default function CustomEdge({
   data,
   sourceHandleId,
 }) {
-
   const { setEdges } = useReactFlow();
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
@@ -33,7 +31,7 @@ export default function CustomEdge({
     targetY,
     targetPosition,
   });
-  const { isHover = false } = data || {}
+  const { isHover = false } = data || {};
 
   const onEdgeClick = () => {
     setEdges((edges) => edges.filter((edge) => edge.id !== id));
@@ -46,9 +44,12 @@ export default function CustomEdge({
         <BaseEdgeLayout
           edgeId={id}
           isHover={isHover}
-          labelX={labelX} labelY={labelY}
-          onEdgeClick={onEdgeClick} sourceNodeId={source}
-          sourceHandleId={sourceHandleId} targetId={target}
+          labelX={labelX}
+          labelY={labelY}
+          onEdgeClick={onEdgeClick}
+          sourceNodeId={source}
+          sourceHandleId={sourceHandleId}
+          targetId={target}
         />
       </EdgeLabelRenderer>
     </>

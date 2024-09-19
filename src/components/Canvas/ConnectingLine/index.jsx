@@ -1,7 +1,6 @@
 // import React from 'react';
 // import { useConnection } from '@xyflow/react';
 
-
 //Cannot use it as we are using reactflow 11
 
 // function ConnectingLine({ fromX, fromY, toX, toY }) {
