@@ -112,7 +112,13 @@ const SideView = ({ closeForm }) => {
           X
         </Button>
       </div>
-      <Box pt={4}>
+      <Box
+        // pt={4}
+        display={'flex'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        flexDir={'column'}
+      >
         {Content ? <Content id={'some'} /> : <></>}
         {/* {config.fields.map((field, index) => (
           field.type === 'file' ? (
@@ -181,22 +187,14 @@ const SideView = ({ closeForm }) => {
             </FormControl>
           )
         ))} */}
-        <Box
-          position='absolute'
-          bottom={4}
-          left={0}
-          width='full'
-          px={5}
-          display='flex'
-          justifyContent='space-between'
-        >
+        {/* <Box width='full' px={5} display='flex' justifyContent='space-between'>
           <Button onClick={closeForm} mt={4} colorScheme='red'>
             Cancel
           </Button>
           <Button onClick={handleSubmit} mt={4} colorScheme='blue'>
             Apply
           </Button>
-        </Box>
+        </Box> */}
       </Box>
     </div>
   );

@@ -6,12 +6,13 @@ import { Alert, AlertIcon, Spinner, Text } from '@chakra-ui/react';
 import { NodeProvider, useNodeContext } from './NodeContext';
 import { ReactFlowProvider } from '@xyflow/react';
 
+//TODO UNCOMMENT FOR CONNECTING TO DB
 function BotBuilderPage() {
   const { id: botId = null } = useParams();
 
-  if (!botId) {
-    return <>Bot ID is Required</>;
-  }
+  // if (!botId) {
+  //   return <>Bot ID is Required</>;
+  // }
   return (
     <ReactFlowProvider>
       <NodeProvider>
@@ -24,47 +25,48 @@ function BotBuilderPage() {
 export default BotBuilderPage;
 
 function BotBuilder() {
-  const { id: botId = null } = useParams();
-  const {
-    setNodes,
-    setEdges,
-    setBotID,
-    botID: contextBotId,
-  } = useNodeContext();
+  // const { id: botId = null } = useParams();
+  // const {
+  //   setNodes,
+  //   setEdges,
+  //   setBotID,
+  //   botID: contextBotId,
+  // } = useNodeContext();
 
-  const { data: botCopy, loading, error } = useFetchData(`/bot/${botId}/copy`);
+  // const { data: botCopy, loading, error } = useFetchData(`/bot/${botId}/copy`);
 
-  const diagram = React.useMemo(
-    () => JSON.parse(botCopy?.data[0]?.diagram || '{}'),
-    [botCopy]
-  );
-  const { nodes, edges } = diagram;
+  // const diagram = React.useMemo(
+  //   () => JSON.parse(botCopy?.data[0]?.diagram || '{}'),
+  //   [botCopy]
+  // );
+  // const { nodes, edges } = diagram;
 
-  React.useEffect(() => {
-    if (nodes?.length) setNodes(nodes);
-    if (edges?.length) setEdges(edges);
-    if (!contextBotId) {
-      setBotID(botId);
-    }
-  }, [botId, contextBotId, edges, nodes, setBotID, setEdges, setNodes]);
+  // React.useEffect(() => {
+  //   if (nodes?.length) setNodes(nodes);
+  //   if (edges?.length) setEdges(edges);
+  //   if (!contextBotId) {
+  //     setBotID(botId);
+  //   }
+  // }, [botId, contextBotId, edges, nodes, setBotID, setEdges, setNodes]);
 
-  if (loading) {
-    return (
-      <>
-        <Spinner size='lg' />
-      </>
-    );
-  }
-  if (error) {
-    return (
-      <>
-        <Alert status='error'>
-          <AlertIcon />
-          <Text>{error.message}</Text>
-        </Alert>
-      </>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <Spinner size='lg' />
+  //     </>
+  //   );
+  // }
+  // if (error) {
+  //   return (
+  //     <>
+  //       <Alert status='error'>
+  //         <AlertIcon />
+  //         <Text>{error.message}</Text>
+  //       </Alert>
+  //     </>
+  //   );
+  // }
 
-  return <>{botCopy && <BotBuilderSidebar />}</>;
+  //TODO change true to botCopy
+  return <>{true && <BotBuilderSidebar />}</>;
 }

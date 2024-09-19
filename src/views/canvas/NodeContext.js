@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { edgeType } from '../../config/constant';
+import { edgeType, initialNode } from '../../config/constant';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
@@ -31,7 +31,8 @@ const NodeContext = createContext({
 export const useNodeContext = () => useContext(NodeContext);
 
 export const NodeProvider = ({ children }) => {
-  const [nodes, setNodes] = useState([]);
+  //TODO REMOVE INITIAL NODE WHEN CONNECTED TO DB
+  const [nodes, setNodes] = useState([initialNode]);
   const [botID, setBotID] = React.useState('');
   const [edges, setEdges] = useState([]);
   const [sideViewVisible, setSideViewVisible] = useState(false);

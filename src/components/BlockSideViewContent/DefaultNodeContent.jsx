@@ -1,5 +1,11 @@
+import { RedButton } from '../ButtonsComponents';
+
 function DefaultNodeContent() {
-  return <>Design Sidebar layout</>;
+  return (
+    <div style={{ width: '100%' }}>
+      <RedButton />
+    </div>
+  );
 }
 
 export default DefaultNodeContent;

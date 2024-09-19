@@ -117,7 +117,8 @@ a.tidio-5hhiig {
   flex-direction: column;
   z-index: 9099099;
   transition: all ease 0.5s;
-  padding: 20px 20px 40px;
+  padding: 2rem 1rem;
+  /* padding: 20px 20px 40px; */
   flex: 1;
   overflow-x: hidden;
   overflow-y: auto;

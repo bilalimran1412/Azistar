@@ -68,6 +68,7 @@ export const sideViewLayoutType = {
   buttons: 'button',
   uploadMedia: 'uploadMedia',
   goodBye: 'goodbye',
+  askQuestion: 'askQuestion',
 };
 
 //groups for creating nodes
@@ -171,7 +172,6 @@ export const nodeConfigurations = {
       title: 'Ask for a Name',
       label: 'Ask for a Name',
       icon: <FaUserCircle />,
-
       nodeType: 'baseNode',
       fields: [
         {
@@ -188,6 +188,9 @@ export const nodeConfigurations = {
       title: 'Ask a Question',
       label: 'Ask a Question',
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.askQuestion,
+      },
       fields: [
         {
           label: 'Question Text',
