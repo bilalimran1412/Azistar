@@ -172,6 +172,7 @@ export const nodeConfigurations = {
       title: 'Ask for a Name',
       label: 'Ask for a Name',
       icon: <FaUserCircle />,
+
       nodeType: 'baseNode',
       fields: [
         {
