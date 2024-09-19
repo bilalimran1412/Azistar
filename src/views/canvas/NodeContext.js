@@ -1,4 +1,11 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { edgeType } from '../../config/constant';
+import {
+  contentType,
+  nodeConfigurationBlockIdMap,
+} from '../../config/nodeConfigurations';
+import { v4 as uuidv4 } from 'uuid';
+import { fetchWrapper } from '../../utils/fetchWrapper';
 
 const NodeContext = createContext({
   nodes: [],
@@ -6,57 +13,207 @@ const NodeContext = createContext({
   addNewNode: () => {},
   setNodes: () => {},
   setEdges: () => {},
-  setSideView: () => {}, // Function to control SideView visibility
-  currentNode: null,
-  setCurrentNode: () => {}
+  setSideView: () => {},
+  currentNodeId: null,
+  setCurrentNodeId: () => {},
+  getNodeById: () => {},
+  updateNodeById: () => {},
+  insertNodeFromEdge: () => {},
+  canvasInstance: null,
+  setCanvasInstance: () => {},
+  setBotID: () => {},
+  updateBot: () => {},
+  handleAddNewNode: () => {},
+  handleNodeRemove: () => {},
+  botID: null,
 });
 
 export const useNodeContext = () => useContext(NodeContext);
 
 export const NodeProvider = ({ children }) => {
   const [nodes, setNodes] = useState([]);
+  const [botID, setBotID] = React.useState('');
   const [edges, setEdges] = useState([]);
-  const [sideViewVisible, setSideViewVisible] = useState(false); // State to control SideView visibility
-  const [currentNode, setCurrentNode] = useState(null);
+  const [sideViewVisible, setSideViewVisible] = useState(false);
+  const [currentNodeId, setCurrentNodeId] = useState('');
+  const [canvasInstance, setCanvasInstance] = React.useState(null);
 
-  const addNewNode = useCallback((sourceId, type, label) => {
-    const newNodeId = `node_${Date.now()}`;
-    const newNode = {
-      id: newNodeId,
-      type: type,
-      position: { x: Math.random() * window.innerWidth * 0.8, y: Math.random() * window.innerHeight * 0.8 },
-      data: { label: label || `${type} Node` }
-    };
+  const addNewNode = useCallback(
+    (sourceId, blockId, sourceHandleId) => {
+      const nodeToCreate = nodeConfigurationBlockIdMap[blockId];
+      const sourceNode = nodes.find((n) => n.id === sourceId);
+      const newNodeId = uuidv4();
+      setCurrentNodeId(newNodeId);
 
-    const newEdge = {
-      id: `e${sourceId}-${newNodeId}`,
-      source: sourceId,
-      target: newNodeId,
-      animated: true,
-    };
+      const position = {
+        x: sourceNode.position.x + 400 || 100,
+        y: sourceNode.position.y || 20,
+      };
+      const newNode = {
+        id: newNodeId,
+        position: position,
+        type: nodeToCreate.nodeType,
+        data: {
+          ...nodeToCreate?.data,
+          blockId: nodeToCreate.blockId,
+        },
+      };
 
-    setNodes(prev => [...prev, newNode]);
-    setEdges(prev => [...prev, newEdge]);
-    setCurrentNode(newNode);
-    setSideViewVisible(true); // Show SideView
-  }, [setNodes, setEdges, setCurrentNode]);
+      const newEdge = {
+        id: `e${sourceId}-${newNodeId}`,
+        source: sourceId,
+        target: newNodeId,
+        animated: true,
+        type: edgeType,
+        ...(sourceHandleId && { sourceHandle: sourceHandleId }),
+      };
+
+      if (nodeToCreate?.data?.contentType !== contentType.placeholderNodes) {
+        if (sourceHandleId) {
+          setEdges((pre) =>
+            pre.filter((edge) => edge.sourceHandle !== sourceHandleId)
+          );
+        } else {
+          setEdges((pre) => pre.filter((edge) => edge.source !== sourceId));
+        }
+        setEdges((prev) => [...prev, newEdge]);
+      }
+      setNodes((prev) => [...prev, newNode]);
+      setSideViewVisible(true);
+    },
+    [nodes]
+  );
+
+  const insertNodeFromEdge = useCallback(
+    (edgeID, sourceId, blockId, sourceHandleId, targetId) => {
+      const nodeToCreate = nodeConfigurationBlockIdMap[blockId];
+      const sourceNode = nodes.find((n) => n.id === sourceId);
+      const newNodeId = uuidv4();
+      setCurrentNodeId(newNodeId);
+
+      const position = {
+        x: sourceNode?.position?.x + 300 || 100,
+        y: sourceNode?.position?.y || 100,
+      };
+
+      const newNode = {
+        id: newNodeId,
+        position,
+        type: nodeToCreate.nodeType,
+        data: {
+          ...nodeToCreate?.data,
+          blockId: nodeToCreate.blockId,
+        },
+      };
+
+      const edgeToUpdate = edges.find((edge) => edge.id === edgeID);
+
+      if (edgeToUpdate) {
+        const updatedEdge = {
+          ...edgeToUpdate,
+          target: newNodeId,
+        };
+
+        const newEdge = {
+          id: `e${newNodeId}-${targetId}`,
+          source: newNodeId,
+          target: targetId,
+          animated: true,
+          type: edgeType,
+          ...(sourceHandleId && { sourceHandle: `source-${sourceHandleId}` }),
+        };
+
+        setNodes((prev) => [...prev, newNode]);
+        setEdges((prev) => [
+          ...prev.map((edge) => (edge.id === edgeID ? updatedEdge : edge)),
+          newEdge,
+        ]);
+      } else {
+        console.warn(`Edge with ID ${edgeID} not found.`);
+      }
+
+      setSideViewVisible(true);
+    },
+    [nodes, edges]
+  );
 
   const setSideView = (visible) => {
     setSideViewVisible(visible);
   };
 
-  return (
-    <NodeContext.Provider value={{
+  const getNodeById = React.useCallback(
+    (nodeID) => {
+      return nodes.find((node) => node.id === nodeID);
+    },
+    [nodes]
+  );
+
+  const updateNodeById = React.useCallback((nodeID, updatedNodeData) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((n) =>
+        n.id === nodeID
+          ? { ...n, data: { ...n.data, ...updatedNodeData, isReplaced: false } }
+          : n
+      )
+    );
+  }, []);
+
+  const patchBot = React.useCallback(async () => {
+    const diagram = {
       nodes,
-      setNodes,
       edges,
-      setEdges,
-      addNewNode,
-      setSideView, // Expose the function
-      currentNode,
-      setCurrentNode,
-      sideViewVisible // Provide the state for visibility
-    }}>
+    };
+    if (!botID) return;
+    try {
+      await fetchWrapper({
+        url: `/bot/${botID}/update`,
+        method: 'PATCH',
+        body: {
+          diagram: JSON.stringify(diagram),
+        },
+      });
+    } catch (error) {
+      console.error('Failed to update bot:', error);
+    }
+  }, [botID, edges, nodes]);
+
+  const handleAddNewNode = useCallback((node) => {
+    setNodes((pre) => [...pre, node]);
+  }, []);
+
+  const handleNodeRemove = useCallback((nodeId) => {
+    //Remove Edges and That single node.
+    //To remove edge filter sourceId or targetID.
+    setNodes((pre) => pre.filter((n) => n.id !== nodeId));
+    setEdges((pre) =>
+      pre.filter((edge) => edge.target !== nodeId || edge.source !== nodeId)
+    );
+  }, []);
+
+  return (
+    <NodeContext.Provider
+      value={{
+        nodes,
+        setNodes,
+        edges,
+        setEdges,
+        addNewNode,
+        setSideView, // Expose the function
+        currentNodeId,
+        setCurrentNodeId,
+        sideViewVisible,
+        getNodeById,
+        updateNodeById,
+        insertNodeFromEdge,
+        setCanvasInstance,
+        canvasInstance,
+        setBotID,
+        botID,
+        updateBot: patchBot,
+        handleAddNewNode,
+        handleNodeRemove,
+      }}
+    >
       {children}
     </NodeContext.Provider>
   );

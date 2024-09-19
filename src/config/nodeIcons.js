@@ -1,10 +1,21 @@
 import React from 'react';
-import { FaFile, FaQuestionCircle, FaUser, FaEnvelope, FaPhone, FaHashtag, FaFileUpload, FaSearch, FaLink, FaMapMarked } from 'react-icons/fa';
+import {
+  FaFile,
+  FaQuestionCircle,
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaHashtag,
+  FaFileUpload,
+  FaSearch,
+  FaLink,
+  FaMapMarked,
+} from 'react-icons/fa';
 // You can import any icons you have or use a different icon library
 import { FaFlag } from 'react-icons/fa';
 
 const icons = {
-  startingNode:   <FaFlag />,
+  startingNode: <FaFlag />,
   customNode: <FaFile />,
   AskAQuestion: <FaQuestionCircle />,
   askName: <FaUser />,

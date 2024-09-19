@@ -3,9 +3,16 @@ import React from 'react';
 import { Button } from '@chakra-ui/react';
 import { MdAdd } from 'react-icons/md';
 
-function AddNodes({ onAddNewField, onAddNewMessage, onAddUploadMedia, onAddRating, onAddDateField, onAddBusinessHours }) {
+function AddNodes({
+  onAddNewField,
+  onAddNewMessage,
+  onAddUploadMedia,
+  onAddRating,
+  onAddDateField,
+  onAddBusinessHours,
+}) {
   return (
-    <div className="add-nodes">
+    <div className='add-nodes'>
       <Button onClick={onAddNewField} leftIcon={<MdAdd />}>
         Add New Field
       </Button>

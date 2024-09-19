@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
-import { useReactFlow } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
+import { nodeConfigurationBlockIdMap } from '../../../config/nodeConfigurations';
 
 // Function to toggle the visibility of a dropdown
 export const useDropdownToggle = (initialState = false) => {
@@ -18,7 +18,7 @@ export const useDropdownToggle = (initialState = false) => {
       const nodeRect = nodeRef.current.getBoundingClientRect();
       setDropdownPosition({
         x: 150, // Adjust position as needed
-        y: 30,  // Adjust position as needed
+        y: 30, // Adjust position as needed
       });
     }
   };
@@ -34,46 +34,54 @@ export const useDropdownToggle = (initialState = false) => {
 
 // Action Handlers
 
-export const handleCopyNode = (nodeId, nodes, setNodes) => {
+export const handleCopyNode = (nodeId, nodes, handleAddNewNode) => {
   console.log('handleCopyNode called with nodeId:', nodeId);
   const nodeToCopy = nodes.find((node) => node.id === nodeId);
+  const newPosition = {
+    x: nodeToCopy.position.x,
+    y: nodeToCopy.position.y + 100,
+  };
+
   if (nodeToCopy) {
-    const newNode = { 
-      ...nodeToCopy, 
+    const newNode = {
+      ...nodeToCopy,
       id: uuidv4(), // Generate a new unique ID
-      data: { ...nodeToCopy.data, label: `${nodeToCopy.data.label} (Copy)` } // Modify data if needed
+      position: newPosition,
+      data: { ...nodeToCopy.data, label: `${nodeToCopy.title} (Copy)` }, // Modify data if needed
     };
-    setNodes((nds) => [...nds, newNode]);
+    handleAddNewNode(newNode);
   }
 };
 
-
-export const handleReplaceNode = (nodeId, nodes, setNodes, newType) => {
-  console.log('handleReplaceNode called with nodeId:', nodeId, 'newType:', newType);
-  setNodes((nds) => 
-    nds.map((node) => 
-      node.id === nodeId
-        ? { ...node, type: newType } // Replace the node type
-        : node
-    )
+export const handleReplaceNode = (nodeId, nodes, handleAddNewNode, blockId) => {
+  console.log(
+    'handleReplaceNode called with nodeId:',
+    nodeId,
+    'newType:',
+    blockId
   );
-};
+  const block = nodeConfigurationBlockIdMap[blockId];
+  const nodeToReplace = nodes.find((node) => node.id === nodeId);
 
-
-// Delete Node
-export const handleDeleteNode = (nodeId, nodes, setNodes) => {
-  console.log('handleDeleteNode called with nodeId:', nodeId);
-  const nodeExists = nodes.some(node => node.id === nodeId);
-  if (nodeExists) {
-    setNodes((nds) => nds.filter((node) => node.id !== nodeId));
-    console.log('Node deleted:', nodeId);
-  } else {
-    console.warn('Node not found for deletion:', nodeId);
+  if (nodeToReplace) {
+    handleAddNewNode({ ...nodeToReplace, data: { ...block?.data, blockId } });
   }
 };
 
+// // Delete Node
+// export const handleDeleteNode = (nodeId, nodes, setNodes, setSideView) => {
+//   console.log('handleDeleteNode called with nodeId:', nodeId);
+//   const nodeExists = nodes.some(node => node.id === nodeId);
+//   if (nodeExists) {
+//     setSideView(false)
+//     setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+//     console.log('Node deleted:', nodeId);
+//   } else {
+//     console.warn('Node not found for deletion:', nodeId);
+//   }
+// };
 
-export const handleDuplicateNode = (nodeId, nodes, setNodes) => {
+export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
   console.log('handleDuplicateNode called with nodeId:', nodeId);
   const nodeToDuplicate = nodes.find((node) => node.id === nodeId);
   if (nodeToDuplicate) {
@@ -83,24 +91,21 @@ export const handleDuplicateNode = (nodeId, nodes, setNodes) => {
       y: nodeToDuplicate.position.y + 100,
     };
 
-    const newNode = { 
-      ...nodeToDuplicate, 
-      id: uuidv4(), 
-      position: newPosition, 
-      data: { ...nodeToDuplicate.data, label: `${nodeToDuplicate.data.label} (Copy)` } // Modify data if needed
+    const newNode = {
+      ...nodeToDuplicate,
+      id: uuidv4(),
+      position: newPosition,
+      data: {
+        ...nodeToDuplicate.data,
+        label: `${nodeToDuplicate.label} (Copy)`,
+      }, // Modify data if needed
     };
-    console.log('Duplicating node:', newNode); 
-    setNodes((nds) => {
-      const updatedNodes = [...nds, newNode];
-      console.log('Updated nodes:', updatedNodes); 
-      return updatedNodes;
-    });
+    console.log('Duplicating node:', newNode);
+    handleAddNewNode(newNode);
   } else {
     console.warn('Node not found for duplication:', nodeId);
   }
 };
-
-
 
 let copiedNode = null;
 
