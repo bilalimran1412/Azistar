@@ -36,7 +36,6 @@ import {
   FaRegImage,
   FaRegSquare,
   FaRobot,
-  FaRocketchat,
   FaSalesforce,
   FaSearch,
   FaSignOutAlt,
@@ -69,6 +68,7 @@ export const sideViewLayoutType = {
   uploadMedia: 'uploadMedia',
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
+  date: 'date',
 };
 
 //groups for creating nodes
@@ -253,6 +253,9 @@ export const nodeConfigurations = {
       title: 'Ask for a Date',
       label: 'Ask for a Date',
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.date,
+      },
       fields: [
         {
           label: 'Question',

@@ -64,7 +64,7 @@ const BotBuilderSidebar = () => {
       </div>
       <ReactFlowCanvas />
       {sideViewVisible && currentNodeId && (
-        <div className='newsetmessage absolute bg-gray-300 w-[400px] rounded-md'>
+        <div className='newsetmessage1 absolute bg-gray-300 w-[400px] rounded-md'>
           <SideView closeForm={closeForm} key={currentNodeId} />
         </div>
       )}

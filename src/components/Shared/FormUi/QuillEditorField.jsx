@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, useFormikContext } from 'formik';
+import { Field, useField, useFormikContext } from 'formik';
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 
@@ -14,24 +14,24 @@ const modules = {
 };
 
 function QuillEditorField({ name, label, placeholder }) {
+  const [field, meta, helpers] = useField(name);
   const { errors, touched } = useFormikContext();
-
+  console.log(field.value);
   return (
-    <Field name={name}>
-      {({ field, form }) => (
-        <FormControl mt={4} isInvalid={touched[name] && errors[name]}>
-          <FormLabel>{label}</FormLabel>
-          <ReactQuill
-            theme='snow'
-            value={field.value}
-            placeholder={placeholder}
-            modules={modules}
-            onChange={(value) => form.setFieldValue(name, value)}
-          />
-          <FormErrorMessage>{errors[name]}</FormErrorMessage>
-        </FormControl>
-      )}
-    </Field>
+    <FormControl mt={4} isInvalid={touched[name] && errors[name]}>
+      <FormLabel>{label}</FormLabel>
+      <ReactQuill
+        theme='snow'
+        placeholder={placeholder}
+        defaultValue={JSON.parse(field.value)}
+        modules={modules}
+        onChange={(content, delta, source, editor) => {
+          const stringContent = JSON.stringify(editor.getContents().ops);
+          helpers.setValue(stringContent);
+        }}
+      />
+      <FormErrorMessage>{errors[name]}</FormErrorMessage>
+    </FormControl>
   );
 }
 

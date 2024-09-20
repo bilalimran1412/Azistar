@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { edgeType, initialNode } from '../../config/constant';
+import { edgeType, initialNode, sample } from '../../config/constant';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
@@ -32,9 +32,9 @@ export const useNodeContext = () => useContext(NodeContext);
 
 export const NodeProvider = ({ children }) => {
   //TODO REMOVE INITIAL NODE WHEN CONNECTED TO DB
-  const [nodes, setNodes] = useState([initialNode]);
+  const [nodes, setNodes] = useState(sample.nodes);
+  const [edges, setEdges] = useState(sample.edges);
   const [botID, setBotID] = React.useState('');
-  const [edges, setEdges] = useState([]);
   const [sideViewVisible, setSideViewVisible] = useState(false);
   const [currentNodeId, setCurrentNodeId] = useState('');
   const [canvasInstance, setCanvasInstance] = React.useState(null);

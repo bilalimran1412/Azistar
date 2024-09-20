@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Flex,
+} from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import {
@@ -105,13 +112,14 @@ const SideView = ({ closeForm }) => {
     : DefaultNodeContent;
 
   return (
-    <div className='ask-button-container'>
-      <div className='grid grid-cols-2 px-4 justify-between items-center'>
+    <Box p='1rem'>
+      <Flex justifyContent='space-between' alignItems='center'>
         <h1>{config.title}</h1>
-        <Button onClick={closeForm} mt={4} colorScheme='red'>
+        <Button onClick={closeForm} background='transparent'>
           X
         </Button>
-      </div>
+      </Flex>
+      <div className='flex px-4 justify-between items-center'></div>
       <Box
         // pt={4}
         display={'flex'}
@@ -196,7 +204,7 @@ const SideView = ({ closeForm }) => {
           </Button>
         </Box> */}
       </Box>
-    </div>
+    </Box>
   );
 };
 

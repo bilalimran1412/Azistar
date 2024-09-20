@@ -2,6 +2,7 @@ import React from 'react';
 import {
   AzistarForm,
   FormCustomOptionSelector,
+  FormDropdown,
   QuillEditorField,
 } from '../Shared/FormUi';
 import * as yup from 'yup';
@@ -59,19 +60,6 @@ function AskQuestionNodeContent() {
         />
       </FormSettings>
       <Divider />
-      <FormSettings label='Settings'>
-        <FormCustomOptionSelector label='Size of text area' options={options} />
-        <Box display='flex' justifyContent='space-between' gap='1rem'>
-          <FormTextField name='min' label='Min. characters' />
-          <FormTextField name='max' label='Min. characters' />
-        </Box>
-        <FormTextField name='regex' label='Regex Pattern' />
-        <FormTextField
-          name='error'
-          label='Validation error message'
-          type='textarea'
-        />
-      </FormSettings>
     </AzistarForm>
   );
 }

@@ -47,7 +47,11 @@ const FormCustomOptionSelector = ({
                   onClick={() => setFieldValue(name, option.value)}
                   borderRadius='8px'
                   fontWeight={'smaller'}
-                  style={buttonStyle}
+                  style={{
+                    ...buttonStyle,
+                    color: 'red !important',
+                    borderRadius: '2px',
+                  }}
                 >
                   {option.label}
                 </Button>

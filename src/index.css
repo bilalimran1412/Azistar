@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --menu-bg: white;
 }
 
 code {
@@ -108,7 +109,7 @@ a.tidio-5hhiig {
 .newsetmessage button.chakra-button.close_icns.css-1w5nryu:hover {
   background-color: #dfe4e8;
 }
-.newsetmessage {
+.newsetmessage1 {
   position: absolute;
   top: 0;
   height: 100vh;
@@ -117,7 +118,8 @@ a.tidio-5hhiig {
   flex-direction: column;
   z-index: 9099099;
   transition: all ease 0.5s;
-  padding: 2rem 1rem;
+  /* padding: 2rem 0 2rem 1rem; */
+  /* margin-right: 1rem; */
   /* padding: 20px 20px 40px; */
   flex: 1;
   overflow-x: hidden;
@@ -299,7 +301,7 @@ a.tidio-5hhiig {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 13px;
   justify-content: space-between;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 }
 .newsetmessage fieldset.chakra-form-control.css-0 {
   margin-bottom: 30px;
@@ -566,4 +568,14 @@ button.item-button {
 .button-handle-container button:hover {
   color: #323232;
   background: #cc3c79cf;
+}
+.dropdown-selector > div {
+  flex-direction: row-reverse;
+}
+.dropdown-selector > div > div {
+  padding-left: 0;
+}
+.quill {
+  height: 150px;
+  width: 360px;
 }

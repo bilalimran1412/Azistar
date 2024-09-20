@@ -33,7 +33,6 @@ function AzistarForm({
   validationSchema = Yup.object().shape({}),
   enableReinitialize = true,
   containerProps = {},
-  sx = {},
 }) {
   return (
     <Formik
@@ -50,7 +49,7 @@ function AzistarForm({
             alignContent='flex-start'
             height='100%'
             {...containerProps}
-            gap='1rem'
+            gap='1.5rem'
           >
             {children}
           </Grid>
