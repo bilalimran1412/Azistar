@@ -12,6 +12,7 @@ function SidebarFormContainer({
   validationSchema,
   initialValues,
   onClose,
+  onReset,
 }) {
   return (
     <Flex position='relative' direction='column' height='100%' flex={1}>
@@ -54,6 +55,7 @@ function SidebarFormContainer({
           validationSchema={validationSchema}
           initialValues={initialValues}
           formID={block.blockId}
+          onReset={onReset}
         >
           {children}
         </AzistarForm>

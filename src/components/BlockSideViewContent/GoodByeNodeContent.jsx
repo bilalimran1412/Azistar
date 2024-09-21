@@ -50,6 +50,7 @@ function GoodByeNodeContent({ id }) {
       onFormSave={onSave}
       initialValues={initialValues}
       validationSchema={validationSchema}
+      onReset={handleClose}
     >
       <QuillEditorField
         name='message'
