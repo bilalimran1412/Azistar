@@ -28,6 +28,7 @@ const FormSlider = ({ name, label, ...props }) => {
       <Slider
         id={name}
         value={sliderValue}
+        defaultValue={field.value}
         min={0}
         max={100}
         colorScheme='teal'

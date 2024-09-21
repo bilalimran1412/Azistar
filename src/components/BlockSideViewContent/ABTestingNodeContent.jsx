@@ -14,11 +14,11 @@ function ABTestingNodeContent({ id }) {
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
-
+  console.log(currentNode?.data?.abSplit, currentNode?.data);
   const initialValues = {
     // not required
     // fields: config.fields,
-    abSplit: currentNode?.data?.abSplit,
+    abSplit: currentNode?.data?.abSplit || '',
   };
   const validationSchema = yup.object({});
 
@@ -26,7 +26,12 @@ function ABTestingNodeContent({ id }) {
     console.log('Form values=>>>', formValues);
     const aPercent = formValues?.abSplit;
     const bPercent = 100 - aPercent;
-    updateNodeById(id, { ...currentNode?.data, aPercent, bPercent });
+    updateNodeById(id, {
+      ...currentNode?.data,
+      aPercent,
+      bPercent,
+      ...formValues,
+    });
     handleClose();
   };
 
