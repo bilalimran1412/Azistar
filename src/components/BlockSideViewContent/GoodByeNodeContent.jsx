@@ -1,11 +1,11 @@
 import React from 'react';
+import { Divider, Flex, Image, Text } from '@chakra-ui/react';
 import { FormTextField, QuillEditorField } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
-import { yup } from '../../utils/yup';
-import { Divider, Flex, Image, Text } from '@chakra-ui/react';
 import FormSettings from '../Shared/SidebarUi/FormSettings';
+import { yup } from '../../utils/yup';
 
 function GoodByeNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -124,4 +124,4 @@ function GoodByeNodeContent({ id }) {
   );
 }
 
-export { GoodByeNodeContent };
+export default GoodByeNodeContent;

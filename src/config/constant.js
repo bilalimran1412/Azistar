@@ -1,4 +1,180 @@
 import { FaFlag } from 'react-icons/fa';
+import {
+  FaFileAlt,
+  FaToggleOn,
+  FaCalendarAlt,
+  FaSortNumericDown,
+} from 'react-icons/fa';
+
+export const groupedTypesWithIcons = {
+  STRING: <FaFileAlt />,
+  BOOLEAN: <FaToggleOn />,
+  DATE: <FaCalendarAlt />,
+  AUTO_NUMBER: <FaSortNumericDown />,
+  NUMBER: <FaSortNumericDown />,
+  ARRAY: <FaSortNumericDown />,
+};
+export const leadDataOptions = [
+  {
+    value: 'id',
+    label: 'ID',
+    type: 'NUMBER',
+    sample: 4213513453453,
+    category: 'LEAD_DATA',
+  },
+  {
+    value: 'name',
+    label: 'Name',
+    type: 'STRING',
+    sample: 'John Smith',
+    category: 'LEAD_DATA',
+  },
+  {
+    value: 'email',
+    label: 'Email',
+    type: 'STRING',
+    sample: 'email@tesla.com',
+    category: 'LEAD_DATA',
+  },
+  {
+    value: 'company',
+    label: 'Company',
+    type: 'STRING',
+    sample: 'NASA',
+    category: 'LEAD_DATA',
+  },
+  {
+    value: 'phone',
+    label: 'Phone',
+    type: 'STRING',
+    sample: '+34 690 708 181',
+    category: 'LEAD_DATA',
+  },
+];
+
+export const usageDetailsOptions = [
+  {
+    value: 'chat_transcription',
+    label: 'Chat Transcription',
+    type: 'STRING',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'online',
+    label: 'Agents Online',
+    type: 'BOOLEAN',
+    sample: true,
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'last_seen',
+    label: 'Last Seen',
+    type: 'DATE',
+    sample: 'Oct 29, 20:36',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'created',
+    label: 'Created',
+    type: 'DATE',
+    sample: 'Oct 27, 17:41',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'url',
+    label: 'Url',
+    type: 'STRING',
+    sample: 'https://...',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'country',
+    label: 'Country',
+    type: 'STRING',
+    sample: 'Spain',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'navigator',
+    label: 'Browser',
+    type: 'STRING',
+    sample: 'Chrome',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'device',
+    label: 'Device',
+    type: 'STRING',
+    sample: 'Other',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+  {
+    value: 'os',
+    label: 'OS',
+    type: 'STRING',
+    sample: 'Mac OS X',
+    readOnly: true,
+    category: 'USAGE_DETAILS',
+  },
+];
+
+export const timeReferencesOptions = [
+  {
+    value: 'yesterday',
+    label: 'Yesterday',
+    type: 'DATE',
+    sample: 'Yesterday',
+    readOnly: true,
+    category: 'TIME_REFERENCES',
+  },
+  {
+    value: 'today',
+    label: 'Today',
+    type: 'DATE',
+    sample: new Date(),
+    readOnly: true,
+    category: 'TIME_REFERENCES',
+  },
+  {
+    value: 'tomorrow',
+    label: 'Tomorrow',
+    type: 'DATE',
+    sample: 'Tomorrow',
+    readOnly: true,
+    category: 'TIME_REFERENCES',
+  },
+];
+
+export const initialGroupedOptions = [
+  {
+    label: 'LEAD DATA',
+    data: 'LEAD_DATA',
+    options: leadDataOptions,
+  },
+  {
+    label: 'USAGE DETAILS',
+    data: 'USAGE_DETAILS',
+    options: usageDetailsOptions,
+  },
+  {
+    label: 'TIME REFERENCES',
+    data: 'TIME_REFERENCES',
+    options: timeReferencesOptions,
+  },
+  {
+    label: 'CUSTOM VARIABLES',
+    data: 'CUSTOM_VARIABLES',
+    options: [],
+  },
+];
 
 export const edgeType = 'baseEdge';
 const buttonsList = {

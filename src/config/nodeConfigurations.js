@@ -69,6 +69,7 @@ export const sideViewLayoutType = {
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
   date: 'date',
+  askName: 'askName',
 };
 
 //groups for creating nodes
@@ -173,14 +174,19 @@ export const nodeConfigurations = {
       label: 'Ask for a Name',
       icon: <FaUserCircle />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.askName,
+      },
       fields: [
         {
+          value: "What's your name?",
           label: 'Question',
           type: 'text',
           variable: 'textareaFieldData',
           placeholder: "What's your name?",
         },
       ],
+      variableType: 'STRING',
     },
     {
       group: Groups.question,

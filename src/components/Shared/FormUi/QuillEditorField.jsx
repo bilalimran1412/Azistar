@@ -27,7 +27,7 @@ function QuillEditorField({ name, label, placeholder }) {
   const defaultValue = parseJSON(field.value);
 
   return (
-    <FormControl mt={4} isInvalid={touched[name] && errors[name]}>
+    <FormControl isInvalid={touched[name] && errors[name]}>
       <FormLabel>{label}</FormLabel>
       <ReactQuill
         theme='snow'
