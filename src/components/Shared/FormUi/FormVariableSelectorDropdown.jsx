@@ -37,6 +37,7 @@ const CustomOption = (props) => {
   const { data, innerRef, innerProps, isFocused, isSelected } = props;
   const isDeleteAble = data?.category === 'CUSTOM_VARIABLES';
   const type = data?.type;
+
   return (
     <Box
       ref={innerRef}
@@ -77,7 +78,7 @@ const CustomOption = (props) => {
           {isDeleteAble && isFocused
             ? 'Delete'
             : data?.sample
-              ? data.sample
+              ? JSON.stringify(data.sample)
               : ''}
         </Text>
       </Flex>

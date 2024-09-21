@@ -57,7 +57,7 @@ const FormSettings = ({
   };
 
   return (
-    <Box bg={bgColor} borderRadius='md'>
+    <Box bg={bgColor} p={4} borderRadius='md'>
       <Box
         display='flex'
         justifyContent='space-between'

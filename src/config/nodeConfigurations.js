@@ -31,6 +31,7 @@ import {
   FaMapMarker,
   FaMemory,
   FaPhone,
+  FaQuestionCircle,
   FaRandom,
   FaRegAddressCard,
   FaRegImage,
@@ -190,10 +191,13 @@ export const nodeConfigurations = {
     },
     {
       group: Groups.question,
+      variableType: 'STRING',
       blockId: 'ec7402de-5bac-5bb5-a4d8-93ae3fbce391',
       title: 'Ask a Question',
       label: 'Ask a Question',
       nodeType: 'baseNode',
+      icon: <FaQuestionCircle />,
+
       data: {
         layoutType: sideViewLayoutType.askQuestion,
       },

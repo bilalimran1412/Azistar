@@ -1,16 +1,13 @@
 import React from 'react';
-import { Divider, Flex, Image, Text } from '@chakra-ui/react';
-import { FormTextField, QuillEditorField } from '../Shared/FormUi';
+import { Divider } from '@chakra-ui/react';
+import { QuillEditorField } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
-import FormSettings from '../Shared/SidebarUi/FormSettings';
 import { yup } from '../../utils/yup';
-import VariableDropdown from '../Shared/SidebarUi/VariableDropdown';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 
 function AskNameNodeContent({ id }) {
-  const [variableStore, setVariableStore] = React.useState(null);
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -35,6 +32,7 @@ function AskNameNodeContent({ id }) {
     updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
     handleClose();
   };
+
   return (
     <SidebarFormContainer
       block={config}
