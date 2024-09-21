@@ -39,8 +39,8 @@ export const useNodeContext = () => useContext(NodeContext);
 
 export const NodeProvider = ({ children }) => {
   //TODO REMOVE INITIAL NODE WHEN CONNECTED TO DB
-  const [nodes, setNodes] = useState(sample.nodes);
-  const [edges, setEdges] = useState(sample.edges);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
   const [groupedOptions, setGroupedOptions] = useState(initialGroupedOptions);
   const [botID, setBotID] = React.useState('');
   const [sideViewVisible, setSideViewVisible] = useState(false);
