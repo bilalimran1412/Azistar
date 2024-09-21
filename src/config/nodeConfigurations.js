@@ -65,14 +65,24 @@ export const contentType = {
 };
 
 export const sideViewLayoutType = {
+  //NEEDS TO BE FIXED
   forms: 'form',
   buttons: 'button',
   uploadMedia: 'uploadMedia',
+  date: 'date',
+  //ALMOST DONE
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
-  date: 'date',
   askName: 'askName',
   askNumber: 'askNumber',
+  askPhone: 'askPhone',
+  askEmail: 'askEmail',
+  askFile: 'askFile',
+  askAddress: 'askAddress',
+  askUrl: 'askUrl',
+  opinionScale: 'opinionScale',
+  rating: 'rating',
+  abTesting: 'abTesting',
 };
 
 //groups for creating nodes
@@ -218,6 +228,10 @@ export const nodeConfigurations = {
       title: 'Ask for an Email',
       label: 'Ask for an Email',
       icon: <FaEnvelope />,
+      data: {
+        layoutType: sideViewLayoutType.askEmail,
+      },
+      variableType: 'STRING',
       nodeType: 'baseNode',
       fields: [
         {
@@ -255,6 +269,10 @@ export const nodeConfigurations = {
       label: 'Ask for a Phone',
       icon: <FaPhone />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.askPhone,
+      },
+      variableType: 'STRING',
       fields: [
         {
           label: 'Question',
@@ -289,6 +307,10 @@ export const nodeConfigurations = {
       label: 'Ask for a File',
       icon: <FaFile />,
       nodeType: 'baseNode',
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.askFile,
+      },
       fields: [
         {
           label: 'Question',
@@ -305,6 +327,10 @@ export const nodeConfigurations = {
       label: 'Ask for an Address',
       nodeType: 'baseNode',
       icon: <FaRegAddressCard />,
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.askAddress,
+      },
       fields: [
         {
           label: 'Question',
@@ -321,6 +347,10 @@ export const nodeConfigurations = {
       label: 'Ask for a URL',
       icon: <FaInternetExplorer />,
       nodeType: 'baseNode',
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.askUrl,
+      },
       fields: [
         {
           label: 'Question',
@@ -403,9 +433,12 @@ export const nodeConfigurations = {
       label: 'Rating',
       nodeType: 'baseNode',
       icon: <FaStar />,
+      variableType: 'STRING',
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.rating,
+
         items: [
           { id: 'rating-level-1', label: '1 Star Rating', isDeletable: false },
           { id: 'rating-level-2', label: '2 Star Rating', isDeletable: false },
@@ -428,9 +461,11 @@ export const nodeConfigurations = {
       label: 'Opinion Scale',
       nodeType: 'baseNode',
       icon: <FaSlidersH />,
+      variableType: 'NUMBER',
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.opinionScale,
         items: [
           { id: 'opinion-level-worst', label: '0- Worst', isDeletable: false },
           { id: 'opinion-level-1', label: '1', isDeletable: false },
@@ -682,6 +717,7 @@ export const nodeConfigurations = {
       icon: <FaRandom />,
 
       data: {
+        layoutType: sideViewLayoutType.abTesting,
         multipleHandles: true,
         contentType: contentType.buttonNode,
         items: [
@@ -689,14 +725,14 @@ export const nodeConfigurations = {
           { id: 'ab-test-b', label: 'B (50%)', isDeletable: false },
         ],
       },
-      fields: [
-        {
-          label: 'Test Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Setup A/B testing',
-        },
-      ],
+      // fields: [
+      //   {
+      //     label: 'Test Setup',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Setup A/B testing',
+      //   },
+      // ],
     },
     {
       group: Groups.logic,

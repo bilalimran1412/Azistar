@@ -16,15 +16,26 @@ const FormCheckbox = ({
   containerStyle = {},
   ...rest
 }) => {
-  const [field, meta] = useField({ name, type: 'checkbox' });
+  const [field, meta, helpers] = useField(name);
 
   const isError = meta.touched && !!meta.error;
+
+  const handleChange = (e) => {
+    const { checked } = e.target;
+    helpers.setValue(checked);
+  };
 
   return (
     <Grid flexDirection='column' style={containerStyle} width='100%'>
       <Box display='flex' flexDirection='row' alignItems='center' gap='5px'>
         <Box>
-          <Checkbox {...field} {...rest} id={name}>
+          <Checkbox
+            {...field}
+            {...rest}
+            id={name}
+            defaultChecked={field?.value}
+            onChange={handleChange}
+          >
             {checkboxLabel}
           </Checkbox>
         </Box>
