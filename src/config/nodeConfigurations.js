@@ -4,6 +4,7 @@ import {
   FaBolt,
   FaBox,
   FaBullseye,
+  FaCalculator,
   FaCalendarCheck,
   FaClipboardList,
   FaClock,
@@ -71,6 +72,7 @@ export const sideViewLayoutType = {
   askQuestion: 'askQuestion',
   date: 'date',
   askName: 'askName',
+  askNumber: 'askNumber',
 };
 
 //groups for creating nodes
@@ -231,7 +233,12 @@ export const nodeConfigurations = {
       blockId: 'c65da9f7-1ed1-50b8-9265-596e4da2f706',
       title: 'Ask for a Number',
       label: 'Ask for a Number',
+      variableType: 'NUMBER',
       nodeType: 'baseNode',
+      icon: <FaCalculator />,
+      data: {
+        layoutType: sideViewLayoutType.askNumber,
+      },
       fields: [
         {
           label: 'Question',

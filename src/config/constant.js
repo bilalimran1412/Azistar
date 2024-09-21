@@ -172,7 +172,15 @@ export const initialGroupedOptions = [
   {
     label: 'CUSTOM VARIABLES',
     data: 'CUSTOM_VARIABLES',
-    options: [],
+    options: [
+      {
+        value: 'custom_var',
+        label: 'User Input',
+        type: 'NUMBER',
+        sample: '32423',
+        category: 'CUSTOM_VARIABLES',
+      },
+    ],
   },
 ];
 

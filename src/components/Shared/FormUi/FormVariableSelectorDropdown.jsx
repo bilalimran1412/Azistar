@@ -145,7 +145,7 @@ export default function FormVariableSelectorDropdown({
     const newOption = {
       value: newOptionValue,
       label: newOptionValue,
-      type: 'STRING',
+      type: allowedType,
       category: 'CUSTOM_VARIABLES',
     };
 

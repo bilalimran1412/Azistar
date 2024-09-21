@@ -26,6 +26,7 @@ const FormDropdown = ({
   label,
   placeholder = 'Select option',
   onChange,
+  className = '',
   ...rest
 }) => {
   const [field, meta, helpers] = useField(name);
@@ -47,6 +48,7 @@ const FormDropdown = ({
         borderColor={isError ? 'red.500' : 'gray.200'}
         onChange={(e) => handleChange(e.target.value)}
         value={field.value}
+        className={className}
         {...rest}
       >
         {Object.keys(optionGroups).map((groupLabel) => (
