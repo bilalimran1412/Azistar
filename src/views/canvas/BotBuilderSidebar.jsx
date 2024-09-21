@@ -29,12 +29,8 @@ const BotBuilderSidebar = () => {
   };
 
   const closeForm = () => {
-    console.log('Attempting to close SideView');
     if (typeof setSideView === 'function') {
       setSideView(false);
-      console.log('setSideView executed');
-    } else {
-      console.error('setSideView is not a function');
     }
   };
 
@@ -64,7 +60,7 @@ const BotBuilderSidebar = () => {
       </div>
       <ReactFlowCanvas />
       {sideViewVisible && currentNodeId && (
-        <div className='newsetmessage1 absolute bg-gray-300 w-[400px] rounded-md'>
+        <div className='builder-sidebar'>
           <SideView closeForm={closeForm} key={currentNodeId} />
         </div>
       )}

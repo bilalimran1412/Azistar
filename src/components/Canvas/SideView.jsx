@@ -112,23 +112,23 @@ const SideView = ({ closeForm }) => {
     : DefaultNodeContent;
 
   return (
-    <Box p='1rem'>
-      <Flex justifyContent='space-between' alignItems='center'>
-        <h1>{config.title}</h1>
-        <Button onClick={closeForm} background='transparent'>
-          X
-        </Button>
-      </Flex>
-      <div className='flex px-4 justify-between items-center'></div>
-      <Box
+    <>
+      {/* // <Box p='1rem'>
+    //   <Flex justifyContent='space-between' alignItems='center'>
+    //     <h1>{config.title}</h1>
+    //     <Button onClick={closeForm} background='transparent'>
+    //       X
+    //     </Button>
+    //   </Flex> */}
+      {/* <Box
         // pt={4}
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
         flexDir={'column'}
-      >
-        {Content ? <Content id={'some'} /> : <></>}
-        {/* {config.fields.map((field, index) => (
+      > */}
+      {Content ? <Content id={currentNodeId} /> : <></>}
+      {/* {config.fields.map((field, index) => (
           field.type === 'file' ? (
             <FormControl key={index} mt={4}>
               <FormLabel>{field.label}</FormLabel>
@@ -195,7 +195,7 @@ const SideView = ({ closeForm }) => {
             </FormControl>
           )
         ))} */}
-        {/* <Box width='full' px={5} display='flex' justifyContent='space-between'>
+      {/* <Box width='full' px={5} display='flex' justifyContent='space-between'>
           <Button onClick={closeForm} mt={4} colorScheme='red'>
             Cancel
           </Button>
@@ -203,8 +203,9 @@ const SideView = ({ closeForm }) => {
             Apply
           </Button>
         </Box> */}
-      </Box>
-    </Box>
+      {/* </Box> */}
+      {/* </Box> */}
+    </>
   );
 };
 

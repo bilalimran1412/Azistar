@@ -109,14 +109,14 @@ a.tidio-5hhiig {
 .newsetmessage button.chakra-button.close_icns.css-1w5nryu:hover {
   background-color: #dfe4e8;
 }
-.newsetmessage1 {
+.builder-sidebar {
   position: absolute;
   top: 0;
   height: 100vh;
   width: 400px;
   display: flex;
   flex-direction: column;
-  z-index: 9099099;
+  z-index: 50;
   transition: all ease 0.5s;
   /* padding: 2rem 0 2rem 1rem; */
   /* margin-right: 1rem; */
@@ -577,5 +577,18 @@ button.item-button {
 }
 .quill {
   height: 150px;
-  width: 360px;
+  width: 100%;
+}
+
+.font12 {
+  font-size: 12px !important;
+}
+.font13 {
+  font-size: 13px !important;
+}
+.bold5 {
+  font-weight: 500 !important;
+}
+.input {
+  background-color: white !important;
 }

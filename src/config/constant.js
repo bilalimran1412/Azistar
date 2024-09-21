@@ -161,7 +161,7 @@ export const sample = {
     },
     {
       id: '7762490d-ecbd-4fed-af28-b99ee515e0f2',
-      position: { x: 1590, y: 360 },
+      position: { x: 600, y: 360 },
       type: 'baseNode',
       data: {
         contentType: 'incomingOnly',

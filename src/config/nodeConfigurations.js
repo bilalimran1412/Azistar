@@ -134,10 +134,10 @@ export const nodeConfigurations = {
       },
       fields: [
         {
-          label: 'Message',
+          label: 'Type here your goodbye message',
           type: 'text',
           variable: 'textareaFieldData',
-          placeholder: 'Enter a goodbye message',
+          placeholder: 'Message Text',
         },
       ],
     },

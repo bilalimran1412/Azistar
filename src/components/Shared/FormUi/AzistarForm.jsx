@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { Grid } from '@chakra-ui/react';
+import { Flex, Grid } from '@chakra-ui/react';
 
 const SchemaProviderContext = createContext({
   validationSchema: Yup.object().shape({}),
@@ -33,6 +33,7 @@ function AzistarForm({
   validationSchema = Yup.object().shape({}),
   enableReinitialize = true,
   containerProps = {},
+  formID,
 }) {
   return (
     <Formik
@@ -44,15 +45,16 @@ function AzistarForm({
       validateOnMount
     >
       <SchemaProvider validationSchema={validationSchema}>
-        <Form style={{ width: '100%', height: '100%' }} onKeyDown={onKeyDown}>
-          <Grid
-            alignContent='flex-start'
+        <Form onKeyDown={onKeyDown} id={formID}>
+          <Flex
             height='100%'
             {...containerProps}
             gap='1.5rem'
+            direction='column'
+            flex={1}
           >
             {children}
-          </Grid>
+          </Flex>
         </Form>
       </SchemaProvider>
     </Formik>

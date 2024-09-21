@@ -7,7 +7,7 @@ import {
 } from '../Shared/FormUi';
 import * as yup from 'yup';
 import FormSettings from '../Shared/SidebarUi/FormSettings';
-import FormTextField from '../Shared/FormUi/FromTextField';
+import FormTextField from '../Shared/FormUi/FormTextField';
 import { Box, Divider, StepSeparator } from '@chakra-ui/react';
 const buttonFormSchema = yup.object({
   question: yup.string(),

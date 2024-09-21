@@ -6,7 +6,7 @@ import {
   QuillEditorField,
 } from '../Shared/FormUi';
 import * as yup from 'yup';
-import FormTextField from '../Shared/FormUi/FromTextField';
+import FormTextField from '../Shared/FormUi/FormTextField';
 import { Box, Divider } from '@chakra-ui/react';
 
 import FormCheckbox from '../Shared/FormUi/FormCheckbox';

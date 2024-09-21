@@ -30,6 +30,7 @@ const FormTextField = ({
   maxNumber,
   showCounter = false,
   fullWidth = true,
+  className = '',
   ...rest
 }) => {
   const [field, meta, helper] = useField(name);
@@ -112,7 +113,7 @@ const FormTextField = ({
         )}
       </Box>
 
-      <FormControl isInvalid={isError}>
+      <FormControl isInvalid={isError} paddingX='2px'>
         {type === 'textarea' ? (
           <Textarea
             placeholder={placeholder}
@@ -121,6 +122,7 @@ const FormTextField = ({
             onChange={handleChange}
             {...field}
             {...rest}
+            className={className}
           />
         ) : (
           <Input
@@ -134,6 +136,7 @@ const FormTextField = ({
             inputMode={type === 'number' ? 'decimal' : undefined}
             min={0}
             max={maxNumber}
+            className={className}
           />
         )}
 

@@ -1,1 +1,1 @@
-// export 
+export { default as SidebarFormContainer } from './SidebarFormContainer';
