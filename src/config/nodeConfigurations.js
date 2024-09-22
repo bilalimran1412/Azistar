@@ -68,7 +68,7 @@ export const sideViewLayoutType = {
   //NEEDS TO BE FIXED
   forms: 'form',
   buttons: 'button',
-  uploadMedia: 'uploadMedia',
+  // uploadMedia: 'uploadMedia',
   date: 'date',
   //ALMOST DONE
   goodBye: 'goodbye',
@@ -83,6 +83,7 @@ export const sideViewLayoutType = {
   opinionScale: 'opinionScale',
   rating: 'rating',
   abTesting: 'abTesting',
+  messageMedia: 'messageMedia',
 };
 
 //groups for creating nodes
@@ -106,6 +107,10 @@ export const nodeConfigurations = {
       label: 'Send a Message',
       icon: <FaCommentAlt />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.messageMedia,
+        initialItem: 'message',
+      },
       fields: [
         {
           label: 'Message',
@@ -124,7 +129,8 @@ export const nodeConfigurations = {
       icon: <FaFilm />,
       data: {
         contentType: contentType.uploadMedia,
-        layoutType: sideViewLayoutType.uploadMedia,
+        layoutType: sideViewLayoutType.messageMedia,
+        initialItem: 'media',
       },
       fields: [
         {

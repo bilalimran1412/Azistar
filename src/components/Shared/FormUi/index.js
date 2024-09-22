@@ -7,3 +7,4 @@ export { default as FormTextField } from './FormTextField';
 export { default as QuillEditorField } from './QuillEditorField';
 export { default as FormWeekdaysSelect } from './FormWeekDaysSelect';
 export { default as FormMediaField } from './FormMediaField';
+export { default as MessageFieldArray } from './FormHelper/MessageFieldArray';

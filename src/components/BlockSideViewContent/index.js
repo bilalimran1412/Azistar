@@ -10,6 +10,7 @@ import AskQuestionNodeContent from './AskQuestionNodeContent';
 import ButtonNodeContent from './ButtonNodeContent';
 import DateNodeContent from './DateNodeContent';
 import GoodByeNodeContent from './GoodByeNodeContent';
+import MessageMediaNodeContent from './MessageMediaNodeContent';
 import OpinionScaleNodeContent from './OpinionScaleNodeContent';
 import RatingNodeContent from './RatingNodeContent';
 
@@ -26,6 +27,7 @@ export const SideViewContent = {
   [sideViewLayoutType.opinionScale]: OpinionScaleNodeContent,
   [sideViewLayoutType.rating]: RatingNodeContent,
   [sideViewLayoutType.abTesting]: ABTestingNodeContent,
+  [sideViewLayoutType.messageMedia]: MessageMediaNodeContent,
 
   //needs to be fixed
   [sideViewLayoutType.buttons]: ButtonNodeContent,

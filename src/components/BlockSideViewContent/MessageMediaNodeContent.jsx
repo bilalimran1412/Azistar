@@ -11,7 +11,8 @@ const defaultValue = {
   message: [{ type: 'message', message: '' }],
   media: [{ type: 'media', media: null }],
 };
-function ButtonNodeContent({ id }) {
+
+function MessageMediaNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -25,9 +26,9 @@ function ButtonNodeContent({ id }) {
   const initialValues = {
     fields: config.fields,
     mediaAndMessage:
-      currentNode?.data?.mediaAndMessage || defaultValue?.message,
+      currentNode?.data?.mediaAndMessage ||
+      defaultValue?.[currentNode?.data?.initialItem],
   };
-  console.log(initialValues);
 
   const validationSchema = yup.object({});
 
@@ -58,4 +59,4 @@ function ButtonNodeContent({ id }) {
   );
 }
 
-export default ButtonNodeContent;
+export default MessageMediaNodeContent;
