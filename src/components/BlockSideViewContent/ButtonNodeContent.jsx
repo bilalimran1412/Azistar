@@ -6,11 +6,8 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { groupBy } from '../../utils/arrayHelper';
 import { MessageFieldArray } from '../Shared/FormUi';
+import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/MessageFieldArray';
 
-const defaultValue = {
-  message: [{ type: 'message', message: '' }],
-  media: [{ type: 'media', media: null }],
-};
 function ButtonNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
@@ -25,9 +22,9 @@ function ButtonNodeContent({ id }) {
   const initialValues = {
     fields: config.fields,
     mediaAndMessage:
-      currentNode?.data?.mediaAndMessage || defaultValue?.message,
+      currentNode?.data?.mediaAndMessage ||
+      messageFieldArrayInitialValue?.message,
   };
-  console.log(initialValues);
 
   const validationSchema = yup.object({});
 

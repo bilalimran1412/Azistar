@@ -12,6 +12,10 @@ import {
 import QuillEditorField from '../QuillEditorField';
 import FormMediaField from '../FormMediaField';
 import { FaPlus, FaEdit, FaRegCopy, FaTrashAlt } from 'react-icons/fa';
+export const messageFieldArrayInitialValue = {
+  message: [{ type: 'message', message: '' }],
+  media: [{ type: 'media', media: null }],
+};
 
 const MessageFieldArray = ({ name, label }) => {
   const { values } = useFormikContext();
