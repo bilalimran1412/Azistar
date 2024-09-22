@@ -5,7 +5,29 @@ import {
   FaCalendarAlt,
   FaSortNumericDown,
 } from 'react-icons/fa';
+import {
+  FaBook,
+  FaChalkboardTeacher,
+  FaLaptopCode,
+  FaUniversity,
+  FaClipboardList,
+} from 'react-icons/fa';
 
+export const buttonCreatorIcons = {
+  book: FaBook,
+  teacher: FaChalkboardTeacher,
+  coding: FaLaptopCode,
+  university: FaUniversity,
+  checklist: FaClipboardList,
+};
+
+export const buttonCreatorEmojis = {
+  smile: '😊',
+  thumbsUp: '👍',
+  heart: '❤️',
+  star: '⭐',
+  laugh: '😂',
+};
 export const groupedTypesWithIcons = {
   STRING: <FaFileAlt />,
   BOOLEAN: <FaToggleOn />,
