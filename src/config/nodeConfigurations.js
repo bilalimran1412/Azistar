@@ -4,6 +4,7 @@ import {
   FaBolt,
   FaBox,
   FaBullseye,
+  FaCalculator,
   FaCalendarCheck,
   FaClipboardList,
   FaClock,
@@ -31,12 +32,12 @@ import {
   FaMapMarker,
   FaMemory,
   FaPhone,
+  FaQuestionCircle,
   FaRandom,
   FaRegAddressCard,
   FaRegImage,
   FaRegSquare,
   FaRobot,
-  FaRocketchat,
   FaSalesforce,
   FaSearch,
   FaSignOutAlt,
@@ -64,11 +65,25 @@ export const contentType = {
 };
 
 export const sideViewLayoutType = {
+  //NEEDS TO BE FIXED
   forms: 'form',
   buttons: 'button',
-  uploadMedia: 'uploadMedia',
+  // uploadMedia: 'uploadMedia',
+  date: 'date',
+  //ALMOST DONE
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
+  askName: 'askName',
+  askNumber: 'askNumber',
+  askPhone: 'askPhone',
+  askEmail: 'askEmail',
+  askFile: 'askFile',
+  askAddress: 'askAddress',
+  askUrl: 'askUrl',
+  opinionScale: 'opinionScale',
+  rating: 'rating',
+  abTesting: 'abTesting',
+  messageMedia: 'messageMedia',
 };
 
 //groups for creating nodes
@@ -92,6 +107,10 @@ export const nodeConfigurations = {
       label: 'Send a Message',
       icon: <FaCommentAlt />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.messageMedia,
+        initialItem: 'message',
+      },
       fields: [
         {
           label: 'Message',
@@ -110,7 +129,8 @@ export const nodeConfigurations = {
       icon: <FaFilm />,
       data: {
         contentType: contentType.uploadMedia,
-        layoutType: sideViewLayoutType.uploadMedia,
+        layoutType: sideViewLayoutType.messageMedia,
+        initialItem: 'media',
       },
       fields: [
         {
@@ -134,10 +154,10 @@ export const nodeConfigurations = {
       },
       fields: [
         {
-          label: 'Message',
+          label: 'Type here your goodbye message',
           type: 'text',
           variable: 'textareaFieldData',
-          placeholder: 'Enter a goodbye message',
+          placeholder: 'Message Text',
         },
       ],
     },
@@ -173,21 +193,29 @@ export const nodeConfigurations = {
       label: 'Ask for a Name',
       icon: <FaUserCircle />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.askName,
+      },
       fields: [
         {
+          value: "What's your name?",
           label: 'Question',
           type: 'text',
           variable: 'textareaFieldData',
           placeholder: "What's your name?",
         },
       ],
+      variableType: 'STRING',
     },
     {
       group: Groups.question,
+      variableType: 'STRING',
       blockId: 'ec7402de-5bac-5bb5-a4d8-93ae3fbce391',
       title: 'Ask a Question',
       label: 'Ask a Question',
       nodeType: 'baseNode',
+      icon: <FaQuestionCircle />,
+
       data: {
         layoutType: sideViewLayoutType.askQuestion,
       },
@@ -206,6 +234,10 @@ export const nodeConfigurations = {
       title: 'Ask for an Email',
       label: 'Ask for an Email',
       icon: <FaEnvelope />,
+      data: {
+        layoutType: sideViewLayoutType.askEmail,
+      },
+      variableType: 'STRING',
       nodeType: 'baseNode',
       fields: [
         {
@@ -221,7 +253,12 @@ export const nodeConfigurations = {
       blockId: 'c65da9f7-1ed1-50b8-9265-596e4da2f706',
       title: 'Ask for a Number',
       label: 'Ask for a Number',
+      variableType: 'NUMBER',
       nodeType: 'baseNode',
+      icon: <FaCalculator />,
+      data: {
+        layoutType: sideViewLayoutType.askNumber,
+      },
       fields: [
         {
           label: 'Question',
@@ -238,6 +275,10 @@ export const nodeConfigurations = {
       label: 'Ask for a Phone',
       icon: <FaPhone />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.askPhone,
+      },
+      variableType: 'STRING',
       fields: [
         {
           label: 'Question',
@@ -253,6 +294,9 @@ export const nodeConfigurations = {
       title: 'Ask for a Date',
       label: 'Ask for a Date',
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.date,
+      },
       fields: [
         {
           label: 'Question',
@@ -269,6 +313,10 @@ export const nodeConfigurations = {
       label: 'Ask for a File',
       icon: <FaFile />,
       nodeType: 'baseNode',
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.askFile,
+      },
       fields: [
         {
           label: 'Question',
@@ -285,6 +333,10 @@ export const nodeConfigurations = {
       label: 'Ask for an Address',
       nodeType: 'baseNode',
       icon: <FaRegAddressCard />,
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.askAddress,
+      },
       fields: [
         {
           label: 'Question',
@@ -301,6 +353,10 @@ export const nodeConfigurations = {
       label: 'Ask for a URL',
       icon: <FaInternetExplorer />,
       nodeType: 'baseNode',
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.askUrl,
+      },
       fields: [
         {
           label: 'Question',
@@ -383,9 +439,12 @@ export const nodeConfigurations = {
       label: 'Rating',
       nodeType: 'baseNode',
       icon: <FaStar />,
+      variableType: 'STRING',
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.rating,
+
         items: [
           { id: 'rating-level-1', label: '1 Star Rating', isDeletable: false },
           { id: 'rating-level-2', label: '2 Star Rating', isDeletable: false },
@@ -408,9 +467,11 @@ export const nodeConfigurations = {
       label: 'Opinion Scale',
       nodeType: 'baseNode',
       icon: <FaSlidersH />,
+      variableType: 'NUMBER',
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.opinionScale,
         items: [
           { id: 'opinion-level-worst', label: '0- Worst', isDeletable: false },
           { id: 'opinion-level-1', label: '1', isDeletable: false },
@@ -662,6 +723,7 @@ export const nodeConfigurations = {
       icon: <FaRandom />,
 
       data: {
+        layoutType: sideViewLayoutType.abTesting,
         multipleHandles: true,
         contentType: contentType.buttonNode,
         items: [
@@ -669,14 +731,14 @@ export const nodeConfigurations = {
           { id: 'ab-test-b', label: 'B (50%)', isDeletable: false },
         ],
       },
-      fields: [
-        {
-          label: 'Test Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Setup A/B testing',
-        },
-      ],
+      // fields: [
+      //   {
+      //     label: 'Test Setup',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Setup A/B testing',
+      //   },
+      // ],
     },
     {
       group: Groups.logic,

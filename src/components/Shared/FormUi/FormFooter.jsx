@@ -1,15 +1,40 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, ButtonGroup, Text } from '@chakra-ui/react';
 import React from 'react';
 
-function FormFooter() {
+function FormFooter({ form }) {
   return (
-    <Box width='full' px={5} display='flex' justifyContent='space-between'>
-      <Button mt={4} type='reset' colorScheme='red'>
-        Cancel
-      </Button>
-      <Button type='submit' mt={4} colorScheme='blue'>
-        Apply
-      </Button>
+    <Box
+      width='full'
+      display='flex'
+      justifyContent='space-between'
+      backgroundColor='#3a3d5c'
+      gap={2}
+      marginTop='auto'
+      height='60px'
+      minHeight='60px'
+      position='sticky'
+      bottom='0'
+      alignItems='center'
+      paddingX={5}
+      zIndex={1}
+    >
+      <Text color='white'>Apply Changes?</Text>
+      <ButtonGroup>
+        <Button type='reset' backgroundColor='#ebf1f5' form={form}>
+          Cancel
+        </Button>
+        <Button
+          type='submit'
+          backgroundColor='#cd3c79'
+          color='white'
+          form={form}
+          _hover={{
+            backgroundColor: '#cd4c7f',
+          }}
+        >
+          Apply
+        </Button>
+      </ButtonGroup>
     </Box>
   );
 }

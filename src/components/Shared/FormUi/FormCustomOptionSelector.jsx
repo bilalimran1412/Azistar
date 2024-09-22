@@ -2,6 +2,11 @@ import React from 'react';
 import { Field, useFormikContext } from 'formik';
 import { Box, Button, FormLabel } from '@chakra-ui/react';
 
+// CUSTOM OPTIONS FOR STARTING
+// const selectionOptions = [
+//   { label: 'Long', value: 'long' },
+//   { label: 'Short', value: 'short' },
+// ];
 const FormCustomOptionSelector = ({
   name,
   options,
@@ -47,7 +52,11 @@ const FormCustomOptionSelector = ({
                   onClick={() => setFieldValue(name, option.value)}
                   borderRadius='8px'
                   fontWeight={'smaller'}
-                  style={buttonStyle}
+                  style={{
+                    ...buttonStyle,
+                    color: 'red !important',
+                    borderRadius: '2px',
+                  }}
                 >
                   {option.label}
                 </Button>

@@ -1,18 +1,16 @@
 import React from 'react';
 import { Divider } from '@chakra-ui/react';
+import { FormCheckbox, QuillEditorField } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
-import { groupBy } from '../../utils/arrayHelper';
-import { MessageFieldArray } from '../Shared/FormUi';
-import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/MessageFieldArray';
+import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 
-function ButtonNodeContent({ id }) {
+function AskPhoneNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
-
   const handleClose = () => {
     setSideView(false);
   };
@@ -21,22 +19,18 @@ function ButtonNodeContent({ id }) {
 
   const initialValues = {
     fields: config.fields,
-    mediaAndMessage:
-      currentNode?.data?.mediaAndMessage ||
-      messageFieldArrayInitialValue?.message,
-  };
+    //this message will contain all the ops and html and normal text
+    message: currentNode?.data?.message,
+    variable: currentNode?.data?.variable,
 
+    showCountryCodeSelector: currentNode?.data?.showCountryCodeSelector,
+  };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    const groupedValues = groupBy(formValues.mediaAndMessage, 'type');
-
-    updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
-      ...(groupedValues || {}),
-    });
+    const variableName = formValues.variable.value;
+    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
     handleClose();
   };
 
@@ -49,10 +43,23 @@ function ButtonNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <MessageFieldArray name='mediaAndMessage' label='Write a message' />
+      <QuillEditorField
+        name='message'
+        placeholder={config.fields[0].placeholder}
+        label={config.fields[0].label}
+      />
       <Divider />
+      <FormCheckbox
+        name='showCountryCodeSelector'
+        checkboxLabel={'Show country code selector'}
+      />
+      <Divider />
+      <FormVariableSelectorDropdown
+        allowedType={config?.variableType}
+        name='variable'
+      />
     </SidebarFormContainer>
   );
 }
 
-export default ButtonNodeContent;
+export default AskPhoneNodeContent;

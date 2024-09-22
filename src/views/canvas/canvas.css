@@ -110,9 +110,9 @@ button.ql-bold {
   padding: 11px 13px;
   overflow: auto;
 }
-.ql-editor p {
+/* .ql-editor p {
   height: 120px;
-}
+} */
 
 .drop_down {
   cursor: pointer;

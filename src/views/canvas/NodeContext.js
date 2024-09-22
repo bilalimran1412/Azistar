@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { edgeType, initialNode } from '../../config/constant';
+import {
+  edgeType,
+  initialGroupedOptions,
+  initialNode,
+  sample,
+} from '../../config/constant';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
@@ -26,15 +31,18 @@ const NodeContext = createContext({
   handleAddNewNode: () => {},
   handleNodeRemove: () => {},
   botID: null,
+  groupedOptions: [],
+  setGroupedOptions: () => {},
 });
 
 export const useNodeContext = () => useContext(NodeContext);
 
 export const NodeProvider = ({ children }) => {
   //TODO REMOVE INITIAL NODE WHEN CONNECTED TO DB
-  const [nodes, setNodes] = useState([initialNode]);
+  const [nodes, setNodes] = useState(sample.nodes);
+  const [edges, setEdges] = useState(sample.edges);
+  const [groupedOptions, setGroupedOptions] = useState(initialGroupedOptions);
   const [botID, setBotID] = React.useState('');
-  const [edges, setEdges] = useState([]);
   const [sideViewVisible, setSideViewVisible] = useState(false);
   const [currentNodeId, setCurrentNodeId] = useState('');
   const [canvasInstance, setCanvasInstance] = React.useState(null);
@@ -213,6 +221,8 @@ export const NodeProvider = ({ children }) => {
         updateBot: patchBot,
         handleAddNewNode,
         handleNodeRemove,
+        groupedOptions,
+        setGroupedOptions,
       }}
     >
       {children}

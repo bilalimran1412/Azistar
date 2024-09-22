@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Divider } from '@chakra-ui/react';
 import {
-  FormCustomOptionSelector,
+  FormDropdown,
   FormTextField,
   QuillEditorField,
 } from '../Shared/FormUi';
@@ -11,11 +11,12 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import FormSettings from '../Shared/SidebarUi/FormSettings';
-const selectionOptions = [
-  { label: 'Long', value: 'long' },
-  { label: 'Short', value: 'short' },
+const formatOptions = [
+  { label: 'Auto', value: 'auto' },
+  { label: 'Decimals', value: 'decimals' },
+  { label: 'Whole Numbers', value: 'wholeNumbers' },
 ];
-function AskQuestionNodeContent({ id }) {
+function AskNumberNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -31,11 +32,10 @@ function AskQuestionNodeContent({ id }) {
     message: currentNode?.data?.message,
     variable: currentNode?.data?.variable,
     settings: currentNode?.data?.settings || '',
-    sizeOfTextArea: currentNode?.data?.sizeOfTextArea || '',
+    format: currentNode?.data?.format || '',
     min: currentNode?.data?.min || '',
     max: currentNode?.data?.max || '',
-    regex: currentNode?.data?.regex || '',
-    errorMessage: currentNode?.data?.errorMessage || '',
+    prefix: currentNode?.data?.prefix || '',
   };
   const validationSchema = yup.object({});
 
@@ -60,23 +60,26 @@ function AskQuestionNodeContent({ id }) {
         placeholder={config.fields[0].placeholder}
         label={config.fields[0].label}
       />
+      <Divider />
       <FormSettings name='settings' label='Settings'>
-        <FormCustomOptionSelector
-          name='sizeOfTextArea'
-          label='Size of text area'
-          options={selectionOptions}
-        />
         <Box display='flex' justifyContent='space-between' gap='1rem'>
-          <FormTextField name='min' label='Min. Characters' className='input' />
-          <FormTextField name='max' label='Max. Characters' className='input' />
+          <FormDropdown
+            name='format'
+            label='Format'
+            options={formatOptions}
+            className='input'
+          />
+          <FormTextField
+            name='prefix'
+            label='Prefix'
+            className='input'
+            placeholder='Examples: $, %/'
+          />
         </Box>
-        <FormTextField name='regex' label='Regex Pattern' className='input' />
-        <FormTextField
-          name='errorMessage'
-          type='textarea'
-          label='Validation Error Message'
-          className='input'
-        />
+        <Box display='flex' justifyContent='space-between' gap='1rem'>
+          <FormTextField name='min' label='Min. Value' className='input' />
+          <FormTextField name='max' label='Max. Value' className='input' />
+        </Box>
       </FormSettings>
       <Divider />
       <FormVariableSelectorDropdown
@@ -87,4 +90,4 @@ function AskQuestionNodeContent({ id }) {
   );
 }
 
-export default AskQuestionNodeContent;
+export default AskNumberNodeContent;

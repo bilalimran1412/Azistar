@@ -1,41 +1,36 @@
 import React from 'react';
-import { Divider } from '@chakra-ui/react';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
-import { groupBy } from '../../utils/arrayHelper';
-import { MessageFieldArray } from '../Shared/FormUi';
-import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/MessageFieldArray';
+import FormSlider from '../Shared/FormUi/FormSlider';
 
-function ButtonNodeContent({ id }) {
+function ABTestingNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
-
   const handleClose = () => {
     setSideView(false);
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
-
+  console.log(currentNode?.data?.abSplit, currentNode?.data);
   const initialValues = {
-    fields: config.fields,
-    mediaAndMessage:
-      currentNode?.data?.mediaAndMessage ||
-      messageFieldArrayInitialValue?.message,
+    // not required
+    // fields: config.fields,
+    abSplit: currentNode?.data?.abSplit || '',
   };
-
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    const groupedValues = groupBy(formValues.mediaAndMessage, 'type');
-
+    const aPercent = formValues?.abSplit;
+    const bPercent = 100 - aPercent;
     updateNodeById(id, {
       ...currentNode?.data,
+      aPercent,
+      bPercent,
       ...formValues,
-      ...(groupedValues || {}),
     });
     handleClose();
   };
@@ -49,10 +44,9 @@ function ButtonNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <MessageFieldArray name='mediaAndMessage' label='Write a message' />
-      <Divider />
+      <FormSlider name='abSplit' label={'Define AB split percentage'} />
     </SidebarFormContainer>
   );
 }
 
-export default ButtonNodeContent;
+export default ABTestingNodeContent;

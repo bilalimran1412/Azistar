@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Button,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Flex,
+} from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import {
@@ -105,22 +112,23 @@ const SideView = ({ closeForm }) => {
     : DefaultNodeContent;
 
   return (
-    <div className='ask-button-container'>
-      <div className='grid grid-cols-2 px-4 justify-between items-center'>
-        <h1>{config.title}</h1>
-        <Button onClick={closeForm} mt={4} colorScheme='red'>
-          X
-        </Button>
-      </div>
-      <Box
+    <>
+      {/* // <Box p='1rem'>
+    //   <Flex justifyContent='space-between' alignItems='center'>
+    //     <h1>{config.title}</h1>
+    //     <Button onClick={closeForm} background='transparent'>
+    //       X
+    //     </Button>
+    //   </Flex> */}
+      {/* <Box
         // pt={4}
         display={'flex'}
         justifyContent={'space-between'}
         alignItems={'center'}
         flexDir={'column'}
-      >
-        {Content ? <Content id={'some'} /> : <></>}
-        {/* {config.fields.map((field, index) => (
+      > */}
+      {Content ? <Content id={currentNodeId} /> : <></>}
+      {/* {config.fields.map((field, index) => (
           field.type === 'file' ? (
             <FormControl key={index} mt={4}>
               <FormLabel>{field.label}</FormLabel>
@@ -187,7 +195,7 @@ const SideView = ({ closeForm }) => {
             </FormControl>
           )
         ))} */}
-        {/* <Box width='full' px={5} display='flex' justifyContent='space-between'>
+      {/* <Box width='full' px={5} display='flex' justifyContent='space-between'>
           <Button onClick={closeForm} mt={4} colorScheme='red'>
             Cancel
           </Button>
@@ -195,8 +203,9 @@ const SideView = ({ closeForm }) => {
             Apply
           </Button>
         </Box> */}
-      </Box>
-    </div>
+      {/* </Box> */}
+      {/* </Box> */}
+    </>
   );
 };
 

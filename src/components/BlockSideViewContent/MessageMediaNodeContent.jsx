@@ -8,7 +8,7 @@ import { groupBy } from '../../utils/arrayHelper';
 import { MessageFieldArray } from '../Shared/FormUi';
 import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/MessageFieldArray';
 
-function ButtonNodeContent({ id }) {
+function MessageMediaNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -23,7 +23,7 @@ function ButtonNodeContent({ id }) {
     fields: config.fields,
     mediaAndMessage:
       currentNode?.data?.mediaAndMessage ||
-      messageFieldArrayInitialValue?.message,
+      messageFieldArrayInitialValue?.[config?.data?.initialItem],
   };
 
   const validationSchema = yup.object({});
@@ -55,4 +55,4 @@ function ButtonNodeContent({ id }) {
   );
 }
 
-export default ButtonNodeContent;
+export default MessageMediaNodeContent;

@@ -1,10 +1,11 @@
-import { RedButton } from '../ButtonsComponents';
+import SidebarFormContainer from '../Shared/SidebarUi/SidebarFormContainer';
+import VariableDropdown from '../Shared/SidebarUi/VariableDropdown';
 
 function DefaultNodeContent() {
   return (
-    <div style={{ width: '100%' }}>
-      <RedButton />
-    </div>
+    <SidebarFormContainer block={{ id: 'some' }}>
+      <VariableDropdown allowedType='STRING' />
+    </SidebarFormContainer>
   );
 }
 

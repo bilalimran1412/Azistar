@@ -7,7 +7,7 @@ function MainApp() {
     <Routes>
       {/* <Route path='/*' element={<MainLayout />} /> */}
       <Route path='/' element={<BotBuilder />} />
-      {/* <Route path='/bot/builder/:id' element={<BotBuilder />} /> */}
+      <Route path='/bot/builder/:id' element={<BotBuilder />} />
     </Routes>
   );
 }
