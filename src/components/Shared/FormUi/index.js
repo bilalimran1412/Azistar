@@ -6,3 +6,4 @@ export { default as FormFooter } from './FormFooter';
 export { default as FormTextField } from './FormTextField';
 export { default as QuillEditorField } from './QuillEditorField';
 export { default as FormWeekdaysSelect } from './FormWeekDaysSelect';
+export { default as FormMediaField } from './FormMediaField';
