@@ -592,3 +592,26 @@ button.item-button {
 .input {
   background-color: white !important;
 }
+
+.button-input {
+  border: none !important;
+  outline: none !important;
+  height: 14px !important;
+}
+.button-input:focus,
+.button-input:active {
+  border: none !important;
+  box-shadow: none !important;
+}
+.button-select-container label {
+  color: white;
+}
+.button-select-container select {
+  color: white;
+}
+.button-select-container option {
+  color: black;
+}
+.select-hide-empty-option option[value=''] {
+  display: none !important;
+}

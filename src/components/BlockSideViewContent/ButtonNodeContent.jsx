@@ -1,12 +1,26 @@
 import React from 'react';
-import { Divider } from '@chakra-ui/react';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { groupBy } from '../../utils/arrayHelper';
-import { MessageFieldArray } from '../Shared/FormUi';
+import {
+  ButtonCreatorInputFieldArray,
+  MessageFieldArray,
+} from '../Shared/FormUi';
 import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/MessageFieldArray';
+
+//TODO MOVE TO CONFIG
+const defaultButtonsValue = [
+  {
+    text: 'Button',
+    buttonStyle: 'text',
+    icon: null,
+    externalLink: '',
+    isSettingExpand: false,
+    sortOrder: 0,
+  },
+];
 
 function ButtonNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -24,6 +38,7 @@ function ButtonNodeContent({ id }) {
     mediaAndMessage:
       currentNode?.data?.mediaAndMessage ||
       messageFieldArrayInitialValue?.message,
+    buttons: currentNode?.data?.buttons || defaultButtonsValue,
   };
 
   const validationSchema = yup.object({});
@@ -50,7 +65,7 @@ function ButtonNodeContent({ id }) {
       onReset={handleClose}
     >
       <MessageFieldArray name='mediaAndMessage' label='Write a message' />
-      <Divider />
+      <ButtonCreatorInputFieldArray name='buttons' />
     </SidebarFormContainer>
   );
 }
