@@ -67,10 +67,10 @@ export const contentType = {
 export const sideViewLayoutType = {
   //NEEDS TO BE FIXED
   forms: 'form',
-  buttons: 'button',
   // uploadMedia: 'uploadMedia',
   date: 'date',
   //ALMOST DONE
+
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
   askName: 'askName',
@@ -83,7 +83,10 @@ export const sideViewLayoutType = {
   opinionScale: 'opinionScale',
   rating: 'rating',
   abTesting: 'abTesting',
+  //dnd two below
   messageMedia: 'messageMedia',
+  buttons: 'button',
+  pictureChoice: 'pictureChoice',
 };
 
 //groups for creating nodes

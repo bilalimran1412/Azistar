@@ -128,13 +128,14 @@ export default function FormVariableSelectorDropdown({
   name,
   allowedType = 'all',
   label = 'Save answers in the variable',
+  readOnly = true,
 }) {
   const { groupedOptions: variableDropdownOptions, setGroupedOptions } =
     useNodeContext();
 
   const groupedOptions = React.useMemo(() => {
-    return filterOptionsByType(allowedType, variableDropdownOptions, true);
-  }, [allowedType, variableDropdownOptions]);
+    return filterOptionsByType(allowedType, variableDropdownOptions, readOnly);
+  }, [allowedType, variableDropdownOptions, readOnly]);
 
   const [inputValue, setInputValue] = useState('');
 

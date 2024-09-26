@@ -7,6 +7,7 @@ import AskNameNodeContent from './AskNameNodeContent';
 import AskNumberNodeContent from './AskNumberNodeContent';
 import AskPhoneNodeContent from './AskPhoneNodeContent';
 import AskQuestionNodeContent from './AskQuestionNodeContent';
+import AskUrlNodeContent from './AskUrlNodeContent';
 import ButtonNodeContent from './ButtonNodeContent';
 import DateNodeContent from './DateNodeContent';
 import GoodByeNodeContent from './GoodByeNodeContent';
@@ -23,7 +24,7 @@ export const SideViewContent = {
   [sideViewLayoutType.askEmail]: AskEmailNodeContent,
   [sideViewLayoutType.askFile]: AskFileNodeContent,
   [sideViewLayoutType.askAddress]: AskAddressNodeContent,
-  [sideViewLayoutType.askUrl]: AskAddressNodeContent,
+  [sideViewLayoutType.askUrl]: AskUrlNodeContent,
   [sideViewLayoutType.opinionScale]: OpinionScaleNodeContent,
   [sideViewLayoutType.rating]: RatingNodeContent,
   [sideViewLayoutType.abTesting]: ABTestingNodeContent,

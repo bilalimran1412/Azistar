@@ -8,8 +8,8 @@ import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 
 const fileUploadOptions = [
-  { label: 'Yes', value: 'yes' },
-  { label: 'No', value: 'no' },
+  { label: 'No', value: false },
+  { label: 'Yes', value: true },
 ];
 function AskFileNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -27,7 +27,7 @@ function AskFileNodeContent({ id }) {
     message: currentNode?.data?.message,
     variable: currentNode?.data?.variable,
 
-    allowMultiples: currentNode?.data?.allowMultiples || 'no',
+    allowMultiples: currentNode?.data?.allowMultiples || false,
   };
   const validationSchema = yup.object({});
 
