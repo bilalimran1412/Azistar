@@ -100,7 +100,7 @@ const MessageFieldArray = ({ name, label }) => {
               </Flex>
             </Box>
           ))}
-          <Divider my={4} />
+          <Divider my={2} />
           <Flex gap={3}>
             <Button
               colorScheme='black'

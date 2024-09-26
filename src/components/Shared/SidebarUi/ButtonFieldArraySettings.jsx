@@ -1,0 +1,90 @@
+import { Flex } from '@chakra-ui/react';
+import React from 'react';
+import { FormDropdown, FormTextField } from '../FormUi';
+import IconSelector from './IconSelector';
+import FileSelector from './FileSelector';
+import EmojiSelector from './EmojiSelector';
+
+const buttonStyleOptions = [
+  {
+    value: 'text',
+    label: 'Text button',
+  },
+  {
+    label: 'Icon',
+    value: 'icon',
+  },
+  {
+    label: 'Emoji',
+    value: 'emoji',
+  },
+  {
+    label: 'Image',
+    value: 'image',
+  },
+];
+
+function ButtonFieldArraySettings({
+  fieldItem,
+  subFieldName,
+  handleFieldItemPropChange,
+}) {
+  return (
+    <Flex
+      bg={'#8a9ba826'}
+      borderRadius={'3px'}
+      flex={1}
+      padding='10px 12px 9px'
+      direction='column'
+      gap={5}
+      className='button-select-container'
+    >
+      <FormDropdown
+        name={`${subFieldName}.buttonStyle`}
+        label='Button Style'
+        options={buttonStyleOptions}
+        onChange={(value) => {
+          handleFieldItemPropChange({
+            buttonStyle: value || 'text',
+          });
+        }}
+      />
+      {fieldItem?.buttonStyle === 'icon' && (
+        <IconSelector
+          setIcon={(icon) => {
+            handleFieldItemPropChange({
+              icon,
+            });
+          }}
+        />
+      )}
+      {fieldItem?.buttonStyle === 'image' && (
+        <FileSelector
+          onFileSelect={(file, image) => {
+            //TODO remove file as we need url after uploading to server
+            handleFieldItemPropChange({
+              file,
+              image,
+            });
+          }}
+        />
+      )}
+      {fieldItem?.buttonStyle === 'emoji' && (
+        <EmojiSelector
+          setEmoji={(emoji) => {
+            handleFieldItemPropChange({
+              emoji,
+            });
+          }}
+        />
+      )}
+      <FormTextField
+        name={`${subFieldName}.externalLink`}
+        label='External Link'
+        placeholder='https://'
+      />
+    </Flex>
+  );
+}
+
+export default ButtonFieldArraySettings;
