@@ -14,6 +14,7 @@ import GoodByeNodeContent from './GoodByeNodeContent';
 import MessageMediaNodeContent from './MessageMediaNodeContent';
 import OpinionScaleNodeContent from './OpinionScaleNodeContent';
 import RatingNodeContent from './RatingNodeContent';
+import YesNoNodeContent from './YesNoNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -29,6 +30,7 @@ export const SideViewContent = {
   [sideViewLayoutType.rating]: RatingNodeContent,
   [sideViewLayoutType.abTesting]: ABTestingNodeContent,
   [sideViewLayoutType.messageMedia]: MessageMediaNodeContent,
+  [sideViewLayoutType.yesNo]: YesNoNodeContent,
 
   //needs to be fixed
   [sideViewLayoutType.buttons]: ButtonNodeContent,

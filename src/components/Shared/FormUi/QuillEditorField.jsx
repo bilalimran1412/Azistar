@@ -23,7 +23,7 @@ function isQuillEmpty(quill) {
 
 function QuillEditorField({ name, label, placeholder }) {
   const [field, meta, helpers] = useField(name);
-  const { errors, touched } = useFormikContext();
+  const { errors, touched, setFieldValue } = useFormikContext();
   const defaultValue = parseJSON(field.value);
 
   return (
@@ -47,6 +47,7 @@ function QuillEditorField({ name, label, placeholder }) {
             messageText,
             messageRichText,
           });
+          setFieldValue('textareaFieldData', messageRichText);
           helpers.setValue(stringContent);
         }}
       />

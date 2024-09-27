@@ -37,17 +37,20 @@ export const useDropdownToggle = (initialState = false) => {
 export const handleCopyNode = (nodeId, nodes, handleAddNewNode) => {
   console.log('handleCopyNode called with nodeId:', nodeId);
   const nodeToCopy = nodes.find((node) => node.id === nodeId);
+
   const newPosition = {
     x: nodeToCopy.position.x,
     y: nodeToCopy.position.y + 100,
   };
 
   if (nodeToCopy) {
+    const block = nodeConfigurationBlockIdMap[nodeToCopy.data?.blockId];
+
     const newNode = {
       ...nodeToCopy,
       id: uuidv4(), // Generate a new unique ID
       position: newPosition,
-      data: { ...nodeToCopy.data, label: `${nodeToCopy.title} (Copy)` }, // Modify data if needed
+      data: { ...nodeToCopy.data, label: `${block.title} (Copy)` }, // Modify data if needed
     };
     handleAddNewNode(newNode);
   }

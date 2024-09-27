@@ -28,6 +28,8 @@ function ButtonFieldArraySettings({
   fieldItem,
   subFieldName,
   handleFieldItemPropChange,
+  fieldValue,
+  showExternalLinkField,
 }) {
   return (
     <Flex
@@ -51,6 +53,7 @@ function ButtonFieldArraySettings({
       />
       {fieldItem?.buttonStyle === 'icon' && (
         <IconSelector
+          selectedIcon={fieldValue?.icon}
           setIcon={(icon) => {
             handleFieldItemPropChange({
               icon,
@@ -78,11 +81,13 @@ function ButtonFieldArraySettings({
           }}
         />
       )}
-      <FormTextField
-        name={`${subFieldName}.externalLink`}
-        label='External Link'
-        placeholder='https://'
-      />
+      {showExternalLinkField && (
+        <FormTextField
+          name={`${subFieldName}.externalLink`}
+          label='External Link'
+          placeholder='https://'
+        />
+      )}
     </Flex>
   );
 }
