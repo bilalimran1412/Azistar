@@ -16,7 +16,7 @@ function FormFooter({ form }) {
       bottom='0'
       alignItems='center'
       paddingX={5}
-      zIndex={1}
+      zIndex={4}
     >
       <Text color='white'>Apply Changes?</Text>
       <ButtonGroup>

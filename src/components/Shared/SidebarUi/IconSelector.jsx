@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button } from '@chakra-ui/react';
 import { buttonCreatorIcons } from '../../../config/constant';
 
-function IconSelector({ setIcon }) {
+function IconSelector({ setIcon, selectedIcon }) {
   return (
     <Box
       flexWrap={'wrap'}
@@ -26,12 +26,17 @@ function IconSelector({ setIcon }) {
       {Object.entries(buttonCreatorIcons).map(([key, Icon]) => (
         <Button
           key={key}
-          _hover={{ bg: '#fff', cursor: 'pointer' }}
+          _hover={{
+            color: selectedIcon !== key ? '#fff' : 'inherit',
+            cursor: 'pointer',
+          }}
           p={'0'}
           m={'0'}
           width={'30px'}
           height={'30px'}
           bg={'transparent'}
+          backgroundColor={selectedIcon === key ? 'white' : 'inherit'}
+          color={selectedIcon === key ? 'black' : 'inherit'}
           onClick={() => {
             setIcon(key);
           }}

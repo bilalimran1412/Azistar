@@ -5,29 +5,16 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { groupBy } from '../../utils/arrayHelper';
 import {
-  ButtonCreatorInputFieldArray,
   FormCheckbox,
   FormCustomOptionSelector,
   FormDropdown,
   MessageFieldArray,
+  SortableButtonCreatorInputFieldArray,
 } from '../Shared/FormUi';
 import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/MessageFieldArray';
 import { Divider, Flex, Text } from '@chakra-ui/react';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { useFormikContext } from 'formik';
-
-//TODO MOVE TO CONFIG
-const defaultButtonsValue = [
-  {
-    text: 'Button',
-    id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
-    buttonStyle: 'text',
-    icon: null,
-    externalLink: '',
-    isSettingExpand: false,
-    sortOrder: 0,
-  },
-];
 
 const minMaxOptions = [
   {
@@ -93,15 +80,21 @@ function ButtonNodeContent({ id }) {
       messageFieldArrayInitialValue?.message,
     variable: currentNode?.data?.variable || '',
 
-    buttons: currentNode?.data?.buttons || defaultButtonsValue,
-    minMaxOptions: currentNode?.data?.minMaxOptions || false,
-    buttonsAlignment: currentNode?.data?.buttonsAlignment || 'horizontal',
-    randomizeOrder: currentNode?.data?.randomizeOrder || false,
-    searchableOptions: currentNode?.data?.searchableOptions || false,
-    multipleChoices: currentNode?.data?.multipleChoices || false,
-    outputAsArray: currentNode?.data?.outputAsArray || false,
-    min: currentNode?.data?.min || 1,
-    max: currentNode?.data?.max || 'all',
+    buttons: currentNode?.data?.buttons || config.data?.buttons,
+    minMaxOptions:
+      currentNode?.data?.minMaxOptions || config.data?.minMaxOptions,
+    buttonsAlignment:
+      currentNode?.data?.buttonsAlignment || config.data?.buttonsAlignment,
+    randomizeOrder:
+      currentNode?.data?.randomizeOrder || config.data?.randomizeOrder,
+    searchableOptions:
+      currentNode?.data?.searchableOptions || config.data?.searchableOptions,
+    multipleChoices:
+      currentNode?.data?.multipleChoices || config.data?.multipleChoices,
+    outputAsArray:
+      currentNode?.data?.outputAsArray || config.data?.outputAsArray,
+    min: currentNode?.data?.min || config.data?.min,
+    max: currentNode?.data?.max || config.data?.max,
   };
 
   const validationSchema = yup.object({});
@@ -132,7 +125,7 @@ function ButtonNodeContent({ id }) {
       onReset={handleClose}
     >
       <MessageFieldArray name='mediaAndMessage' label='Write a message' />
-      <ButtonCreatorInputFieldArray name='buttons' />
+      <SortableButtonCreatorInputFieldArray name='buttons' isSortable={true} />
       {buttonFeatureOptions.map((options) => (
         <FormCustomOptionSelector
           name={options.name}

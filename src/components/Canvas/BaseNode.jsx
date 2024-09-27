@@ -12,10 +12,12 @@ import NodeActionDropdown from './NodeActionDropdown';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
+  sideViewLayoutType,
 } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { initialNode } from '../../config/constant';
 import CustomHandle from './CustomHandle';
+import { ButtonNodeLayout, YesNoNodeLayout } from './CustomNodeLayout';
 
 const BaseNode = (props) => {
   const { id, data, type } = props;
@@ -130,7 +132,14 @@ const BaseNode = (props) => {
             </div>
           )}
         </div>
-        {isMultiHandleNode && (
+        {config?.data?.layoutType === sideViewLayoutType.buttons && (
+          <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
+        )}
+        {config?.data?.layoutType === sideViewLayoutType.yesNo && (
+          <YesNoNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
+        )}
+
+        {/* {isMultiHandleNode && (
           <div className='item-list'>
             {data.items &&
               data.items.map((item) => (
@@ -162,6 +171,7 @@ const BaseNode = (props) => {
             )}
           </div>
         )}
+        */}
       </div>
       {isMenuVisible && (
         <NodeActionDropdown

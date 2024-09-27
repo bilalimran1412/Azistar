@@ -83,9 +83,11 @@ export const sideViewLayoutType = {
   opinionScale: 'opinionScale',
   rating: 'rating',
   abTesting: 'abTesting',
+  yesNo: 'yesNo',
   //dnd two below
   messageMedia: 'messageMedia',
   buttons: 'button',
+
   pictureChoice: 'pictureChoice',
 };
 
@@ -178,7 +180,26 @@ export const nodeConfigurations = {
         multipleHandles: true,
         layoutType: sideViewLayoutType.buttons,
         contentType: contentType.buttonNode,
-        items: [{ id: 'button-1', label: 'Edit Button', isDeletable: false }],
+        buttons: [
+          {
+            text: 'Button',
+            id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
+            buttonStyle: 'text',
+            icon: null,
+            externalLink: '',
+            isSettingExpand: false,
+            sortOrder: 0,
+          },
+        ],
+        minMaxOptions: false,
+        buttonsAlignment: 'horizontal',
+        randomizeOrder: false,
+        searchableOptions: false,
+        multipleChoices: false,
+        outputAsArray: false,
+        min: 1,
+        max: 'all',
+        // items: [{ id: 'button-1', label: 'Edit Button', isDeletable: false }],
       },
       fields: [
         {
@@ -421,10 +442,31 @@ export const nodeConfigurations = {
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
-        items: [
-          { id: 'button-yes', label: 'Yes', isDeletable: false },
-          { id: 'button-no', label: 'No', isDeletable: false },
+        layoutType: sideViewLayoutType.yesNo,
+        buttons: [
+          {
+            text: 'Yes',
+            id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
+            buttonStyle: 'icon',
+            icon: 'coding',
+            externalLink: '',
+            isSettingExpand: false,
+            sortOrder: 0,
+          },
+          {
+            text: 'No',
+            id: '975bea52-4bb7-63e4-a33b-d65afde26b2b',
+            buttonStyle: 'icon',
+            icon: 'coding',
+            externalLink: '',
+            isSettingExpand: false,
+            sortOrder: 0,
+          },
         ],
+        // items: [
+        //   { id: 'button-yes', label: 'Yes', isDeletable: false },
+        //   { id: 'button-no', label: 'No', isDeletable: false },
+        // ],
       },
       fields: [
         {

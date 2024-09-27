@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Image } from '@chakra-ui/react';
+import { Box, Icon, Image } from '@chakra-ui/react';
 import React from 'react';
 import { FormTextField } from '../FormUi';
 import { FaGear } from 'react-icons/fa6';
@@ -9,27 +9,10 @@ import { UiIconButton } from '../UiComponents';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import ButtonFieldArraySettings from './ButtonFieldArraySettings';
+import ButtonIconContent from './ButtonContentIcon';
 
 //TODO image should be URL but cannot upload it to server as backend work is on halt
 // See File selector in fieldArray component
-const ButtonIconContent = ({ buttonStyle, value }) => {
-  return (
-    <Box display='flex' alignItems='center'>
-      {buttonStyle === 'icon' && value?.icon && (
-        <Icon as={buttonCreatorIcons[value?.icon]} boxSize={4} marginLeft={2} />
-      )}
-
-      {buttonStyle === 'image' && value?.image && (
-        <Image src={value?.image} boxSize='32px' marginLeft={2} />
-      )}
-      {buttonStyle === 'emoji' && value?.emoji && (
-        <Box fontSize='16px' marginLeft={2}>
-          {value?.emoji}
-        </Box>
-      )}
-    </Box>
-  );
-};
 
 function ButtonCreatorInput({
   name,
@@ -40,6 +23,7 @@ function ButtonCreatorInput({
   isSortable = false,
   fieldItem,
   handleFieldItemPropChange,
+  showExternalLinkField,
 }) {
   const {
     attributes,
@@ -50,6 +34,7 @@ function ButtonCreatorInput({
     isDragging,
   } = useSortable({
     id: id,
+    disabled: !isSortable,
   });
 
   const { setFieldValue } = useFormikContext();
@@ -128,6 +113,8 @@ function ButtonCreatorInput({
       {fieldItem?.isSettingExpand && (
         <ButtonFieldArraySettings
           subFieldName={`${name}`}
+          showExternalLinkField={showExternalLinkField}
+          fieldValue={fieldValue}
           fieldItem={fieldItem}
           handleFieldItemPropChange={(changesValues) => {
             handleFieldItemPropChange(changesValues);
