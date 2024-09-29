@@ -1,19 +1,53 @@
 import React, { useState } from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
 import UploadButton from './UploadButton';
+import { fetchWrapper } from '../../../utils/fetchWrapper';
+import { useNodeContext } from '../../../views/canvas/NodeContext';
 
-const FileSelector = ({ onFileSelect }) => {
-  const [imageSrc, setImageSrc] = useState(null);
+const FileSelector = ({ onFileSelect, imageSrc }) => {
+  const [file, setFile] = useState(null);
+  const { currentNodeId } = useNodeContext();
 
   const handleFileSelect = (file) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImageSrc(e.target.result);
-      if (onFileSelect) {
-        onFileSelect(file, e.target.result);
+    setFile(file);
+  };
+  const uploadFile = async () => {
+    if (!file || !currentNodeId) {
+      return;
+    }
+    const url = `/media/${currentNodeId}`;
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetchWrapper({
+        url,
+        method: 'POST',
+        body: formData,
+      });
+      if (response?.fileUrl) {
+        onFileSelect(response?.fileUrl);
       }
-    };
-    reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
+  };
+
+  const handleSave = async (tabIndex, data) => {
+    switch (tabIndex) {
+      case 0:
+        uploadFile();
+        break;
+
+      case 1:
+        onFileSelect(data);
+        break;
+      case 2:
+        onFileSelect(data);
+        break;
+
+      default:
+    }
   };
 
   return (
@@ -40,12 +74,12 @@ const FileSelector = ({ onFileSelect }) => {
         Upload an image
       </p>
       <Box display={'flex'} alignItems={'center'} width={'100%'}>
-        <UploadButton onFileSelect={handleFileSelect} />
+        <UploadButton onFileSelect={handleFileSelect} onSave={handleSave} />
         {imageSrc && (
           <Box ml='10px'>
             <Image
               src={imageSrc}
-              alt='Selected'
+              alt='icon'
               boxSize='40px'
               objectFit='cover'
               style={{ borderRadius: '4px' }}

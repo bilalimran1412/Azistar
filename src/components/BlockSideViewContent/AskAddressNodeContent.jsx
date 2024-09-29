@@ -21,7 +21,7 @@ function AskAddressNodeContent({ id }) {
     fields: config.fields,
     //this message will contain all the ops and html and normal text
     message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
+    variable: currentNode?.data?.variable || '',
   };
   const validationSchema = yup.object({});
 

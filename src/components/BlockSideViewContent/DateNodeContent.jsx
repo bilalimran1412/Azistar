@@ -1,28 +1,17 @@
 import React from 'react';
 import {
-  AzistarForm,
   FormDropdown,
   FormWeekdaysSelect,
   QuillEditorField,
 } from '../Shared/FormUi';
 import * as yup from 'yup';
-import FormTextField from '../Shared/FormUi/FormTextField';
-import { Box, Divider } from '@chakra-ui/react';
-
+import { Divider } from '@chakra-ui/react';
 import FormCheckbox from '../Shared/FormUi/FormCheckbox';
-import { AddIcon } from '@chakra-ui/icons';
-import { MdAdd } from 'react-icons/md';
-import VariableDropdown from '../Shared/SidebarUi/VariableDropdown';
-
-const buttonFormSchema = yup.object({
-  question: yup.string(),
-});
-const buttonFormInitialValues = {
-  question:
-    '[{"insert":"A robot who has developed sentience, and is the only robot of his kind shown to be still functioning on Earth.\\nList item 1"},{"attributes":{"list":"ordered"},"insert":"\\n"},{"insert":"item 2"},{"attributes":{"list":"ordered"},"insert":"\\n"},{"insert":"sub item"},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"item 2"},{"attributes":{"list":"bullet"},"insert":"\\n"},{"attributes":{"italic":true},"insert":"I am an italics text"},{"insert":"\\n"}]',
-  error: "I'm afraid I didn't understand, could you try again, please?",
-  size: 'short',
-};
+import { useNodeContext } from '../../views/canvas/NodeContext';
+import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
+import { SidebarFormContainer } from '../Shared/SidebarUi';
+import DateSelectorFieldArray from '../Shared/FormUi/FormHelper/DateSelectorFieldArray';
+import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 
 const formatOptions = [
   { value: 'yyyy/MM/dd', label: 'YYYY/MM/DD - 2023/09/19' },
@@ -32,7 +21,7 @@ const formatOptions = [
   { value: 'MM/dd/yy', label: 'MM/DD/YY - 09/19/23' },
   { value: 'MM/dd/yyyy', label: 'MM/DD/YYYY - 09/19/2023' },
 ];
-const availableDatesOptions = [
+const enabledDatesOptions = [
   {
     value: 'all',
     label: 'All',
@@ -50,21 +39,76 @@ const availableDatesOptions = [
     label: 'Custom range',
   },
 ];
-function DateNodeContent() {
-  const [dateOption, setDateOption] = React.useState('');
-  const handelAvailableOptionChange = (value) => {
-    setDateOption(value);
+
+function DateNodeContent({ id }) {
+  // const [dateOption, setDateOption] = React.useState('');
+  const { getNodeById, setSideView, updateNodeById } = useNodeContext();
+  const currentNode = getNodeById(id);
+  const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
+  const handleClose = () => {
+    setSideView(false);
   };
+  if (!config) return <></>;
+  // const handelAvailableOptionChange = (value) => {
+  //   setDateOption(value);
+  // };
+  const initialValues = {
+    fields: config.fields,
+    //this message will contain all the ops and html and normal text
+    message: currentNode?.data?.message || '',
+    variable: currentNode?.data?.variable || '',
+    format: currentNode?.data?.format || '',
+    showDatePicker: currentNode?.data?.showDatePicker || false,
+    enabledDateType: currentNode?.data?.enabledDateType || '',
+    enabledDaysOfWeek: currentNode?.data?.enabledDaysOfWeek || [
+      1, 0, 2, 3, 4, 5, 6,
+    ],
+    enabledCustomRanges: currentNode?.data?.enabledCustomRanges || [
+      {
+        fromDate: '',
+        toDate: '',
+      },
+    ],
+    error: "I'm afraid I didn't understand, could you try again, please?",
+  };
+  const validationSchema = yup.object({
+    enabledCustomRanges: yup.array().of(
+      yup.object({
+        fromDate: yup.date().required('From date is required'),
+        toDate: yup
+          .date()
+          .required('To date is required')
+          .min(yup.ref('fromDate'), 'To Date must be after From Date'),
+      })
+    ),
+  });
+
+  const onSave = (formValues) => {
+    console.log('Form values=>>>', formValues);
+    const variableName = formValues.variable.value;
+    const enabledDateType = formValues.enabledDateType;
+
+    updateNodeById(id, {
+      ...currentNode?.data,
+      ...formValues,
+      variableName,
+      ...(enabledDateType !== 'custom' && { enabledCustomRanges: '' }),
+    });
+
+    handleClose();
+  };
+
   return (
-    <AzistarForm
-      onSave={(v) => {
-        console.log(v);
-      }}
-      validationSchema={buttonFormSchema}
-      initialValues={buttonFormInitialValues}
+    <SidebarFormContainer
+      block={config}
+      onClose={handleClose}
+      onFormSave={onSave}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onReset={handleClose}
     >
       <QuillEditorField
-        name='question'
+        name='message'
         placeholder='Example: <<Select a date, please>>'
         label='Question text'
       />
@@ -76,42 +120,23 @@ function DateNodeContent() {
       <FormCheckbox name='showDatePicker' label='Show date picker' />
       <Divider />
       <FormDropdown
-        name='availableDates'
-        options={availableDatesOptions}
+        name='enabledDateType'
+        options={enabledDatesOptions}
         label='Set available dates'
-        onChange={handelAvailableOptionChange}
+        // onChange={handelAvailableOptionChange}
       />
-      {dateOption === 'custom' && (
-        <Box display='flex' flexDirection='column' gap='12px'>
-          <Box background='lightgray' padding='12px'>
-            <Box display='flex' justifyContent='space-between' gap='1rem'>
-              <FormTextField name='fromDate' type='date' label='From Date' />
-              <FormTextField name='toDate' type='date' label='To Date' />
-            </Box>
-          </Box>
-          <div
-            style={{
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: '50%',
-              color: 'white',
-              background: '#cc3c79',
-              height: '32px',
-              width: '32px',
-              alignSelf: 'flex-end',
-            }}
-          >
-            <MdAdd />
-          </div>
-        </Box>
-      )}
+      <DateSelectorFieldArray name='enabledCustomRanges' />
 
       <Divider />
-      <FormWeekdaysSelect name='disabled' label='Disable specific days' />
-      <VariableDropdown />
-    </AzistarForm>
+      <FormWeekdaysSelect
+        name='enabledDaysOfWeek'
+        label='Disable specific days'
+      />
+      <FormVariableSelectorDropdown
+        name='variable'
+        allowedType={config?.variableType}
+      />
+    </SidebarFormContainer>
   );
 }
 

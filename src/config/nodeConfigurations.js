@@ -35,6 +35,7 @@ import {
   FaQuestionCircle,
   FaRandom,
   FaRegAddressCard,
+  FaRegCalendarAlt,
   FaRegImage,
   FaRegSquare,
   FaRobot,
@@ -317,7 +318,10 @@ export const nodeConfigurations = {
       blockId: '34dc3f09-0a00-5375-8ade-bfa7d122897e',
       title: 'Ask for a Date',
       label: 'Ask for a Date',
+      icon: <FaRegCalendarAlt />,
       nodeType: 'baseNode',
+      variableType: 'ARRAY',
+
       data: {
         layoutType: sideViewLayoutType.date,
       },
@@ -460,7 +464,7 @@ export const nodeConfigurations = {
             icon: 'coding',
             externalLink: '',
             isSettingExpand: false,
-            sortOrder: 0,
+            sortOrder: 1,
           },
         ],
         // items: [

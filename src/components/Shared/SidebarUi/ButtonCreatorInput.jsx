@@ -1,10 +1,9 @@
-import { Box, Icon, Image } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import React from 'react';
 import { FormTextField } from '../FormUi';
 import { FaGear } from 'react-icons/fa6';
 import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
 import { useField, useFormikContext } from 'formik';
-import { buttonCreatorIcons } from '../../../config/constant';
 import { UiIconButton } from '../UiComponents';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -48,6 +47,7 @@ function ButtonCreatorInput({
 
   return (
     <Box
+      key={id}
       ref={setNodeRef}
       style={{
         transition,

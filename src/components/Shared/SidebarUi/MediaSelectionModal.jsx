@@ -15,36 +15,40 @@ import {
   TabPanel,
   Input,
   Icon,
-  Box,
   Text,
   Flex,
-  useDisclosure,
+  Image,
 } from '@chakra-ui/react';
-import { FaLink, FaPaperclip } from 'react-icons/fa';
+import { FaLink, FaPaperclip, FaVideo } from 'react-icons/fa';
+import { getYoutubeThumbnail } from '../../../utils';
+import GiphySearchTabPanel from './GiphyPanel';
 
-function MediaSelectModal() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+function MediaSelectModal({
+  isOpen,
+  onClose,
+  onSaveAction,
+  onFileSelect,
+  showVideoTab = false,
+}) {
   const [url, setUrl] = useState('');
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const handleSave = () => {
-    switch (activeTabIndex) {
-      case 0:
-        break;
-      case 1:
-        break;
-      case 2:
-        break;
-      default:
-        break;
-    }
+    onSaveAction(activeTabIndex, url);
+    onClose();
+  };
+  const handleTabChange = (index) => {
+    setActiveTabIndex(index);
+    setUrl('');
   };
 
+  const handleSelect = (gifItem) => {
+    const gifUrl = gifItem.images.original.url;
+    console.log(gifItem);
+    setUrl(gifUrl);
+  };
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
-
       <Modal isOpen={isOpen} onClose={onClose} size='xl'>
         <ModalOverlay />
         <ModalContent>
@@ -52,14 +56,12 @@ function MediaSelectModal() {
           <ModalCloseButton />
 
           <ModalBody>
-            <Tabs
-              index={activeTabIndex}
-              onChange={(index) => setActiveTabIndex(index)}
-            >
+            <Tabs index={activeTabIndex} onChange={handleTabChange}>
               <TabList>
                 <Tab>Upload</Tab>
                 <Tab>Upload via URL</Tab>
                 <Tab>Search</Tab>
+                {showVideoTab && <Tab>Video Embed</Tab>}
               </TabList>
 
               <TabPanels>
@@ -79,22 +81,20 @@ function MediaSelectModal() {
                       alignItems: 'center',
                       width: '100%',
                       height: '40px',
-                      border: '1px solid gray',
-                      borderRadius: 'md',
+                      border: '1px solid lightgray',
+                      borderRadius: '4px',
                       position: 'relative',
                       cursor: 'pointer',
                       backgroundColor: 'white',
                       padding: '0 12px',
-                      '&::after': {
-                        content: '"Browse"',
-                        position: 'absolute',
-                        right: '10px',
-                        color: 'blue',
-                        fontWeight: 'bold',
-                      },
                     }}
                   >
-                    <Input type='file' accept='image/*' display='none' />
+                    <Input
+                      type='file'
+                      accept='image/*'
+                      display='none'
+                      onChange={onFileSelect}
+                    />
                     <Text flex='1' textAlign='center' color='gray.600'>
                       Choose file....
                     </Text>
@@ -117,10 +117,54 @@ function MediaSelectModal() {
                     onChange={(e) => setUrl(e.target.value)}
                   />
                 </TabPanel>
-
-                <TabPanel>
-                  <Input placeholder='Search media' />
+                <TabPanel display='flex' flexDirection='column' p={10} gap={10}>
+                  <GiphySearchTabPanel onSelect={handleSelect} />
                 </TabPanel>
+                {/* 
+
+                <TabPanel display='flex' flexDirection='column' p={10} gap={10}>
+                  <Flex direction='column' gap={3} minH={'120px'}>
+                    <Input
+                      placeholder='Enter text'
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                    />
+                  </Flex>
+                </TabPanel> */}
+
+                {showVideoTab && (
+                  <TabPanel
+                    display='flex'
+                    flexDirection='column'
+                    p={10}
+                    gap={10}
+                  >
+                    <Flex
+                      alignItems='center'
+                      justifyContent='center'
+                      direction='column'
+                      gap={3}
+                    >
+                      {url ? (
+                        <Image src={url} width='220px' height={'120px'} />
+                      ) : (
+                        <>
+                          <Icon as={FaVideo} boxSize={12} mr={2} />
+                          <Text fontSize='lg'>
+                            Enter a valid Youtube, Vimeo or Wistia URL
+                          </Text>
+                        </>
+                      )}
+                    </Flex>
+                    <Input
+                      placeholder='https://'
+                      // value={url}
+                      onChange={(e) =>
+                        setUrl(getYoutubeThumbnail(e.target.value))
+                      }
+                    />
+                  </TabPanel>
+                )}
               </TabPanels>
             </Tabs>
           </ModalBody>

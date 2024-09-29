@@ -31,8 +31,8 @@ export const SideViewContent = {
   [sideViewLayoutType.abTesting]: ABTestingNodeContent,
   [sideViewLayoutType.messageMedia]: MessageMediaNodeContent,
   [sideViewLayoutType.yesNo]: YesNoNodeContent,
+  [sideViewLayoutType.buttons]: ButtonNodeContent,
 
   //needs to be fixed
-  [sideViewLayoutType.buttons]: ButtonNodeContent,
   [sideViewLayoutType.date]: DateNodeContent,
 };

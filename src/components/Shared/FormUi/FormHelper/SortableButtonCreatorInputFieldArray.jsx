@@ -11,9 +11,6 @@ import { seedID } from '../../../../utils';
 import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
-//TODO remove file saving as field. as file must be uploaded.
-// todo implement emoji picker
-
 const ButtonCreatorInputFieldArray = ({
   label = 'Buttons Editor',
   name,
@@ -66,8 +63,8 @@ const ButtonCreatorInputFieldArray = ({
         (item) => item.id === `${over.id}`
       );
       const updatedOrder = arrayMove(fieldValue, draggedIndex, overIndex);
-      const sortedBySortOrder = updatedOrder.map((validation, index) => ({
-        ...validation,
+      const sortedBySortOrder = updatedOrder.map((updatedItem, index) => ({
+        ...updatedItem,
         sortOrder: index + 1,
       }));
       helpers.setValue(sortedBySortOrder);

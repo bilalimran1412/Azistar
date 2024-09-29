@@ -15,7 +15,7 @@ export const useDropdownToggle = (initialState = false) => {
     setDropdownVisible((prev) => !prev);
 
     if (nodeRef.current) {
-      const nodeRect = nodeRef.current.getBoundingClientRect();
+      // const nodeRect = nodeRef.current.getBoundingClientRect();
       setDropdownPosition({
         x: 150, // Adjust position as needed
         y: 30, // Adjust position as needed
@@ -45,10 +45,9 @@ export const handleCopyNode = (nodeId, nodes, handleAddNewNode) => {
 
   if (nodeToCopy) {
     const block = nodeConfigurationBlockIdMap[nodeToCopy.data?.blockId];
-
     const newNode = {
       ...nodeToCopy,
-      id: uuidv4(), // Generate a new unique ID
+      id: uuidv4(),
       position: newPosition,
       data: { ...nodeToCopy.data, label: `${block.title} (Copy)` }, // Modify data if needed
     };
@@ -93,6 +92,7 @@ export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
       x: nodeToDuplicate.position.x,
       y: nodeToDuplicate.position.y + 100,
     };
+    const block = nodeConfigurationBlockIdMap[nodeToDuplicate.data?.blockId];
 
     const newNode = {
       ...nodeToDuplicate,
@@ -100,7 +100,7 @@ export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
       position: newPosition,
       data: {
         ...nodeToDuplicate.data,
-        label: `${nodeToDuplicate.label} (Copy)`,
+        label: `${block.label} (Copy)`,
       }, // Modify data if needed
     };
     console.log('Duplicating node:', newNode);
@@ -110,7 +110,7 @@ export const handleDuplicateNode = (nodeId, nodes, handleAddNewNode) => {
   }
 };
 
-let copiedNode = null;
+// let copiedNode = null;
 
 export const handleCopyNodeId = (nodeId, nodes) => {
   console.log('handleCopyNodeId called with nodeId:', nodeId);

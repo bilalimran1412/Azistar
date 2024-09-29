@@ -1,25 +1,8 @@
-import React, { useState } from 'react';
-import { useField } from 'formik';
+import React from 'react';
 import { Box, Flex, Image } from '@chakra-ui/react';
 import { FaImage, FaFile } from 'react-icons/fa';
 
-const FormMediaField = ({ name, onCopy }) => {
-  const [field, , helpers] = useField(name);
-  const [preview, setPreview] = useState(null);
-
-  const handleFileSelect = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      helpers.setValue(file);
-      if (file.type.startsWith('image/')) {
-        const fileURL = URL.createObjectURL(file);
-        setPreview(fileURL);
-      } else {
-        setPreview(null);
-      }
-    }
-  };
-
+const FormMediaField = ({ value, onCopy }) => {
   return (
     <Box
       width='100%'
@@ -28,22 +11,16 @@ const FormMediaField = ({ name, onCopy }) => {
       pos='relative'
       _hover={{ '> .iconGroup': { visibility: 'visible' } }}
     >
-      <input
-        type='file'
-        id={`fileInput-${name}`}
-        style={{ display: 'none' }}
-        onChange={handleFileSelect}
-      />
       <Flex bg='#d2d5da' flex={1} height='100%' justify='center' align='center'>
-        {preview ? (
+        {value ? (
           <Image
-            src={preview}
+            src={value}
             alt='file-preview'
             width='100%'
             height='100%'
             objectFit='cover'
           />
-        ) : field.value ? (
+        ) : value ? (
           <FaFile fontSize='48px' />
         ) : (
           <FaImage fontSize='24px' />
