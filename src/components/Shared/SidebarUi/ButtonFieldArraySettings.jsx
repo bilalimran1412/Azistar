@@ -63,10 +63,9 @@ function ButtonFieldArraySettings({
       )}
       {fieldItem?.buttonStyle === 'image' && (
         <FileSelector
-          onFileSelect={(file, image) => {
-            //TODO remove file as we need url after uploading to server
+          imageSrc={fieldValue.image}
+          onFileSelect={(image) => {
             handleFieldItemPropChange({
-              file,
               image,
             });
           }}

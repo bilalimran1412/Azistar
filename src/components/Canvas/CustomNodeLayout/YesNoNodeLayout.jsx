@@ -1,6 +1,5 @@
 import React from 'react';
 import CustomHandle from '../CustomHandle';
-import ButtonIconContent from '../../Shared/SidebarUi/ButtonContentIcon';
 
 function YesNoNodeLayout({ onClick, buttons, id }) {
   return (
@@ -15,10 +14,6 @@ function YesNoNodeLayout({ onClick, buttons, id }) {
                   gap: '10px',
                 }}
               >
-                <ButtonIconContent
-                  buttonStyle={item?.buttonStyle}
-                  value={item}
-                />
                 <span>{item.text}</span>
               </div>
             ) : (

@@ -7,16 +7,20 @@ export const fetchWrapper = async ({
 }) => {
   const baseURL = process.env.REACT_APP_API_BASE_URL;
   const token = process.env.REACT_APP_API_TOKEN;
+
   try {
     const fullUrl = `${baseURL}${url}`;
     const options = {
       method,
       headers: {
-        'Content-Type': 'application/json',
+        ...(body instanceof FormData
+          ? {}
+          : { 'Content-Type': 'application/json' }),
         Authorization: `Bearer ${token}`,
         ...headers,
       },
-      body: body ? JSON.stringify(body) : null,
+      body:
+        body instanceof FormData ? body : body ? JSON.stringify(body) : null,
     };
 
     if (useCredentials) {

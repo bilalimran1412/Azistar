@@ -1,5 +1,4 @@
 import React from 'react';
-import { Divider } from '@chakra-ui/react';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
@@ -50,7 +49,6 @@ function MessageMediaNodeContent({ id }) {
       onReset={handleClose}
     >
       <MessageFieldArray name='mediaAndMessage' label='Write a message' />
-      <Divider />
     </SidebarFormContainer>
   );
 }
