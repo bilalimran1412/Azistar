@@ -3,7 +3,7 @@ import { Button, Icon, Box, useDisclosure } from '@chakra-ui/react';
 import { FaUpload } from 'react-icons/fa';
 import MediaSelectModal from './MediaSelectionModal';
 
-const UploadButton = ({ onFileSelect, onSave }) => {
+const UploadButton = ({ onFileSelect, onSave, buttonText = 'Select' }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleChange = (e) => {
@@ -30,15 +30,17 @@ const UploadButton = ({ onFileSelect, onSave }) => {
         p='10px 20px'
         onClick={onOpen}
       >
-        Select
+        {buttonText}
       </Button>
 
-      <MediaSelectModal
-        onClose={onClose}
-        isOpen={isOpen}
-        onSaveAction={handleSaveAction}
-        onFileSelect={handleChange}
-      />
+      {isOpen && (
+        <MediaSelectModal
+          onClose={onClose}
+          isOpen={isOpen}
+          onSaveAction={handleSaveAction}
+          onFileSelect={handleChange}
+        />
+      )}
     </Box>
   );
 };

@@ -10,3 +10,4 @@ export { default as FormMediaField } from './FormMediaField';
 export { default as MessageFieldArray } from './FormHelper/MessageFieldArray';
 export { default as SortableButtonCreatorInputFieldArray } from './FormHelper/SortableButtonCreatorInputFieldArray';
 export { default as ButtonCreatorInputFieldArray } from './FormHelper/ButtonCreatorInputFieldArray';
+export { default as SortablePictureCardFieldArray } from './FormHelper/SortablePictureCardFieldArray';

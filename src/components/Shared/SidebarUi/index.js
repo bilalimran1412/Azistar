@@ -5,3 +5,4 @@ export { default as IconSelector } from './IconSelector';
 export { default as UploadButton } from './UploadButton';
 export { default as ButtonFieldArrayAddButton } from './ButtonFieldArrayAddButton';
 export { default as ButtonFieldArraySettings } from './ButtonFieldArraySettings';
+export * from './PictureChoice';

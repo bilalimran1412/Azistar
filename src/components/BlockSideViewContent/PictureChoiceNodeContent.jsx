@@ -6,6 +6,10 @@ import { yup } from '../../utils/yup';
 import { groupBy } from '../../utils/arrayHelper';
 import { Divider } from '@chakra-ui/react';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import {
+  QuillEditorField,
+  SortablePictureCardFieldArray,
+} from '../Shared/FormUi';
 
 function PictureChoiceNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -22,6 +26,9 @@ function PictureChoiceNodeContent({ id }) {
     fields: config.fields,
 
     variable: currentNode?.data?.variable,
+    //this message will contain all the ops and html and normal text
+    message: currentNode?.data?.message || '',
+    cards: currentNode?.data?.cards || '',
   };
 
   const validationSchema = yup.object({});
@@ -30,13 +37,10 @@ function PictureChoiceNodeContent({ id }) {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
 
-    const groupedValues = groupBy(formValues.mediaAndMessage, 'type');
-
     updateNodeById(id, {
       ...currentNode?.data,
       ...formValues,
       variableName,
-      ...(groupedValues || {}),
     });
 
     handleClose();
@@ -51,70 +55,21 @@ function PictureChoiceNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
+      <QuillEditorField
+        name='message'
+        placeholder={config.fields[0].placeholder}
+        label={config.fields[0].label}
+      />
       <Divider />
-
+      <SortablePictureCardFieldArray name='cards' />
       <Divider />
-
-      <FormVariableSelectorDropdown name='variable' readOnly />
+      <FormVariableSelectorDropdown
+        name='variable'
+        readOnly
+        allowedType={config?.variableType}
+      />
     </SidebarFormContainer>
   );
 }
 
 export default PictureChoiceNodeContent;
-
-// function MultipleChoiceSubFields() {
-//   const { values } = useFormikContext();
-//   const minMaxValues = values?.buttons.length;
-//   const minMaxDropdownOptions = Array.from({ length: minMaxValues || 0 }).map(
-//     (value, index) => ({ value: index + 1, label: index + 1 })
-//   );
-//   const maxDropdownOptions = [
-//     ...minMaxDropdownOptions,
-//     {
-//       value: 'all',
-//       label: 'All options',
-//     },
-//   ];
-//   return (
-//     <>
-//       {values?.multipleChoices && (
-//         <Flex flex={1} direction='column' gap={2}>
-//           <Flex direction='column' gap={2}>
-//             <Text>
-//               When Multiple choice is activated, the flow will follow the
-//               Default output. More info{' '}
-//               <Text color='#5757ff' as='span'>
-//                 here.
-//               </Text>
-//             </Text>
-//             <FormCheckbox
-//               name='outputAsArray'
-//               label='Save output as an Array type variable'
-//             />
-//           </Flex>
-//           <Flex direction='column' bg='lightgray' p={3}>
-//             <FormCustomOptionSelector
-//               name='minMaxOptions'
-//               label='Set min/max options'
-//               options={minMaxOptions}
-//             />
-//             {values?.minMaxOptions && (
-//               <>
-//                 <FormDropdown
-//                   name='min'
-//                   label='Minimum'
-//                   options={minMaxDropdownOptions}
-//                 />
-//                 <FormDropdown
-//                   name='max'
-//                   label='Maximum'
-//                   options={maxDropdownOptions}
-//                 />
-//               </>
-//             )}
-//           </Flex>
-//         </Flex>
-//       )}
-//     </>
-//   );
-// }

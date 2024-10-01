@@ -13,6 +13,7 @@ import DateNodeContent from './DateNodeContent';
 import GoodByeNodeContent from './GoodByeNodeContent';
 import MessageMediaNodeContent from './MessageMediaNodeContent';
 import OpinionScaleNodeContent from './OpinionScaleNodeContent';
+import PictureChoiceNodeContent from './PictureChoiceNodeContent';
 import RatingNodeContent from './RatingNodeContent';
 import YesNoNodeContent from './YesNoNodeContent';
 
@@ -32,7 +33,6 @@ export const SideViewContent = {
   [sideViewLayoutType.messageMedia]: MessageMediaNodeContent,
   [sideViewLayoutType.yesNo]: YesNoNodeContent,
   [sideViewLayoutType.buttons]: ButtonNodeContent,
-
-  //needs to be fixed
   [sideViewLayoutType.date]: DateNodeContent,
+  [sideViewLayoutType.pictureChoice]: PictureChoiceNodeContent,
 };

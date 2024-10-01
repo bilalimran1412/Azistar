@@ -63,7 +63,7 @@ const ButtonCreatorInputFieldArray = ({
           >
             {fieldValue?.map((fieldItem, index) => (
               <ButtonCreatorInput
-                key={index}
+                key={fieldItem.id}
                 id={fieldItem.id}
                 showExternalLinkField={showExternalLinkField}
                 name={`${name}[${index}]`}
