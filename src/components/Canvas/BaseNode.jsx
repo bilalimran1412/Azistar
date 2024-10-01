@@ -138,6 +138,9 @@ const BaseNode = (props) => {
         {config?.data?.layoutType === sideViewLayoutType.yesNo && (
           <YesNoNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
         )}
+        {config?.data?.layoutType === sideViewLayoutType.pictureChoice && (
+          <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.cards} />
+        )}
 
         {/* {isMultiHandleNode && (
           <div className='item-list'>

@@ -7,24 +7,16 @@ function ButtonNodeLayout({ onClick, buttons, id }) {
       {buttons &&
         buttons.map((item) => (
           <div key={item.id} className='item-buttons'>
-            {item.text || item.buttonStyle !== 'text' ? (
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '10px',
-                }}
-              >
-                <span>{item.text}</span>
-              </div>
-            ) : (
-              <span
-                style={{
-                  color: 'lightgray',
-                }}
-              >
-                Add button label
-              </span>
-            )}
+            <div
+              style={{
+                display: 'flex',
+                gap: '10px',
+                opacity: item.text ? '1' : '0.5',
+              }}
+            >
+              <span>{item.text || 'Add label'}</span>
+            </div>
+
             <CustomHandle
               type='source'
               key={item.id}
