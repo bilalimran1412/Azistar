@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Flex, FormLabel } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { FieldArray, useField } from 'formik';
-import { ButtonCreatorInput, ButtonFieldArrayAddButton } from '../../SidebarUi';
+import { ButtonFieldArrayAddButton, PictureCardItem } from '../../SidebarUi';
 import {
   arrayMove,
   SortableContext,
@@ -11,38 +11,40 @@ import { seedID } from '../../../../utils';
 import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
-const ButtonCreatorInputFieldArray = ({
-  label = 'Buttons Editor',
-  name,
-  showExternalLinkField = true,
-}) => {
-  const [field, _, helpers] = useField(name);
+const SortablePictureCardFieldArray = ({ name }) => {
+  const [field, , helpers] = useField(name);
   const fieldValue = field.value;
-  const handleAddButton = (arrayHelpers) => {
-    arrayHelpers.push({
+  const handleAddCard = (arrayHelpers) => {
+    const currentFields = arrayHelpers.form.values?.[name];
+
+    const updatedFields = currentFields?.map((field) => ({
+      ...field,
+      isOpen: false,
+    }));
+
+    const newCard = {
       id: seedID(),
       text: '',
-      buttonStyle: 'text',
-      icon: null,
       externalLink: '',
-      isSettingExpand: false,
-      sortOrder: fieldValue?.length,
-    });
+      isOpen: true,
+      buttonText: '',
+      description: '',
+      details: '',
+      highlighted: '',
+      image: '',
+      footerImage: '',
+      sortOrder: fieldValue?.length || 0,
+    };
+    arrayHelpers.form.setFieldValue(name, [...(updatedFields || []), newCard]);
   };
 
   const handleDelete = (index, arrayHelpers) => {
     arrayHelpers.remove(index);
   };
 
-  const isLastItem = fieldValue?.length === 1;
-
   const handleFieldItemPropChange = (index, arrayHelpers, changedProp) => {
     const fieldItemToUpdate = {
       ...arrayHelpers.form.values[arrayHelpers.name][index],
-      file: '',
-      icon: '',
-      image: '',
-      emoji: '',
       ...(changedProp && { ...changedProp }),
     };
 
@@ -70,10 +72,18 @@ const ButtonCreatorInputFieldArray = ({
       helpers.setValue(sortedBySortOrder);
     }
   };
+  const handleConfigsClick = (index, arrayHelpers) => {
+    const currentFields = arrayHelpers.form.values?.[name];
 
+    const updatedFields = currentFields.map((field, i) => ({
+      ...field,
+      isOpen: i === index ? !field.isOpen : false,
+    }));
+
+    arrayHelpers.form.setFieldValue(name, updatedFields);
+  };
   return (
     <Box width='100%'>
-      <FormLabel>{label}</FormLabel>
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -97,15 +107,15 @@ const ButtonCreatorInputFieldArray = ({
                 whiteSpace='nowrap'
               >
                 {fieldValue?.map((fieldItem, index) => (
-                  <ButtonCreatorInput
+                  <PictureCardItem
                     key={fieldItem.id}
                     isSortable={true}
                     id={fieldItem.id}
                     name={`${name}[${index}]`}
+                    handleConfigsClick={() =>
+                      handleConfigsClick(index, arrayHelpers)
+                    }
                     handleDeleteClick={() => handleDelete(index, arrayHelpers)}
-                    fieldItem={fieldItem}
-                    showExternalLinkField={showExternalLinkField}
-                    hideDelete={isLastItem}
                     handleFieldItemPropChange={(changedProp) => {
                       handleFieldItemPropChange(
                         index,
@@ -116,8 +126,9 @@ const ButtonCreatorInputFieldArray = ({
                   />
                 ))}
                 <ButtonFieldArrayAddButton
+                  label='Add a New Card'
                   handleAddButton={() => {
-                    handleAddButton(arrayHelpers);
+                    handleAddCard(arrayHelpers);
                   }}
                 />
               </Flex>
@@ -129,4 +140,4 @@ const ButtonCreatorInputFieldArray = ({
   );
 };
 
-export default ButtonCreatorInputFieldArray;
+export default SortablePictureCardFieldArray;

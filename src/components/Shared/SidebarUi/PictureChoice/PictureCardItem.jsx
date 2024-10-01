@@ -1,25 +1,22 @@
-import { Box } from '@chakra-ui/react';
 import React from 'react';
-import { FormTextField } from '../FormUi';
-import { FaGear } from 'react-icons/fa6';
-import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
-import { useField, useFormikContext } from 'formik';
-import { UiIconButton } from '../UiComponents';
+import { FormTextField } from '../../FormUi';
+import { FaGripVertical, FaRegImage, FaTrashAlt } from 'react-icons/fa';
+import { useField } from 'formik';
+import { UiIconButton } from '../../UiComponents';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import ButtonFieldArraySettings from './ButtonFieldArraySettings';
-import ButtonIconContent from './ButtonContentIcon';
+import ButtonIconContent from '../ButtonContentIcon';
+import { PictureCardSettings, PictureChoicePreview } from '..';
+import { Box } from '@chakra-ui/react';
 
-function ButtonCreatorInput({
+function PictureCardItem({
   name,
   id,
   showOptions = true,
-  hideDelete = false,
   handleDeleteClick,
   isSortable = false,
-  fieldItem,
   handleFieldItemPropChange,
-  showExternalLinkField,
+  handleConfigsClick,
 }) {
   const {
     attributes,
@@ -33,14 +30,9 @@ function ButtonCreatorInput({
     disabled: !isSortable,
   });
 
-  const { setFieldValue } = useFormikContext();
   const [field] = useField(name);
 
   const fieldValue = field?.value;
-
-  const handleSettingClick = () => {
-    setFieldValue(`${name}.isSettingExpand`, !fieldValue?.isSettingExpand);
-  };
 
   return (
     <Box
@@ -69,10 +61,7 @@ function ButtonCreatorInput({
       >
         <Box display='flex' justifyContent='space-around' alignItems='center'>
           {fieldValue?.buttonStyle !== 'text' && (
-            <ButtonIconContent
-              buttonStyle={fieldValue?.buttonStyle}
-              value={field.value}
-            />
+            <ButtonIconContent buttonStyle={'image'} value={field.value} />
           )}
           <FormTextField
             placeholder='Click to edit'
@@ -93,33 +82,32 @@ function ButtonCreatorInput({
               />
             )}
             <UiIconButton
-              icon={<FaGear />}
-              label='Settings'
-              onClick={handleSettingClick}
+              icon={<FaRegImage />}
+              label='Config'
+              onClick={handleConfigsClick}
             />
-            {!hideDelete && (
-              <UiIconButton
-                icon={<FaTrashAlt />}
-                label='Delete'
-                onClick={handleDeleteClick}
-              />
-            )}
+            <UiIconButton
+              icon={<FaTrashAlt />}
+              label='Delete'
+              onClick={handleDeleteClick}
+            />
           </Box>
         )}
       </Box>
-      {fieldItem?.isSettingExpand && (
-        <ButtonFieldArraySettings
-          subFieldName={`${name}`}
-          showExternalLinkField={showExternalLinkField}
-          fieldValue={fieldValue}
-          fieldItem={fieldItem}
-          handleFieldItemPropChange={(changesValues) => {
-            handleFieldItemPropChange(changesValues);
-          }}
-        />
+      {fieldValue?.isOpen && (
+        <>
+          <PictureCardSettings
+            subFieldName={name}
+            fieldValue={fieldValue}
+            handleFieldItemPropChange={(changesValues) => {
+              handleFieldItemPropChange(changesValues);
+            }}
+          />
+          <PictureChoicePreview fieldValue={fieldValue} />
+        </>
       )}
     </Box>
   );
 }
 
-export default ButtonCreatorInput;
+export { PictureCardItem };

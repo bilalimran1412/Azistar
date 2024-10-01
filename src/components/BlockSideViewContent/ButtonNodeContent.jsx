@@ -144,7 +144,11 @@ function ButtonNodeContent({ id }) {
       <MultipleChoiceSubFields />
       <Divider />
 
-      <FormVariableSelectorDropdown name='variable' readOnly />
+      <FormVariableSelectorDropdown
+        name='variable'
+        readOnly
+        allowedType={config?.variableType}
+      />
     </SidebarFormContainer>
   );
 }

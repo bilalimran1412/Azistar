@@ -68,10 +68,9 @@ export const contentType = {
 export const sideViewLayoutType = {
   //NEEDS TO BE FIXED
   forms: 'form',
-  // uploadMedia: 'uploadMedia',
-  date: 'date',
-  //ALMOST DONE
+  pictureChoice: 'pictureChoice',
 
+  date: 'date',
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
   askName: 'askName',
@@ -85,11 +84,8 @@ export const sideViewLayoutType = {
   rating: 'rating',
   abTesting: 'abTesting',
   yesNo: 'yesNo',
-  //dnd two below
   messageMedia: 'messageMedia',
   buttons: 'button',
-
-  pictureChoice: 'pictureChoice',
 };
 
 //groups for creating nodes
@@ -175,6 +171,7 @@ export const nodeConfigurations = {
       blockId: '044e2870-b2fc-5377-9622-4ac0eea5acce',
       title: 'Buttons',
       label: 'Buttons',
+      variableType: 'STRING',
       nodeType: 'baseNode',
       icon: <FaRegSquare />,
       data: {
@@ -400,15 +397,17 @@ export const nodeConfigurations = {
       title: 'Picture Choice',
       label: 'Picture Choice',
       nodeType: 'baseNode',
+      variableType: 'STRING',
       icon: <FaRegImage />,
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.pictureChoice,
         items: [],
       },
       fields: [
         {
-          label: 'Choices',
+          label: 'Question',
           type: 'text',
           variable: 'textareaFieldData',
           placeholder: 'Image carousel',

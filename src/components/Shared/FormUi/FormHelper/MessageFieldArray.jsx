@@ -120,7 +120,7 @@ const MessageMediaField = ({ name, label, onOpen }) => {
               <FormLabel>{label}</FormLabel>
               {(fieldValue || [])?.map((item, index) => (
                 <MessageFieldItem
-                  key={index}
+                  key={item.id}
                   index={index}
                   item={item}
                   name={name}

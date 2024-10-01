@@ -12,6 +12,7 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import DateSelectorFieldArray from '../Shared/FormUi/FormHelper/DateSelectorFieldArray';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import { useFormikContext } from 'formik';
 
 const formatOptions = [
   { value: 'yyyy/MM/dd', label: 'YYYY/MM/DD - 2023/09/19' },
@@ -39,7 +40,12 @@ const enabledDatesOptions = [
     label: 'Custom range',
   },
 ];
-
+const defaultRange = [
+  {
+    fromDate: '',
+    toDate: '',
+  },
+];
 function DateNodeContent({ id }) {
   // const [dateOption, setDateOption] = React.useState('');
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -63,21 +69,17 @@ function DateNodeContent({ id }) {
     enabledDaysOfWeek: currentNode?.data?.enabledDaysOfWeek || [
       1, 0, 2, 3, 4, 5, 6,
     ],
-    enabledCustomRanges: currentNode?.data?.enabledCustomRanges || [
-      {
-        fromDate: '',
-        toDate: '',
-      },
-    ],
+    enabledCustomRanges: currentNode?.data?.enabledCustomRanges || defaultRange,
     error: "I'm afraid I didn't understand, could you try again, please?",
   };
+
   const validationSchema = yup.object({
     enabledCustomRanges: yup.array().of(
       yup.object({
-        fromDate: yup.date().required('From date is required'),
+        fromDate: yup.date().notRequired(),
         toDate: yup
           .date()
-          .required('To date is required')
+          .notRequired()
           .min(yup.ref('fromDate'), 'To Date must be after From Date'),
       })
     ),
@@ -119,12 +121,7 @@ function DateNodeContent({ id }) {
       />
       <FormCheckbox name='showDatePicker' label='Show date picker' />
       <Divider />
-      <FormDropdown
-        name='enabledDateType'
-        options={enabledDatesOptions}
-        label='Set available dates'
-        // onChange={handelAvailableOptionChange}
-      />
+      <DateTypeDropdown />
       <DateSelectorFieldArray name='enabledCustomRanges' />
 
       <Divider />
@@ -141,3 +138,15 @@ function DateNodeContent({ id }) {
 }
 
 export default DateNodeContent;
+
+function DateTypeDropdown() {
+  const { setFieldValue } = useFormikContext();
+  return (
+    <FormDropdown
+      name='enabledDateType'
+      options={enabledDatesOptions}
+      label='Set available dates'
+      onChange={() => setFieldValue('enabledCustomRanges', defaultRange)}
+    />
+  );
+}
