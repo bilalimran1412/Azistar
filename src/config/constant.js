@@ -191,19 +191,6 @@ export const initialGroupedOptions = [
     data: 'TIME_REFERENCES',
     options: timeReferencesOptions,
   },
-  {
-    label: 'CUSTOM VARIABLES',
-    data: 'CUSTOM_VARIABLES',
-    options: [
-      {
-        value: 'custom_var',
-        label: 'User Input',
-        type: 'NUMBER',
-        sample: '32423',
-        category: 'CUSTOM_VARIABLES',
-      },
-    ],
-  },
 ];
 
 export const edgeType = 'baseEdge';

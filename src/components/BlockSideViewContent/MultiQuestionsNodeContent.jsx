@@ -4,13 +4,9 @@ import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { Divider } from '@chakra-ui/react';
-import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
-import {
-  QuillEditorField,
-  SortablePictureCardFieldArray,
-} from '../Shared/FormUi';
+import { QuillEditorField } from '../Shared/FormUi';
 
-function PictureChoiceNodeContent({ id }) {
+function MultiQuestionsNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -27,19 +23,16 @@ function PictureChoiceNodeContent({ id }) {
     variable: currentNode?.data?.variable,
     //this message will contain all the ops and html and normal text
     message: currentNode?.data?.message || '',
-    cards: currentNode?.data?.cards || '',
   };
 
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    const variableName = formValues.variable.value;
 
     updateNodeById(id, {
       ...currentNode?.data,
       ...formValues,
-      variableName,
     });
 
     handleClose();
@@ -60,15 +53,8 @@ function PictureChoiceNodeContent({ id }) {
         label={config.fields[0].label}
       />
       <Divider />
-      <SortablePictureCardFieldArray name='cards' />
-      <Divider />
-      <FormVariableSelectorDropdown
-        name='variable'
-        readOnly
-        allowedType={config?.variableType}
-      />
     </SidebarFormContainer>
   );
 }
 
-export default PictureChoiceNodeContent;
+export default MultiQuestionsNodeContent;

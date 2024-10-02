@@ -49,7 +49,7 @@ function MediaSelectModal({
   };
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+      <Modal isOpen={isOpen} onClose={onClose} size='xl' isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader textAlign='left'>Select media</ModalHeader>

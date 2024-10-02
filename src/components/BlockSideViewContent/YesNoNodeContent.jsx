@@ -65,7 +65,11 @@ function YesNoNodeContent({ id }) {
       />
 
       <Divider />
-      <FormVariableSelectorDropdown name='variable' readOnly />
+      <FormVariableSelectorDropdown
+        name='variable'
+        readOnly
+        allowedType={config?.variableType}
+      />
     </SidebarFormContainer>
   );
 }
