@@ -166,7 +166,7 @@ function PictureChoicePreview({ fieldValue }) {
           as='h3'
           size='md'
           fontWeight='300 !important'
-          mt={2}
+          mt={4}
           color='white'
         >
           Preview

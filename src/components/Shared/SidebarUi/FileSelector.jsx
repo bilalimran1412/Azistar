@@ -1,30 +1,49 @@
 import React, { useState } from 'react';
-import { Box, Flex, Image } from '@chakra-ui/react';
+import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
 import UploadButton from './UploadButton';
 import { fetchWrapper } from '../../../utils/fetchWrapper';
 import { useNodeContext } from '../../../views/canvas/NodeContext';
-import { UiIconButton } from '../UiComponents';
+import { ImageEditorModal, UiIconButton } from '../UiComponents';
 import { FaTrashAlt } from 'react-icons/fa';
+import { fileToBlobURL } from '../UiComponents/ImageEditor/utils';
 
 const FileSelector = ({
   onFileSelect,
   imageSrc,
   sectionLabel = 'Upload an image',
   buttonText = 'Select',
+  editImage = false,
 }) => {
   const [file, setFile] = useState(null);
   const { currentNodeId } = useNodeContext();
 
-  const handleFileSelect = (file) => {
-    setFile(file);
+  const {
+    isOpen: isSelectorModalOpen,
+    onOpen: openSelectorModal,
+    onClose: closeSelectorModal,
+  } = useDisclosure();
+
+  const {
+    onClose: onCloseImageEditor,
+    isOpen: isImageEditorOpen,
+    onOpen: openImageEditor,
+  } = useDisclosure();
+
+  const handleFileSelect = async (file) => {
+    if (editImage) {
+      const imageSrc = fileToBlobURL(file);
+      setFile(imageSrc);
+      openImageEditor();
+    } else setFile(file);
   };
-  const uploadFile = async () => {
+
+  const uploadFile = async (croppedImage) => {
     if (!file || !currentNodeId) {
       return;
     }
     const url = `/media/${currentNodeId}`;
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', croppedImage ? croppedImage : file);
 
     try {
       const response = await fetchWrapper({
@@ -41,9 +60,10 @@ const FileSelector = ({
   };
 
   const handleSave = async (tabIndex, data) => {
+    console.log('saving');
     switch (tabIndex) {
       case 0:
-        uploadFile();
+        await uploadFile();
         break;
 
       case 1:
@@ -54,6 +74,18 @@ const FileSelector = ({
         break;
 
       default:
+    }
+  };
+
+  const handleImageEditorClose = () => {
+    setFile('');
+    onCloseImageEditor();
+  };
+
+  const getCroppedImage = (croppedImage) => {
+    if (croppedImage) {
+      uploadFile(croppedImage);
+      closeSelectorModal();
     }
   };
 
@@ -87,6 +119,9 @@ const FileSelector = ({
           onFileSelect={handleFileSelect}
           onSave={handleSave}
           buttonText={buttonText}
+          isSelectorModalOpen={isSelectorModalOpen}
+          openSelectorModal={openSelectorModal}
+          closeSelectorModal={closeSelectorModal}
         />
         {imageSrc && (
           <Box ml='10px' display='flex' gap={3}>
@@ -107,6 +142,14 @@ const FileSelector = ({
           </Box>
         )}
       </Box>
+      {editImage && isImageEditorOpen && (
+        <ImageEditorModal
+          isOpen={isImageEditorOpen}
+          getCroppedImage={getCroppedImage}
+          imageSrc={file}
+          onClose={handleImageEditorClose}
+        />
+      )}
     </Flex>
   );
 };

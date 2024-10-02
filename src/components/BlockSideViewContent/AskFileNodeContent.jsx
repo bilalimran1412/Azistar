@@ -29,6 +29,7 @@ function AskFileNodeContent({ id }) {
 
     allowMultiples: currentNode?.data?.allowMultiples || false,
   };
+
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {

@@ -12,6 +12,7 @@ import ButtonNodeContent from './ButtonNodeContent';
 import DateNodeContent from './DateNodeContent';
 import GoodByeNodeContent from './GoodByeNodeContent';
 import MessageMediaNodeContent from './MessageMediaNodeContent';
+import MultiQuestionsNodeContent from './MultiQuestionsNodeContent';
 import OpinionScaleNodeContent from './OpinionScaleNodeContent';
 import PictureChoiceNodeContent from './PictureChoiceNodeContent';
 import RatingNodeContent from './RatingNodeContent';
@@ -35,4 +36,5 @@ export const SideViewContent = {
   [sideViewLayoutType.buttons]: ButtonNodeContent,
   [sideViewLayoutType.date]: DateNodeContent,
   [sideViewLayoutType.pictureChoice]: PictureChoiceNodeContent,
+  [sideViewLayoutType.multiQuestions]: MultiQuestionsNodeContent,
 };

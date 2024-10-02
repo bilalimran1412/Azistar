@@ -68,8 +68,11 @@ export const contentType = {
 export const sideViewLayoutType = {
   //NEEDS TO BE FIXED
   forms: 'form',
-  pictureChoice: 'pictureChoice',
+  //this node config data has initial values
+  multiQuestions: 'multiQuestions',
 
+  //add initial data to config.data from form initial values
+  pictureChoice: 'pictureChoice',
   date: 'date',
   goodBye: 'goodbye',
   askQuestion: 'askQuestion',
@@ -442,6 +445,8 @@ export const nodeConfigurations = {
       label: 'Yes/No',
       nodeType: 'baseNode',
       icon: <FaToggleOn />,
+      variableType: 'STRING',
+
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
@@ -561,9 +566,17 @@ export const nodeConfigurations = {
       label: 'Multi-questions',
       icon: <FaTasks />,
       nodeType: 'baseNode',
+      data: {
+        //not a multi handles node
+        // multipleHandles: true,
+        // contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.multiQuestions,
+        sendLabel: 'Send',
+        isAdvancedEnabled: false,
+      },
       fields: [
         {
-          label: 'Questions Setup',
+          label: 'Message',
           type: 'text',
           variable: 'textareaFieldData',
           placeholder: 'Form title: Answer the following questions',

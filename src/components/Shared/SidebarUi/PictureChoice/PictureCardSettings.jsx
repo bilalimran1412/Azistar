@@ -41,6 +41,7 @@ function PictureCardSettings({
             image,
           });
         }}
+        editImage={true}
       />
       <FormTextField
         name={`${subFieldName}.externalLink`}
@@ -115,6 +116,7 @@ const CustomAccordion = ({ subFieldName, imageSrc, onFileSelect }) => {
             sectionLabel='Image with footer'
             imageSrc={imageSrc}
             onFileSelect={onFileSelect}
+            editImage={true}
           />
         </AccordionPanel>
       </AccordionItem>

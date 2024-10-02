@@ -13,11 +13,11 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 const SortablePictureCardFieldArray = ({ name }) => {
   const [field, , helpers] = useField(name);
-  const fieldValue = field.value;
+  const fieldValue = field.value || [];
   const handleAddCard = (arrayHelpers) => {
     const currentFields = arrayHelpers.form.values?.[name];
 
-    const updatedFields = currentFields?.map((field) => ({
+    const updatedFields = (currentFields || [])?.map((field) => ({
       ...field,
       isOpen: false,
     }));

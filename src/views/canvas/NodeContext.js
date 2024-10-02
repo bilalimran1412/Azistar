@@ -172,18 +172,23 @@ export const NodeProvider = ({ children }) => {
       edges,
     };
     if (!botID) return;
+    const customVariables = groupedOptions.find(
+      (group) => group.data === 'CUSTOM_VARIABLES'
+    ).options;
+
     try {
       await fetchWrapper({
         url: `/bot/${botID}/update`,
         method: 'PATCH',
         body: {
           diagram: JSON.stringify(diagram),
+          ...(customVariables && { customVariables: customVariables }),
         },
       });
     } catch (error) {
       console.error('Failed to update bot:', error);
     }
-  }, [botID, edges, nodes]);
+  }, [botID, edges, groupedOptions, nodes]);
 
   const handleAddNewNode = useCallback((node) => {
     setNodes((pre) => [...pre, node]);

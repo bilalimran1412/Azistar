@@ -30,6 +30,8 @@ function BotBuilder() {
     setNodes,
     setEdges,
     setBotID,
+    setGroupedOptions,
+    groupedOptions,
     botID: contextBotId,
   } = useNodeContext();
 
@@ -39,15 +41,35 @@ function BotBuilder() {
     () => JSON.parse(botCopy?.data[0]?.diagram || '{}'),
     [botCopy]
   );
-  const { nodes, edges } = diagram;
 
+  const { nodes, edges } = diagram;
   React.useEffect(() => {
     if (nodes?.length) setNodes(nodes);
     if (edges?.length) setEdges(edges);
-    if (!contextBotId) {
-      setBotID(botId);
+
+    if (botCopy?.data[0]?.customVariables) {
+      const updatedOptions = {
+        label: 'CUSTOM VARIABLES',
+        data: 'CUSTOM_VARIABLES',
+        options: [...(botCopy?.data[0]?.customVariables || [])],
+      };
+      setGroupedOptions((prev) => {
+        const exists = prev.some(
+          (option) => option.data === updatedOptions.data
+        );
+
+        if (exists) {
+          return prev;
+        }
+
+        return [...prev, updatedOptions];
+      });
+      if (!contextBotId) {
+        setBotID(botId);
+      }
     }
-  }, [botId, contextBotId, edges, nodes, setBotID, setEdges, setNodes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [botCopy?.data, botId, edges, nodes]);
 
   if (loading) {
     return (
