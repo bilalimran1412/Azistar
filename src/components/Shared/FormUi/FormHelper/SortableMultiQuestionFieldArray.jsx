@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, FormLabel } from '@chakra-ui/react';
 import { FieldArray, useField } from 'formik';
-import { ButtonFieldArrayAddButton, PictureCardItem } from '../../SidebarUi';
+import { ButtonFieldArrayAddButton, MultiQuestionInput } from '../../SidebarUi';
 import {
   arrayMove,
   SortableContext,
@@ -11,31 +11,17 @@ import { seedID } from '../../../../utils';
 import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
-const SortablePictureCardFieldArray = ({ name }) => {
+const SortableMultiQuestionFieldArray = ({ label = '', name }) => {
   const [field, , helpers] = useField(name);
   const fieldValue = field.value || [];
-  const handleAddCard = (arrayHelpers) => {
-    const currentFields = arrayHelpers.form.values?.[name];
-
-    const updatedFields = (currentFields || [])?.map((field) => ({
-      ...field,
-      isOpen: false,
-    }));
-
-    const newCard = {
+  const handleAddButton = (arrayHelpers) => {
+    arrayHelpers.push({
       id: seedID(),
-      text: '',
-      externalLink: '',
-      isOpen: true,
-      buttonText: '',
-      description: '',
-      details: '',
-      highlighted: '',
-      image: '',
-      footerImage: '',
-      sortOrder: fieldValue?.length || 0,
-    };
-    arrayHelpers.form.setFieldValue(name, [...(updatedFields || []), newCard]);
+      label: '',
+      type: 'text',
+      isOpen: false,
+      sortOrder: fieldValue?.length,
+    });
   };
 
   const handleDelete = (index, arrayHelpers) => {
@@ -72,18 +58,10 @@ const SortablePictureCardFieldArray = ({ name }) => {
       helpers.setValue(sortedBySortOrder);
     }
   };
-  const handleConfigsClick = (index, arrayHelpers) => {
-    const currentFields = arrayHelpers.form.values?.[name];
 
-    const updatedFields = currentFields.map((field, i) => ({
-      ...field,
-      isOpen: i === index ? !field.isOpen : false,
-    }));
-
-    arrayHelpers.form.setFieldValue(name, updatedFields);
-  };
   return (
     <Box width='100%'>
+      <FormLabel>{label}</FormLabel>
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -91,7 +69,7 @@ const SortablePictureCardFieldArray = ({ name }) => {
       >
         <SortableContext
           strategy={verticalListSortingStrategy}
-          items={fieldValue?.map((option) => option.id) || []}
+          items={(fieldValue || [])?.map((option) => option.id) || []}
         >
           <FieldArray
             name={name}
@@ -106,16 +84,13 @@ const SortablePictureCardFieldArray = ({ name }) => {
                 overflow='hidden'
                 whiteSpace='nowrap'
               >
-                {fieldValue?.map((fieldItem, index) => (
-                  <PictureCardItem
+                {(fieldValue || [])?.map((fieldItem, index) => (
+                  <MultiQuestionInput
                     key={fieldItem.id}
-                    isSortable={true}
                     id={fieldItem.id}
                     name={`${name}[${index}]`}
-                    handleConfigsClick={() =>
-                      handleConfigsClick(index, arrayHelpers)
-                    }
                     handleDeleteClick={() => handleDelete(index, arrayHelpers)}
+                    fieldItem={fieldItem}
                     handleFieldItemPropChange={(changedProp) => {
                       handleFieldItemPropChange(
                         index,
@@ -126,10 +101,10 @@ const SortablePictureCardFieldArray = ({ name }) => {
                   />
                 ))}
                 <ButtonFieldArrayAddButton
-                  label='Add a New Card'
                   handleAddButton={() => {
-                    handleAddCard(arrayHelpers);
+                    handleAddButton(arrayHelpers);
                   }}
+                  label='Add a new question'
                   buttonStyles={{
                     color: '#3a3c5d',
                     backgroundColor: '#fff',
@@ -144,4 +119,4 @@ const SortablePictureCardFieldArray = ({ name }) => {
   );
 };
 
-export default SortablePictureCardFieldArray;
+export default SortableMultiQuestionFieldArray;

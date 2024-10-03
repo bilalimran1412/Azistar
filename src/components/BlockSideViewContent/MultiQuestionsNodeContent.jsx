@@ -4,7 +4,12 @@ import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { Divider } from '@chakra-ui/react';
-import { QuillEditorField } from '../Shared/FormUi';
+import {
+  FormSettings,
+  FormTextField,
+  QuillEditorField,
+} from '../Shared/FormUi';
+import SortableMultiQuestionFieldArray from '../Shared/FormUi/FormHelper/SortableMultiQuestionFieldArray';
 
 function MultiQuestionsNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -22,7 +27,12 @@ function MultiQuestionsNodeContent({ id }) {
 
     variable: currentNode?.data?.variable,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message || '',
+    message: currentNode?.data?.message || config?.fields[0]?.value || '',
+    sendLabel: currentNode?.data?.message || config?.data?.sendLabel || '',
+    isAdvancedEnabled:
+      currentNode?.data?.isAdvancedEnabled ||
+      config?.data?.isAdvancedEnabled ||
+      '',
   };
 
   const validationSchema = yup.object({});
@@ -53,6 +63,21 @@ function MultiQuestionsNodeContent({ id }) {
         label={config.fields[0].label}
       />
       <Divider />
+      <SortableMultiQuestionFieldArray name='elements' />
+      <Divider />
+      <FormSettings
+        name='isAdvancedEnabled'
+        label='Advanced Options'
+        bgColor='inherit'
+        containerStyles={{ padding: 0 }}
+      >
+        <FormTextField
+          name='sendLabel'
+          variant='custom'
+          label='Customize submit button label'
+          labelVariant='h2'
+        />
+      </FormSettings>
     </SidebarFormContainer>
   );
 }

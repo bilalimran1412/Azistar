@@ -11,3 +11,7 @@ export { default as MessageFieldArray } from './FormHelper/MessageFieldArray';
 export { default as SortableButtonCreatorInputFieldArray } from './FormHelper/SortableButtonCreatorInputFieldArray';
 export { default as ButtonCreatorInputFieldArray } from './FormHelper/ButtonCreatorInputFieldArray';
 export { default as SortablePictureCardFieldArray } from './FormHelper/SortablePictureCardFieldArray';
+export { default as SortableMultiQuestionFieldArray } from './FormHelper/SortableMultiQuestionFieldArray';
+export { default as DateSelectorFieldArray } from './FormHelper/DateSelectorFieldArray';
+export { default as FormSettings } from './FormSettings';
+export { default as FormToggleSwitch } from './FormToggleSwitch';

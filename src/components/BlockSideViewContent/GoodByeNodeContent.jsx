@@ -1,10 +1,13 @@
 import React from 'react';
 import { Divider, Flex, Image, Text } from '@chakra-ui/react';
-import { FormTextField, QuillEditorField } from '../Shared/FormUi';
+import {
+  FormSettings,
+  FormTextField,
+  QuillEditorField,
+} from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
-import FormSettings from '../Shared/SidebarUi/FormSettings';
 import { yup } from '../../utils/yup';
 
 function GoodByeNodeContent({ id }) {

@@ -17,7 +17,7 @@ const ButtonCreatorInputFieldArray = ({
   showExternalLinkField = true,
 }) => {
   const [field, _, helpers] = useField(name);
-  const fieldValue = field.value;
+  const fieldValue = field.value || [];
   const handleAddButton = (arrayHelpers) => {
     arrayHelpers.push({
       id: seedID(),

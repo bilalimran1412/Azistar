@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Divider } from '@chakra-ui/react';
 import {
   FormDropdown,
+  FormSettings,
   FormTextField,
   QuillEditorField,
 } from '../Shared/FormUi';
@@ -10,7 +11,7 @@ import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
-import FormSettings from '../Shared/SidebarUi/FormSettings';
+
 const formatOptions = [
   { label: 'Auto', value: 'auto' },
   { label: 'Decimals', value: 'decimals' },

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  DateSelectorFieldArray,
   FormDropdown,
   FormWeekdaysSelect,
   QuillEditorField,
@@ -10,7 +11,6 @@ import FormCheckbox from '../Shared/FormUi/FormCheckbox';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
-import DateSelectorFieldArray from '../Shared/FormUi/FormHelper/DateSelectorFieldArray';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { useFormikContext } from 'formik';
 
@@ -116,6 +116,7 @@ function DateNodeContent({ id }) {
       />
       <FormDropdown
         name='format'
+        variant='custom'
         options={formatOptions}
         label='Format to save the date'
       />
@@ -144,6 +145,7 @@ function DateTypeDropdown() {
   return (
     <FormDropdown
       name='enabledDateType'
+      variant='custom'
       options={enabledDatesOptions}
       label='Set available dates'
       onChange={() => setFieldValue('enabledCustomRanges', defaultRange)}

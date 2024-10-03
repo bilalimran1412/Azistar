@@ -27,6 +27,8 @@ const FormDropdown = ({
   placeholder = 'Select option',
   onChange,
   className = '',
+  labelVariant = '',
+  containerStyle = {},
   ...rest
 }) => {
   const [field, meta, helpers] = useField(name);
@@ -39,8 +41,12 @@ const FormDropdown = ({
   };
 
   return (
-    <FormControl isInvalid={isError}>
-      {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+    <FormControl isInvalid={isError} style={{ ...containerStyle }}>
+      {label && (
+        <FormLabel htmlFor={name} variant={labelVariant}>
+          {label}
+        </FormLabel>
+      )}
       <Select
         id={name}
         placeholder={placeholder}
