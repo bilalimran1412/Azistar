@@ -20,8 +20,6 @@ const FormTextField = ({
   placeholder,
   type = 'text',
   readonly = false,
-  startAdornment = null,
-  endAdornment = null,
   helpText = '',
   subHeaderText = '',
   autoLowerCase = false,
@@ -31,6 +29,7 @@ const FormTextField = ({
   showCounter = false,
   fullWidth = true,
   className = '',
+  labelVariant = '',
   ...rest
 }) => {
   const [field, meta, helper] = useField(name);
@@ -83,8 +82,8 @@ const FormTextField = ({
           display='flex'
           alignItems='center'
           gap={1}
-          fontSize={16}
           width='100%'
+          variant={labelVariant}
         >
           {isFieldRequired && '*'}
           {label}

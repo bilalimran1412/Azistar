@@ -606,9 +606,9 @@ button.item-button {
 .button-select-container label {
   color: white;
 }
-.button-select-container select {
+/* .button-select-container select {
   color: white;
-}
+} */
 .button-select-container option {
   color: black;
 }

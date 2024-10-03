@@ -8,6 +8,7 @@ const FormSettings = ({
   children,
   infoText,
   bgColor = '#8a9ba826',
+  containerStyles = {},
 }) => {
   const [field, meta, helpers] = useField({ name, type: 'checkbox' });
 
@@ -20,7 +21,7 @@ const FormSettings = ({
   };
 
   return (
-    <Box bg={bgColor} p={4} borderRadius='md'>
+    <Box bg={bgColor} p={4} borderRadius='md' style={{ ...containerStyles }}>
       <Box
         display='flex'
         justifyContent='space-between'

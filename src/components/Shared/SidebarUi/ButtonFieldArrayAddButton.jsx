@@ -4,6 +4,7 @@ import React from 'react';
 function ButtonFieldArrayAddButton({
   handleAddButton,
   label = 'Add another Button...',
+  buttonStyles = {},
 }) {
   return (
     <Box
@@ -17,16 +18,19 @@ function ButtonFieldArrayAddButton({
       style={{ cursor: 'pointer' }}
       gap={'16px'}
       onClick={handleAddButton}
+      fontSize='12px'
     >
       <Box
-        width={'40px'}
-        height={'40px'}
+        width={'32px'}
+        height={'32px'}
         bg={'#9CA3AF'}
         borderRadius={'100%'}
         justifyContent={'center'}
         alignItems={'center'}
         display={'flex'}
-        textColor={'#000'}
+        textColor={'#fff'}
+        fontSize='28px'
+        style={{ ...buttonStyles }}
       >
         +
       </Box>
