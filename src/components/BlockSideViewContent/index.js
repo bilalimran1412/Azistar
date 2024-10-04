@@ -1,4 +1,4 @@
-import { sideViewLayoutType } from '../../config/nodeConfigurations';
+import { sideViewLayoutType } from 'config/nodeConfigurations';
 import ABTestingNodeContent from './ABTestingNodeContent';
 import AskAddressNodeContent from './AskAddressNodeContent';
 import AskEmailNodeContent from './AskEmailNodeContent';
@@ -10,6 +10,7 @@ import AskQuestionNodeContent from './AskQuestionNodeContent';
 import AskUrlNodeContent from './AskUrlNodeContent';
 import ButtonNodeContent from './ButtonNodeContent';
 import DateNodeContent from './DateNodeContent';
+import FormNodeContent from './FormNodeContent';
 import GoodByeNodeContent from './GoodByeNodeContent';
 import MessageMediaNodeContent from './MessageMediaNodeContent';
 import MultiQuestionsNodeContent from './MultiQuestionsNodeContent';
@@ -37,4 +38,5 @@ export const SideViewContent = {
   [sideViewLayoutType.date]: DateNodeContent,
   [sideViewLayoutType.pictureChoice]: PictureChoiceNodeContent,
   [sideViewLayoutType.multiQuestions]: MultiQuestionsNodeContent,
+  [sideViewLayoutType.forms]: FormNodeContent,
 };

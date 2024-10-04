@@ -1,6 +1,12 @@
 import React from 'react';
-import { Menu, MenuItems, MenuItem } from '@reach/menu-button';
-import '@reach/menu-button/styles.css';
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
+} from '@chakra-ui/react';
+import { FiMoreHorizontal } from 'react-icons/fi';
 
 const NodeActionDropdown = ({
   onCopy,
@@ -10,28 +16,24 @@ const NodeActionDropdown = ({
   onCopyId,
   nodeId,
 }) => {
+  const handleMenuClick = (event) => {
+    event.stopPropagation();
+  };
   return (
     <Menu>
-      <MenuItems className='dropdown_menu'>
-        <MenuItem className='btn_node_action' onClick={() => onCopy(nodeId)}>
-          Copy Node
-        </MenuItem>
-        <MenuItem className='btn_node_action' onClick={() => onReplace(nodeId)}>
-          Replace Node
-        </MenuItem>
-        <MenuItem className='btn_node_action' onClick={() => onDelete(nodeId)}>
-          Delete Node
-        </MenuItem>
-        <MenuItem
-          className='btn_node_action'
-          onClick={() => onDuplicate(nodeId)}
-        >
-          Duplicate Node
-        </MenuItem>
-        <MenuItem className='btn_node_action' onClick={() => onCopyId(nodeId)}>
-          Copy Block ID
-        </MenuItem>
-      </MenuItems>
+      <MenuButton
+        as={IconButton}
+        icon={<FiMoreHorizontal />}
+        variant='outline'
+        onClick={handleMenuClick}
+      />
+      <MenuList>
+        <MenuItem onClick={() => onCopy(nodeId)}>Copy Node</MenuItem>
+        <MenuItem onClick={() => onReplace(nodeId)}>Replace Node</MenuItem>
+        <MenuItem onClick={() => onDelete(nodeId)}>Delete Node</MenuItem>
+        <MenuItem onClick={() => onDuplicate(nodeId)}>Duplicate Node</MenuItem>
+        <MenuItem onClick={() => onCopyId(nodeId)}>Copy Block ID</MenuItem>
+      </MenuList>
     </Menu>
   );
 };

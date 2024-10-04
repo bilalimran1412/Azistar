@@ -25,7 +25,6 @@ function MultiQuestionsNodeContent({ id }) {
   const initialValues = {
     fields: config.fields,
 
-    variable: currentNode?.data?.variable,
     //this message will contain all the ops and html and normal text
     message: currentNode?.data?.message || config?.fields[0]?.value || '',
     sendLabel: currentNode?.data?.message || config?.data?.sendLabel || '',
@@ -33,6 +32,7 @@ function MultiQuestionsNodeContent({ id }) {
       currentNode?.data?.isAdvancedEnabled ||
       config?.data?.isAdvancedEnabled ||
       '',
+    elements: currentNode?.data?.elements || '',
   };
 
   const validationSchema = yup.object({});

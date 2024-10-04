@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, useField, useFormikContext } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react';
 import ReactQuill from 'react-quill';
 import { parseJSON } from '../../../utils/parser';

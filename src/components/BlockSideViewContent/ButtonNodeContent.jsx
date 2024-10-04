@@ -80,21 +80,25 @@ function ButtonNodeContent({ id }) {
       messageFieldArrayInitialValue?.message,
     variable: currentNode?.data?.variable || '',
 
-    buttons: currentNode?.data?.buttons || config.data?.buttons,
+    buttons: currentNode?.data?.buttons || config.data?.buttons || '',
     minMaxOptions:
-      currentNode?.data?.minMaxOptions || config.data?.minMaxOptions,
+      currentNode?.data?.minMaxOptions || config.data?.minMaxOptions || '',
     buttonsAlignment:
-      currentNode?.data?.buttonsAlignment || config.data?.buttonsAlignment,
+      currentNode?.data?.buttonsAlignment ||
+      config.data?.buttonsAlignment ||
+      '',
     randomizeOrder:
-      currentNode?.data?.randomizeOrder || config.data?.randomizeOrder,
+      currentNode?.data?.randomizeOrder || config.data?.randomizeOrder || '',
     searchableOptions:
-      currentNode?.data?.searchableOptions || config.data?.searchableOptions,
+      currentNode?.data?.searchableOptions ||
+      config.data?.searchableOptions ||
+      '',
     multipleChoices:
-      currentNode?.data?.multipleChoices || config.data?.multipleChoices,
+      currentNode?.data?.multipleChoices || config.data?.multipleChoices || '',
     outputAsArray:
-      currentNode?.data?.outputAsArray || config.data?.outputAsArray,
-    min: currentNode?.data?.min || config.data?.min,
-    max: currentNode?.data?.max || config.data?.max,
+      currentNode?.data?.outputAsArray || config.data?.outputAsArray || '',
+    min: currentNode?.data?.min || config.data?.min || '',
+    max: currentNode?.data?.max || config.data?.max || '',
   };
 
   const validationSchema = yup.object({});

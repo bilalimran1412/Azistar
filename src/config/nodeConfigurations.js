@@ -69,6 +69,7 @@ export const sideViewLayoutType = {
   //NEEDS TO BE FIXED
   forms: 'form',
   //this node config data has initial values
+  //this node is final for all the form values and styling
   multiQuestions: 'multiQuestions',
 
   //add initial data to config.data from form initial values
@@ -189,7 +190,7 @@ export const nodeConfigurations = {
             icon: null,
             externalLink: '',
             isSettingExpand: false,
-            sortOrder: 0,
+            sortOrder: 1,
           },
         ],
         minMaxOptions: false,
@@ -459,7 +460,7 @@ export const nodeConfigurations = {
             icon: 'coding',
             externalLink: '',
             isSettingExpand: false,
-            sortOrder: 0,
+            sortOrder: 1,
           },
           {
             text: 'No',
@@ -468,7 +469,7 @@ export const nodeConfigurations = {
             icon: 'coding',
             externalLink: '',
             isSettingExpand: false,
-            sortOrder: 1,
+            sortOrder: 2,
           },
         ],
         // items: [
@@ -550,12 +551,16 @@ export const nodeConfigurations = {
       label: 'Forms',
       icon: <FaClipboardList />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.forms,
+      },
       fields: [
         {
           label: 'Form Setup',
           type: 'text',
           variable: 'textareaFieldData',
           placeholder: 'Form title: Answer the following questions',
+          value: 'Form title: Answer the following questions',
         },
       ],
     },
@@ -568,6 +573,7 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         //not a multi handles node
+        //does not require variable also
         // multipleHandles: true,
         // contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.multiQuestions,

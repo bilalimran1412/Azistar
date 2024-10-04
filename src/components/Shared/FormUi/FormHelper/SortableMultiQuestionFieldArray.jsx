@@ -18,9 +18,21 @@ const SortableMultiQuestionFieldArray = ({ label = '', name }) => {
     arrayHelpers.push({
       id: seedID(),
       label: '',
-      type: 'text',
-      isOpen: false,
-      sortOrder: fieldValue?.length,
+      isOpen: true,
+      sortOrder: fieldValue?.length + 1,
+      config: {
+        name: `multi_question_${fieldValue?.length + 1}`,
+        type: 'text',
+        required: false,
+        className: 'full',
+        options: [],
+        placeholder: '',
+        helpText: '',
+        defaultValue: '',
+        min: '',
+        max: '',
+        pattern: '',
+      },
     });
   };
 
@@ -29,11 +41,14 @@ const SortableMultiQuestionFieldArray = ({ label = '', name }) => {
   };
 
   const handleFieldItemPropChange = (index, arrayHelpers, changedProp) => {
+    //as this is nested object handle this way to make it work
     const fieldItemToUpdate = {
       ...arrayHelpers.form.values[arrayHelpers.name][index],
-      ...(changedProp && { ...changedProp }),
+      config: {
+        ...arrayHelpers.form.values[arrayHelpers.name][index].config,
+        ...(changedProp.config || {}),
+      },
     };
-
     arrayHelpers.replace(index, fieldItemToUpdate);
   };
 
@@ -57,6 +72,16 @@ const SortableMultiQuestionFieldArray = ({ label = '', name }) => {
       }));
       helpers.setValue(sortedBySortOrder);
     }
+  };
+  const handleSettingClick = (index, arrayHelpers) => {
+    const currentFields = arrayHelpers.form.values?.[name];
+
+    const updatedFields = currentFields.map((field, i) => ({
+      ...field,
+      isOpen: i === index ? !field.isOpen : false,
+    }));
+
+    arrayHelpers.form.setFieldValue(name, updatedFields);
   };
 
   return (
@@ -89,8 +114,10 @@ const SortableMultiQuestionFieldArray = ({ label = '', name }) => {
                     key={fieldItem.id}
                     id={fieldItem.id}
                     name={`${name}[${index}]`}
+                    handleSettingClick={() => {
+                      handleSettingClick(index, arrayHelpers);
+                    }}
                     handleDeleteClick={() => handleDelete(index, arrayHelpers)}
-                    fieldItem={fieldItem}
                     handleFieldItemPropChange={(changedProp) => {
                       handleFieldItemPropChange(
                         index,

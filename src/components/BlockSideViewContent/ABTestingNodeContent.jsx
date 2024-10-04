@@ -14,6 +14,9 @@ function ABTestingNodeContent({ id }) {
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
+  //TODO MOVE TO CONFIG
+  // MAKE IT 50 50
+
   console.log(currentNode?.data?.abSplit, currentNode?.data);
   const initialValues = {
     // not required

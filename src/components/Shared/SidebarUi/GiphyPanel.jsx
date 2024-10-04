@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import ReactGiphySearchbox from 'react-giphy-searchbox';
+// import ReactGiphySearchbox from 'react-giphy-searchbox';
 
 const GiphyPanel = ({ onSelect }) => {
   const handleSelect = (item) => {
@@ -15,14 +15,15 @@ const GiphyPanel = ({ onSelect }) => {
       justifyContent='center'
       alignItems='center'
     >
-      <ReactGiphySearchbox
+      Implement gipgy
+      {/* <ReactGiphySearchbox
         apiKey={process.env.REACT_APP_GIPHY_API_KEY} // Use environment variable for API key
         onSelect={handleSelect} // Extracted to a separate function for clarity
         masonryConfig={[
           { columns: 2, imageWidth: 120, gutter: 5 },
           { mq: '1000px', columns: 3, imageWidth: 130, gutter: 5 },
         ]}
-      />
+      /> */}
     </Box>
   );
 };

@@ -33,7 +33,7 @@ const SortablePictureCardFieldArray = ({ name }) => {
       highlighted: '',
       image: '',
       footerImage: '',
-      sortOrder: fieldValue?.length || 0,
+      sortOrder: fieldValue?.length || 1,
     };
     arrayHelpers.form.setFieldValue(name, [...(updatedFields || []), newCard]);
   };
@@ -72,6 +72,7 @@ const SortablePictureCardFieldArray = ({ name }) => {
       helpers.setValue(sortedBySortOrder);
     }
   };
+
   const handleConfigsClick = (index, arrayHelpers) => {
     const currentFields = arrayHelpers.form.values?.[name];
 

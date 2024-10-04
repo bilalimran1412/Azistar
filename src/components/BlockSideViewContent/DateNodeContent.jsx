@@ -58,6 +58,7 @@ function DateNodeContent({ id }) {
   // const handelAvailableOptionChange = (value) => {
   //   setDateOption(value);
   // };
+  //TODO MOVE TO CONFIG
   const initialValues = {
     fields: config.fields,
     //this message will contain all the ops and html and normal text

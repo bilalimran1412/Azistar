@@ -32,7 +32,7 @@ export const messageFieldArrayInitialValue = {
       type: 'message',
       message: '',
       id: 'd4380a82-2040-56d6-8053-d17eba8db965',
-      sortOrder: 0,
+      sortOrder: 1,
     },
   ],
   media: [
@@ -40,7 +40,7 @@ export const messageFieldArrayInitialValue = {
       type: 'media',
       media: null,
       id: 'f3d7d05d-2895-54c8-b3d0-fe1b1605dbb2',
-      sortOrder: 0,
+      sortOrder: 1,
     },
   ],
 };
@@ -55,7 +55,7 @@ const MessageMediaField = ({ name, label, onOpen }) => {
       type: 'message',
       message: '',
       id: seedID(),
-      sortOrder: fieldValue?.length,
+      sortOrder: fieldValue?.length + 1,
     });
   };
 
@@ -64,7 +64,7 @@ const MessageMediaField = ({ name, label, onOpen }) => {
       id: seedID(),
       type: 'media',
       media: null,
-      sortOrder: fieldValue?.length,
+      sortOrder: fieldValue?.length + 1,
     });
   };
 
@@ -76,7 +76,7 @@ const MessageMediaField = ({ name, label, onOpen }) => {
     arrayHelpers.insert(index + 1, {
       ...fieldValue?.[index],
       id: seedID(),
-      sortOrder: fieldValue?.length,
+      sortOrder: fieldValue?.length + 1,
     });
   };
 

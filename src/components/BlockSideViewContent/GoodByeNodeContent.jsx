@@ -27,14 +27,14 @@ function GoodByeNodeContent({ id }) {
     //this message will contain all the ops and html and normal text
     redirectMessage: currentNode?.data?.redirectMessage,
 
-    socialEnable: currentNode?.data?.socialEnable,
-    socialUrl: currentNode?.data?.socialUrl,
-    socialUrlText: currentNode?.data?.socialUrlText,
-    startButtonEnable: currentNode?.data?.startButtonEnable,
-    startButtonText: currentNode?.data?.startButtonText,
-    redirectUrl: currentNode?.data?.redirectUrl,
-    redirectEnable: currentNode?.data?.redirectEnable,
-    redirectTimeout: currentNode?.data?.redirectTimeout,
+    socialEnable: currentNode?.data?.socialEnable || false,
+    socialUrl: currentNode?.data?.socialUrl || '',
+    socialUrlText: currentNode?.data?.socialUrlText || '',
+    startButtonEnable: currentNode?.data?.startButtonEnable || '',
+    startButtonText: currentNode?.data?.startButtonText || '',
+    redirectUrl: currentNode?.data?.redirectUrl || '',
+    redirectEnable: currentNode?.data?.redirectEnable || '',
+    redirectTimeout: currentNode?.data?.redirectTimeout || '',
   };
 
   const validationSchema = yup.object({
