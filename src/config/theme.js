@@ -144,6 +144,25 @@ const theme = extendTheme({
         fontSize: '14px',
       },
     },
+    Button: {
+      variants: {
+        basic: {
+          alignItems: 'center',
+          border: 'none',
+          borderRadius: '3px',
+          cursor: 'pointer',
+          display: 'inline-flex',
+          flexDirection: 'row',
+          fontSize: '14px',
+          justifyContent: 'center',
+          minHeight: '30px',
+          minWidth: '30px',
+          padding: '5px 10px',
+          textAlign: 'left',
+          verticalAlign: 'middle',
+        },
+      },
+    },
   },
 });
 

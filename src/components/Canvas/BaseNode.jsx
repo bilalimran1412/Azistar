@@ -120,16 +120,23 @@ const BaseNode = (props) => {
             <p dangerouslySetInnerHTML={displayContent} />
           </div>
           {!isStartingNode && (
-            <div
-              className='drop_down'
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsMenuVisible(!isMenuVisible);
-              }}
-            >
-              <MdMoreHoriz size={24} />
-            </div>
+            <NodeActionDropdown
+              onCopy={() => handleAction('copy')}
+              onReplace={() => handleAction('replace')}
+              onDelete={() => handleAction('delete')}
+              onDuplicate={() => handleAction('duplicate')}
+              onCopyId={() => handleAction('copyId')}
+            />
+            // <div
+            //   className='drop_down'
+            //   onClick={(e) => {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     setIsMenuVisible(!isMenuVisible);
+            //   }}
+            // >
+            //   <MdMoreHoriz size={24} />
+            // </div>
           )}
         </div>
         {config?.data?.layoutType === sideViewLayoutType.buttons && (
@@ -176,7 +183,7 @@ const BaseNode = (props) => {
         )}
         */}
       </div>
-      {isMenuVisible && (
+      {/* {isMenuVisible && (
         <NodeActionDropdown
           onCopy={() => handleAction('copy')}
           onReplace={() => handleAction('replace')}
@@ -184,7 +191,7 @@ const BaseNode = (props) => {
           onDuplicate={() => handleAction('duplicate')}
           onCopyId={() => handleAction('copyId')}
         />
-      )}
+      )} */}
       {showReplaceMenu && (
         <NodeDropdownMenu
           handleAddNode={handleReplaceNodeType}

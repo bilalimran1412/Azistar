@@ -16,7 +16,7 @@ const ButtonCreatorInputFieldArray = ({
   name,
   showExternalLinkField = true,
 }) => {
-  const [field, _, helpers] = useField(name);
+  const [field, , helpers] = useField(name);
   const fieldValue = field.value || [];
   const handleAddButton = (arrayHelpers) => {
     arrayHelpers.push({
@@ -26,7 +26,7 @@ const ButtonCreatorInputFieldArray = ({
       icon: null,
       externalLink: '',
       isSettingExpand: false,
-      sortOrder: fieldValue?.length,
+      sortOrder: fieldValue?.length + 1,
     });
   };
 

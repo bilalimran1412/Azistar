@@ -25,6 +25,7 @@ const FormTextField = ({
   autoLowerCase = false,
   hideHelperText = false,
   containerStyle = {},
+  containerSx = {},
   maxNumber,
   showCounter = false,
   fullWidth = true,
@@ -73,8 +74,9 @@ const FormTextField = ({
   return (
     <Grid
       flexDirection='column'
-      style={containerStyle}
+      style={{ ...containerStyle }}
       width={fullWidth ? '100%' : '50%'}
+      sx={{ ...containerSx }}
     >
       <Box display='flex' flexDirection='column'>
         <FormLabel

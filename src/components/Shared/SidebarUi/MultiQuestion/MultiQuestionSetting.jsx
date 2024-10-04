@@ -1,19 +1,18 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
 import { FormDropdown, FormTextField, FormToggleSwitch } from '../../FormUi';
 import FormVariableSelectorDropdown from '../../FormUi/FormVariableSelectorDropdown';
-import { ExtraOptionsAccordion } from '../../UiComponents';
-import {
-  columnWidthOptions,
-  getFieldsByType,
-  multiQuestionTypeOptions,
-} from './multiQuestionData';
+import { multiQuestionTypeOptions } from './multiQuestionData';
+import MultiQuestionExtraOptions from './MultiQuestionsExtraOptions';
+import OptionsCreatorFieldArray from './OptionsCreatorFieldArray';
 
 function MultiQuestionSetting({
-  subFieldName,
+  subFieldNameMain,
   handleFieldItemPropChange,
   fieldValue,
 }) {
+  const subFieldName = `${subFieldNameMain}.config`;
+
   return (
     <Flex
       bg={'#8a9ba826'}
@@ -30,22 +29,29 @@ function MultiQuestionSetting({
         options={multiQuestionTypeOptions}
         onChange={(value) => {
           handleFieldItemPropChange({
-            type: value,
+            config: {
+              type: value,
+              ...(value === 'color' && { required: false }),
+            },
           });
         }}
         variant='customMini'
         labelVariant='h3'
       />
-      <FormVariableSelectorDropdown name='name' />
+      <FormVariableSelectorDropdown name={`${subFieldName}.name`} />
       <Box display='flex' gap={1} flexDirection='column'>
         <FormTextField
-          name={`${subFieldName}.label`}
+          name={`${subFieldNameMain}.label`}
           label='Label'
           placeholder='Label'
           labelVariant='h3'
           variant='customMini'
         />
-        {fieldValue?.type !== 'color' && (
+        <OptionsCreatorFieldArray
+          subFieldName={subFieldName}
+          type={fieldValue?.config?.type}
+        />
+        {fieldValue?.config?.type !== 'color' && (
           <FormToggleSwitch
             name={`${subFieldName}.required`}
             label='Is required?'
@@ -61,54 +67,3 @@ function MultiQuestionSetting({
 }
 
 export { MultiQuestionSetting };
-function MultiQuestionExtraOptions({ fieldValue, subFieldName }) {
-  const fields = getFieldsByType(fieldValue?.type);
-
-  if (!fields.length) {
-    return <Text color='#fff'>Select field to enable options</Text>;
-  }
-
-  return (
-    <ExtraOptionsAccordion>
-      <Flex flexDirection='column'>
-        <Flex wrap='wrap' justifyContent='space-between'>
-          {fields.map((field, index) => {
-            const isLastUnpaired =
-              index === fields.length - 1 && fields.length % 2 !== 0;
-            if (field.type === 'dropdown') {
-              return (
-                <FormDropdown
-                  key={index}
-                  name={`${subFieldName}.${field.name}`}
-                  label={field.label}
-                  options={columnWidthOptions}
-                  placeholder={field.placeholder}
-                  containerStyle={{
-                    flexBasis: isLastUnpaired ? '100%' : '48%',
-                  }}
-                  labelVariant='h3'
-                  variant='customMini'
-                />
-              );
-            }
-            return (
-              <FormTextField
-                key={index}
-                name={`${subFieldName}.${field.name}`}
-                label={field.label}
-                placeholder={field.placeholder}
-                containerStyle={{
-                  flexBasis: isLastUnpaired ? '100%' : '48%',
-                }}
-                labelVariant='h3'
-                variant='customMini'
-              />
-            );
-          })}
-        </Flex>
-      </Flex>
-    </ExtraOptionsAccordion>
-  );
-}
-
-export default MultiQuestionExtraOptions;

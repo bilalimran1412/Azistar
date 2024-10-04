@@ -13,8 +13,8 @@ const ButtonCreatorInputFieldArray = ({
   disableDelete,
   showExternalLinkField = true,
 }) => {
-  const [field, _, helpers] = useField(name);
-  const fieldValue = field.value;
+  const [field] = useField(name);
+  const fieldValue = field.value || [];
   const handleAddButton = (arrayHelpers) => {
     arrayHelpers.push({
       id: seedID(),
@@ -23,7 +23,7 @@ const ButtonCreatorInputFieldArray = ({
       icon: null,
       externalLink: '',
       isSettingExpand: false,
-      sortOrder: fieldValue?.length,
+      sortOrder: fieldValue?.length + 1,
     });
   };
 

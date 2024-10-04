@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import React from 'react';
 import { FaGear } from 'react-icons/fa6';
 import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { FormTextField } from '../../FormUi';
@@ -13,8 +13,8 @@ function MultiQuestionInput({
   name,
   id,
   handleDeleteClick,
-  fieldItem,
   handleFieldItemPropChange,
+  handleSettingClick,
 }) {
   const {
     attributes,
@@ -27,18 +27,14 @@ function MultiQuestionInput({
     id: id,
   });
 
-  const { setFieldValue } = useFormikContext();
   const [field] = useField(name);
 
   const fieldValue = field?.value;
 
-  const handleSettingClick = () => {
-    setFieldValue(`${name}.isOpen`, !fieldValue?.isOpen);
-  };
-  const required =
-    fieldValue?.type !== 'color' ? `${fieldValue.required ? '*' : ''}` : '';
-  const inputValue = `${fieldValue?.label || fieldValue?.type}`;
+  const required = `${fieldValue?.config?.required ? '*' : ''}`;
+  const inputValue = `${fieldValue?.label || fieldValue?.config?.type}`;
   const defaultInputValue = `${inputValue} ${required}`;
+
   return (
     <Box
       key={id}
@@ -69,7 +65,7 @@ function MultiQuestionInput({
         <Box display='flex' justifyContent='space-around' alignItems='center'>
           <FormTextField
             readOnly={true}
-            name={`${name}.type`}
+            name={`${name}.config.type`}
             value={defaultInputValue}
             className='button-input'
             autoComplete='off'
@@ -104,9 +100,9 @@ function MultiQuestionInput({
           />
         </Box>
       </Box>
-      {fieldItem?.isOpen && (
+      {fieldValue?.isOpen && (
         <MultiQuestionSetting
-          subFieldName={name}
+          subFieldNameMain={name}
           fieldValue={fieldValue}
           handleFieldItemPropChange={(changesValues) => {
             handleFieldItemPropChange(changesValues);

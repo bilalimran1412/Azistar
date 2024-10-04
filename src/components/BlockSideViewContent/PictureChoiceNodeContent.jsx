@@ -20,7 +20,9 @@ function PictureChoiceNodeContent({ id }) {
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
-
+  //TODO MOVE TO CONFIG
+  // VARIABLE
+  // OTHER
   const initialValues = {
     fields: config.fields,
 

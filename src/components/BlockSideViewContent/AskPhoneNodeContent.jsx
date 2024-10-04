@@ -23,7 +23,8 @@ function AskPhoneNodeContent({ id }) {
     message: currentNode?.data?.message,
     variable: currentNode?.data?.variable,
 
-    showCountryCodeSelector: currentNode?.data?.showCountryCodeSelector,
+    showCountryCodeSelector:
+      currentNode?.data?.showCountryCodeSelector || false,
   };
   const validationSchema = yup.object({});
 

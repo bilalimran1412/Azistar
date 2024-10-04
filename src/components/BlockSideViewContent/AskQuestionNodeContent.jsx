@@ -25,7 +25,9 @@ function AskQuestionNodeContent({ id }) {
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
-
+  //TODO MOVE TO CONFIG
+  // VARIABLE
+  // OTHERFIELDS
   const initialValues = {
     fields: config.fields,
     //this message will contain all the ops and html and normal text
