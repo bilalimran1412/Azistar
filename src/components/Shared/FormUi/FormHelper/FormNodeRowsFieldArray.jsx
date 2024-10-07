@@ -8,6 +8,7 @@ import {
 import { seedID } from 'utils';
 import { FieldArray, useField } from 'formik';
 import { RowAddItemMenu } from 'components/Shared/SidebarUi/FormNode/AddRowItemMenu';
+import { sideViewLayoutType } from 'config/nodeConfigurations';
 
 function FormNodeRowsFieldArray({ name }) {
   const [field] = useField(name);
@@ -28,24 +29,37 @@ function FormNodeRowsFieldArray({ name }) {
       sortOrder: fieldValue[rowIndex].questions.length + 1,
       type: questionType,
       //this should be options based on type
-      //commom in ask question and email
       hint: 'placeholder',
-
       label: '',
       isRequired: false,
       helpText: '',
       hintText: '',
       name: '',
 
-      //
-      //   type ask question and min/max in number
-      min: 0,
-      max: 99999,
+      ...(questionType === sideViewLayoutType.askQuestion && {
+        min: 0,
+        max: 99999,
 
-      inputSize: 'short',
-      pattern: '',
-      errorMessage: 'Please enter a valid value',
-      enabledCustomRanges: defaultRange,
+        inputSize: 'short',
+        pattern: '',
+        errorMessage: 'Please enter a valid value',
+      }),
+      ...(questionType === sideViewLayoutType.date && {
+        format: '',
+        enabledCustomRanges: defaultRange,
+        showDatePicker: false,
+        enabledDateType: '',
+        enabledDaysOfWeek: [1, 0, 2, 3, 4, 5, 6],
+      }),
+      ...(questionType === sideViewLayoutType.askNumber && {
+        min: 0,
+        max: 0,
+        format: '',
+        prefix: '',
+      }),
+      ...(questionType === sideViewLayoutType.askPhone && {
+        showCountryCodeSelector: false,
+      }),
     };
     const isFirstQuestion = !fieldValue[rowIndex].questions?.length;
 
