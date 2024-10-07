@@ -14,6 +14,7 @@ const FormCheckbox = ({
   label,
   checkboxLabel,
   containerStyle = {},
+  labelVariant = '',
   ...rest
 }) => {
   const [field, meta, helpers] = useField(name);
@@ -44,7 +45,7 @@ const FormCheckbox = ({
           marginLeft={1}
           display='flex'
           alignItems='center'
-          fontSize={16}
+          variant={labelVariant}
           width='auto'
         >
           {label}

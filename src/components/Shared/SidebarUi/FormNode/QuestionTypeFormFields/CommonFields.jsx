@@ -1,0 +1,59 @@
+import { Divider, Flex } from '@chakra-ui/react';
+import {
+  FormDropdown,
+  FormTextField,
+  FormToggleSwitch,
+} from 'components/Shared/FormUi';
+import FormVariableSelectorDropdown from 'components/Shared/FormUi/FormVariableSelectorDropdown';
+import React from 'react';
+const options = [
+  { label: 'Placeholder', value: 'placeholder' },
+  { label: 'Default Value', value: 'default' },
+];
+function CommonFields({ subFieldName, children }) {
+  return (
+    <>
+      <FormTextField
+        name={`${subFieldName}.label`}
+        label='Label'
+        variant='custom'
+        labelVariant='basic'
+        placeholder='Label Text'
+      />
+      <FormToggleSwitch name={`${subFieldName}.isRequired`} label='Required' />
+      <Divider />
+      <FormTextField
+        name={`${subFieldName}.helpText`}
+        label='Help text'
+        variant='custom'
+        labelVariant='basic'
+        placeholder='Text below the field'
+      />
+      <Flex gap={4}>
+        <FormDropdown
+          labelVariant='basic'
+          variant='custom'
+          options={options}
+          label='Hints'
+          name={`${subFieldName}.hint`}
+        />
+        <FormTextField
+          name={`${subFieldName}.hintText`}
+          label='Help text'
+          variant='custom'
+          labelVariant='basic'
+          placeholder='Hints inside the field'
+        />
+      </Flex>
+      <Divider />
+      {children}
+      <FormVariableSelectorDropdown
+        label='Save answers in the variable'
+        name={`${subFieldName}.name`}
+        allowedType='STRING'
+      />
+    </>
+  );
+}
+
+export default CommonFields;

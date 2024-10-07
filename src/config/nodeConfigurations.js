@@ -553,6 +553,13 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.forms,
+        rows: [
+          {
+            questions: [],
+            layout: '1',
+            id: 'd3f24283-0a2a-54d8-ae94-88741791b3a9',
+          },
+        ],
       },
       fields: [
         {
