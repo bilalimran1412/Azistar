@@ -29,7 +29,7 @@ const FormSettings = ({
         onClick={handleToggle}
         cursor='pointer'
       >
-        <FormLabel mb={0} htmlFor={name} className='bold font13'>
+        <FormLabel mb={0} htmlFor={name} className='bold font13' ml={1}>
           {label}
         </FormLabel>
         <Switch

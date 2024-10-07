@@ -5,24 +5,25 @@ function ButtonFieldArrayAddButton({
   handleAddButton,
   label = 'Add another Button...',
   buttonStyles = {},
+  containerStyles = {},
 }) {
   return (
     <Box
       w={'100%'}
-      borderRadius={'15px'}
+      borderRadius={'100px'}
       bg={'#3A3C5D'}
       minH={'40px'}
       display={'flex'}
       alignItems={'center'}
       textColor={'#fff'}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: 'pointer', ...containerStyles }}
       gap={'16px'}
       onClick={handleAddButton}
       fontSize='12px'
     >
       <Box
-        width={'32px'}
-        height={'32px'}
+        width={'40px'}
+        height={'40px'}
         bg={'#9CA3AF'}
         borderRadius={'100%'}
         justifyContent={'center'}

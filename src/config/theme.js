@@ -28,6 +28,7 @@ const theme = extendTheme({
         color: '#45496e',
       },
       variants: {
+        basic: { fontSize: '14px', fontWeight: 400 },
         h1: {
           fontSize: '14px',
           fontWeight: 700,
@@ -45,6 +46,29 @@ const theme = extendTheme({
         //   fontSize: '11px',
         //   fontWeight: 400,
         // },
+      },
+    },
+    Textarea: {
+      variants: {
+        custom: {
+          field: {
+            backgroundColor: 'white',
+            border: '1px solid rgba(16, 22, 26, .2) !important',
+            borderRadius: '3px',
+            height: 'auto',
+            padding: '6px 15px',
+            outline: 'none !important',
+            fontWeight: 400,
+            lineHeight: '30px',
+            transition: 'box-shadow .1s cubic-bezier(.4,1,.75,.9)',
+            verticalAlign: 'middle',
+            fontSize: 'large',
+            boxShadow: 'none',
+            _focus: {
+              boxShadow: '0 1px 10px -1px rgba(98, 104, 229, 0.36) !important',
+            },
+          },
+        },
       },
     },
     Input: {

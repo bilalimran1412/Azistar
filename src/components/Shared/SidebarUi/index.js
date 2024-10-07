@@ -7,3 +7,4 @@ export { default as ButtonFieldArrayAddButton } from './ButtonFieldArrayAddButto
 export { default as ButtonFieldArraySettings } from './ButtonFieldArraySettings';
 export * from './PictureChoice';
 export * from './MultiQuestion';
+export * from './FormNode';

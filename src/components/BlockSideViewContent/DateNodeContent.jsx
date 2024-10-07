@@ -124,8 +124,7 @@ function DateNodeContent({ id }) {
       <FormCheckbox name='showDatePicker' label='Show date picker' />
       <Divider />
       <DateTypeDropdown />
-      <DateSelectorFieldArray name='enabledCustomRanges' />
-
+      <DateSelectorField />
       <Divider />
       <FormWeekdaysSelect
         name='enabledDaysOfWeek'
@@ -150,6 +149,16 @@ function DateTypeDropdown() {
       options={enabledDatesOptions}
       label='Set available dates'
       onChange={() => setFieldValue('enabledCustomRanges', defaultRange)}
+    />
+  );
+}
+function DateSelectorField() {
+  const { values } = useFormikContext();
+
+  return (
+    <DateSelectorFieldArray
+      name={`enabledCustomRanges`}
+      enabledDateType={values.enabledDateType}
     />
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Divider } from '@chakra-ui/react';
-import { QuillEditorField } from '../Shared/FormUi';
-import { SidebarFormContainer } from '../Shared/SidebarUi';
+import { FormNodeRowsFieldArray, QuillEditorField } from '../Shared/FormUi';
+import { FormNodeSettings, SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
@@ -20,15 +19,21 @@ function FormNodeContent({ id }) {
   const initialValues = {
     fields: config.fields,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
+    message: currentNode?.data?.message || '',
+    rows: currentNode?.data.rows || config?.data?.rows || '',
+
+    // move to config
+    extra: currentNode?.data.extra || '',
+    hasSkipButton: currentNode?.data.hasSkipButton || '',
+    sendLabel: currentNode?.data.sendLabel || '',
+    skipLabel: currentNode?.data.skipLabel || '',
   };
+
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    updateNodeById(id, { ...currentNode?.data, ...formValues });
     handleClose();
   };
 
@@ -46,8 +51,8 @@ function FormNodeContent({ id }) {
         placeholder={config.fields[0].placeholder}
         label={config.fields[0].label}
       />
-      <Divider />
-      Form Builder array
+      <FormNodeSettings />
+      <FormNodeRowsFieldArray name='rows' />
     </SidebarFormContainer>
   );
 }

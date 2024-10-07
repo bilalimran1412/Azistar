@@ -15,3 +15,4 @@ export { default as SortableMultiQuestionFieldArray } from './FormHelper/Sortabl
 export { default as DateSelectorFieldArray } from './FormHelper/DateSelectorFieldArray';
 export { default as FormSettings } from './FormSettings';
 export { default as FormToggleSwitch } from './FormToggleSwitch';
+export { default as FormNodeRowsFieldArray } from './FormHelper/FormNodeRowsFieldArray';

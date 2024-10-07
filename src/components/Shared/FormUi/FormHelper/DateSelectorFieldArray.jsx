@@ -1,12 +1,12 @@
 import { Box, Icon } from '@chakra-ui/react';
 import React from 'react';
-import { FieldArray, useFormikContext } from 'formik';
+import { FieldArray, useField } from 'formik';
 import FormTextField from '../FormTextField';
 import { MdAdd } from 'react-icons/md';
 import { FaTrash } from 'react-icons/fa';
 
-function DateSelectorFieldArray({ name }) {
-  const { values } = useFormikContext();
+function DateSelectorFieldArray({ name, enabledDateType }) {
+  const [field] = useField(name);
 
   const onAdd = (arrayHelpers) => {
     arrayHelpers.push({ fromDate: '', toDate: '' });
@@ -15,13 +15,13 @@ function DateSelectorFieldArray({ name }) {
   const onDelete = (arrayHelpers, index) => {
     arrayHelpers.remove(index);
   };
-  const fieldValue = values?.[name] || [];
+  const fieldValue = field.value || [];
 
   const isLastField = fieldValue?.length === 1;
 
   return (
     <>
-      {values?.enabledDateType === 'custom' && (
+      {enabledDateType === 'custom' && (
         <FieldArray
           name={name}
           render={(arrayHelpers) => (

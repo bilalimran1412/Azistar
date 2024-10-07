@@ -124,6 +124,7 @@ const FormTextField = ({
             {...field}
             {...rest}
             className={className}
+            variant='custom'
           />
         ) : (
           <Input
