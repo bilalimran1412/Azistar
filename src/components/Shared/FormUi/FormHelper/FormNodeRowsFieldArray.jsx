@@ -99,6 +99,38 @@ function FormNodeRowsFieldArray({ name }) {
     arrayHelpers.remove(index);
   };
   const isLasItem = fieldValue?.length === 1;
+
+  // const handleDragEnd = (event) => {
+  //   const { active, over } = event;
+  //   console.log(active, over);
+  //   if (active.id !== over.id) {
+  //     const activeRowIndex = Number(active.id.split('-')[0]);
+  //     const activeQuestionIndex = Number(active.id.split('-')[1]);
+  //     const overRowIndex = Number(over.id.split('-')[0]);
+  //     const overQuestionIndex = fieldValue[overRowIndex].questions.length;
+
+  //     const updatedQuestions = [...fieldValue[activeRowIndex].questions];
+  //     const [movedQuestion] = updatedQuestions.splice(activeQuestionIndex, 1);
+
+  //     if (overRowIndex === activeRowIndex) {
+  //       updatedQuestions.splice(overQuestionIndex, 0, movedQuestion);
+  //     } else {
+  //       const updatedOverRowQuestions = [
+  //         ...fieldValue[overRowIndex].questions,
+  //         movedQuestion,
+  //       ];
+  //       arrayHelpersRef.current.replace(overRowIndex, {
+  //         ...fieldValue[overRowIndex],
+  //         questions: updatedOverRowQuestions,
+  //       });
+  //     }
+
+  //     arrayHelpersRef.current.replace(activeRowIndex, {
+  //       ...fieldValue[activeRowIndex],
+  //       questions: updatedQuestions,
+  //     });
+  //   }
+  // };
   return (
     <>
       <FieldArray
