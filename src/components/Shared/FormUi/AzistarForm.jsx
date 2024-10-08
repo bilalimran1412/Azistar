@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { Flex, Grid } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 const SchemaProviderContext = createContext({
   validationSchema: Yup.object().shape({}),

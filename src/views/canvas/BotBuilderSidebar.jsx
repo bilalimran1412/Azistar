@@ -60,9 +60,7 @@ const BotBuilderSidebar = () => {
       </div>
       <ReactFlowCanvas />
       {sideViewVisible && currentNodeId && (
-        <div className='builder-sidebar'>
-          <SideView closeForm={closeForm} key={currentNodeId} />
-        </div>
+        <SideView closeForm={closeForm} key={currentNodeId} />
       )}
       {showDropdown && (
         <NodeDropdownMenu

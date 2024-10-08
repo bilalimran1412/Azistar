@@ -3,6 +3,8 @@ import { FaGripVertical, FaTrash } from 'react-icons/fa';
 import { questionTypes } from './data';
 import React from 'react';
 import { FormNodePortal } from './FormNodePortal';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 export function FormQuestionCard({
   question,
@@ -61,5 +63,21 @@ export function FormQuestionCard({
         </Box>
       </Box>
     </>
+  );
+}
+
+export function SortableItem({ id, children }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {children}
+    </div>
   );
 }
