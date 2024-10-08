@@ -22,7 +22,7 @@ function CustomModal({
   title,
   onSave,
   footer,
-  size = '',
+  size = 'lg',
   isCentered = true,
 }) {
   return (

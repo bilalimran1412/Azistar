@@ -90,6 +90,10 @@ export const sideViewLayoutType = {
   yesNo: 'yesNo',
   messageMedia: 'messageMedia',
   buttons: 'button',
+  botJump: 'botJump',
+  goal: 'goal',
+  persistentMenu: 'persistentMenu',
+  leadScoring: 'leadScoring',
 };
 
 //groups for creating nodes
@@ -745,7 +749,9 @@ export const nodeConfigurations = {
       label: 'Jump to',
       nodeType: 'baseNode',
       icon: <FaExchangeAlt />,
-
+      data: {
+        layoutType: sideViewLayoutType.botJump,
+      },
       fields: [
         {
           label: 'Jump Target',
@@ -761,7 +767,10 @@ export const nodeConfigurations = {
       title: 'Lead Scoring',
       label: 'Lead Scoring',
       icon: <FaSortNumericDown />,
-
+      variableType: 'NUMBER',
+      data: {
+        layoutType: sideViewLayoutType.leadScoring,
+      },
       nodeType: 'baseNode',
       fields: [
         {
@@ -778,7 +787,9 @@ export const nodeConfigurations = {
       title: 'Goal',
       label: 'Goal',
       icon: <FaMapMarker />,
-
+      data: {
+        layoutType: sideViewLayoutType.goal,
+      },
       nodeType: 'baseNode',
       fields: [
         {
@@ -822,6 +833,7 @@ export const nodeConfigurations = {
       label: 'Persistent Menu',
       icon: <FaBars />,
       nodeType: 'baseNode',
+      data: { layoutType: sideViewLayoutType.persistentMenu },
       fields: [
         {
           label: 'Menu Items',

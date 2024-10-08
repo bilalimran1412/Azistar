@@ -18,6 +18,10 @@ import OpinionScaleNodeContent from './OpinionScaleNodeContent';
 import PictureChoiceNodeContent from './PictureChoiceNodeContent';
 import RatingNodeContent from './RatingNodeContent';
 import YesNoNodeContent from './YesNoNodeContent';
+import BotJumpNodeContent from './BotJumpNodeContent';
+import GoalNodeContent from './GoalNodeContent';
+import PersistentMenuNodeContent from './PersistentMenuNodeContent';
+import LeadScoringNodeContent from './LeadScoringNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -39,4 +43,8 @@ export const SideViewContent = {
   [sideViewLayoutType.pictureChoice]: PictureChoiceNodeContent,
   [sideViewLayoutType.multiQuestions]: MultiQuestionsNodeContent,
   [sideViewLayoutType.forms]: FormNodeContent,
+  [sideViewLayoutType.botJump]: BotJumpNodeContent,
+  [sideViewLayoutType.goal]: GoalNodeContent,
+  [sideViewLayoutType.persistentMenu]: PersistentMenuNodeContent,
+  [sideViewLayoutType.leadScoring]: LeadScoringNodeContent,
 };
