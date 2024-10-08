@@ -21,14 +21,14 @@ function isQuillEmpty(quill) {
   }
 }
 
-function QuillEditorField({ name, label, placeholder }) {
+function QuillEditorField({ name, label, placeholder, labelVariant = '' }) {
   const [field, meta, helpers] = useField(name);
   const { errors, touched, setFieldValue } = useFormikContext();
   const defaultValue = parseJSON(field.value);
 
   return (
     <FormControl isInvalid={touched[name] && errors[name]}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel variant={labelVariant}>{label}</FormLabel>
       <ReactQuill
         theme='snow'
         placeholder={placeholder}

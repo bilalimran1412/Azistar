@@ -1,10 +1,23 @@
 import React from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Icon,
+  Button,
+} from '@chakra-ui/react';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { yup } from 'utils/yup';
+import { FaTrash } from 'react-icons/fa';
+import { FieldArray, useField } from 'formik';
+import RuleGroupFieldArray from 'components/Shared/FormUi/FormHelper/RuleGroupFieldArray';
 
 function LeadScoringNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -17,6 +30,7 @@ function LeadScoringNodeContent({ id }) {
 
   const initialValues = {
     variable: currentNode?.data?.variable,
+    ruleGroups: currentNode?.data?.ruleGroups || '',
   };
   const validationSchema = yup.object({});
 
@@ -59,6 +73,7 @@ function LeadScoringNodeContent({ id }) {
           The variable format must be NUMBER
         </Text>
       </Box>
+      <RuleGroupFieldArray name='ruleGroups' />
     </SidebarFormContainer>
   );
 }

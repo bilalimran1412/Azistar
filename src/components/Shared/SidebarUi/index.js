@@ -9,3 +9,4 @@ export * from './PictureChoice';
 export * from './MultiQuestion';
 export * from './FormNode';
 export * from './PersistentMenu';
+export * from './TagInputField';

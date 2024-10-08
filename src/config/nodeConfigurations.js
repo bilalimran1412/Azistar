@@ -94,6 +94,7 @@ export const sideViewLayoutType = {
   goal: 'goal',
   persistentMenu: 'persistentMenu',
   leadScoring: 'leadScoring',
+  emailIntegration: 'emailIntegration',
 };
 
 //groups for creating nodes
@@ -853,6 +854,9 @@ export const nodeConfigurations = {
       label: 'Send an Email',
       icon: <FaMailBulk />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.emailIntegration,
+      },
       fields: [
         {
           label: 'Email Content',

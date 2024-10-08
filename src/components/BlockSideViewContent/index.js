@@ -22,6 +22,7 @@ import BotJumpNodeContent from './BotJumpNodeContent';
 import GoalNodeContent from './GoalNodeContent';
 import PersistentMenuNodeContent from './PersistentMenuNodeContent';
 import LeadScoringNodeContent from './LeadScoringNodeContent';
+import EmailIntegrationContent from './EmailIntegrationContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -47,4 +48,5 @@ export const SideViewContent = {
   [sideViewLayoutType.goal]: GoalNodeContent,
   [sideViewLayoutType.persistentMenu]: PersistentMenuNodeContent,
   [sideViewLayoutType.leadScoring]: LeadScoringNodeContent,
+  [sideViewLayoutType.emailIntegration]: EmailIntegrationContent,
 };

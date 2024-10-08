@@ -16,3 +16,4 @@ export { default as DateSelectorFieldArray } from './FormHelper/DateSelectorFiel
 export { default as FormSettings } from './FormSettings';
 export { default as FormToggleSwitch } from './FormToggleSwitch';
 export { default as FormNodeRowsFieldArray } from './FormHelper/FormNodeRowsFieldArray';
+export { default as FormTagInput } from './FormTagInput';
