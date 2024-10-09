@@ -10,3 +10,4 @@ export * from './MultiQuestion';
 export * from './FormNode';
 export * from './PersistentMenu';
 export * from './TagInputField';
+export * from './LeadScoring';

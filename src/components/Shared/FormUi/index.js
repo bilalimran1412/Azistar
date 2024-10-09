@@ -17,3 +17,4 @@ export { default as FormSettings } from './FormSettings';
 export { default as FormToggleSwitch } from './FormToggleSwitch';
 export { default as FormNodeRowsFieldArray } from './FormHelper/FormNodeRowsFieldArray';
 export { default as FormTagInput } from './FormTagInput';
+export { default as RuleGroupFieldArray } from './FormHelper/RuleGroupFieldArray';
