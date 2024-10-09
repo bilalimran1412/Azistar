@@ -95,6 +95,7 @@ export const sideViewLayoutType = {
   persistentMenu: 'persistentMenu',
   leadScoring: 'leadScoring',
   emailIntegration: 'emailIntegration',
+  aiFaq: 'aiFaq',
 };
 
 //groups for creating nodes
@@ -1088,6 +1089,9 @@ export const nodeConfigurations = {
       label: 'AI FAQs Assistant',
       icon: <FaRobot />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.aiFaq,
+      },
       fields: [
         {
           label: 'FAQs Setup',
