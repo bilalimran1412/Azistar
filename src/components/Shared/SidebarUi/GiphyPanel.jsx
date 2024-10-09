@@ -15,6 +15,7 @@ import {
   Container,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
+const GIPHY_API_KEY = process.env.REACT_APP_GIPHY_API_KEY;
 
 const GiphySearchGrid = ({ onSelect }) => {
   const [gifs, setGifs] = useState([]);
@@ -22,37 +23,33 @@ const GiphySearchGrid = ({ onSelect }) => {
   const [query, setQuery] = useState('');
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedGif, setSelectedGif] = useState(null);
   const observer = useRef(null);
 
-  const GIPHY_API_KEY = process.env.REACT_APP_GIPHY_API_KEY;
+  const fetchGifs = useCallback(async (searchQuery = '', newOffset = 0) => {
+    if (searchQuery.length < 3) {
+      setGifs([]);
+      return;
+    }
 
-  const fetchGifs = useCallback(
-    async (searchQuery = '', newOffset = 0) => {
-      if (searchQuery.length < 3) {
-        setGifs([]);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${searchQuery}&limit=20&offset=${newOffset}`
-        );
-        const data = await response.json();
-        const newGifs = data.data;
-        setGifs((prevGifs) =>
-          newOffset === 0 ? newGifs : [...prevGifs, ...newGifs]
-        );
-        setHasMore(newGifs.length > 0);
-        setOffset(newOffset);
-      } catch (error) {
-        console.error('Error fetching GIFs:', error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [GIPHY_API_KEY]
-  );
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${searchQuery}&limit=20&offset=${newOffset}`
+      );
+      const data = await response.json();
+      const newGifs = data.data;
+      setGifs((prevGifs) =>
+        newOffset === 0 ? newGifs : [...prevGifs, ...newGifs]
+      );
+      setHasMore(newGifs.length > 0);
+      setOffset(newOffset);
+    } catch (error) {
+      console.error('Error fetching GIFs:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const debouncedSearch = useCallback(
     (value) => {
@@ -87,6 +84,11 @@ const GiphySearchGrid = ({ onSelect }) => {
   useEffect(() => {
     debouncedSearch(query);
   }, [query, debouncedSearch]);
+
+  const handleGifClick = (gif) => {
+    setSelectedGif(gif.id);
+    onSelect(gif);
+  };
 
   return (
     <Container py={6} maxHeight='500px' overflow='auto'>
@@ -130,7 +132,9 @@ const GiphySearchGrid = ({ onSelect }) => {
               boxShadow='md'
               transition='transform 0.2s'
               _hover={{ transform: 'scale(1.05)' }}
-              onClick={() => onSelect(gif)}
+              border={selectedGif === gif.id ? '3px solid #38B2AC' : 'none'}
+              cursor='pointer'
+              onClick={() => handleGifClick(gif)}
             >
               <Box position='relative' paddingTop='100%'>
                 <Image
