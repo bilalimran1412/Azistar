@@ -1,0 +1,89 @@
+.playground .chatbot-container {
+    position: relative !important;
+}
+
+.playground .inr_dat_box {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+}
+.un_play_ground .inr_dat_box {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+}
+.playground_context {
+    text-align: center;
+    width: 70%;
+}
+.playground_context ul {
+    text-align: left !important;
+}
+.un_play_ground {
+    text-align: left;
+}
+.chat_bot_playground {
+    width: 40%;
+}
+.playground .inr_dat_box {
+    padding: 40px;
+}
+.playground h3 {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 31px;
+    letter-spacing: -0.01em;
+    text-align: center;
+}
+.playground {
+    width: 100%;
+}
+
+.playground p{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    text-align: center;
+}
+
+
+
+.css-ui5xzp.css-ui5xzp > * + * {
+    margin-top: 20px;
+}
+.css-1dgwj5h {
+    position: relative;
+    padding: 13px 20px 13px 44px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: rgb(245, 247, 249);
+    color: rgb(20, 32, 54);
+}
+.chat_bot_playground img {
+    width: 100%;
+}
+.css-1jraybv {
+    fill: rgb(100, 116, 145);
+    color: rgb(100, 116, 145);
+}
+.css-17dr1mu {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: -0.01em;
+}
+.css-1dgwj5h a, .css-1dgwj5h .btn-link.btn-inline {
+    color: currentcolor;
+    text-decoration: underline;
+    font-weight: 500;
+}
+.css-1dgwj5h svg {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+}
