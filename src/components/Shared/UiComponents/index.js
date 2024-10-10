@@ -4,3 +4,4 @@ export { ImageEditorModal } from './ImageEditor/EditorModal';
 export { ExtraOptionsAccordion } from './ExtraOptionAccordion';
 export { AddItemRoundButton } from './AddItemRoundButton';
 export { FixedSidebarPortal } from './FixedSidebarPortal';
+export * from './DatePicker';

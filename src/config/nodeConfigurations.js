@@ -96,6 +96,7 @@ export const sideViewLayoutType = {
   leadScoring: 'leadScoring',
   emailIntegration: 'emailIntegration',
   aiFaq: 'aiFaq',
+  businessHours: 'businessHours',
 };
 
 //groups for creating nodes
@@ -1128,6 +1129,7 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       icon: <FaClock />,
       data: {
+        layoutType: 'businessHours',
         multipleHandles: true,
         contentType: contentType.buttonNode,
         items: [

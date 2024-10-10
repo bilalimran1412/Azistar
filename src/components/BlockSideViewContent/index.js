@@ -24,6 +24,7 @@ import PersistentMenuNodeContent from './PersistentMenuNodeContent';
 import LeadScoringNodeContent from './LeadScoringNodeContent';
 import EmailIntegrationContent from './EmailIntegrationContent';
 import AIFAQNodeContent from './AIFAQNodeContent';
+import BusinessHoursNodeContent from './BusinessHoursNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -51,4 +52,5 @@ export const SideViewContent = {
   [sideViewLayoutType.leadScoring]: LeadScoringNodeContent,
   [sideViewLayoutType.emailIntegration]: EmailIntegrationContent,
   [sideViewLayoutType.aiFaq]: AIFAQNodeContent,
+  [sideViewLayoutType.businessHours]: BusinessHoursNodeContent,
 };
