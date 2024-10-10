@@ -1,23 +1,11 @@
 import React from 'react';
-import {
-  Box,
-  Text,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Icon,
-  Button,
-} from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { yup } from 'utils/yup';
-import { FaTrash } from 'react-icons/fa';
-import { FieldArray, useField } from 'formik';
-import RuleGroupFieldArray from 'components/Shared/FormUi/FormHelper/RuleGroupFieldArray';
+import { RuleGroupFieldArray } from 'components/Shared/FormUi';
 
 function LeadScoringNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -29,15 +17,20 @@ function LeadScoringNodeContent({ id }) {
   if (!config) return <></>;
 
   const initialValues = {
-    variable: currentNode?.data?.variable,
-    ruleGroups: currentNode?.data?.ruleGroups || '',
+    variable: currentNode?.data?.variable || '',
+    ruleGroups: currentNode?.data?.ruleGroups || [
+      {
+        id: '3966f68c-7473-5035-ae1b-75919fec6276',
+        isExpanded: false,
+        rules: [],
+      },
+    ],
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    updateNodeById(id, { ...currentNode?.data, ...formValues });
     handleClose();
   };
 

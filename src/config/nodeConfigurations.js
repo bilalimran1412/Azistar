@@ -95,6 +95,8 @@ export const sideViewLayoutType = {
   persistentMenu: 'persistentMenu',
   leadScoring: 'leadScoring',
   emailIntegration: 'emailIntegration',
+  aiFaq: 'aiFaq',
+  businessHours: 'businessHours',
 };
 
 //groups for creating nodes
@@ -1088,6 +1090,9 @@ export const nodeConfigurations = {
       label: 'AI FAQs Assistant',
       icon: <FaRobot />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.aiFaq,
+      },
       fields: [
         {
           label: 'FAQs Setup',
@@ -1124,6 +1129,7 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       icon: <FaClock />,
       data: {
+        layoutType: 'businessHours',
         multipleHandles: true,
         contentType: contentType.buttonNode,
         items: [
