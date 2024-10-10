@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FormControl, Box } from '@chakra-ui/react';
 
-const FormDatePicker = ({ name, label, labelVariant, ...props }) => {
+const FormDatePicker = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name);
   const selectedDate = field.value ? new Date(field.value) : '';
 
@@ -17,7 +17,6 @@ const FormDatePicker = ({ name, label, labelVariant, ...props }) => {
           onChange={(date) => helpers.setValue(date)}
           {...props}
         />
-        {/* </Tooltip> */}
       </Box>
       {meta.touched && meta.error ? (
         <Box color='red.500' mt={2}>

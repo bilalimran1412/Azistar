@@ -12,31 +12,31 @@ import {
 const defaultOpenHours = {
   Monday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
   Tuesday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
   Wednesday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
   Thursday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
   Friday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
   Saturday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
   Sunday: {
     enabled: false,
-    time: [],
+    time: [{ start: '', end: '' }],
   },
 };
 function BusinessHoursNodeContent({ id }) {

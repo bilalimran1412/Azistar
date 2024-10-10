@@ -1,21 +1,13 @@
-import { Text, HStack, Button } from '@chakra-ui/react';
+import { Text, HStack, Button, Box } from '@chakra-ui/react';
 import {
   BusinessHoursFieldWrapper,
   BusinessHoursOpenDay,
+  CopyWeekValues,
+  weekdays,
 } from 'components/Shared/SidebarUi';
 import React from 'react';
 import { FormDatePicker, FormToggleSwitch } from '../..';
 import { useField, FieldArray } from 'formik';
-
-const weekdays = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
 
 function BusinessHoursOpenHoursField({ name }) {
   const [field] = useField(name);
@@ -27,33 +19,50 @@ function BusinessHoursOpenHoursField({ name }) {
       </Text>
       {weekdays.map((day) => (
         <BusinessHoursOpenDay key={day}>
+          <CopyWeekValues fieldName={`${name}.${day}`} dayClicked={day} />
           <FormToggleSwitch name={`${name}.${day}.enabled`} label={day} />
           {field.value[day]?.enabled && (
             <FieldArray
               name={`${name}.${day}.time`}
               render={({ push, remove }) => (
                 <>
-                  {field.value[day].time.map((time, index) => (
-                    <HStack key={index} spacing={4} mb={2}>
-                      <>
-                        <FormDatePicker
-                          name={`${name}.${day}.time[${index}].start`}
-                          // label={`Start Time for ${day}`}
-                        />
-                        <FormDatePicker
-                          name={`${name}.${day}.time[${index}].end`}
-                          // label={`End Time for ${day}`}
-                        />
-                        <Button
-                          onClick={() => remove(index)}
-                          colorScheme='red'
-                          variant='outline'
-                        >
-                          Remove
-                        </Button>
-                      </>
-                    </HStack>
-                  ))}
+                  {field.value[day].time.map((time, index) => {
+                    return (
+                      <HStack key={index} spacing={4} my={3}>
+                        <>
+                          <FormDatePicker
+                            name={`${name}.${day}.time[${index}].start`}
+                            showTimeSelect
+                            showTimeSelectOnly
+                            timeIntervals={15}
+                            timeCaption='Time'
+                            dateFormat='HH:mm'
+                            timeFormat='HH:mm'
+                            customInput={<CustomTimeInputField />}
+                          />
+                          <FormDatePicker
+                            name={`${name}.${day}.time[${index}].end`}
+                            showTimeSelect
+                            showTimeSelectOnly
+                            timeIntervals={15}
+                            timeCaption='Time'
+                            dateFormat='HH:mm'
+                            timeFormat='HH:mm'
+                            customInput={<CustomTimeInputField />}
+                          />
+                          {field.value[day].time?.length > 1 && (
+                            <Button
+                              onClick={() => remove(index)}
+                              colorScheme='red'
+                              variant={'unstyled'}
+                            >
+                              X
+                            </Button>
+                          )}
+                        </>
+                      </HStack>
+                    );
+                  })}
                   <Button
                     type='button'
                     onClick={() => push({ start: '', end: '' })}
@@ -71,3 +80,19 @@ function BusinessHoursOpenHoursField({ name }) {
 }
 
 export { BusinessHoursOpenHoursField };
+
+const CustomTimeInputField = React.forwardRef(({ value, onClick }, ref) => (
+  <Box
+    as='input'
+    ref={ref}
+    onClick={onClick}
+    value={value || 'Select'}
+    readOnly
+    style={{
+      outline: '1px solid black',
+      borderRadius: '3px',
+      width: '100%',
+      padding: '5px',
+    }}
+  />
+));
