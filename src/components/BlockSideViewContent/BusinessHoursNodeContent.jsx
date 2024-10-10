@@ -49,7 +49,6 @@ function BusinessHoursNodeContent({ id }) {
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
-  // VARIABLE;
   const initialValues = {
     timezone: currentNode?.data.timezone || '',
     openHours: currentNode?.data.openHours || defaultOpenHours,
@@ -73,7 +72,7 @@ function BusinessHoursNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <BusinessHoursTimeZone />
+      <BusinessHoursTimeZone name='timezone' />
       <BusinessHoursOpenHoursField name='openHours' />
       <BusinessHoursClosedDaysField name='closedDays' />
       <BusinessHoursSpecialDaysField name='specialDays' />

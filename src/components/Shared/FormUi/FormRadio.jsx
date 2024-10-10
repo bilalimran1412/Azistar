@@ -24,7 +24,7 @@ const FormRadioGroup = ({ name, label, options, labelVariant }) => {
         value={field.value}
         onChange={(value) => setFieldValue(name, value)}
       >
-        <Stack direction='row'>
+        <Stack direction='row' justifyContent='space-evenly'>
           {options.map((option) => (
             <Radio key={option.value} value={option.value}>
               {option.label}

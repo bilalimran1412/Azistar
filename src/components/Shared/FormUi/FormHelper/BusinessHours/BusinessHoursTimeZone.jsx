@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 import { FormDropdown } from '../..';
 import { BusinessHoursFieldWrapper } from 'components/Shared/SidebarUi';
 
-function BusinessHoursTimeZone() {
+function BusinessHoursTimeZone({ name }) {
   const dropdownOptions = React.useMemo(getTimeZoneOptions, []);
   return (
     <BusinessHoursFieldWrapper title='1. Time zone'>
@@ -11,7 +11,7 @@ function BusinessHoursTimeZone() {
         label='Select the time zone of your Business.'
         labelVariant='h3'
         variant='custom'
-        name='timezone'
+        name={name}
         options={dropdownOptions}
       />
     </BusinessHoursFieldWrapper>

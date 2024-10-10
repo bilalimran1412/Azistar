@@ -71,9 +71,8 @@ function CopyWeekValues({ fieldName, dayClicked }) {
                 <PopoverBody>
                   <VStack spacing={3} align='start'>
                     {options.map((day) => (
-                      <>
+                      <React.Fragment key={day}>
                         <Checkbox
-                          key={day}
                           isChecked={selectedDays.includes(day)}
                           onChange={() => handleCheckboxChange(day)}
                           fontSize={'12px'}
@@ -81,7 +80,7 @@ function CopyWeekValues({ fieldName, dayClicked }) {
                           <Text> {day}</Text>
                         </Checkbox>
                         <Divider />
-                      </>
+                      </React.Fragment>
                     ))}
                   </VStack>
                 </PopoverBody>
