@@ -4,10 +4,41 @@ import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import {
+  BusinessHoursClosedDaysField,
   BusinessHoursOpenHoursField,
+  BusinessHoursSpecialDaysField,
   BusinessHoursTimeZone,
 } from 'components/Shared/FormUi';
-
+const defaultOpenHours = {
+  Monday: {
+    enabled: false,
+    time: [],
+  },
+  Tuesday: {
+    enabled: false,
+    time: [],
+  },
+  Wednesday: {
+    enabled: false,
+    time: [],
+  },
+  Thursday: {
+    enabled: false,
+    time: [],
+  },
+  Friday: {
+    enabled: false,
+    time: [],
+  },
+  Saturday: {
+    enabled: false,
+    time: [],
+  },
+  Sunday: {
+    enabled: false,
+    time: [],
+  },
+};
 function BusinessHoursNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
@@ -21,36 +52,9 @@ function BusinessHoursNodeContent({ id }) {
   // VARIABLE;
   const initialValues = {
     timezone: currentNode?.data.timezone || '',
-    openHours: currentNode?.data.openHours || {
-      Monday: {
-        enabled: false,
-        time: [],
-      },
-      Tuesday: {
-        enabled: false,
-        time: [],
-      },
-      Wednesday: {
-        enabled: false,
-        time: [],
-      },
-      Thursday: {
-        enabled: false,
-        time: [],
-      },
-      Friday: {
-        enabled: false,
-        time: [],
-      },
-      Saturday: {
-        enabled: false,
-        time: [],
-      },
-      Sunday: {
-        enabled: false,
-        time: [],
-      },
-    },
+    openHours: currentNode?.data.openHours || defaultOpenHours,
+    closedDays: currentNode?.data.closedDays || '',
+    specialDays: currentNode?.data.specialDays || '',
   };
   const validationSchema = yup.object({});
 
@@ -71,6 +75,8 @@ function BusinessHoursNodeContent({ id }) {
     >
       <BusinessHoursTimeZone />
       <BusinessHoursOpenHoursField name='openHours' />
+      <BusinessHoursClosedDaysField name='closedDays' />
+      <BusinessHoursSpecialDaysField name='specialDays' />
     </SidebarFormContainer>
   );
 }

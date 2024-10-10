@@ -1,10 +1,10 @@
-import { Text, HStack, Input } from '@chakra-ui/react';
+import { Text, HStack, Button } from '@chakra-ui/react';
 import {
   BusinessHoursFieldWrapper,
   BusinessHoursOpenDay,
 } from 'components/Shared/SidebarUi';
 import React from 'react';
-import { FormToggleSwitch } from '../..';
+import { FormDatePicker, FormToggleSwitch } from '../..';
 import { useField, FieldArray } from 'formik';
 
 const weekdays = [
@@ -23,7 +23,7 @@ function BusinessHoursOpenHoursField({ name }) {
   return (
     <BusinessHoursFieldWrapper title='2. Business Hours'>
       <Text mb={3}>
-        Define the days and hours when your business will be open
+        Define the days and hours when your business will be open.
       </Text>
       {weekdays.map((day) => (
         <BusinessHoursOpenDay key={day}>
@@ -35,55 +35,31 @@ function BusinessHoursOpenHoursField({ name }) {
                 <>
                   {field.value[day].time.map((time, index) => (
                     <HStack key={index} spacing={4} mb={2}>
-                      <Input
-                        placeholder='Start Time'
-                        type='time'
-                        name={`${name}.${day}.time[${index}].start`}
-                        value={time.start}
-                        onChange={(e) => {
-                          const newTime = [...field.value[day].time];
-                          newTime[index] = {
-                            start: e.target.value,
-                            end: newTime[index]?.end || '',
-                          };
-                          field.onChange({
-                            target: {
-                              name: `${name}.${day}.time`,
-                              value: newTime,
-                            },
-                          });
-                        }}
-                      />
-                      <Input
-                        placeholder='End Time'
-                        type='time'
-                        name={`${name}.${day}.time[${index}].end`}
-                        value={time.end}
-                        onChange={(e) => {
-                          const newTime = [...field.value[day].time];
-                          newTime[index] = {
-                            start: newTime[index]?.start || '',
-                            end: e.target.value,
-                          };
-                          field.onChange({
-                            target: {
-                              name: `${name}.${day}.time`,
-                              value: newTime,
-                            },
-                          });
-                        }}
-                      />
-                      <button type='button' onClick={() => remove(index)}>
-                        Remove
-                      </button>
+                      <>
+                        <FormDatePicker
+                          name={`${name}.${day}.time[${index}].start`}
+                          // label={`Start Time for ${day}`}
+                        />
+                        <FormDatePicker
+                          name={`${name}.${day}.time[${index}].end`}
+                          // label={`End Time for ${day}`}
+                        />
+                        <Button
+                          onClick={() => remove(index)}
+                          colorScheme='red'
+                          variant='outline'
+                        >
+                          Remove
+                        </Button>
+                      </>
                     </HStack>
                   ))}
-                  <button
+                  <Button
                     type='button'
                     onClick={() => push({ start: '', end: '' })}
                   >
                     Add Time
-                  </button>
+                  </Button>
                 </>
               )}
             />
