@@ -21,3 +21,4 @@ export { default as FormTagInput } from './FormTagInput';
 export { default as RuleGroupFieldArray } from './FormHelper/RuleGroupFieldArray';
 export * from './FormHelper/BusinessHours';
 export * from './FormDatePicker';
+export * from './FormDateRangePicker';

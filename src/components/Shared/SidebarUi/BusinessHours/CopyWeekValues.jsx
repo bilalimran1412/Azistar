@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useField, useFormikContext } from 'formik';
 import {
   Box,
-  Icon,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -15,6 +14,7 @@ import {
   VStack,
   Divider,
   Text,
+  IconButton,
 } from '@chakra-ui/react';
 import { FaRegCopy } from 'react-icons/fa';
 import { weekdays } from './data';
@@ -59,10 +59,13 @@ function CopyWeekValues({ fieldName, dayClicked }) {
               onClose={() => setIsOpen(false)}
             >
               <PopoverTrigger>
-                <Icon
-                  cursor='pointer'
-                  as={FaRegCopy}
+                <IconButton
+                  icon={<FaRegCopy />}
                   onClick={() => setIsOpen(true)}
+                  minH={0}
+                  minW={0}
+                  backgroundColor='transparent'
+                  height='auto'
                 />
               </PopoverTrigger>
               <PopoverContent width='120px'>

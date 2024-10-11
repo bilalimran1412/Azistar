@@ -10,20 +10,20 @@ import {
   Box,
 } from '@chakra-ui/react';
 
-const FormRadioGroup = ({ name, label, options, labelVariant }) => {
+const FormRadioGroup = ({ name, label, options, labelVariant, onChange }) => {
   const { setFieldValue } = useFormikContext();
   const [field, meta] = useField(name);
 
+  const handleChange = (value) => {
+    setFieldValue(name, value);
+    onChange && onChange(value);
+  };
   return (
     <FormControl isInvalid={meta.touched && meta.error}>
       <FormLabel htmlFor={name} variant={labelVariant}>
         {label}
       </FormLabel>
-      <RadioGroup
-        id={name}
-        value={field.value}
-        onChange={(value) => setFieldValue(name, value)}
-      >
+      <RadioGroup id={name} value={field.value} onChange={handleChange}>
         <Stack direction='row' justifyContent='space-evenly'>
           {options.map((option) => (
             <Radio key={option.value} value={option.value}>
