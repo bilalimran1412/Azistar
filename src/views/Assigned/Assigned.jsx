@@ -55,11 +55,11 @@ function Assigned() {
 
     const fetchCustomers = async () => {
         try {
-            const newuserId ='66ffc9443c3c2f753759240c';
+            const newuserId ='66ffa340ab8fe75d52fbfb6e';
             const response = await axios.get(`http://localhost:4000/api/v1/customers/${newuserId}`);
             const customerData = response.data.customers || [];
 
-            const activeCustomers = customerData.filter(customer => customer.status !== 'false');
+            const activeCustomers = customerData.filter(customer => customer.status == 'active');
 
             // Get last messages including timestamps
             const updatedCustomers = await Promise.all(activeCustomers.map(async (customer) => {

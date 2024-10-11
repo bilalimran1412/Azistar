@@ -224,6 +224,7 @@ export const ChatSection = styled.div`
         margin-bottom: 10px;
         overflow-y: auto;
         display: flex;
+        height: 50vh;
         flex-direction: column;
     }
 
@@ -294,7 +295,8 @@ export const Message = styled.div`
     padding: 10px;
     margin-bottom: 0px;
     border-radius: 5px;
-    align-self: ${({ sender }) => (sender === 'user' ? 'flex-start' : 'flex-start')};
+    align-self: ${({ sender }) => (sender === 'user' ? 'flex-start' : 'flex-end')};
+    float: ${({ sender }) => (sender === 'user' ? 'left' : 'right')};
 
     .message-content {
         display: flex;

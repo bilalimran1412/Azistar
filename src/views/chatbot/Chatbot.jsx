@@ -4,10 +4,10 @@ import '../Styles/chatbot.css';
 // import '../canvas/chatbot.css'
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([]); 
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false); 
-  const [initiateLiveChat, setInitiateLiveChat] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [initiateLiveChat, setInitiateLiveChat] = useState(false);
   const [whatsAppUrl, setWhatsAppUrl] = useState('');
   const [customerCreated, setCustomerCreated] = useState(false);
   const [email, setEmail] = useState('');
@@ -34,9 +34,9 @@ const Chatbot = () => {
             const messagesData = messagesResponse.data.messages || [];
             setMessages(messagesData);
             console.log(`Fetched Messages:`, messagesData);
-          } else if(customerId) {
+          } else if (customerId) {
             console.log('Customer not found. Show email form.');
-          }else {
+          } else {
             console.log('Customer not found. Show email form.');
           }
         } catch (error) {
@@ -48,68 +48,111 @@ const Chatbot = () => {
         setShowEmailForm(true);
       }
     };
-  
+
     const interval = setInterval(fetchMessages, 500);
     return () => clearInterval(interval);
   }, [userId]);
-  
 
 
 
-// Handle email submission to create or retrieve a customer
-const handleEmailSubmit = async (e) => {
+
+  // Handle email submission to create or retrieve a customer
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
     try {
-        const response = await axios.get(`http://localhost:4000/api/v1/customers/${email}`);
-        if (response.data.success && response.data.customer) {
-            // Email exists, retrieve customer ID
-            const existingCustomer = response.data.customer;
-            localStorage.setItem('customerId', existingCustomer._id);
+      const response = await axios.get(`http://localhost:4000/api/v1/customers/${email}`);
+      if (response.data.success && response.data.customer) {
+        // Email exists, retrieve customer ID
+        const existingCustomer = response.data.customer;
+        localStorage.setItem('customerId', existingCustomer._id);
+        await axios.patch(`http://localhost:4000/api/v1/customers/${existingCustomer._id}`, { status: 'true' });
 
-            await axios.patch(`http://localhost:4000/api/v1/customers/${existingCustomer._id}`, { status: 'active' });
-            
-            setCustomerCreated(true);
-            setEmail('');
+        setCustomerCreated(true);
+        setEmail('');
+      } else {
+        const newCustomerResponse = await axios.post('http://localhost:4000/api/v1/customers', {
+          email,
+          phone: '',
+          userId,
+          websiteId
+        });
+
+        if (newCustomerResponse.data.success) {
+          const newCustomer = newCustomerResponse.data.customer;
+          localStorage.setItem('customerId', newCustomer._id);
+          setCustomerCreated(true);
+          setEmail('');
         } else {
-            const newCustomerResponse = await axios.post('http://localhost:4000/api/v1/customers', {
-                email,
-                phone: '',
-                userId,
-                websiteId
-            });
-
-            if (newCustomerResponse.data.success) {
-                const newCustomer = newCustomerResponse.data.customer;
-                localStorage.setItem('customerId', newCustomer._id);
-                setCustomerCreated(true); 
-                setEmail(''); 
-            } else {
-                alert(newCustomerResponse.data.message);
-            }
+          alert(newCustomerResponse.data.message);
         }
+      }
     } catch (error) {
-        console.error('Error handling email submission:', error);
+      console.error('Error handling email submission:', error);
     }
-};
+  };
 
 
   // Function to send the customer message
   const sendMessage = async () => {
+
     if (!input.trim()) return;
     setLoading(true);
+
     try {
       const customerId = localStorage.getItem('customerId');
-      await axios.post('http://localhost:4000/api/v1/message/chat', {
-        message: input, userId, sender: 'customer', websiteId, customerId
-      });
-      setMessages((prevMessages) => [
-        ...prevMessages, 
-        { text: input, sender: 'user' }
-      ]);
+      const customerResponse = await axios.get(`http://localhost:4000/api/v1/customers/customer/${customerId}`);
+      const { customers } = customerResponse.data;
 
-      await axios.patch(`http://localhost:4000/api/v1/customers/${customerId}`, { status: 'active' });
-      setInput('');
+      if (customers.length > 0) {
+        const { status } = customers[0];
+        console.log(status)
+
+      if (status === 'active') {
+        // const customerId = localStorage.getItem('customerId');
+        await axios.post('http://localhost:4000/api/v1/message/chat', {
+          message: input, userId, sender: 'customer', websiteId, customerId
+        });
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: input, sender: 'user' }
+        ]);
+
+        // await axios.patch(`http://localhost:4000/api/v1/customers/${customerId}`, { status: 'true' });
+        setInput('');
+      } else {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.post(`http://localhost:4000/api/v1/chat/live`, { message: input, userId });
+        const { response: chatbotResponse, initiateLiveChat, whatsappUrl } = response.data;
+       
+        await axios.post('http://localhost:4000/api/v1/message/chat', {
+          message: input, userId, sender: 'customer', websiteId, customerId
+        });
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: input, sender: 'user' }
+        ]);
+       
+        if (initiateLiveChat) {
+          // Hide the chatbot input and messages container
+          setInitiateLiveChat(true);
+          setWhatsAppUrl(whatsappUrl)
+
+        } else {
+          // Show chatbot response
+          setMessages(prevMessages => [...prevMessages, { text: input, sender: 'user' }]);
+          setTimeout(() => {
+            setLoading(false);
+            axios.post('http://localhost:4000/api/v1/message/chat', {
+              message: chatbotResponse, userId, sender: 'bot', websiteId, customerId
+            });
+            setMessages(prevMessages => [...prevMessages, { text: chatbotResponse, sender: 'bot' }]);
+          }, 2000);
+          setInput('');
+        }
+      }
+    }
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -157,7 +200,7 @@ const handleEmailSubmit = async (e) => {
           <div className="header-ava"></div>
         </div>
         <h2 className="oneline">
-        <span>Hi there <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/12.1.1/72x72/1f44b.png" alt="👋" className="emoji" /></span>
+          <span>Hi there <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/12.1.1/72x72/1f44b.png" alt="👋" className="emoji" /></span>
         </h2>
         <button className="material-icons exit-chat ripple tidio-1s5t5ku" type="button" aria-label="Minimize" style={{ color: 'rgb(255, 255, 255)' }}>
           <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" id="ic-minimize">
@@ -180,28 +223,28 @@ const handleEmailSubmit = async (e) => {
       <div className="chatbot-header"> </div>
       <div className="chatbot-wrapper">
         {ShowEmailForm && (
-            <div className="email-overlay">
+          <div className="email-overlay">
             <form onSubmit={handleEmailSubmit} className="email-form">
-                <input
+              <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email..."
                 required
                 className="mb-4 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none"
-                />
-                <button type="submit" style={ButtonColor} className="bg-blue-500 text-white rounded-lg px-4 py-2">
+              />
+              <button type="submit" style={ButtonColor} className="bg-blue-500 text-white rounded-lg px-4 py-2">
                 Submit
-                </button>
+              </button>
             </form>
-            </div>
+          </div>
         )}
         <div className="chatbot-messages">
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender} p-2 rounded-lg mb-2 ${msg.sender === 'user' ? 'user' : 'cutomer' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
-                {msg.message}
-              </div>
-            ))}
+          {messages.map((msg, index) => (
+            <div key={index} className={`message ${msg.sender} p-2 rounded-lg mb-2 ${msg.sender === 'user' ? 'user' : 'cutomer' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
+              {msg.message}
+            </div>
+          ))}
           {loading && (
             <div className="message bot p-2 rounded-lg mb-2 bg-gray-200 text-gray-800">
               <span>{initiateLiveChat ? 'Initiated WhatsApp Live chat.' : 'Loading...'}</span>
@@ -257,7 +300,7 @@ const handleEmailSubmit = async (e) => {
           </button>
         </div> */}
       </div>
-      
+
     </div>
   );
 };

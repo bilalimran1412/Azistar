@@ -20,7 +20,7 @@ const Chatbot = () => {
     const userId = localStorage.getItem('userId');
     try {
       setLoading(true);
-      const response = await axios.post(`http://localhost:4000/api/v1/chat`, { message: input, userId });
+      const response = await axios.post(`http://localhost:4000/api/v1/chat/live`, { message: input, userId });
       const { response: chatbotResponse, initiateLiveChat, whatsappUrl } = response.data; 
 
       if (initiateLiveChat) {

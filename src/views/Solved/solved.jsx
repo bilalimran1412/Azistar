@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
     MainLayout,
@@ -12,6 +12,11 @@ import {
 import { FiTrash, FiRotateCw, FiCheckCircle } from 'react-icons/fi';
 import CardTops from '../Unassigned/CardTop';
 import AllCard from '../Unassigned/AllCard';
+import '../Styles/userconversation.css';
+import Avatar from '../Assigned/Avatar';
+import ChatHeader from '../Assigned/ChatHeader';
+import '../Styles/index.css'
+import CustomerListTooltip from '../Assigned/CustomeListTootip';
 
 function Assigned() {
     const [customers, setCustomers] = useState([]);
@@ -19,30 +24,84 @@ function Assigned() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [customerInfo, setCustomerInfo] = useState(null);
-    const [checkedCustomers, setCheckedCustomers] = useState([]); // Managing checked customers
-    const userId = '66fc0cc56784cdfa429863ee'; 
-    // const [userId, setUserId] = useState('');
-    const websiteId = 'azistar'; // Dynamic website ID
+    const [checkedCustomers, setCheckedCustomers] = useState([]);
+    const [userId, setUserId] = useState();
+    // const userId = '66ffa340ab8fe75d52fbfb6e';
+    const websiteId = 'azistar';
+    const [hoveredCustomerId, setHoveredCustomerId] = useState(null);
+    const [actionMenuVisible, setActionMenuVisible] = useState(false);
+    const [oldUserId, setoldUserId] = useState();
     const [customersAll, setCustomersAll] = useState([]);
 
+    useEffect(() => {
+        const idUser = localStorage.getItem('userId');
+        setUserId(idUser);
+    }, []);
 
-//   useEffect(() => {
-//     const getId = localStorage.getItem('userId');
-//         setUserId(getId);
-//   }, []);
+    useEffect(() => {
+        if (userId) {
+            console.log(userId, 'id ai hi');
+        }
+    }, [userId]);
 
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const fetchCustomers = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/api/v1/customers/${userId}`);
+            const newuserId = '66ffa340ab8fe75d52fbfb6e';
+            const response = await axios.get(`http://localhost:4000/api/v1/customers/${newuserId}`);
             const customerData = response.data.customers || [];
             setCustomersAll(customerData);
-            // Filter customers with status == 'active'
-            const activeCustomers = customerData.filter(customer => customer.status === 'false');
 
-            setCustomers(activeCustomers); // Set only active customers
+            const activeCustomers = customerData.filter(customer => customer.status == 'false');
+
+            // Get last messages including timestamps
+            const updatedCustomers = await Promise.all(activeCustomers.map(async (customer) => {
+                const lastMessageResponse = await axios.get(
+                    `http://localhost:4000/api/v1/message/${userId}/${customer._id}`
+                );
+
+                const lastMessage = lastMessageResponse.data.lastMessage;
+
+                return {
+                    ...customer,
+                    lastMessage: {
+                        message: lastMessage ? lastMessage.message : 'No messages yet',
+                        timestamp: lastMessage ? lastMessage.timestamp : null
+                    }
+                };
+            }));
+
+            setCustomers(updatedCustomers);
         } catch (error) {
             console.error('Error fetching customers:', error);
+        }
+    };
+
+    const customerStatus = async (customerId, status) => {
+        try {
+            const response = await axios.patch(
+                `http://localhost:4000/api/v1/customers/${customerId}`,
+                { status }
+            );
+
+            if (response.data.success) {
+                alert(`Message status updated to "${status}".`);
+                fetchMessages(customerId);
+                window.location.href('/assigned')
+            } else {
+                alert('Failed to update message status.');
+            }
+        } catch (error) {
+            console.error('Error updating message status:', error);
         }
     };
 
@@ -53,7 +112,14 @@ function Assigned() {
                 const response = await axios.get(
                     `http://localhost:4000/api/v1/message/${userId}/${customerId}`
                 );
-                setMessages(response.data.messages || []);
+                const messagesWithEmail = response.data.messages.map(msg => {
+                    const customer = customers.find(c => c._id === customerId);
+                    return {
+                        ...msg,
+                        customerEmail: customer ? customer.email : 'Unknown Email' // Add email to message
+                    };
+                });
+                setMessages(messagesWithEmail || []);
             } catch (error) {
                 console.error('Error fetching messages', error);
             }
@@ -68,10 +134,12 @@ function Assigned() {
             );
 
             if (response.data.success && response.data.customers.length > 0) {
-                setCustomerInfo(response.data.customers[0]); // Correctly set to the first customer
+                setCustomerInfo(response.data.customers[0]);
+                setoldUserId(response.data.customers[0].userId);
+                console.log('information', customerInfo);
             } else {
                 console.error('No customer data found');
-                setCustomerInfo(null); // Clear if no data
+                setCustomerInfo(null);
             }
         } catch (error) {
             console.error('Error fetching customer info', error);
@@ -81,7 +149,6 @@ function Assigned() {
 
     // Send a message
     const sendMessage = async () => {
-        if (!input.trim()) return;
         try {
             const response = await axios.post(
                 `http://localhost:4000/api/v1/message/chat`,
@@ -90,7 +157,7 @@ function Assigned() {
                     userId,
                     sender: 'user',
                     websiteId,
-                    customerId: selectedCustomer, // Include customerId when sending message
+                    customerId: selectedCustomer,
                 }
             );
 
@@ -98,7 +165,7 @@ function Assigned() {
             if (response.data) {
                 setMessages(prevMessages => [...prevMessages, response.data]);
             }
-            setInput(''); // Clear the input field after sending the message
+            setInput('');
         } catch (error) {
             console.error('Error sending message', error);
         }
@@ -106,7 +173,7 @@ function Assigned() {
 
     // Function to open the Chatbot in a new popup window
     const openChatbotPopup = () => {
-        const popup = window.open('', 'Chatbot', 'width=600,height=600'); // Set your desired width and height
+        const popup = window.open('', 'Chatbot', 'width=400,height=600'); // Set your desired width and height
         if (popup) {
             popup.document.write(`
         <!DOCTYPE html>
@@ -119,7 +186,7 @@ function Assigned() {
         </head>
         <body>
           <div id="chatbot-root"></div>
-          <script src="http://localhost:3000/widget.js"></script>
+          <script src="http://localhost:3000/widget.js"></script> 
           <script>
             const userId = '66e673aeac3e4461b37b5ff1';
             const websiteId = 'azistar';
@@ -128,27 +195,7 @@ function Assigned() {
         </body>
         </html>
       `);
-            popup.document.close(); // Close the document to render
-        }
-    };
-
-
-    const customerStatus = async (customerId, status) => {
-        try {
-            const response = await axios.patch(
-                `http://localhost:4000/api/v1/customers/${customerId}`,
-                { status }
-            );
-
-            if (response.data.success) {
-                alert(`Message status updated to "${status}".`);
-                fetchMessages(customerId);
-                window.location.reload('/assigned')
-            } else {
-                alert('Failed to update message status.');
-            }
-        } catch (error) {
-            console.error('Error updating message status:', error);
+            popup.document.close();
         }
     };
 
@@ -162,9 +209,11 @@ function Assigned() {
 
             if (response.data.success) {
                 alert(`Message status updated to "${status}".`);
-                window.location.href = '/assigned';
                 fetchMessages(customerId);
                 fetchCustomers();
+                if (status === 'false') {
+                    window.location.href = '/solved';
+                }
             } else {
                 alert('Failed to update message status.');
             }
@@ -173,11 +222,12 @@ function Assigned() {
         }
     };
 
+
     // Handle conversation actions
     const handleAction = async action => {
         try {
             if (action === 'solve' && selectedCustomer) {
-                await updateMessageStatus(selectedCustomer, 'active'); // Update status to "solved"
+                await updateMessageStatus(selectedCustomer, 'false');
             } else {
                 await axios.post(`http://localhost:4000/api/v1/conversation/action`, {
                     action,
@@ -222,6 +272,7 @@ function Assigned() {
         }
     };
 
+
     // Handle checkbox check/uncheck
     const handleCheckboxChange = customerId => {
         const updatedCheckedCustomers = checkedCustomers.includes(customerId)
@@ -236,7 +287,7 @@ function Assigned() {
             fetchMessages(updatedCheckedCustomers[0]);
             fetchCustomerInfo(updatedCheckedCustomers[0]);
         } else {
-            setSelectedCustomer(null);
+            setSelectedCustomer(null); // Clear selected customer if none or multiple are checked
         }
     };
 
@@ -248,42 +299,208 @@ function Assigned() {
         console.log(customerId);
     };
 
+    const groupMessagesByDate = (messages) => {
+        return messages.reduce((acc, msg) => {
+            const date = new Date(msg.timestamp);
+            const formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            });
+
+            if (!acc[formattedDate]) {
+                acc[formattedDate] = [];
+            }
+            acc[formattedDate].push(msg);
+            return acc;
+        }, {});
+    };
+
+
     useEffect(() => {
         fetchCustomers();
+        const intervalId = setInterval(fetchCustomers, 3000);
+        return () => clearInterval(intervalId);
     }, []);
+
+    useEffect(() => {
+        if (selectedCustomer) {
+            fetchMessages(selectedCustomer);
+            const messageIntervalId = setInterval(() => {
+                fetchMessages(selectedCustomer);
+            }, 3000);
+
+            return () => clearInterval(messageIntervalId);
+        }
+
+    }, [selectedCustomer]);
+
+    const timeAgo = (timestamp) => {
+        const now = new Date();
+        const messageTime = new Date(timestamp);
+        const difference = Math.floor((now - messageTime) / 1000); // difference in seconds
+
+        if (difference < 60) {
+            return `${difference} sec${difference !== 1 ? 's' : ''}`;
+        } else if (difference < 3600) {
+            const minutes = Math.floor(difference / 60);
+            return `${minutes} min${minutes !== 1 ? 's' : ''}`;
+        } else if (difference < 86400) { // Less than 1 day
+            const hours = Math.floor(difference / 3600);
+            return `${hours} hr${hours !== 1 ? 's' : ''}`;
+        } else if (difference < 2592000) { // Less than 30 days
+            const days = Math.floor(difference / 86400);
+            return `${days} day${days !== 1 ? 's' : ''}`;
+        } else if (difference < 31536000) { // Less than 1 year
+            const months = Math.floor(difference / 2592000);
+            return `${months} month${months !== 1 ? 's' : ''}`;
+        } else {
+            const years = Math.floor(difference / 31536000);
+            return `${years} year${years !== 1 ? 's' : ''}`;
+        }
+    };
+
+    const addMessage = async (messageText, sender = 'system') => {
+        if (!selectedCustomer) {
+            console.error("No selected customer");
+            return;
+        }
+        // const newMessage = {
+        //     sender,
+        //     message: messageText,
+        //     timestamp: Date.now(),
+        //     customerEmail: selectedCustomer.email || 'Unknown Email', 
+        //     customerId: selectedCustomer.id || null
+        // };
+        console.log(selectedCustomer);
+        try {
+            const response = await axios.post(
+                `http://localhost:4000/api/v1/message/chat`,
+                {
+                    message: messageText,
+                    userId,
+                    sender,
+                    websiteId,
+                    customerId: selectedCustomer,
+                }
+            );
+
+            if (response.data) {
+                setMessages(prevMessages => [...prevMessages, response.data]);
+            }
+            setInput('');
+        } catch (error) {
+            console.error('Error sending message', error);
+        }
+    };
+
+
+
 
     const customerList = (
         <ul className="customer-list">
-            {customers.map((customer, index) => (
+            {customers.map((customer) => (
                 <li
                     key={customer._id}
                     className={checkedCustomers.includes(customer._id) ? 'active' : ''}
-                    onClick={() => handleCustomerClick(customer._id)} // Handle chat open on row click
+                    onClick={() => handleCustomerClick(customer._id)}
+                    onMouseEnter={() => setHoveredCustomerId(customer._id)}
+                    onMouseLeave={() => setHoveredCustomerId(null)}
                 >
-                    <input
-                        type="checkbox"
-                        checked={checkedCustomers.includes(customer._id)}
-                        onChange={e => {
-                            e.stopPropagation();
-                            handleCheckboxChange(customer._id);
-                        }}
-                    />
+                    <div>
+                        {/* Only show the Avatar if not selected */}
+                        {!checkedCustomers.includes(customer._id) && (
+                            <Avatar email={customer.email} isHovered={hoveredCustomerId === customer._id} />
+                        )}
+
+                        {/* Show the checkbox if selected or hovered */}
+                        {(checkedCustomers.includes(customer._id) || hoveredCustomerId === customer._id) && (
+                            <input
+                                type="checkbox"
+                                checked={checkedCustomers.includes(customer._id)}
+                                onChange={e => {
+                                    e.stopPropagation();
+                                    handleCheckboxChange(customer._id);
+                                }}
+                            />
+                        )}
+                    </div>
                     <div className="customer-info">
-                        {customer.email}
-                        {/* {customer._id} */}
-                        <p>{customer.lastMessage}</p>
+                        <div className='email_custmr'>
+                            <h4 className='customer_email'>{customer.email}</h4>
+
+                            {actionMenuVisible || hoveredCustomerId === customer._id ? (
+                                <button
+                                    aria-label="Conversation options button"
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        // Toggle the action menu visibility
+                                        setActionMenuVisible(prev => !prev);
+                                    }}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2m0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2m0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2"></path>
+                                    </svg>
+                                </button>
+                            ) : (
+                                <span className="timestamp">
+                                    {customer.lastMessage.timestamp
+                                        ? timeAgo(customer.lastMessage.timestamp)
+                                        : 'No time yet'}
+                                </span>
+                            )}
+                        </div>
+
+                        <p>Live Chat</p>
+                        <h6>{customer.lastMessage.message}</h6>
+
+                        {/* Always show action menu if it is visible */}
+                        {actionMenuVisible && (
+                            <div className="action-menu">
+                                <CustomerListTooltip
+                                    isVisible='isVisible'
+                                    selectedCustomer={customer._id}
+                                    oldUserId={oldUserId}
+                                    handleSolved={() => {
+                                        handleAction('solve');
+                                        setActionMenuVisible(false); // Hide action menu after action
+                                    }}
+                                    handleDelete={() => {
+                                        handleDelete(selectedCustomer);
+                                        setActionMenuVisible(false); // Hide action menu after action
+                                    }}
+                                    onSelect={e => {
+                                        e.stopPropagation();
+                                        handleCheckboxChange(customer._id);
+                                        setActionMenuVisible(false); // Hide action menu after action
+                                    }}
+                                    markAsUnread={() => {
+                                        updateMessageStatus(customer._id, 'unread');
+                                        setActionMenuVisible(false); // Hide action menu after action
+                                    }}
+                                />
+                            </div>
+                        )}
                     </div>
                 </li>
             ))}
         </ul>
     );
 
+
+
+
+
+    const groupedMessages = groupMessagesByDate(messages);
+
+
     return (
         <MainLayout>
             {/* Left Sidebar */}
             <SideBar>
                 {checkedCustomers.length === 0 ? (
-                    <h3>✅ Solved</h3>
+                    <h3>📬 My Open</h3>
                 ) : (
                     <div className="actions">
                         <button onClick={() => handleAction('markUnread')}>🔄</button>
@@ -293,65 +510,98 @@ function Assigned() {
                     </div>
                 )}
                 {customers.length > 0 ? customerList : <p></p>}
-                <p>You have no solved conversations at the moment.</p>
+                <p>Select a customer to view messages.</p>
             </SideBar>
 
             {/* Chat Section */}
             <Column>
                 {selectedCustomer ? (
-                    <ChatSection>
-                        <h2>Messages</h2>
-                        <div className="messages-list">
-                            {messages.length > 0 ? (
-                                messages.map((msg, index) => (
-                                    <Message key={index} sender={msg.sender}>
-                                        <div className="message-content">
-                                            {msg.sender === 'user' ? (
-                                                <>
-                                                    <span>You</span>
-                                                    <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <div className="customer-icon">👤</div>
-                                                    <span>{msg.customerId}</span>
-                                                    <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
-                                                </>
-                                            )}
-                                            <div className='chat_both'>{msg.message}</div>
+                    <div>
+                        <ChatHeader
+                            SolvedChat={() => handleAction('solve')}
+                            handleDelete={() => handleDelete(selectedCustomer)}
+                            messages={messages}
+                            VisterBan={() => updateMessageStatus(selectedCustomer, 'ban')}
+                            addMessage={addMessage}
+                            customerId={selectedCustomer}
+                            oldUserId={oldUserId}
+                        />
+                        <ChatSection>
+                            {/* <h2>Messages</h2> */}
+                            <div className="messages-list">
+                                {Object.entries(groupMessagesByDate(messages)).length > 0 ? (
+                                    Object.entries(groupMessagesByDate(messages)).map(([date, msgs]) => (
+                                        <div key={date}>
+                                            <div className='date-header'>
+                                                <h4>{date}</h4>
+                                            </div>
+                                            {msgs.map((msg, index) => (
+                                                <Message key={index} sender={msg.sender}>
+                                                    <div className={`message-content ${msg.sender === 'system' ? 'system_chat' : ''}`}>
+                                                        {msg.sender === 'user' ? (
+                                                            <>
+                                                                <div className="customer-icon">
+                                                                    <Avatar email='you' isHovered={hoveredCustomerId === msg.customerId} isActive={selectedCustomer === msg.customerId} />
+                                                                </div>
+                                                                <span>You</span>
+                                                                <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
+
+                                                            </>
+                                                        ) : msg.sender === 'system' ? (
+                                                            <>
+                                                                <div className='systm_manage'>
+                                                                    <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
+                                                                </div>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <div className="customer-icon">
+                                                                    <Avatar email={msg.customerEmail} isHovered={hoveredCustomerId === msg.customerId} isActive={selectedCustomer === msg.customerId} />
+                                                                </div>
+                                                                <span>{msg.customerEmail || msg.customerId}</span>
+                                                                <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
+
+                                                            </>
+                                                        )}
+                                                        <div className='chat_both'>{msg.message}</div>
+
+                                                    </div>
+                                                </Message>
+                                            ))}
                                         </div>
-                                    </Message>
-                                ))
-                            ) : (
-                                <p>No messages yet for this customer.</p>
-                            )}
-                        </div>
 
+                                    ))
 
-                        {/* Input section */}
-                        {customers.length === 0 ? (
+                                ) : (
+                                    <p>No messages yet for this customer.</p>
+                                )}
+                                <div ref={messagesEndRef} />
 
-                            <div className="input-section">
-                                <input
-                                    type="text"
-                                    value={input}
-                                    onChange={e => setInput(e.target.value)}
-                                    placeholder="Type your message..."
-                                />
-                                <button onClick={sendMessage}>Send</button>
                             </div>
-                        ) : (
-                            <CardTops
-                                CardTopHeading=''
-                                CardTopDescription='This conversation is marked as solved. Click the button or press ⏎ Enter to start a new conversation with the same visitor.'
-                                CarTopButton='Start new conversation'
-                                onClick={() => customerStatus(selectedCustomer, 'active')}
-                                CardTopBelow=''
-                            />
-                        )}
 
+                            {/* Input section */}
+                            {customers.length === 0 ? (
 
-                    </ChatSection>
+                                <div className="input-section">
+                                    <input
+                                        type="text"
+                                        value={input}
+                                        onChange={e => setInput(e.target.value)}
+                                        placeholder="Type your message..."
+                                    />
+                                    <button onClick={sendMessage}>Send</button>
+                                </div>
+                            ) : (
+                                <CardTops
+                                    CardTopHeading=''
+                                    CardTopDescription='This conversation is marked as solved. Click the button or press ⏎ Enter to start a new conversation with the same visitor.'
+                                    CarTopButton='Start new conversation'
+                                    onClick={() => customerStatus(selectedCustomer, 'active')}
+                                    CardTopBelow=''
+                                />
+                            )}
+                        </ChatSection>
+                    </div>
                 ) : (
                     <div>
                         {customersAll.length === 0 ? (
@@ -377,7 +627,6 @@ function Assigned() {
             </Column>
 
             {/* Right Sidebar (Customer Info) */}
-
             {customers.length > 0 && selectedCustomer && customerInfo && (
                 <CustomerInfo>
                     <h3>Customer Info</h3>

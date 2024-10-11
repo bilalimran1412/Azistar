@@ -78,14 +78,13 @@ border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 /* Bot Message */
 .bot {
-  align-self: flex-start; /* Align bot messages to the left */
+  align-self: flex-end; /* Align bot messages to the left */
 }
 
 /* User Message */
-.user {
+.user, .bot {
   align-self: flex-end; /* Align user messages to the right */
 }
-
 
 /*  */
 
