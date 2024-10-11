@@ -8,13 +8,17 @@ const FormDatePicker = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name);
   const selectedDate = field.value ? new Date(field.value) : '';
 
+  const onChange = (date) => {
+    helpers.setValue(date?.toISOString());
+  };
+
   return (
     <FormControl isInvalid={meta.touched && meta.error}>
       <Box>
         <DatePicker
           id={name}
           selected={selectedDate}
-          onChange={(date) => helpers.setValue(date)}
+          onChange={onChange}
           {...props}
         />
       </Box>
