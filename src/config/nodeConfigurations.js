@@ -97,6 +97,8 @@ export const sideViewLayoutType = {
   emailIntegration: 'emailIntegration',
   aiFaq: 'aiFaq',
   businessHours: 'businessHours',
+  humanTakeover: 'humanTakeover',
+  triggerAutomation: 'triggerAutomation',
 };
 
 //groups for creating nodes
@@ -1150,17 +1152,12 @@ export const nodeConfigurations = {
       group: Groups.inboxAndBuilderTools,
       blockId: 'f5baed1c-01b1-5a0c-bb73-157eac902473',
       title: 'Human Takeover',
-      label: 'Human Takeover',
+      label: 'Chat to your users',
       icon: <FaUser />,
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Takeover Trigger',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Chat to your users',
-        },
-      ],
+      data: {
+        layoutType: sideViewLayoutType.humanTakeover,
+      },
     },
     {
       group: Groups.inboxAndBuilderTools,
@@ -1254,6 +1251,7 @@ export const nodeConfigurations = {
 
       nodeType: 'baseNode',
       data: {
+        layoutType: sideViewLayoutType.triggerAutomation,
         multipleHandles: true,
         customHandle: [
           {

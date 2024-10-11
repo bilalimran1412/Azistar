@@ -25,6 +25,8 @@ import LeadScoringNodeContent from './LeadScoringNodeContent';
 import EmailIntegrationContent from './EmailIntegrationContent';
 import AIFAQNodeContent from './AIFAQNodeContent';
 import BusinessHoursNodeContent from './BusinessHoursNodeContent';
+import HumanTakeoverNodeContent from './HumanTakeoverNodeContent';
+import TriggerAutomationNodeContent from './TriggerAutomationNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -53,4 +55,6 @@ export const SideViewContent = {
   [sideViewLayoutType.emailIntegration]: EmailIntegrationContent,
   [sideViewLayoutType.aiFaq]: AIFAQNodeContent,
   [sideViewLayoutType.businessHours]: BusinessHoursNodeContent,
+  [sideViewLayoutType.humanTakeover]: HumanTakeoverNodeContent,
+  [sideViewLayoutType.triggerAutomation]: TriggerAutomationNodeContent,
 };
