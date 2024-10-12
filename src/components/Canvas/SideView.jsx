@@ -1,10 +1,7 @@
 import React from 'react';
 
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
-import {
-  nodeConfigurationBlockIdMap,
-  sideViewLayoutType,
-} from '../../config/nodeConfigurations';
+import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { SideViewContent } from '../BlockSideViewContent';
 import DefaultNodeContent from '../BlockSideViewContent/DefaultNodeContent';
@@ -27,14 +24,12 @@ const SideView = ({ closeForm }) => {
   const Content = config?.data?.layoutType
     ? SideViewContent[config?.data?.layoutType]
     : DefaultNodeContent;
-  const isLeadScoringNode =
-    config?.data?.layoutType === sideViewLayoutType.leadScoring;
 
   return (
     <div
       className='builder-sidebar'
       style={{
-        width: isLeadScoringNode ? '500px' : '400px',
+        width: config?.width ? config?.width : '400px',
       }}
     >
       {Content ? <Content id={currentNodeId} /> : <></>}

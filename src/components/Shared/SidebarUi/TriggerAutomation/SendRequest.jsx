@@ -8,13 +8,17 @@ import {
   Flex,
   FormLabel,
   Input,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { CodeEditor, CustomModal } from 'components/Shared/UiComponents';
 import { useFormikContext } from 'formik';
 import React from 'react';
+import { MdFullscreen } from 'react-icons/md';
 import { fetchWrapper } from 'utils/fetchWrapper';
 
 function SendRequest() {
   const { values } = useFormikContext();
+  const { onClose, isOpen, onOpen } = useDisclosure();
   const [isLoading, setIsLoading] = React.useState(false);
   const [responseMessage, setResponseMessage] = React.useState(null);
   const [isError, setIsError] = React.useState(false);
@@ -49,7 +53,7 @@ function SendRequest() {
       setIsLoading(false);
     }
   };
-  console.log(responseMessage);
+
   return (
     <Box mt={1}>
       <Button
@@ -78,17 +82,82 @@ function SendRequest() {
           <AlertDescription>{responseMessage}</AlertDescription>
         </Alert>
       )}
-      {responseMessage && (
-        <Box>
-          <FormLabel variant='h3' colorScheme='bue'>
-            Test status code
-          </FormLabel>
-          <Input
-            value={responseMessage?.response?.status}
-            variant='custom'
-            readOnly
-          />
+      {responseMessage && !isError && (
+        <Box display='flex' flexDirection='column' gap={5} mt={3}>
+          <Box>
+            <FormLabel variant='h3' color='blue'>
+              Test status code
+            </FormLabel>
+            <Input
+              value={responseMessage?.response?.status}
+              variant='custom'
+              readOnly
+            />
+          </Box>
+          <Box>
+            <FormLabel variant='h3' color='blue'>
+              Test Response Body
+            </FormLabel>
+            <Box
+              position='relative'
+              sx={{
+                _hover: {
+                  '.fullscreen': {
+                    visibility: 'visible',
+                  },
+                },
+              }}
+            >
+              <CodeEditor
+                value={responseMessage?.json || ''}
+                height='300px'
+                theme='dark'
+                editable={false}
+              />
+              <Box
+                position='absolute'
+                bottom='20px'
+                padding={2}
+                bgColor='white'
+                right='10px'
+                visibility='hidden'
+                className='fullscreen'
+                cursor='pointer'
+                onClick={onOpen}
+              >
+                <MdFullscreen />
+              </Box>
+            </Box>
+          </Box>
         </Box>
+      )}
+      {isOpen && (
+        <CustomModal
+          onClose={onClose}
+          isOpen={isOpen}
+          isCentered
+          size='5xl'
+          footer={
+            <Box
+              m={10}
+              mb={2}
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+            >
+              <Button variant='outline' colorScheme='blue' onClick={onClose}>
+                Close
+              </Button>
+            </Box>
+          }
+        >
+          <CodeEditor
+            value={responseMessage?.json || ''}
+            height='600px'
+            theme='dark'
+            editable={false}
+          />
+        </CustomModal>
       )}
     </Box>
   );

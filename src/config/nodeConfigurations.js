@@ -1248,7 +1248,7 @@ export const nodeConfigurations = {
       title: 'Trigger Automation',
       label: 'Trigger Automation',
       icon: <FaCogs />,
-
+      width: '500px',
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.triggerAutomation,

@@ -5,3 +5,4 @@ export { ExtraOptionsAccordion } from './ExtraOptionAccordion';
 export { AddItemRoundButton } from './AddItemRoundButton';
 export { FixedSidebarPortal } from './FixedSidebarPortal';
 export * from './DatePicker';
+export * from './CodeEditor';
