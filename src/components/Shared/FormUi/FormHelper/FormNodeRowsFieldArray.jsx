@@ -4,11 +4,18 @@ import {
   ButtonFieldArrayAddButton,
   FormQuestionCard,
   FormRowHeader,
+  SortableItem,
 } from 'components/Shared/SidebarUi';
 import { seedID } from 'utils';
 import { FieldArray, useField } from 'formik';
 import { RowAddItemMenu } from 'components/Shared/SidebarUi/FormNode/AddRowItemMenu';
 import { sideViewLayoutType } from 'config/nodeConfigurations';
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable';
 
 function FormNodeRowsFieldArray({ name }) {
   const [field] = useField(name);
@@ -28,18 +35,15 @@ function FormNodeRowsFieldArray({ name }) {
       id: seedID(),
       sortOrder: fieldValue[rowIndex].questions.length + 1,
       type: questionType,
-      //this should be options based on type
       hint: 'placeholder',
       label: '',
       isRequired: false,
       helpText: '',
       hintText: '',
       name: '',
-
       ...(questionType === sideViewLayoutType.askQuestion && {
         min: 0,
         max: 99999,
-
         inputSize: 'short',
         pattern: '',
         errorMessage: 'Please enter a valid value',
@@ -93,6 +97,7 @@ function FormNodeRowsFieldArray({ name }) {
       questions: updatedQuestions,
     });
   };
+
   const handleRowDelete = (index) => {
     const arrayHelpers = arrayHelpersRef.current;
     if (!arrayHelpers) return;
@@ -100,98 +105,135 @@ function FormNodeRowsFieldArray({ name }) {
   };
   const isLasItem = fieldValue?.length === 1;
 
-  // const handleDragEnd = (event) => {
-  //   const { active, over } = event;
-  //   console.log(active, over);
-  //   if (active.id !== over.id) {
-  //     const activeRowIndex = Number(active.id.split('-')[0]);
-  //     const activeQuestionIndex = Number(active.id.split('-')[1]);
-  //     const overRowIndex = Number(over.id.split('-')[0]);
-  //     const overQuestionIndex = fieldValue[overRowIndex].questions.length;
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
 
-  //     const updatedQuestions = [...fieldValue[activeRowIndex].questions];
-  //     const [movedQuestion] = updatedQuestions.splice(activeQuestionIndex, 1);
+    if (!over) return;
 
-  //     if (overRowIndex === activeRowIndex) {
-  //       updatedQuestions.splice(overQuestionIndex, 0, movedQuestion);
-  //     } else {
-  //       const updatedOverRowQuestions = [
-  //         ...fieldValue[overRowIndex].questions,
-  //         movedQuestion,
-  //       ];
-  //       arrayHelpersRef.current.replace(overRowIndex, {
-  //         ...fieldValue[overRowIndex],
-  //         questions: updatedOverRowQuestions,
-  //       });
-  //     }
+    const activeId = active.id;
+    const overId = over.id;
 
-  //     arrayHelpersRef.current.replace(activeRowIndex, {
-  //       ...fieldValue[activeRowIndex],
-  //       questions: updatedQuestions,
-  //     });
-  //   }
-  // };
+    const activeRowIndex = fieldValue.findIndex((row) =>
+      row.questions.some((question) => question.id === activeId)
+    );
+    const overRowIndex = fieldValue.findIndex((row) =>
+      row.questions.some((question) => question.id === overId)
+    );
+
+    if (activeRowIndex === overRowIndex) {
+      // Reorder within the same row
+      const activeQuestionIndex = fieldValue[
+        activeRowIndex
+      ].questions.findIndex((question) => question.id === activeId);
+      const overQuestionIndex = fieldValue[overRowIndex].questions.findIndex(
+        (question) => question.id === overId
+      );
+      const updatedQuestions = arrayMove(
+        fieldValue[activeRowIndex].questions,
+        activeQuestionIndex,
+        overQuestionIndex
+      );
+      arrayHelpersRef.current.replace(activeRowIndex, {
+        ...fieldValue[activeRowIndex],
+        questions: updatedQuestions,
+      });
+    } else {
+      const activeQuestion = fieldValue[activeRowIndex].questions.find(
+        (question) => question.id === activeId
+      );
+      const updatedActiveRowQuestions = fieldValue[
+        activeRowIndex
+      ].questions.filter((question) => question.id !== activeId);
+      const updatedOverRowQuestions = [
+        ...fieldValue[overRowIndex].questions,
+        activeQuestion,
+      ];
+
+      arrayHelpersRef.current.replace(activeRowIndex, {
+        ...fieldValue[activeRowIndex],
+        questions: updatedActiveRowQuestions,
+      });
+      arrayHelpersRef.current.replace(overRowIndex, {
+        ...fieldValue[overRowIndex],
+        questions: updatedOverRowQuestions,
+      });
+    }
+  };
+
   return (
     <>
-      <FieldArray
-        name={name}
-        render={(arrayHelpers) => {
-          if (!arrayHelpersRef.current) {
-            arrayHelpersRef.current = arrayHelpers;
-          }
-          return (
-            <>
-              {fieldValue?.map((row, index) => {
-                return (
-                  <React.Fragment key={row.id}>
-                    <Box display='flex' flexDirection='column' gap={2}>
-                      <FormRowHeader
-                        handleAddQuestion={(type) =>
-                          handleAddQuestion(index, type)
-                        }
-                        index={index}
-                        subFieldName={`${name}[${index}]`}
-                        row={row}
-                        isLasItem={isLasItem}
-                        handleRowDelete={() => {
-                          handleRowDelete(index);
-                        }}
-                      />
-                      {!!row.questions?.length && (
-                        <Box display='flex' flexDirection='column' gap={2}>
-                          {row.questions.map((question, qIndex) => (
-                            <FormQuestionCard
-                              question={question}
-                              subFieldName={`${name}[${index}].questions[${qIndex}]`}
-                              handleQuestionDelete={() => {
-                                handleQuestionDelete(index, qIndex);
-                              }}
-                            />
-                          ))}
-                          {row.questions?.length === 1 && (
-                            <Box
-                              width='100%'
-                              display='flex'
-                              justifyContent='flex-end'
-                            >
-                              <RowAddItemMenu
-                                onAddQuestion={(type) => {
-                                  handleAddQuestion(index, type);
-                                }}
-                              />
+      <DndContext
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        // onDragStart={{}}
+      >
+        <FieldArray
+          name={name}
+          render={(arrayHelpers) => {
+            if (!arrayHelpersRef.current) {
+              arrayHelpersRef.current = arrayHelpers;
+            }
+            return (
+              <>
+                {fieldValue?.map((row, index) => {
+                  return (
+                    <React.Fragment key={row.id}>
+                      <Box display='flex' flexDirection='column' gap={2}>
+                        <FormRowHeader
+                          handleAddQuestion={(type) =>
+                            handleAddQuestion(index, type)
+                          }
+                          index={index}
+                          subFieldName={`${name}[${index}]`}
+                          row={row}
+                          isLasItem={isLasItem}
+                          handleRowDelete={() => {
+                            handleRowDelete(index);
+                          }}
+                        />
+                        {!!row.questions?.length && (
+                          <SortableContext
+                            items={row.questions.map((q) => q.id)}
+                            strategy={rectSortingStrategy}
+                          >
+                            <Box display='flex' flexDirection='column' gap={2}>
+                              {row.questions.map((question, qIndex) => (
+                                <FormQuestionCard
+                                  key={question?.id}
+                                  id={question?.id}
+                                  question={question}
+                                  subFieldName={`${name}[${index}].questions[${qIndex}]`}
+                                  handleQuestionDelete={() => {
+                                    handleQuestionDelete(index, qIndex);
+                                  }}
+                                />
+                              ))}
+                              {row.questions?.length === 1 && (
+                                <Box
+                                  width='100%'
+                                  display='flex'
+                                  justifyContent='flex-end'
+                                >
+                                  <RowAddItemMenu
+                                    onAddQuestion={(type) => {
+                                      handleAddQuestion(index, type);
+                                    }}
+                                  />
+                                </Box>
+                              )}
                             </Box>
-                          )}
-                        </Box>
-                      )}
-                    </Box>
-                    <Divider />
-                  </React.Fragment>
-                );
-              })}
-            </>
-          );
-        }}
-      />
+                          </SortableContext>
+                        )}
+                      </Box>
+                      <Divider />
+                    </React.Fragment>
+                  );
+                })}
+              </>
+            );
+          }}
+        />
+      </DndContext>
 
       <Box>
         <ButtonFieldArrayAddButton
