@@ -52,7 +52,6 @@ function FormNodeRowsFieldArray({ name }) {
 
     const newQuestion = {
       id: seedID(),
-      sortOrder: fieldValue[rowIndex].questions?.length + 1 || 0,
       type: questionType,
       hint: 'placeholder',
       label: '',
@@ -315,9 +314,11 @@ function FormNodeRowsFieldArray({ name }) {
           activeItemIndex,
           1
         );
-        newItems[overContainerIndex].questions
-          .splice(overItemIndex, 0, removedItem)
-          .map((question, index) => ({ ...question, sortOrder: index + 1 }));
+        newItems[overContainerIndex].questions.splice(
+          overItemIndex,
+          0,
+          removedItem
+        );
 
         helpers.setValue(newItems);
       }
@@ -357,9 +358,7 @@ function FormNodeRowsFieldArray({ name }) {
         activeItemIndex,
         1
       );
-      newItems[overContainerIndex].questions
-        .push(removedItem)
-        .map((question, index) => ({ ...question, sortOrder: index + 1 }));
+      newItems[overContainerIndex].questions.push(removedItem);
 
       helpers.setValue(newItems);
     }
