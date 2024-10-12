@@ -22,8 +22,8 @@ import {
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 const DND_ITEMS_TYPES = {
-  PARAMETER: 'question',
-  PARAMETER_PAGE: 'row',
+  QUESTIONS: 'question',
+  ROW: 'row',
 };
 const findActiveQuestion = (activeItem, fieldValue) => {
   if (!activeItem) {
@@ -136,22 +136,22 @@ function FormNodeRowsFieldArray({ name }) {
     if (!active || !over || active.id === over.id) {
       return;
     }
+    // Handling Item Drop Into a Container
     if (
       active.data.current?.type === 'question' &&
       over?.data.current?.type === 'row'
     ) {
       const activeContainer = findValueOfItems(
         active.id,
-        DND_ITEMS_TYPES.PARAMETER
+        DND_ITEMS_TYPES.QUESTIONS
       );
-      const overContainer = findValueOfItems(
-        over.id,
-        DND_ITEMS_TYPES.PARAMETER_PAGE
-      );
+      const overContainer = findValueOfItems(over.id, DND_ITEMS_TYPES.ROW);
 
+      // If the active or over container is not found, return
       if (!activeContainer || !overContainer) {
         return;
       }
+      // Find the index of the active and over container
       const activeContainerIndex = fieldValue?.findIndex(
         (container) => container.id === activeContainer.id
       );
@@ -159,11 +159,13 @@ function FormNodeRowsFieldArray({ name }) {
       const overContainerIndex = fieldValue?.findIndex(
         (container) => container?.id === overContainer?.id
       );
+      // Find the index of the active and over item
       const activeItemIndex = activeContainer.questions?.findIndex(
         (item) => item.id === active.id
       );
 
       let newItems = [...fieldValue];
+
       const [removedItem] = newItems[activeContainerIndex].questions.splice(
         activeItemIndex,
         1
@@ -174,21 +176,23 @@ function FormNodeRowsFieldArray({ name }) {
       return;
     }
     if (
-      active.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
-      over?.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      active.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      over?.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
       active &&
       over &&
       active.id !== over.id
     ) {
+      // Find the active and over container
       const activeContainer = findValueOfItems(
         active.id,
-        DND_ITEMS_TYPES.PARAMETER
+        DND_ITEMS_TYPES.QUESTIONS
       );
       const overContainer = findValueOfItems(
         over.id,
-        DND_ITEMS_TYPES.PARAMETER
+        DND_ITEMS_TYPES.QUESTIONS
       );
 
+      // If the active or over container is not found, return
       if (
         !activeContainer ||
         !overContainer ||
@@ -204,12 +208,14 @@ function FormNodeRowsFieldArray({ name }) {
       const overContainerIndex = fieldValue?.findIndex(
         (container) => container?.id === overContainer?.id
       );
+      // Find the index of the active and over item
       const activeItemIndex = activeContainer.questions?.findIndex(
         (item) => item.id === active.id
       );
       const overItemIndex = overContainer.questions.findIndex(
         (item) => item.id === over.id
       );
+      // In the same container
       if (activeContainerIndex === overContainerIndex) {
         let newItems = [...fieldValue];
         newItems[activeContainerIndex].questions = arrayMove(
@@ -220,6 +226,7 @@ function FormNodeRowsFieldArray({ name }) {
 
         helpers.setValue(newItems);
       } else {
+        // In different containers
         let newItems = [...fieldValue];
         const [removedItem] = newItems[activeContainerIndex].questions.splice(
           activeItemIndex,
@@ -230,6 +237,26 @@ function FormNodeRowsFieldArray({ name }) {
           0,
           removedItem
         );
+
+        const isOverFull = newItems[overContainerIndex].questions?.length > 2;
+        if (isOverFull) {
+          const nextRow = newItems[overContainerIndex + 1];
+
+          if (nextRow && nextRow.questions.length < 2) {
+            const [lastQuestion] = newItems[
+              overContainerIndex
+            ].questions.splice(-1, 1);
+            newItems[overContainerIndex + 1].questions.push(lastQuestion);
+          } else {
+            const previousRow = newItems[overContainerIndex - 1];
+            if (previousRow && previousRow.questions.length < 2) {
+              const [lastQuestion] = newItems[
+                overContainerIndex
+              ].questions.splice(-1, 1);
+              newItems[overContainerIndex - 1].questions.push(lastQuestion);
+            }
+          }
+        }
         helpers.setValue(newItems);
       }
     }
@@ -237,29 +264,34 @@ function FormNodeRowsFieldArray({ name }) {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
+
     if (
-      active.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
-      over?.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      active.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      over?.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
       active &&
       over &&
       active.id !== over.id
     ) {
+      // Find the active and over container
       const activeContainer = findValueOfItems(
         active.id,
-        DND_ITEMS_TYPES.PARAMETER
+        DND_ITEMS_TYPES.QUESTIONS
       );
       const overContainer = findValueOfItems(
         over.id,
-        DND_ITEMS_TYPES.PARAMETER
+        DND_ITEMS_TYPES.QUESTIONS
       );
 
+      // If the active or over container is not found, return
       if (!activeContainer || !overContainer) return;
+      // Find the index of the active and over container
       const activeContainerIndex = fieldValue.findIndex(
         (container) => container.id === activeContainer.id
       );
       const overContainerIndex = fieldValue.findIndex(
         (container) => container.id === overContainer.id
       );
+      // Find the index of the active and over item
       const activeItemIndex = activeContainer.questions.findIndex(
         (item) => item.id === active.id
       );
@@ -277,43 +309,45 @@ function FormNodeRowsFieldArray({ name }) {
 
         helpers.setValue(newItems);
       } else {
+        // In different containers
         let newItems = [...fieldValue];
         const [removedItem] = newItems[activeContainerIndex].questions.splice(
           activeItemIndex,
           1
         );
-        newItems[overContainerIndex].questions.splice(
-          overItemIndex,
-          0,
-          removedItem
-        );
+        newItems[overContainerIndex].questions
+          .splice(overItemIndex, 0, removedItem)
+          .map((question, index) => ({ ...question, sortOrder: index + 1 }));
+
         helpers.setValue(newItems);
       }
     }
+    // Handling item dropping into Container
     if (
-      active.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
-      over?.data.current?.type === DND_ITEMS_TYPES.PARAMETER_PAGE &&
+      active.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      over?.data.current?.type === DND_ITEMS_TYPES.ROW &&
       active &&
       over &&
       active.id !== over.id
     ) {
+      // Find the active and over container
       const activeContainer = findValueOfItems(
         active.id,
-        DND_ITEMS_TYPES.PARAMETER
+        DND_ITEMS_TYPES.QUESTIONS
       );
-      const overContainer = findValueOfItems(
-        over.id,
-        DND_ITEMS_TYPES.PARAMETER_PAGE
-      );
+      const overContainer = findValueOfItems(over.id, DND_ITEMS_TYPES.ROW);
 
+      // If the active or over container is not found, return
       if (!activeContainer || !overContainer) return;
 
+      // Find the index of the active and over container
       const activeContainerIndex = fieldValue.findIndex(
         (container) => container.id === activeContainer.id
       );
       const overContainerIndex = fieldValue.findIndex(
         (container) => container.id === overContainer.id
       );
+      // Find the index of the active and over item
       const activeItemIndex = activeContainer.questions.findIndex(
         (item) => item.id === active.id
       );
@@ -323,7 +357,9 @@ function FormNodeRowsFieldArray({ name }) {
         activeItemIndex,
         1
       );
-      newItems[overContainerIndex].questions.push(removedItem);
+      newItems[overContainerIndex].questions
+        .push(removedItem)
+        .map((question, index) => ({ ...question, sortOrder: index + 1 }));
 
       helpers.setValue(newItems);
     }
@@ -331,10 +367,10 @@ function FormNodeRowsFieldArray({ name }) {
   };
 
   const findValueOfItems = (id, type) => {
-    if (type === 'row') {
+    if (type === DND_ITEMS_TYPES.ROW) {
       return fieldValue?.find((row) => row.id === id);
     }
-    if (type === 'question') {
+    if (type === DND_ITEMS_TYPES.QUESTIONS) {
       return fieldValue?.find((row) =>
         row.questions.find((question) => question?.id === id)
       );
