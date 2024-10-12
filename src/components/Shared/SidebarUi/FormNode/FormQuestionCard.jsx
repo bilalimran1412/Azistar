@@ -14,7 +14,7 @@ export function FormQuestionCard({
   id,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+    useSortable({ id, data: { type: 'question' } });
 
   const style = {
     transform: CSS.Transform.toString(transform),

@@ -21,7 +21,10 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-
+const DND_ITEMS_TYPES = {
+  PARAMETER: 'question',
+  PARAMETER_PAGE: 'row',
+};
 const findActiveQuestion = (activeItem, fieldValue) => {
   if (!activeItem) {
     return null;
@@ -33,7 +36,7 @@ const findActiveQuestion = (activeItem, fieldValue) => {
 
 function FormNodeRowsFieldArray({ name }) {
   const [activeItem, setActiveItem] = React.useState(null);
-  const [field] = useField(name);
+  const [field, , helpers] = useField(name);
   const arrayHelpersRef = React.useRef(null);
   const fieldValue = field?.value || [];
 
@@ -121,64 +124,10 @@ function FormNodeRowsFieldArray({ name }) {
   };
   const isLasItem = fieldValue?.length === 1;
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-
-    if (!over) return;
-
-    const activeId = active.id;
-    const overId = over.id;
-
-    const activeRowIndex = fieldValue.findIndex((row) =>
-      row.questions.some((question) => question.id === activeId)
-    );
-    const overRowIndex = fieldValue.findIndex((row) =>
-      row.questions.some((question) => question.id === overId)
-    );
-
-    if (activeRowIndex === overRowIndex) {
-      // Reorder within the same row
-      const activeQuestionIndex = fieldValue[
-        activeRowIndex
-      ].questions.findIndex((question) => question.id === activeId);
-      const overQuestionIndex = fieldValue[overRowIndex].questions.findIndex(
-        (question) => question.id === overId
-      );
-      const updatedQuestions = arrayMove(
-        fieldValue[activeRowIndex].questions,
-        activeQuestionIndex,
-        overQuestionIndex
-      );
-      arrayHelpersRef.current.replace(activeRowIndex, {
-        ...fieldValue[activeRowIndex],
-        questions: updatedQuestions,
-      });
-    } else {
-      const activeQuestion = fieldValue[activeRowIndex].questions.find(
-        (question) => question.id === activeId
-      );
-      const updatedActiveRowQuestions = fieldValue[
-        activeRowIndex
-      ].questions.filter((question) => question.id !== activeId);
-      const updatedOverRowQuestions = [
-        ...fieldValue[overRowIndex].questions,
-        activeQuestion,
-      ];
-
-      arrayHelpersRef.current.replace(activeRowIndex, {
-        ...fieldValue[activeRowIndex],
-        questions: updatedActiveRowQuestions,
-      });
-      arrayHelpersRef.current.replace(overRowIndex, {
-        ...fieldValue[overRowIndex],
-        questions: updatedOverRowQuestions,
-      });
-    }
-  };
   const handleDragStart = (event) => {
     const { active } = event;
     const { id } = active;
-    setActiveItem({ id });
+    setActiveItem({ id, type: active?.data?.current?.type });
   };
 
   const handleDragMove = (event) => {
@@ -187,9 +136,210 @@ function FormNodeRowsFieldArray({ name }) {
     if (!active || !over || active.id === over.id) {
       return;
     }
-    console.log(active, over, fieldValue);
+    if (
+      active.data.current?.type === 'question' &&
+      over?.data.current?.type === 'row'
+    ) {
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.PARAMETER
+      );
+      const overContainer = findValueOfItems(
+        over.id,
+        DND_ITEMS_TYPES.PARAMETER_PAGE
+      );
+
+      if (!activeContainer || !overContainer) {
+        return;
+      }
+      const activeContainerIndex = fieldValue?.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+
+      const overContainerIndex = fieldValue?.findIndex(
+        (container) => container?.id === overContainer?.id
+      );
+      const activeItemIndex = activeContainer.questions?.findIndex(
+        (item) => item.id === active.id
+      );
+
+      let newItems = [...fieldValue];
+      const [removedItem] = newItems[activeContainerIndex].questions.splice(
+        activeItemIndex,
+        1
+      );
+
+      newItems[overContainerIndex].questions.push(removedItem);
+      helpers.setValue(newItems);
+      return;
+    }
+    if (
+      active.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      over?.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.PARAMETER
+      );
+      const overContainer = findValueOfItems(
+        over.id,
+        DND_ITEMS_TYPES.PARAMETER
+      );
+
+      if (
+        !activeContainer ||
+        !overContainer ||
+        activeContainer.id === overContainer.id
+      ) {
+        return;
+      }
+
+      const activeContainerIndex = fieldValue?.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+
+      const overContainerIndex = fieldValue?.findIndex(
+        (container) => container?.id === overContainer?.id
+      );
+      const activeItemIndex = activeContainer.questions?.findIndex(
+        (item) => item.id === active.id
+      );
+      const overItemIndex = overContainer.questions.findIndex(
+        (item) => item.id === over.id
+      );
+      if (activeContainerIndex === overContainerIndex) {
+        let newItems = [...fieldValue];
+        newItems[activeContainerIndex].questions = arrayMove(
+          newItems[activeContainerIndex].questions,
+          activeItemIndex,
+          overItemIndex
+        );
+
+        helpers.setValue(newItems);
+      } else {
+        let newItems = [...fieldValue];
+        const [removedItem] = newItems[activeContainerIndex].questions.splice(
+          activeItemIndex,
+          1
+        );
+        newItems[overContainerIndex].questions.splice(
+          overItemIndex,
+          0,
+          removedItem
+        );
+        helpers.setValue(newItems);
+      }
+    }
   };
 
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (
+      active.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      over?.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.PARAMETER
+      );
+      const overContainer = findValueOfItems(
+        over.id,
+        DND_ITEMS_TYPES.PARAMETER
+      );
+
+      if (!activeContainer || !overContainer) return;
+      const activeContainerIndex = fieldValue.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+      const overContainerIndex = fieldValue.findIndex(
+        (container) => container.id === overContainer.id
+      );
+      const activeItemIndex = activeContainer.questions.findIndex(
+        (item) => item.id === active.id
+      );
+      const overItemIndex = overContainer.questions.findIndex(
+        (item) => item.id === over.id
+      );
+
+      if (activeContainerIndex === overContainerIndex) {
+        let newItems = [...fieldValue];
+        newItems[activeContainerIndex].questions = arrayMove(
+          newItems[activeContainerIndex].questions,
+          activeItemIndex,
+          overItemIndex
+        );
+
+        helpers.setValue(newItems);
+      } else {
+        let newItems = [...fieldValue];
+        const [removedItem] = newItems[activeContainerIndex].questions.splice(
+          activeItemIndex,
+          1
+        );
+        newItems[overContainerIndex].questions.splice(
+          overItemIndex,
+          0,
+          removedItem
+        );
+        helpers.setValue(newItems);
+      }
+    }
+    if (
+      active.data.current?.type === DND_ITEMS_TYPES.PARAMETER &&
+      over?.data.current?.type === DND_ITEMS_TYPES.PARAMETER_PAGE &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.PARAMETER
+      );
+      const overContainer = findValueOfItems(
+        over.id,
+        DND_ITEMS_TYPES.PARAMETER_PAGE
+      );
+
+      if (!activeContainer || !overContainer) return;
+
+      const activeContainerIndex = fieldValue.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+      const overContainerIndex = fieldValue.findIndex(
+        (container) => container.id === overContainer.id
+      );
+      const activeItemIndex = activeContainer.questions.findIndex(
+        (item) => item.id === active.id
+      );
+
+      let newItems = [...fieldValue];
+      const [removedItem] = newItems[activeContainerIndex].questions.splice(
+        activeItemIndex,
+        1
+      );
+      newItems[overContainerIndex].questions.push(removedItem);
+
+      helpers.setValue(newItems);
+    }
+    setActiveItem(null);
+  };
+
+  const findValueOfItems = (id, type) => {
+    if (type === 'row') {
+      return fieldValue?.find((row) => row.id === id);
+    }
+    if (type === 'question') {
+      return fieldValue?.find((row) =>
+        row.questions.find((question) => question?.id === id)
+      );
+    }
+  };
   return (
     <>
       <DndContext
@@ -313,7 +463,12 @@ function DroppableRowContainer({
   handleRowDelete,
   children,
 }) {
-  const { setNodeRef } = useDroppable({ id: row?.id });
+  const { setNodeRef } = useDroppable({
+    id: row?.id,
+    data: {
+      type: 'row',
+    },
+  });
   return (
     <React.Fragment key={row.id}>
       <Box
