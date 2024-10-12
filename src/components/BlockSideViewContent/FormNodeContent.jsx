@@ -36,7 +36,11 @@ function FormNodeContent({ id }) {
     const { rows, ...rest } = formValues;
     const filteredRows = rows?.filter((row) => row?.questions?.length);
 
-    updateNodeById(id, { ...currentNode?.data, rows: filteredRows, ...rest });
+    updateNodeById(id, {
+      ...currentNode?.data,
+      rows: filteredRows?.length ? filteredRows : config?.data?.rows,
+      ...rest,
+    });
     handleClose();
   };
 

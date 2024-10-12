@@ -395,6 +395,7 @@ function FormNodeRowsFieldArray({ name }) {
                 {fieldValue?.map((row, index) => {
                   return (
                     <DroppableRowContainer
+                      key={row?.id}
                       row={row}
                       handleAddQuestion={(type) =>
                         handleAddQuestion(index, type)
@@ -506,13 +507,7 @@ function DroppableRowContainer({
   });
   return (
     <React.Fragment key={row.id}>
-      <Box
-        display='flex'
-        flexDirection='column'
-        gap={2}
-        isOver
-        ref={setNodeRef}
-      >
+      <Box display='flex' flexDirection='column' gap={2} ref={setNodeRef}>
         <FormRowHeader
           handleAddQuestion={(type) => handleAddQuestion(type)}
           index={index}
