@@ -4,20 +4,35 @@ import {
   ButtonFieldArrayAddButton,
   FormQuestionCard,
   FormRowHeader,
-  SortableItem,
 } from 'components/Shared/SidebarUi';
 import { seedID } from 'utils';
 import { FieldArray, useField } from 'formik';
 import { RowAddItemMenu } from 'components/Shared/SidebarUi/FormNode/AddRowItemMenu';
 import { sideViewLayoutType } from 'config/nodeConfigurations';
-import { DndContext, closestCenter } from '@dnd-kit/core';
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  useDroppable,
+} from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
-  rectSortingStrategy,
+  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+
+const findActiveQuestion = (activeItem, fieldValue) => {
+  if (!activeItem) {
+    return null;
+  }
+  return fieldValue
+    ?.flatMap((row) => row?.questions)
+    ?.find((question) => question?.id === activeItem?.id);
+};
 
 function FormNodeRowsFieldArray({ name }) {
+  const [activeItem, setActiveItem] = React.useState(null);
   const [field] = useField(name);
   const arrayHelpersRef = React.useRef(null);
   const fieldValue = field?.value || [];
@@ -31,9 +46,10 @@ function FormNodeRowsFieldArray({ name }) {
         toDate: '',
       },
     ];
+
     const newQuestion = {
       id: seedID(),
-      sortOrder: fieldValue[rowIndex].questions.length + 1,
+      sortOrder: fieldValue[rowIndex].questions?.length + 1 || 0,
       type: questionType,
       hint: 'placeholder',
       label: '',
@@ -159,13 +175,29 @@ function FormNodeRowsFieldArray({ name }) {
       });
     }
   };
+  const handleDragStart = (event) => {
+    const { active } = event;
+    const { id } = active;
+    setActiveItem({ id });
+  };
+
+  const handleDragMove = (event) => {
+    const { active, over } = event;
+
+    if (!active || !over || active.id === over.id) {
+      return;
+    }
+    console.log(active, over, fieldValue);
+  };
 
   return (
     <>
       <DndContext
-        collisionDetection={closestCenter}
+        collisionDetection={closestCorners}
         onDragEnd={handleDragEnd}
-        // onDragStart={{}}
+        modifiers={[restrictToVerticalAxis]}
+        onDragStart={handleDragStart}
+        onDragMove={handleDragMove}
       >
         <FieldArray
           name={name}
@@ -177,62 +209,43 @@ function FormNodeRowsFieldArray({ name }) {
               <>
                 {fieldValue?.map((row, index) => {
                   return (
-                    <React.Fragment key={row.id}>
-                      <Box display='flex' flexDirection='column' gap={2}>
-                        <FormRowHeader
-                          handleAddQuestion={(type) =>
-                            handleAddQuestion(index, type)
-                          }
-                          index={index}
-                          subFieldName={`${name}[${index}]`}
-                          row={row}
-                          isLasItem={isLasItem}
-                          handleRowDelete={() => {
-                            handleRowDelete(index);
-                          }}
-                        />
-                        {!!row.questions?.length && (
-                          <SortableContext
-                            items={row.questions.map((q) => q.id)}
-                            strategy={rectSortingStrategy}
-                          >
-                            <Box display='flex' flexDirection='column' gap={2}>
-                              {row.questions.map((question, qIndex) => (
-                                <FormQuestionCard
-                                  key={question?.id}
-                                  id={question?.id}
-                                  question={question}
-                                  subFieldName={`${name}[${index}].questions[${qIndex}]`}
-                                  handleQuestionDelete={() => {
-                                    handleQuestionDelete(index, qIndex);
-                                  }}
-                                />
-                              ))}
-                              {row.questions?.length === 1 && (
-                                <Box
-                                  width='100%'
-                                  display='flex'
-                                  justifyContent='flex-end'
-                                >
-                                  <RowAddItemMenu
-                                    onAddQuestion={(type) => {
-                                      handleAddQuestion(index, type);
-                                    }}
-                                  />
-                                </Box>
-                              )}
-                            </Box>
-                          </SortableContext>
-                        )}
-                      </Box>
-                      <Divider />
-                    </React.Fragment>
+                    <DroppableRowContainer
+                      row={row}
+                      handleAddQuestion={(type) =>
+                        handleAddQuestion(index, type)
+                      }
+                      isLasItem={isLasItem}
+                      index={index}
+                      subFieldName={`${name}[${index}]`}
+                      handleRowDelete={() => handleRowDelete(index)}
+                    >
+                      <QuestionSortableContext
+                        row={row}
+                        subFieldName={`${name}[${index}]`}
+                        handleAddQuestion={(type) => {
+                          handleAddQuestion(index, type);
+                        }}
+                        handleQuestionDelete={(qIndex) => {
+                          handleQuestionDelete(index, qIndex);
+                        }}
+                      />
+                    </DroppableRowContainer>
                   );
                 })}
               </>
             );
           }}
         />
+        <DragOverlay>
+          <FormQuestionCard
+            key={findActiveQuestion(activeItem, fieldValue)?.id}
+            id={findActiveQuestion(activeItem, fieldValue)?.id}
+            question={findActiveQuestion(activeItem, fieldValue)}
+            subFieldName={'preview'}
+            handleQuestionDelete={() => {}}
+            active={activeItem?.id}
+          />
+        </DragOverlay>
       </DndContext>
 
       <Box>
@@ -252,3 +265,75 @@ function FormNodeRowsFieldArray({ name }) {
 }
 
 export default FormNodeRowsFieldArray;
+
+function QuestionSortableContext({
+  row,
+  subFieldName,
+  handleQuestionDelete,
+  handleAddQuestion,
+}) {
+  return (
+    <>
+      <SortableContext
+        items={row.questions.map((q) => q.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <Box display='flex' flexDirection='column' gap={2}>
+          {row.questions.map((question, qIndex) => (
+            <FormQuestionCard
+              key={question?.id}
+              id={question?.id}
+              question={question}
+              subFieldName={`${subFieldName}.questions[${qIndex}]`}
+              handleQuestionDelete={() => {
+                handleQuestionDelete(qIndex);
+              }}
+            />
+          ))}
+          {row.questions?.length === 1 && (
+            <Box width='100%' display='flex' justifyContent='flex-end'>
+              <RowAddItemMenu
+                onAddQuestion={(type) => {
+                  handleAddQuestion(type);
+                }}
+              />
+            </Box>
+          )}
+        </Box>
+      </SortableContext>
+    </>
+  );
+}
+function DroppableRowContainer({
+  row,
+  handleAddQuestion,
+  index,
+  subFieldName,
+  isLasItem,
+  handleRowDelete,
+  children,
+}) {
+  const { setNodeRef } = useDroppable({ id: row?.id });
+  return (
+    <React.Fragment key={row.id}>
+      <Box
+        display='flex'
+        flexDirection='column'
+        gap={2}
+        isOver
+        ref={setNodeRef}
+      >
+        <FormRowHeader
+          handleAddQuestion={(type) => handleAddQuestion(type)}
+          index={index}
+          subFieldName={subFieldName}
+          row={row}
+          isLasItem={isLasItem}
+          handleRowDelete={handleRowDelete}
+        />
+        {children}
+      </Box>
+      <Divider />
+    </React.Fragment>
+  );
+}

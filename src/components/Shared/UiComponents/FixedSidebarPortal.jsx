@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Icon, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, useDisclosure } from '@chakra-ui/react';
 import { FaWindowClose } from 'react-icons/fa';
 import { UiIconButton } from 'components/Shared/UiComponents';
 import { FaGear } from 'react-icons/fa6';
@@ -10,9 +10,13 @@ const FixedSidebarPortal = ({ isCard = true, children }) => {
   return (
     <>
       {isCard ? (
-        <Icon color='lightgray' fontSize='larger' onClick={onToggle}>
-          <FaGear />
-        </Icon>
+        <UiIconButton
+          icon={<FaGear />}
+          onClick={onToggle}
+          color='lightgray'
+          _focus={{ backgroundColor: 'transparent' }}
+          _hover={{ backgroundColor: 'transparent' }}
+        />
       ) : (
         <UiIconButton
           icon={<FaGear />}
