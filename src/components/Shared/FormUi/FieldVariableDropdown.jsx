@@ -15,8 +15,15 @@ import {
   useOutsideClick,
   Portal,
   Button,
+  Flex,
+  Divider,
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { Select } from 'chakra-react-select';
+import { initialGroupedOptions } from 'config/constant';
+import React, { useRef, useState } from 'react';
+import { FaCross, FaTrashAlt, FaWindowClose } from 'react-icons/fa';
+import { FiPlusCircle } from 'react-icons/fi';
+import { MdClose } from 'react-icons/md';
 
 function AdvancedInput({
   containerStyle,
@@ -166,7 +173,8 @@ function AdvancedInput({
             </Box>
           </PopoverTrigger>
           <Portal containerRef={popoverContainer}>
-            <PopoverContent
+            <CreateNewOption onClose={onClose} />
+            {/* <PopoverContent
               onMouseDown={(e) => e.preventDefault()}
               onClick={(event) => {
                 event.preventDefault();
@@ -183,15 +191,15 @@ function AdvancedInput({
               }}
             >
               <PopoverBody
-                onClick={() => {
-                  setValue('popover selection');
-
-                  onClose();
+                // onClick={() => {
+                //   setValue('popover selection');
+                //   onClose();
+                // }}
+                style={{
+                  padding: 0,
                 }}
-              >
-                'Default popover content
-              </PopoverBody>
-            </PopoverContent>
+              ></PopoverBody>
+            </PopoverContent> */}
           </Portal>
         </Popover>
       </Box>
@@ -200,3 +208,170 @@ function AdvancedInput({
 }
 
 export default AdvancedInput;
+
+function NewVariableContent() {
+  return (
+    <>
+      <Box
+        display='flex'
+        cursor='pointer'
+        _hover={{
+          backgroundColor: '#ddd',
+        }}
+        padding={2}
+        marginY={1}
+        gap={2}
+        alignItems='center'
+        fontWeight='500'
+        fontStyle={'italic'}
+      >
+        <FiPlusCircle />
+        <Text>{'lorem'}</Text>
+        <Text>(new)</Text>
+      </Box>
+    </>
+  );
+}
+
+const CustomOption = (props) => {
+  const { option } = props;
+  const isDeleteAble = option?.category === 'CUSTOM_VARIABLES';
+
+  return (
+    <Box
+      _hover={{
+        bg: 'gray.100',
+        '.trash_box': {
+          visibility: 'visible',
+        },
+        '.sample': {
+          display: isDeleteAble ? 'none' : 'block',
+        },
+      }}
+      cursor='pointer'
+    >
+      <Flex align='center' justify='space-between' p={1} mr={2}>
+        <Flex align='center'>
+          <Box
+            bg='gray.200'
+            borderRadius='full'
+            width='24px'
+            height='24px'
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+            mx={3}
+          >
+            <Text fontSize='12px' fontWeight='700'>
+              A
+            </Text>
+          </Box>
+
+          <Text fontSize='12px'>{option?.label}</Text>
+        </Flex>
+        {isDeleteAble && (
+          <Box
+            className='trash_box'
+            visibility='hidden'
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log('deleting option');
+            }}
+          >
+            <FaTrashAlt />
+          </Box>
+        )}
+        {option?.sample && (
+          <Text color='gray.400' fontSize='12px' className='sample'>
+            {typeof option?.sample === 'object'
+              ? JSON.stringify(option.sample)
+              : option.sample}
+          </Text>
+        )}
+      </Flex>
+    </Box>
+  );
+};
+
+const CustomMenuList = () => {
+  return (
+    <Box>
+      {initialGroupedOptions.map((groupedOptions, index) => (
+        <React.Fragment key={index}>
+          <Box position='sticky' top={0} bg='white' zIndex={1}>
+            <Text
+              mx={3}
+              textTransform='uppercase'
+              fontSize='11px'
+              paddingY={2}
+              color='gray.400'
+            >
+              {groupedOptions.label}
+            </Text>
+          </Box>
+          {groupedOptions?.options?.map((option) => (
+            <CustomOption option={option} />
+          ))}
+          {initialGroupedOptions?.length - 1 !== index && <Divider my={2} />}
+        </React.Fragment>
+      ))}
+
+      <Box mt={2}>
+        <Box
+          p={4}
+          bg='gray.50'
+          borderTop='1px solid #e2e8f0'
+          cursor='default'
+          _hover={{ bg: 'gray.50' }}
+        >
+          <Text fontSize='sm' color='gray.600'>
+            Information about variables
+          </Text>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+function CreateNewOption({ onClose }) {
+  return (
+    <PopoverContent
+      width='100%'
+      style={{
+        overflow: 'auto',
+        maxHeight: '240px',
+        borderColor: '#cfd0d1',
+        borderRadius: '0 0 3px 3px',
+        backgroundColor: '#fff',
+        borderTop: 'none',
+      }}
+    >
+      <PopoverBody
+        style={{
+          padding: 0,
+        }}
+      >
+        <Box padding='8px 10px' display='flex' gap={3} flexDirection='column'>
+          <Box display='flex' justifyContent='space-between'>
+            <Text fontSize='12px' fontWeight='700'>
+              CREATE A NEW VARIABLE
+            </Text>
+            <MdClose cursor='pointer' onClick={onClose} />
+          </Box>
+          <Divider />
+          <Box>
+            <Input placeholder='Type the name' variant='custom' />
+          </Box>
+          <Box>
+            <TypeSelectionPopover />
+          </Box>
+        </Box>
+      </PopoverBody>
+    </PopoverContent>
+  );
+}
+
+function TypeSelectionPopover() {
+  return <></>;
+}
