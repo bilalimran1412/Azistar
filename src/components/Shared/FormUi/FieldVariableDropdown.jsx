@@ -30,20 +30,75 @@ import {
 } from 'react-icons/fa';
 import { FiPlusCircle } from 'react-icons/fi';
 import { MdClose } from 'react-icons/md';
+const filterOptionsByType = (type, groupedOptions, excludeReadOnly = false) => {
+  return groupedOptions
+    .map((group) => {
+      const filteredOptions =
+        type === 'all'
+          ? group.options?.filter((item) => !item.isDeleted)
+          : group.options.filter(
+              (option) =>
+                option.type === type &&
+                (!excludeReadOnly || !option.readOnly) &&
+                !option?.isDeleted
+            );
+
+      return {
+        ...group,
+        options: filteredOptions,
+      };
+    })
+    .filter((group) => group.options.length > 0);
+};
+function searchGroupedOptions(groupedOptions, searchValue) {
+  const lowercasedSearchValue = searchValue.toLowerCase();
+
+  return groupedOptions
+    .map((group) => {
+      const filteredOptions = group.options.filter((option) =>
+        option.label.toLowerCase().includes(lowercasedSearchValue)
+      );
+
+      if (filteredOptions.length > 0) {
+        return {
+          ...group,
+          options: filteredOptions,
+        };
+      }
+
+      return null;
+    })
+    .filter((group) => group !== null);
+}
+function hasExactMatch(filteredOptions, searchValue) {
+  const lowercasedSearchValue = searchValue.toLowerCase();
+  // if(!lowercasedSearchValue)
+  //   return
+  for (const group of filteredOptions) {
+    for (const option of group.options) {
+      if (option.value.toLowerCase() === lowercasedSearchValue) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
 
 function AdvancedInput({
   containerStyle,
   name,
-  labelVariant,
+  allowedType = 'all',
+  readOnly = true,
+  // labelVariant,
   label,
   placeholder,
-  rightIcon: RightIcon,
   styles,
   ...rest
 }) {
+  const [contentType, setContentType] = React.useState('list');
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState('');
-  // const inputRef = useRef(null);
   const containerRef = useRef(null);
   const popoverContainer = useRef(null);
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -55,8 +110,18 @@ function AdvancedInput({
   const handleBlur = () => {
     setIsFocused(false);
   };
+
   useOutsideClick({ ref: popoverContainer, handler: onClose });
 
+  const handleOptionClick = (option) => {
+    console.log(option);
+  };
+  const onCreateClick = (value) => {
+    console.log(value);
+    if (allowedType === 'all') {
+      setContentType('create');
+    }
+  };
   return (
     <Box>
       {label && (
@@ -143,7 +208,7 @@ function AdvancedInput({
                     }}
                     autoComplete='off'
                   />
-                  {RightIcon && (
+                  {false && (
                     <InputRightElement
                       minHeight={0}
                       minWidth={0}
@@ -179,33 +244,22 @@ function AdvancedInput({
             </Box>
           </PopoverTrigger>
           <Portal containerRef={popoverContainer}>
-            <CreateNewOption onClose={onClose} />
-            {/* <PopoverContent
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-              }}
-              width='100%'
-              style={{
-                overflow: 'auto',
-                maxHeight: '240px',
-                borderColor: '#cfd0d1',
-                borderRadius: '0 0 3px 3px',
-                backgroundColor: '#fff',
-                borderTop: 'none',
-              }}
-            >
-              <PopoverBody
-                // onClick={() => {
-                //   setValue('popover selection');
-                //   onClose();
-                // }}
-                style={{
-                  padding: 0,
+            {contentType === 'list' && (
+              <ListVariableContent
+                value={value}
+                handleOptionClick={handleOptionClick}
+                allowedType={allowedType}
+                onCreateClick={onCreateClick}
+              />
+            )}
+            {contentType === 'create' && (
+              <CreateNewOption
+                onClose={() => {
+                  setContentType('list');
                 }}
-              ></PopoverBody>
-            </PopoverContent> */}
+                value={value}
+              />
+            )}
           </Portal>
         </Popover>
       </Box>
@@ -215,7 +269,45 @@ function AdvancedInput({
 
 export default AdvancedInput;
 
-function NewVariableContent() {
+function ListVariableContent({
+  value,
+  handleOptionClick,
+  allowedType,
+  onCreateClick,
+}) {
+  return (
+    <PopoverContent
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      }}
+      width='100%'
+      style={{
+        overflow: 'auto',
+        maxHeight: '240px',
+        borderColor: '#cfd0d1',
+        borderRadius: '0 0 3px 3px',
+        backgroundColor: '#fff',
+        borderTop: 'none',
+      }}
+    >
+      <PopoverBody
+        style={{
+          padding: 0,
+        }}
+      >
+        <CustomMenuList
+          value={value}
+          handleOptionClick={handleOptionClick}
+          allowedType={allowedType}
+          onCreateClick={onCreateClick}
+        />
+      </PopoverBody>
+    </PopoverContent>
+  );
+}
+function NewVariableContent({ value, onCreateClick }) {
   return (
     <>
       <Box
@@ -230,9 +322,10 @@ function NewVariableContent() {
         alignItems='center'
         fontWeight='500'
         fontStyle={'italic'}
+        onClick={onCreateClick}
       >
         <FiPlusCircle />
-        <Text>{'lorem'}</Text>
+        <Text>{value}</Text>
         <Text>(new)</Text>
       </Box>
     </>
@@ -240,7 +333,7 @@ function NewVariableContent() {
 }
 
 const CustomOption = (props) => {
-  const { option } = props;
+  const { option, handleOptionClick } = props;
   const isDeleteAble = option?.category === 'CUSTOM_VARIABLES';
 
   return (
@@ -255,6 +348,7 @@ const CustomOption = (props) => {
         },
       }}
       cursor='pointer'
+      onClick={() => handleOptionClick(option)}
     >
       <Flex align='center' justify='space-between' p={1} mr={2}>
         <Flex align='center'>
@@ -300,47 +394,92 @@ const CustomOption = (props) => {
   );
 };
 
-const CustomMenuList = () => {
-  return (
-    <Box>
-      {initialGroupedOptions.map((groupedOptions, index) => (
-        <React.Fragment key={index}>
-          <Box position='sticky' top={0} bg='white' zIndex={1}>
-            <Text
-              mx={3}
-              textTransform='uppercase'
-              fontSize='11px'
-              paddingY={2}
-              color='gray.400'
-            >
-              {groupedOptions.label}
-            </Text>
-          </Box>
-          {groupedOptions?.options?.map((option) => (
-            <CustomOption option={option} />
-          ))}
-          {initialGroupedOptions?.length - 1 !== index && <Divider my={2} />}
-        </React.Fragment>
-      ))}
+const CustomMenuList = ({
+  handleOptionClick,
+  value,
+  allowedType,
+  onCreateClick,
+}) => {
+  const groupedOptions = React.useMemo(() => {
+    return filterOptionsByType(allowedType, initialGroupedOptions);
+  }, [allowedType]);
 
-      <Box mt={2}>
-        <Box
-          p={4}
-          bg='gray.50'
-          borderTop='1px solid #e2e8f0'
-          cursor='default'
-          _hover={{ bg: 'gray.50' }}
-        >
-          <Text fontSize='sm' color='gray.600'>
-            Information about variables
-          </Text>
-        </Box>
-      </Box>
+  const filteredOptions = React.useMemo(() => {
+    return searchGroupedOptions(groupedOptions, value);
+  }, [groupedOptions, value]);
+
+  const hasExtractValue = React.useMemo(() => {
+    if (value?.length < 3) {
+      return false;
+    }
+    return hasExactMatch(filteredOptions, value);
+  }, [filteredOptions, value]);
+
+  const isEmpty = React.useMemo(() => {
+    return !filteredOptions?.flatMap((group) => group.options)?.length;
+  }, [filteredOptions]);
+
+  return (
+    <Box
+      sx={{
+        'hr:last-of-type': { display: 'none' },
+      }}
+    >
+      {isEmpty && value?.length > 2 ? (
+        <NewVariableContent value={value} onCreateClick={onCreateClick} />
+      ) : (
+        <>
+          {!hasExtractValue && value?.length > 2 && (
+            <NewVariableContent value={value} onCreateClick={onCreateClick} />
+          )}
+          <>
+            {filteredOptions.map((groupedOptions, index) => (
+              <React.Fragment key={index}>
+                <Box position='sticky' top={0} bg='white' zIndex={1}>
+                  <Text
+                    mx={3}
+                    textTransform='uppercase'
+                    fontSize='11px'
+                    paddingY={2}
+                    color='gray.400'
+                  >
+                    {groupedOptions.label}
+                  </Text>
+                </Box>
+                {groupedOptions?.options?.map((option, index) => (
+                  <CustomOption
+                    option={option}
+                    handleOptionClick={handleOptionClick}
+                    key={index}
+                  />
+                ))}
+                <Divider my={2} />
+              </React.Fragment>
+            ))}
+
+            {!isEmpty && (
+              <Box mt={2}>
+                <Box
+                  p={4}
+                  bg='gray.50'
+                  borderTop='1px solid #e2e8f0'
+                  cursor='default'
+                  _hover={{ bg: 'gray.50' }}
+                >
+                  <Text fontSize='sm' color='gray.600'>
+                    Information about variables
+                  </Text>
+                </Box>
+              </Box>
+            )}
+          </>
+        </>
+      )}
     </Box>
   );
 };
 
-function CreateNewOption({ onClose }) {
+function CreateNewOption({ onClose, value }) {
   return (
     <PopoverContent
       width='100%'
@@ -373,10 +512,10 @@ function CreateNewOption({ onClose }) {
           </Box>
           <Divider />
           <Box>
-            <Input placeholder='Type the name' variant='custom' />
+            <Input placeholder='Type the name' variant='custom' value={value} />
           </Box>
           <Box>
-            <TypeSelectionPopover />
+            <TypeSelectionPopover value={value} />
           </Box>
           <Box>
             <Button
@@ -401,7 +540,7 @@ function CreateNewOption({ onClose }) {
   );
 }
 
-function TypeSelectionPopover() {
+function TypeSelectionPopover({ value }) {
   const ref1 = useRef(null);
   const [type, setType] = React.useState('Select the format');
   const { onOpen, onClose, isOpen } = useDisclosure();
