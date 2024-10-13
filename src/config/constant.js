@@ -28,12 +28,20 @@ export const buttonCreatorEmojis = {
   star: '⭐',
   laugh: '😂',
 };
+
+export const possibleFormatOptions = {
+  STRING: { icon: 'A', label: 'String' },
+  BOOLEAN: { icon: 'B', label: 'Boolean' },
+  NUMBER: { icon: 8, label: 'Number' },
+  ARRAY: { icon: <FaSortNumericDown />, label: 'Array' },
+  DATE: { icon: <FaCalendarAlt />, label: 'Date' },
+};
 export const groupedTypesWithIcons = {
-  STRING: <FaFileAlt />,
-  BOOLEAN: <FaToggleOn />,
-  DATE: <FaCalendarAlt />,
+  STRING: 'A',
+  BOOLEAN: 'B',
+  NUMBER: 8,
   AUTO_NUMBER: <FaSortNumericDown />,
-  NUMBER: <FaSortNumericDown />,
+  DATE: <FaCalendarAlt />,
   ARRAY: <FaSortNumericDown />,
 };
 export const leadDataOptions = [

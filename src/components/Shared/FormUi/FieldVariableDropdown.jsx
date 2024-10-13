@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import {
   Box,
   FormControl,
@@ -19,9 +20,14 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import { Select } from 'chakra-react-select';
-import { initialGroupedOptions } from 'config/constant';
+import { initialGroupedOptions, possibleFormatOptions } from 'config/constant';
 import React, { useRef, useState } from 'react';
-import { FaCross, FaTrashAlt, FaWindowClose } from 'react-icons/fa';
+import {
+  FaChevronDown,
+  FaCross,
+  FaTrashAlt,
+  FaWindowClose,
+} from 'react-icons/fa';
 import { FiPlusCircle } from 'react-icons/fi';
 import { MdClose } from 'react-icons/md';
 
@@ -352,7 +358,13 @@ function CreateNewOption({ onClose }) {
           padding: 0,
         }}
       >
-        <Box padding='8px 10px' display='flex' gap={3} flexDirection='column'>
+        <Box
+          padding='8px 10px'
+          display='flex'
+          gap={3}
+          flexDirection='column'
+          mb={6}
+        >
           <Box display='flex' justifyContent='space-between'>
             <Text fontSize='12px' fontWeight='700'>
               CREATE A NEW VARIABLE
@@ -366,6 +378,23 @@ function CreateNewOption({ onClose }) {
           <Box>
             <TypeSelectionPopover />
           </Box>
+          <Box>
+            <Button
+              variant='solid'
+              style={{
+                minHeight: 0,
+                height: '32px',
+                fontSize: '12px',
+                padding: '1px',
+                color: 'white',
+
+                backgroundColor: 'rgb(215, 55, 107)',
+              }}
+              width='100%'
+            >
+              CREATE
+            </Button>
+          </Box>
         </Box>
       </PopoverBody>
     </PopoverContent>
@@ -373,5 +402,96 @@ function CreateNewOption({ onClose }) {
 }
 
 function TypeSelectionPopover() {
-  return <></>;
+  const ref1 = useRef(null);
+  const [type, setType] = React.useState('Select the format');
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  useOutsideClick({ ref: ref1, handler: onClose });
+
+  const types = ['STRING', 'ARRAY', 'BOOLEAN', 'NUMBER', 'DATE'];
+  return (
+    <Box ref={ref1}>
+      <Popover
+        isOpen={isOpen}
+        matchWidth
+        closeOnBlur={true}
+        autoFocus={false}
+        closeDelay={0}
+        openDelay={0}
+        offset={0}
+      >
+        <PopoverTrigger>
+          <Button
+            rightIcon={<FaChevronDown />}
+            colorScheme='gray'
+            variant='solid'
+            style={{
+              minHeight: 0,
+              height: '32px',
+              fontSize: '12px',
+              padding: '1px',
+            }}
+            width='100%'
+            onClick={onOpen}
+          >
+            {type}
+          </Button>
+        </PopoverTrigger>
+
+        <Portal appendToParentPortal={true}>
+          <Box pos='absolute' zIndex={1001}>
+            <PopoverContent
+              width='100%'
+              style={{
+                overflow: 'auto',
+                maxHeight: '240px',
+                borderColor: '#cfd0d1',
+                borderRadius: '3px',
+                backgroundColor: '#fff',
+              }}
+            >
+              <PopoverBody
+                style={{
+                  padding: '0',
+                }}
+              >
+                <Box py={1} display='flex' flexDirection='column'>
+                  {types.map((type) => {
+                    const typeConfig = possibleFormatOptions[type];
+                    return (
+                      <Flex
+                        align='center'
+                        cursor='pointer'
+                        onClick={() => setType(type)}
+                        _hover={{
+                          backgroundColor: 'gray.400',
+                        }}
+                        paddingY={1}
+                      >
+                        <Box
+                          bg='gray.200'
+                          borderRadius='full'
+                          width='24px'
+                          height='24px'
+                          display='flex'
+                          alignItems='center'
+                          justifyContent='center'
+                          mx={3}
+                        >
+                          <Text fontSize='12px' fontWeight='700'>
+                            {typeConfig.icon}
+                          </Text>
+                        </Box>
+
+                        <Text fontSize='12px'>{typeConfig.label}</Text>
+                      </Flex>
+                    );
+                  })}
+                </Box>
+              </PopoverBody>
+            </PopoverContent>
+          </Box>
+        </Portal>
+      </Popover>
+    </Box>
+  );
 }
