@@ -1,13 +1,19 @@
 import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 
-function SidebarFormCard({ title, children, contentContainerProps }) {
+function SidebarFormCard({
+  title,
+  children,
+  contentContainerProps,
+  containerProps = {},
+}) {
   return (
     <Box
       padding={5}
       backgroundColor='#fff'
       boxShadow='0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00'
       borderRadius='3px'
+      {...containerProps}
     >
       <Text
         fontFamily='"DM Sans", sans-serif'
