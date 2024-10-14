@@ -33,7 +33,14 @@ function FormNodeContent({ id }) {
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const { rows, ...rest } = formValues;
+    const filteredRows = rows?.filter((row) => row?.questions?.length);
+
+    updateNodeById(id, {
+      ...currentNode?.data,
+      rows: filteredRows?.length ? filteredRows : config?.data?.rows,
+      ...rest,
+    });
     handleClose();
   };
 

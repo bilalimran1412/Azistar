@@ -201,7 +201,7 @@ export default function FormVariableSelectorDropdown({
 
   return (
     <FormControl isInvalid={meta.touched && !!meta.error}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel variant='h3'>{label}</FormLabel>
       <CreatableSelect
         name={name}
         value={field.value}

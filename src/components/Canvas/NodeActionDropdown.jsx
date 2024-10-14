@@ -27,12 +27,12 @@ const NodeActionDropdown = ({
         variant='outline'
         onClick={handleMenuClick}
       />
-      <MenuList>
-        <MenuItem onClick={() => onCopy(nodeId)}>Copy Node</MenuItem>
-        <MenuItem onClick={() => onReplace(nodeId)}>Replace Node</MenuItem>
-        <MenuItem onClick={() => onDelete(nodeId)}>Delete Node</MenuItem>
-        <MenuItem onClick={() => onDuplicate(nodeId)}>Duplicate Node</MenuItem>
-        <MenuItem onClick={() => onCopyId(nodeId)}>Copy Block ID</MenuItem>
+      <MenuList onClick={handleMenuClick}>
+        <MenuItem onClick={onCopy}>Copy Node</MenuItem>
+        <MenuItem onClick={onReplace}>Replace Node</MenuItem>
+        <MenuItem onClick={onDelete}>Delete Node</MenuItem>
+        <MenuItem onClick={onDuplicate}>Duplicate Node</MenuItem>
+        <MenuItem onClick={onCopyId}>Copy Block ID</MenuItem>
       </MenuList>
     </Menu>
   );

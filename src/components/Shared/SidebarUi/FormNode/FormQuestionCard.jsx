@@ -5,18 +5,27 @@ import React from 'react';
 import { FormNodePortal } from './FormNodePortal';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { UiIconButton } from 'components/Shared/UiComponents';
 
 export function FormQuestionCard({
   question,
   handleQuestionDelete,
   subFieldName,
+  id,
 }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id, data: { type: 'question' } });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
   const questionConfig = questionTypes?.find(
     (type) => type.layoutType === question?.type
   );
 
   return (
-    <>
+    <Box ref={setNodeRef} style={style} {...attributes}>
       <Box
         backgroundColor='rgb(255, 255, 255)'
         borderRadius='3px'
@@ -32,7 +41,7 @@ export function FormQuestionCard({
         key={question.id}
       >
         <Box padding={2.5}>
-          <Icon as={questionConfig.icon} />
+          <Icon as={questionConfig?.icon} />
         </Box>
         <Box
           display='flex'
@@ -44,40 +53,31 @@ export function FormQuestionCard({
             <Text>{questionConfig?.title}</Text>
             <Text fontSize='small'>{question?.label}</Text>
           </Box>
-          <Box display='flex' gap={2}>
-            <Icon color='lightgray' fontSize='larger'>
-              <FaGripVertical />
-            </Icon>
-            <FormNodePortal
-              type={questionConfig.layoutType}
-              subFieldName={subFieldName}
-            />
-            <Icon
+          <Box display='flex'>
+            <UiIconButton
               color='lightgray'
               fontSize='larger'
+              {...listeners}
+              _focus={{ backgroundColor: 'transparent' }}
+              _hover={{ backgroundColor: 'transparent' }}
+              icon={<FaGripVertical />}
+            />
+
+            <FormNodePortal
+              type={questionConfig?.layoutType}
+              subFieldName={subFieldName}
+            />
+            <UiIconButton
+              color='lightgray'
+              fontSize='larger'
+              icon={<FaTrash />}
+              _focus={{ backgroundColor: 'transparent' }}
+              _hover={{ backgroundColor: 'transparent' }}
               onClick={handleQuestionDelete}
-            >
-              <FaTrash />
-            </Icon>
+            />
           </Box>
         </Box>
       </Box>
-    </>
-  );
-}
-
-export function SortableItem({ id, children }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {children}
-    </div>
+    </Box>
   );
 }

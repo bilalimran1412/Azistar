@@ -9,9 +9,34 @@ import { seedID } from 'utils';
 import { FieldArray, useField } from 'formik';
 import { RowAddItemMenu } from 'components/Shared/SidebarUi/FormNode/AddRowItemMenu';
 import { sideViewLayoutType } from 'config/nodeConfigurations';
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  useDroppable,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+const DND_ITEMS_TYPES = {
+  QUESTIONS: 'question',
+  ROW: 'row',
+};
+const findActiveQuestion = (activeItem, fieldValue) => {
+  if (!activeItem) {
+    return null;
+  }
+  return fieldValue
+    ?.flatMap((row) => row?.questions)
+    ?.find((question) => question?.id === activeItem?.id);
+};
 
 function FormNodeRowsFieldArray({ name }) {
-  const [field] = useField(name);
+  const [activeItem, setActiveItem] = React.useState(null);
+  const [field, , helpers] = useField(name);
   const arrayHelpersRef = React.useRef(null);
   const fieldValue = field?.value || [];
 
@@ -24,22 +49,19 @@ function FormNodeRowsFieldArray({ name }) {
         toDate: '',
       },
     ];
+
     const newQuestion = {
       id: seedID(),
-      sortOrder: fieldValue[rowIndex].questions.length + 1,
       type: questionType,
-      //this should be options based on type
       hint: 'placeholder',
       label: '',
       isRequired: false,
       helpText: '',
       hintText: '',
       name: '',
-
       ...(questionType === sideViewLayoutType.askQuestion && {
         min: 0,
         max: 99999,
-
         inputSize: 'short',
         pattern: '',
         errorMessage: 'Please enter a valid value',
@@ -93,6 +115,7 @@ function FormNodeRowsFieldArray({ name }) {
       questions: updatedQuestions,
     });
   };
+
   const handleRowDelete = (index) => {
     const arrayHelpers = arrayHelpersRef.current;
     if (!arrayHelpers) return;
@@ -100,98 +123,316 @@ function FormNodeRowsFieldArray({ name }) {
   };
   const isLasItem = fieldValue?.length === 1;
 
-  // const handleDragEnd = (event) => {
-  //   const { active, over } = event;
-  //   console.log(active, over);
-  //   if (active.id !== over.id) {
-  //     const activeRowIndex = Number(active.id.split('-')[0]);
-  //     const activeQuestionIndex = Number(active.id.split('-')[1]);
-  //     const overRowIndex = Number(over.id.split('-')[0]);
-  //     const overQuestionIndex = fieldValue[overRowIndex].questions.length;
+  const handleDragStart = (event) => {
+    const { active } = event;
+    const { id } = active;
+    setActiveItem({ id, type: active?.data?.current?.type });
+  };
 
-  //     const updatedQuestions = [...fieldValue[activeRowIndex].questions];
-  //     const [movedQuestion] = updatedQuestions.splice(activeQuestionIndex, 1);
+  const handleDragMove = (event) => {
+    const { active, over } = event;
 
-  //     if (overRowIndex === activeRowIndex) {
-  //       updatedQuestions.splice(overQuestionIndex, 0, movedQuestion);
-  //     } else {
-  //       const updatedOverRowQuestions = [
-  //         ...fieldValue[overRowIndex].questions,
-  //         movedQuestion,
-  //       ];
-  //       arrayHelpersRef.current.replace(overRowIndex, {
-  //         ...fieldValue[overRowIndex],
-  //         questions: updatedOverRowQuestions,
-  //       });
-  //     }
+    if (!active || !over || active.id === over.id) {
+      return;
+    }
+    // Handling Item Drop Into a Container
+    if (
+      active.data.current?.type === 'question' &&
+      over?.data.current?.type === 'row'
+    ) {
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.QUESTIONS
+      );
+      const overContainer = findValueOfItems(over.id, DND_ITEMS_TYPES.ROW);
 
-  //     arrayHelpersRef.current.replace(activeRowIndex, {
-  //       ...fieldValue[activeRowIndex],
-  //       questions: updatedQuestions,
-  //     });
-  //   }
-  // };
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) {
+        return;
+      }
+      // Find the index of the active and over container
+      const activeContainerIndex = fieldValue?.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+
+      const overContainerIndex = fieldValue?.findIndex(
+        (container) => container?.id === overContainer?.id
+      );
+      // Find the index of the active and over item
+      const activeItemIndex = activeContainer.questions?.findIndex(
+        (item) => item.id === active.id
+      );
+
+      let newItems = [...fieldValue];
+
+      const [removedItem] = newItems[activeContainerIndex].questions.splice(
+        activeItemIndex,
+        1
+      );
+
+      newItems[overContainerIndex].questions.push(removedItem);
+      helpers.setValue(newItems);
+      return;
+    }
+    if (
+      active.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      over?.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active and over container
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.QUESTIONS
+      );
+      const overContainer = findValueOfItems(
+        over.id,
+        DND_ITEMS_TYPES.QUESTIONS
+      );
+
+      // If the active or over container is not found, return
+      if (
+        !activeContainer ||
+        !overContainer ||
+        activeContainer.id === overContainer.id
+      ) {
+        return;
+      }
+
+      const activeContainerIndex = fieldValue?.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+
+      const overContainerIndex = fieldValue?.findIndex(
+        (container) => container?.id === overContainer?.id
+      );
+      // Find the index of the active and over item
+      const activeItemIndex = activeContainer.questions?.findIndex(
+        (item) => item.id === active.id
+      );
+      const overItemIndex = overContainer.questions.findIndex(
+        (item) => item.id === over.id
+      );
+      // In the same container
+      if (activeContainerIndex === overContainerIndex) {
+        let newItems = [...fieldValue];
+        newItems[activeContainerIndex].questions = arrayMove(
+          newItems[activeContainerIndex].questions,
+          activeItemIndex,
+          overItemIndex
+        );
+
+        helpers.setValue(newItems);
+      } else {
+        // In different containers
+        let newItems = [...fieldValue];
+        const [removedItem] = newItems[activeContainerIndex].questions.splice(
+          activeItemIndex,
+          1
+        );
+        newItems[overContainerIndex].questions.splice(
+          overItemIndex,
+          0,
+          removedItem
+        );
+
+        const isOverFull = newItems[overContainerIndex].questions?.length > 2;
+        if (isOverFull) {
+          const nextRow = newItems[overContainerIndex + 1];
+
+          if (nextRow && nextRow.questions.length < 2) {
+            const [lastQuestion] = newItems[
+              overContainerIndex
+            ].questions.splice(-1, 1);
+            newItems[overContainerIndex + 1].questions.push(lastQuestion);
+          } else {
+            const previousRow = newItems[overContainerIndex - 1];
+            if (previousRow && previousRow.questions.length < 2) {
+              const [lastQuestion] = newItems[
+                overContainerIndex
+              ].questions.splice(-1, 1);
+              newItems[overContainerIndex - 1].questions.push(lastQuestion);
+            }
+          }
+        }
+        helpers.setValue(newItems);
+      }
+    }
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (
+      active.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      over?.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active and over container
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.QUESTIONS
+      );
+      const overContainer = findValueOfItems(
+        over.id,
+        DND_ITEMS_TYPES.QUESTIONS
+      );
+
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) return;
+      // Find the index of the active and over container
+      const activeContainerIndex = fieldValue.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+      const overContainerIndex = fieldValue.findIndex(
+        (container) => container.id === overContainer.id
+      );
+      // Find the index of the active and over item
+      const activeItemIndex = activeContainer.questions.findIndex(
+        (item) => item.id === active.id
+      );
+      const overItemIndex = overContainer.questions.findIndex(
+        (item) => item.id === over.id
+      );
+
+      if (activeContainerIndex === overContainerIndex) {
+        let newItems = [...fieldValue];
+        newItems[activeContainerIndex].questions = arrayMove(
+          newItems[activeContainerIndex].questions,
+          activeItemIndex,
+          overItemIndex
+        );
+
+        helpers.setValue(newItems);
+      } else {
+        // In different containers
+        let newItems = [...fieldValue];
+        const [removedItem] = newItems[activeContainerIndex].questions.splice(
+          activeItemIndex,
+          1
+        );
+        newItems[overContainerIndex].questions.splice(
+          overItemIndex,
+          0,
+          removedItem
+        );
+
+        helpers.setValue(newItems);
+      }
+    }
+    // Handling item dropping into Container
+    if (
+      active.data.current?.type === DND_ITEMS_TYPES.QUESTIONS &&
+      over?.data.current?.type === DND_ITEMS_TYPES.ROW &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active and over container
+      const activeContainer = findValueOfItems(
+        active.id,
+        DND_ITEMS_TYPES.QUESTIONS
+      );
+      const overContainer = findValueOfItems(over.id, DND_ITEMS_TYPES.ROW);
+
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) return;
+
+      // Find the index of the active and over container
+      const activeContainerIndex = fieldValue.findIndex(
+        (container) => container.id === activeContainer.id
+      );
+      const overContainerIndex = fieldValue.findIndex(
+        (container) => container.id === overContainer.id
+      );
+      // Find the index of the active and over item
+      const activeItemIndex = activeContainer.questions.findIndex(
+        (item) => item.id === active.id
+      );
+
+      let newItems = [...fieldValue];
+      const [removedItem] = newItems[activeContainerIndex].questions.splice(
+        activeItemIndex,
+        1
+      );
+      newItems[overContainerIndex].questions.push(removedItem);
+
+      helpers.setValue(newItems);
+    }
+    setActiveItem(null);
+  };
+
+  const findValueOfItems = (id, type) => {
+    if (type === DND_ITEMS_TYPES.ROW) {
+      return fieldValue?.find((row) => row.id === id);
+    }
+    if (type === DND_ITEMS_TYPES.QUESTIONS) {
+      return fieldValue?.find((row) =>
+        row.questions.find((question) => question?.id === id)
+      );
+    }
+  };
   return (
     <>
-      <FieldArray
-        name={name}
-        render={(arrayHelpers) => {
-          if (!arrayHelpersRef.current) {
-            arrayHelpersRef.current = arrayHelpers;
-          }
-          return (
-            <>
-              {fieldValue?.map((row, index) => {
-                return (
-                  <React.Fragment key={row.id}>
-                    <Box display='flex' flexDirection='column' gap={2}>
-                      <FormRowHeader
-                        handleAddQuestion={(type) =>
-                          handleAddQuestion(index, type)
-                        }
-                        index={index}
-                        subFieldName={`${name}[${index}]`}
+      <DndContext
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis]}
+        onDragStart={handleDragStart}
+        onDragMove={handleDragMove}
+      >
+        <FieldArray
+          name={name}
+          render={(arrayHelpers) => {
+            if (!arrayHelpersRef.current) {
+              arrayHelpersRef.current = arrayHelpers;
+            }
+            return (
+              <>
+                {fieldValue?.map((row, index) => {
+                  return (
+                    <DroppableRowContainer
+                      key={row?.id}
+                      row={row}
+                      handleAddQuestion={(type) =>
+                        handleAddQuestion(index, type)
+                      }
+                      isLasItem={isLasItem}
+                      index={index}
+                      subFieldName={`${name}[${index}]`}
+                      handleRowDelete={() => handleRowDelete(index)}
+                    >
+                      <QuestionSortableContext
                         row={row}
-                        isLasItem={isLasItem}
-                        handleRowDelete={() => {
-                          handleRowDelete(index);
+                        subFieldName={`${name}[${index}]`}
+                        handleAddQuestion={(type) => {
+                          handleAddQuestion(index, type);
+                        }}
+                        handleQuestionDelete={(qIndex) => {
+                          handleQuestionDelete(index, qIndex);
                         }}
                       />
-                      {!!row.questions?.length && (
-                        <Box display='flex' flexDirection='column' gap={2}>
-                          {row.questions.map((question, qIndex) => (
-                            <FormQuestionCard
-                              question={question}
-                              subFieldName={`${name}[${index}].questions[${qIndex}]`}
-                              handleQuestionDelete={() => {
-                                handleQuestionDelete(index, qIndex);
-                              }}
-                            />
-                          ))}
-                          {row.questions?.length === 1 && (
-                            <Box
-                              width='100%'
-                              display='flex'
-                              justifyContent='flex-end'
-                            >
-                              <RowAddItemMenu
-                                onAddQuestion={(type) => {
-                                  handleAddQuestion(index, type);
-                                }}
-                              />
-                            </Box>
-                          )}
-                        </Box>
-                      )}
-                    </Box>
-                    <Divider />
-                  </React.Fragment>
-                );
-              })}
-            </>
-          );
-        }}
-      />
+                    </DroppableRowContainer>
+                  );
+                })}
+              </>
+            );
+          }}
+        />
+        <DragOverlay>
+          <FormQuestionCard
+            key={findActiveQuestion(activeItem, fieldValue)?.id}
+            id={findActiveQuestion(activeItem, fieldValue)?.id}
+            question={findActiveQuestion(activeItem, fieldValue)}
+            subFieldName={'preview'}
+            handleQuestionDelete={() => {}}
+            active={activeItem?.id}
+          />
+        </DragOverlay>
+      </DndContext>
 
       <Box>
         <ButtonFieldArrayAddButton
@@ -210,3 +451,74 @@ function FormNodeRowsFieldArray({ name }) {
 }
 
 export default FormNodeRowsFieldArray;
+
+function QuestionSortableContext({
+  row,
+  subFieldName,
+  handleQuestionDelete,
+  handleAddQuestion,
+}) {
+  return (
+    <>
+      <SortableContext
+        items={row.questions.map((q) => q.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <Box display='flex' flexDirection='column' gap={2}>
+          {row.questions.map((question, qIndex) => (
+            <FormQuestionCard
+              key={question?.id}
+              id={question?.id}
+              question={question}
+              subFieldName={`${subFieldName}.questions[${qIndex}]`}
+              handleQuestionDelete={() => {
+                handleQuestionDelete(qIndex);
+              }}
+            />
+          ))}
+          {row.questions?.length === 1 && (
+            <Box width='100%' display='flex' justifyContent='flex-end'>
+              <RowAddItemMenu
+                onAddQuestion={(type) => {
+                  handleAddQuestion(type);
+                }}
+              />
+            </Box>
+          )}
+        </Box>
+      </SortableContext>
+    </>
+  );
+}
+function DroppableRowContainer({
+  row,
+  handleAddQuestion,
+  index,
+  subFieldName,
+  isLasItem,
+  handleRowDelete,
+  children,
+}) {
+  const { setNodeRef } = useDroppable({
+    id: row?.id,
+    data: {
+      type: 'row',
+    },
+  });
+  return (
+    <React.Fragment key={row.id}>
+      <Box display='flex' flexDirection='column' gap={2} ref={setNodeRef}>
+        <FormRowHeader
+          handleAddQuestion={(type) => handleAddQuestion(type)}
+          index={index}
+          subFieldName={subFieldName}
+          row={row}
+          isLasItem={isLasItem}
+          handleRowDelete={handleRowDelete}
+        />
+        {children}
+      </Box>
+      <Divider />
+    </React.Fragment>
+  );
+}

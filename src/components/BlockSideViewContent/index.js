@@ -27,6 +27,9 @@ import AIFAQNodeContent from './AIFAQNodeContent';
 import BusinessHoursNodeContent from './BusinessHoursNodeContent';
 import HumanTakeoverNodeContent from './HumanTakeoverNodeContent';
 import TriggerAutomationNodeContent from './TriggerAutomationNodeContent';
+import SlackNodeContent from './SlackNodeContent';
+import GoogleSheetsNodeContent from './GoogleSheetsNodeContent';
+import ZapierNodeContent from './ZapierNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -57,4 +60,7 @@ export const SideViewContent = {
   [sideViewLayoutType.businessHours]: BusinessHoursNodeContent,
   [sideViewLayoutType.humanTakeover]: HumanTakeoverNodeContent,
   [sideViewLayoutType.triggerAutomation]: TriggerAutomationNodeContent,
+  [sideViewLayoutType.slackIntegration]: SlackNodeContent,
+  [sideViewLayoutType.googleSheets]: GoogleSheetsNodeContent,
+  [sideViewLayoutType.zapier]: ZapierNodeContent,
 };

@@ -99,6 +99,9 @@ export const sideViewLayoutType = {
   businessHours: 'businessHours',
   humanTakeover: 'humanTakeover',
   triggerAutomation: 'triggerAutomation',
+  slackIntegration: 'slackIntegration',
+  googleSheets: 'googleSheets',
+  zapier: 'zapier',
 };
 
 //groups for creating nodes
@@ -876,6 +879,9 @@ export const nodeConfigurations = {
       title: 'Google Sheets',
       label: 'Google Sheets',
       icon: <FaFileExcel />,
+      data: {
+        layoutType: sideViewLayoutType.googleSheets,
+      },
       nodeType: 'baseNode',
       fields: [
         {
@@ -893,6 +899,10 @@ export const nodeConfigurations = {
       label: 'Zapier',
       icon: <FaBolt />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.zapier,
+      },
+      width: '500px',
       fields: [
         {
           label: 'Zap Setup',
@@ -957,6 +967,9 @@ export const nodeConfigurations = {
       label: 'Slack',
       icon: <FaSlack />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.slackIntegration,
+      },
       fields: [
         {
           label: 'Slack Setup',
@@ -1248,7 +1261,7 @@ export const nodeConfigurations = {
       title: 'Trigger Automation',
       label: 'Trigger Automation',
       icon: <FaCogs />,
-
+      width: '500px',
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.triggerAutomation,
@@ -1279,7 +1292,6 @@ export const nodeConfigurations = {
       title: 'Code',
       label: 'Code',
       icon: <FaCode />,
-
       nodeType: 'baseNode',
       fields: [
         {

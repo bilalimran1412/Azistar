@@ -1,5 +1,9 @@
 import React from 'react';
-import { SidebarFormCard, SidebarFormContainer } from '../Shared/SidebarUi';
+import {
+  SendRequest,
+  SidebarFormCard,
+  SidebarFormContainer,
+} from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
@@ -11,6 +15,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
+import { TriggerAutomationFieldArray } from 'components/Shared/FormUi';
 
 function TriggerAutomationNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -22,7 +27,10 @@ function TriggerAutomationNodeContent({ id }) {
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
-  const initialValues = { url: '' };
+  const initialValues = {
+    url: currentNode?.data?.url || '',
+    parameters: currentNode?.data?.parameters || [{ testValue: '' }],
+  };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
@@ -71,6 +79,8 @@ function TriggerAutomationNodeContent({ id }) {
           send. The "Test value" will be used only in the test to help you set
           up your webhook trigger
         </Text>
+        <TriggerAutomationFieldArray name='parameters' />
+        <SendRequest />
       </SidebarFormCard>
     </SidebarFormContainer>
   );
@@ -114,6 +124,7 @@ const PostInputField = () => {
     </InputGroup>
   );
 };
+
 const InputPreview = () => {
   const { values } = useFormikContext();
   return (
