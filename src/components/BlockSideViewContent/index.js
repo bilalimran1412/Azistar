@@ -30,6 +30,7 @@ import TriggerAutomationNodeContent from './TriggerAutomationNodeContent';
 import SlackNodeContent from './SlackNodeContent';
 import GoogleSheetsNodeContent from './GoogleSheetsNodeContent';
 import ZapierNodeContent from './ZapierNodeContent';
+import CalendlyNodeContent from './CalendlyNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -63,4 +64,5 @@ export const SideViewContent = {
   [sideViewLayoutType.slackIntegration]: SlackNodeContent,
   [sideViewLayoutType.googleSheets]: GoogleSheetsNodeContent,
   [sideViewLayoutType.zapier]: ZapierNodeContent,
+  [sideViewLayoutType.calendly]: CalendlyNodeContent,
 };

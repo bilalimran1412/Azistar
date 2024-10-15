@@ -9,6 +9,8 @@ const FormSettings = ({
   infoText,
   bgColor = '#8a9ba826',
   containerStyles = {},
+  labelProps = {},
+  labelVariant = '',
 }) => {
   const [field, meta, helpers] = useField({ name, type: 'checkbox' });
 
@@ -29,7 +31,13 @@ const FormSettings = ({
         onClick={handleToggle}
         cursor='pointer'
       >
-        <FormLabel mb={0} htmlFor={name} className='bold font13' ml={1}>
+        <FormLabel
+          mb={0}
+          htmlFor={name}
+          ml={1}
+          variant={labelVariant}
+          {...labelProps}
+        >
           {label}
         </FormLabel>
         <Switch

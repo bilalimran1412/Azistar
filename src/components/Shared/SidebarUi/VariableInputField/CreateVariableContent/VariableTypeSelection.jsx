@@ -22,6 +22,7 @@ function VariableTypeSelection({ value }) {
   useOutsideClick({ ref: ref1, handler: onClose });
 
   const types = ['STRING', 'ARRAY', 'BOOLEAN', 'NUMBER', 'DATE'];
+
   return (
     <Box ref={ref1}>
       <Popover

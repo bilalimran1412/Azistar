@@ -18,7 +18,7 @@ import {
 import CreateVariableContent from './CreateVariableContent';
 import ListVariableContent from './VariablesMenuContent';
 
-function VariableSelectionField({
+function VariableInputField({
   containerStyle,
   name,
   allowedType = 'all',
@@ -200,4 +200,4 @@ function VariableSelectionField({
   );
 }
 
-export default VariableSelectionField;
+export default VariableInputField;
