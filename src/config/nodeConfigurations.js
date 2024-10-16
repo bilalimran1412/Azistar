@@ -102,6 +102,7 @@ export const sideViewLayoutType = {
   slackIntegration: 'slackIntegration',
   googleSheets: 'googleSheets',
   zapier: 'zapier',
+  calendly: 'calendly',
 };
 
 //groups for creating nodes
@@ -988,6 +989,7 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         multipleHandles: true,
+        layoutType: sideViewLayoutType.calendly,
         contentType: contentType.buttonNode,
         items: [
           { id: 'event-booked', label: 'Event booked', isDeletable: false },
