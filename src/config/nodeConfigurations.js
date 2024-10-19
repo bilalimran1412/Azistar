@@ -103,6 +103,8 @@ export const sideViewLayoutType = {
   googleSheets: 'googleSheets',
   zapier: 'zapier',
   calendly: 'calendly',
+  googleAnalytics: 'googleAnalytics',
+  note: 'note',
 };
 
 //groups for creating nodes
@@ -1040,6 +1042,9 @@ export const nodeConfigurations = {
       label: 'Google Analytics',
       icon: <FaGoogle />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.googleAnalytics,
+      },
       fields: [
         {
           label: 'Analytics Setup',
@@ -1215,6 +1220,7 @@ export const nodeConfigurations = {
       icon: <FaStickyNote />,
       data: {
         contentType: contentType.placeholderNodes,
+        layoutType: sideViewLayoutType.note,
       },
       fields: [
         {

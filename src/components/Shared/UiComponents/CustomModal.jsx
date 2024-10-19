@@ -32,6 +32,7 @@ function CustomModal({
         isOpen={isOpen}
         onClose={onClose}
         size={size}
+        scrollBehavior='inside'
       >
         <CustomOverlay />
         <ModalContent>

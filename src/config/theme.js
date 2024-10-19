@@ -191,28 +191,3 @@ const theme = extendTheme({
 });
 
 export default theme;
-
-// basevariant
-// Input: {
-//     variants: {
-//       custom: {
-//         field: {
-//           backgroundColor: 'white',
-//           border: '1px solid rgba(16, 22, 26, .2)',
-//           borderRadius: '3px',
-//           height: '30px',
-//           padding: '0 10px',
-//           outline: 'none',
-//           fontWeight: 400,
-//           lineHeight: '30px',
-//           transition: 'box-shadow .1s cubic-bezier(.4,1,.75,.9)',
-//           verticalAlign: 'middle',
-//           fontSize: 'large',
-//           boxShadow: 'none',
-//           _focus: {
-//             boxShadow: '0 1px 10px -1px rgba(98, 104, 229, 0.36) !important',
-//           },
-//         },
-//       },
-//     },
-//   },

@@ -16,7 +16,7 @@ import {
 
 function SortableInviteQuestionsFieldArray({ name = 'extraQuestion' }) {
   const [field, , helpers] = useField(name);
-  const fieldValue = field.value;
+  const fieldValue = field.value || [];
   const isQuestionLimitFull = fieldValue?.length >= 11;
 
   const onQuestionAdd = (arrayPushHelper) => {

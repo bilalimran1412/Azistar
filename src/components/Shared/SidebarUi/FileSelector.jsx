@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Flex, Image, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, useDisclosure } from '@chakra-ui/react';
 import UploadButton from './UploadButton';
 import { fetchWrapper } from '../../../utils/fetchWrapper';
 import { useNodeContext } from '../../../views/canvas/NodeContext';
@@ -13,6 +13,7 @@ const FileSelector = ({
   sectionLabel = 'Upload an image',
   buttonText = 'Select',
   editImage = false,
+  textStyles = { color: 'white' },
 }) => {
   const [file, setFile] = useState(null);
   const { currentNodeId } = useNodeContext();
@@ -102,17 +103,17 @@ const FileSelector = ({
       p={'10px 12px 9px'}
     >
       {sectionLabel && (
-        <p
+        <Text
           style={{
             margin: '0',
             padding: '0',
             textAlign: 'start',
-            color: 'white',
             width: '100%',
+            ...textStyles,
           }}
         >
           {sectionLabel}
-        </p>
+        </Text>
       )}
       <Box display={'flex'} alignItems={'center'} width={'100%'}>
         <UploadButton
@@ -138,6 +139,7 @@ const FileSelector = ({
               onClick={() => {
                 onFileSelect('');
               }}
+              style={{ ...textStyles }}
             />
           </Box>
         )}

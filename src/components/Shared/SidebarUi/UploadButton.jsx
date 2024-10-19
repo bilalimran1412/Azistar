@@ -20,7 +20,7 @@ const UploadButton = ({
   const handleSaveAction = (tabIndex, data) => {
     onSave(tabIndex, data);
   };
-  console.log({ isSelectorModalOpen });
+
   return (
     <Box>
       <Button
