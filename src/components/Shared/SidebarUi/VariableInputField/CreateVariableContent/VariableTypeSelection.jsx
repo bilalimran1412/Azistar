@@ -15,9 +15,8 @@ import { possibleFormatOptions } from 'config/constant';
 import React, { useRef } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
-function VariableTypeSelection({ value }) {
+function VariableTypeSelection({ type, setType }) {
   const ref1 = useRef(null);
-  const [type, setType] = React.useState('Select the format');
   const { onOpen, onClose, isOpen } = useDisclosure();
   useOutsideClick({ ref: ref1, handler: onClose });
 

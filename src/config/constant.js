@@ -30,9 +30,9 @@ export const buttonCreatorEmojis = {
 };
 
 export const possibleFormatOptions = {
-  STRING: { icon: 'A', label: 'String' },
+  STRING: { icon: 'A', label: 'String', sample: 'John Smith' },
   BOOLEAN: { icon: 'B', label: 'Boolean' },
-  NUMBER: { icon: 8, label: 'Number' },
+  NUMBER: { icon: 8, label: 'Number', sample: '3423003' },
   ARRAY: { icon: <FaSortNumericDown />, label: 'Array' },
   DATE: { icon: <FaCalendarAlt />, label: 'Date' },
 };
@@ -198,6 +198,11 @@ export const initialGroupedOptions = [
     label: 'TIME REFERENCES',
     data: 'TIME_REFERENCES',
     options: timeReferencesOptions,
+  },
+  {
+    label: 'CUSTOM VARIABLES',
+    data: 'CUSTOM_VARIABLES',
+    options: [],
   },
 ];
 

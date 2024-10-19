@@ -2,7 +2,7 @@ import { Box, Text } from '@chakra-ui/react';
 import React from 'react';
 import { FiPlusCircle } from 'react-icons/fi';
 
-function CreateVariableOption({ value, onCreateClick }) {
+function CreateVariableOption({ inputValue, onCreateClick }) {
   return (
     <Box
       display='flex'
@@ -16,10 +16,12 @@ function CreateVariableOption({ value, onCreateClick }) {
       alignItems='center'
       fontWeight='500'
       fontStyle={'italic'}
-      onClick={onCreateClick}
+      onClick={() => {
+        onCreateClick(inputValue);
+      }}
     >
       <FiPlusCircle />
-      <Text>{value}</Text>
+      <Text>{inputValue}</Text>
       <Text>(new)</Text>
     </Box>
   );

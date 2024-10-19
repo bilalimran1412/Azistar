@@ -22,13 +22,13 @@ export const filterOptionsByType = (
     })
     .filter((group) => group.options.length > 0);
 };
+
 export function searchGroupedOptions(groupedOptions, searchValue) {
   const lowercasedSearchValue = searchValue.toLowerCase();
-
   return groupedOptions
     .map((group) => {
       const filteredOptions = group.options.filter((option) =>
-        option.label.toLowerCase().includes(lowercasedSearchValue)
+        option.value.toLowerCase().includes(lowercasedSearchValue)
       );
 
       if (filteredOptions.length > 0) {
@@ -56,3 +56,30 @@ export function hasExactMatch(filteredOptions, searchValue) {
 
   return false;
 }
+
+export const variableDropdownManager = (
+  allowedType,
+  inputValue,
+  initialGroupedOptions
+) => {
+  const groupedOptions = filterOptionsByType(
+    allowedType,
+    initialGroupedOptions
+  );
+  const filteredOptions = searchGroupedOptions(groupedOptions, inputValue);
+
+  const hasExtractValue =
+    inputValue?.length < 3 ? false : hasExactMatch(filteredOptions, inputValue);
+
+  const isEmpty = !filteredOptions?.flatMap((group) => group.options)?.length;
+
+  const enableCreate = (isEmpty || !hasExtractValue) && inputValue?.length > 2;
+
+  return {
+    isEmpty,
+    hasExtractValue,
+    filteredOptions,
+    enableCreate,
+    inputValue,
+  };
+};

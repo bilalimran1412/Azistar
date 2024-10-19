@@ -1,11 +1,16 @@
 import { Box, Text, Flex } from '@chakra-ui/react';
+import { possibleFormatOptions } from 'config/constant';
 import React from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
+import { useDropdownStore } from 'zustandStores';
 
 const CustomMenuOption = (props) => {
   const { option, handleOptionClick } = props;
   const isDeleteAble = option?.category === 'CUSTOM_VARIABLES';
-
+  const config = possibleFormatOptions[option.type];
+  const removeCustomVariable = useDropdownStore(
+    (store) => store.removeCustomVariable
+  );
   return (
     <Box
       _hover={{
@@ -33,7 +38,7 @@ const CustomMenuOption = (props) => {
             mx={3}
           >
             <Text fontSize='12px' fontWeight='700'>
-              A
+              {config?.icon}
             </Text>
           </Box>
 
@@ -46,17 +51,17 @@ const CustomMenuOption = (props) => {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('deleting option');
+              removeCustomVariable(option.value);
             }}
           >
             <FaTrashAlt />
           </Box>
         )}
-        {option?.sample && (
+        {(option?.sample || config?.sample) && (
           <Text color='gray.400' fontSize='12px' className='sample'>
             {typeof option?.sample === 'object'
               ? JSON.stringify(option.sample)
-              : option.sample}
+              : option.sample || config.sample}
           </Text>
         )}
       </Flex>

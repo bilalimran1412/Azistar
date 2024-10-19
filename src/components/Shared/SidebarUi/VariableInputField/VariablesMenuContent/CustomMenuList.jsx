@@ -1,38 +1,24 @@
 import { Box, Text, Divider } from '@chakra-ui/react';
-import { initialGroupedOptions } from 'config/constant';
 import React from 'react';
-import {
-  filterOptionsByType,
-  hasExactMatch,
-  searchGroupedOptions,
-} from '../utils';
+
 import CustomMenuOption from './CustomMenuOptions';
 import CreateVariableOption from './CreateVariableOption';
+import { variableDropdownManager } from '../utils';
+import { useDropdownStore } from 'zustandStores';
 
 const CustomMenuList = ({
   handleOptionClick,
-  value,
+  inputValue,
   allowedType,
   onCreateClick,
 }) => {
-  const groupedOptions = React.useMemo(() => {
-    return filterOptionsByType(allowedType, initialGroupedOptions);
-  }, [allowedType]);
+  const groupedOptions = useDropdownStore((store) => store.groupedOptions);
 
-  const filteredOptions = React.useMemo(() => {
-    return searchGroupedOptions(groupedOptions, value);
-  }, [groupedOptions, value]);
-
-  const hasExtractValue = React.useMemo(() => {
-    if (value?.length < 3) {
-      return false;
-    }
-    return hasExactMatch(filteredOptions, value);
-  }, [filteredOptions, value]);
-
-  const isEmpty = React.useMemo(() => {
-    return !filteredOptions?.flatMap((group) => group.options)?.length;
-  }, [filteredOptions]);
+  const { isEmpty, hasExtractValue, filteredOptions } = variableDropdownManager(
+    allowedType,
+    inputValue,
+    groupedOptions
+  );
 
   return (
     <Box
@@ -40,12 +26,18 @@ const CustomMenuList = ({
         'hr:last-of-type': { display: 'none' },
       }}
     >
-      {isEmpty && value?.length > 2 ? (
-        <CreateVariableOption value={value} onCreateClick={onCreateClick} />
+      {isEmpty && inputValue?.length > 2 ? (
+        <CreateVariableOption
+          inputValue={inputValue}
+          onCreateClick={onCreateClick}
+        />
       ) : (
         <>
-          {!hasExtractValue && value?.length > 2 && (
-            <CreateVariableOption value={value} onCreateClick={onCreateClick} />
+          {!hasExtractValue && inputValue?.length > 2 && (
+            <CreateVariableOption
+              inputValue={inputValue}
+              onCreateClick={onCreateClick}
+            />
           )}
           <>
             {filteredOptions.map((groupedOptions, index) => (
@@ -71,7 +63,6 @@ const CustomMenuList = ({
                 <Divider my={2} />
               </React.Fragment>
             ))}
-
             {!isEmpty && (
               <Box mt={2}>
                 <Box

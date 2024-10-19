@@ -17,6 +17,8 @@ import {
 } from '@chakra-ui/react';
 import CreateVariableContent from './CreateVariableContent';
 import ListVariableContent from './VariablesMenuContent';
+import { useDropdownStore } from 'zustandStores';
+import { variableDropdownManager } from './utils';
 
 function VariableInputField({
   containerStyle,
@@ -26,13 +28,27 @@ function VariableInputField({
   label,
   placeholder,
   styles,
+  // popupType will be button or input, it will define the trigger element and design changes
+  popupType = 'input',
   ...rest
 }) {
   const [contentType, setContentType] = React.useState('list');
+
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const containerRef = useRef(null);
   const popoverContainer = useRef(null);
+  const groupedOptions = useDropdownStore((store) => store.groupedOptions);
+  const addCustomVariable = useDropdownStore(
+    (store) => store.addCustomVariable
+  );
+
+  const { enableCreate } = variableDropdownManager(
+    allowedType,
+    inputValue,
+    groupedOptions
+  );
+
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const handleFocus = () => {
@@ -46,13 +62,14 @@ function VariableInputField({
   useOutsideClick({ ref: popoverContainer, handler: onClose });
 
   const handleOptionClick = (option) => {
-    console.log(option);
+    setInputValue(option?.value);
+    onClose();
   };
-  const onCreateClick = (value) => {
-    console.log(value);
+
+  const onCreateClick = () => {
     if (allowedType === 'all') {
       setContentType('create');
-    }
+    } else addCustomVariable(inputValue, allowedType);
   };
 
   return (
@@ -132,16 +149,16 @@ function VariableInputField({
                     variant='unstyled'
                     onBlur={handleBlur}
                     onFocus={handleFocus}
-                    value={value}
+                    value={inputValue}
                     onChange={({ target }) => {
-                      setValue(target.value);
+                      setInputValue(target.value);
                       if (!isOpen) {
                         onOpen();
                       }
                     }}
                     autoComplete='off'
                   />
-                  {false && (
+                  {enableCreate && (
                     <InputRightElement
                       minHeight={0}
                       minWidth={0}
@@ -160,6 +177,7 @@ function VariableInputField({
                         _hover={{
                           backgroundColor: 'rgb(215, 55, 107)',
                         }}
+                        onClick={onCreateClick}
                       >
                         <Text
                           fontSize='12px'
@@ -179,7 +197,7 @@ function VariableInputField({
           <Portal containerRef={popoverContainer}>
             {contentType === 'list' && (
               <ListVariableContent
-                value={value}
+                inputValue={inputValue}
                 handleOptionClick={handleOptionClick}
                 allowedType={allowedType}
                 onCreateClick={onCreateClick}
@@ -189,8 +207,10 @@ function VariableInputField({
               <CreateVariableContent
                 onClose={() => {
                   setContentType('list');
+                  onClose();
                 }}
-                value={value}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
               />
             )}
           </Portal>

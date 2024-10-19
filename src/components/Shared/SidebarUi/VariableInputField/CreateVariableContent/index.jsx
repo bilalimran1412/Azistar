@@ -10,8 +10,18 @@ import {
 import React from 'react';
 import { MdClose } from 'react-icons/md';
 import VariableTypeSelection from './VariableTypeSelection';
+import { useDropdownStore } from 'zustandStores';
 
-function CreateVariableContent({ onClose, value }) {
+function CreateVariableContent({ inputValue, onClose, setInputValue }) {
+  const [type, setType] = React.useState('Select the format');
+  const addCustomVariable = useDropdownStore(
+    (store) => store.addCustomVariable
+  );
+  const handleCreate = () => {
+    addCustomVariable(inputValue, type);
+    onClose();
+  };
+
   return (
     <PopoverContent
       width='100%'
@@ -44,10 +54,17 @@ function CreateVariableContent({ onClose, value }) {
           </Box>
           <Divider />
           <Box>
-            <Input placeholder='Type the name' variant='custom' value={value} />
+            <Input
+              placeholder='Type the name'
+              variant='custom'
+              value={inputValue}
+              onChange={({ target }) => {
+                setInputValue(target.value);
+              }}
+            />
           </Box>
           <Box>
-            <VariableTypeSelection value={value} />
+            <VariableTypeSelection setType={setType} type={type} />
           </Box>
           <Box>
             <Button
@@ -62,6 +79,8 @@ function CreateVariableContent({ onClose, value }) {
                 backgroundColor: 'rgb(215, 55, 107)',
               }}
               width='100%'
+              isDisabled={type === 'Select the format'}
+              onClick={handleCreate}
             >
               CREATE
             </Button>

@@ -4,7 +4,7 @@ import { PopoverContent, PopoverBody } from '@chakra-ui/react';
 import CustomMenuList from './CustomMenuList';
 
 function VariablesMenuContent({
-  value,
+  inputValue,
   handleOptionClick,
   allowedType,
   onCreateClick,
@@ -32,7 +32,7 @@ function VariablesMenuContent({
         }}
       >
         <CustomMenuList
-          value={value}
+          inputValue={inputValue}
           handleOptionClick={handleOptionClick}
           allowedType={allowedType}
           onCreateClick={onCreateClick}
