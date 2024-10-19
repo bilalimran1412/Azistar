@@ -10,16 +10,17 @@ import {
 import React from 'react';
 import { MdClose } from 'react-icons/md';
 import VariableTypeSelection from './VariableTypeSelection';
-import { useDropdownStore } from 'zustandStores';
 
-function CreateVariableContent({ inputValue, onClose, setInputValue }) {
+function CreateVariableContent({
+  inputValue,
+  onVariableContentCreate,
+  onClose,
+  setInputValue,
+}) {
   const [type, setType] = React.useState('Select the format');
-  const addCustomVariable = useDropdownStore(
-    (store) => store.addCustomVariable
-  );
+
   const handleCreate = () => {
-    addCustomVariable(inputValue, type);
-    onClose();
+    onVariableContentCreate(type);
   };
 
   return (
@@ -32,6 +33,8 @@ function CreateVariableContent({ inputValue, onClose, setInputValue }) {
         borderRadius: '0 0 3px 3px',
         backgroundColor: '#fff',
         borderTop: 'none',
+        minWidth: '280px',
+        // minHeight: '240px',
       }}
     >
       <PopoverBody

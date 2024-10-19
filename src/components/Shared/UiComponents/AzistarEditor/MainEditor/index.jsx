@@ -4,7 +4,13 @@ import { myBlockStyleFn, styleMap } from './Helpers/blockStyles';
 import Toolbar from './Helpers/Toolbar';
 import { Box, Flex } from '@chakra-ui/react';
 
-const DraftEditor = ({ onEditorChange, editorState, setEditorState }) => {
+const DraftEditor = ({
+  onEditorChange,
+  editorState,
+  setEditorState,
+  type,
+  placeholder,
+}) => {
   const editorRef = React.useRef();
   const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -18,7 +24,7 @@ const DraftEditor = ({ onEditorChange, editorState, setEditorState }) => {
   return (
     <Flex width='100%' direction='column' gap={1.5}>
       <Box
-        height='120px'
+        height={type === 'inline' ? '45px' : '120px'}
         fontSize='14px'
         sx={{
           '.public-DraftEditorPlaceholder-root': {
@@ -56,7 +62,7 @@ const DraftEditor = ({ onEditorChange, editorState, setEditorState }) => {
       >
         <Editor
           ref={editorRef}
-          placeholder='Write Here'
+          placeholder={placeholder}
           handleKeyCommand={handleKeyCommand}
           editorState={editorState}
           customStyleMap={styleMap}
@@ -64,7 +70,11 @@ const DraftEditor = ({ onEditorChange, editorState, setEditorState }) => {
           onChange={onEditorChange}
         />
       </Box>
-      <Toolbar editorState={editorState} setEditorState={setEditorState} />
+      <Toolbar
+        editorState={editorState}
+        setEditorState={setEditorState}
+        type={type}
+      />
     </Flex>
   );
 };

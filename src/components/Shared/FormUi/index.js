@@ -24,3 +24,4 @@ export * from './FormHelper/TriggerAutomationFieldArray';
 export * from './FormDatePicker';
 export * from './FormDateRangePicker';
 export * from './FormHelper/Calendly';
+export * from './DraftEditorField';

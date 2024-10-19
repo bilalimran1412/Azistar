@@ -8,10 +8,14 @@ function VariablesMenuContent({
   handleOptionClick,
   allowedType,
   onCreateClick,
+  popupType,
+  setInputValue,
 }) {
   return (
     <PopoverContent
-      onMouseDown={(e) => e.preventDefault()}
+      onMouseDown={(e) => {
+        popupType !== 'button' && e.preventDefault();
+      }}
       onClick={(event) => {
         event.preventDefault();
         event.stopPropagation();
@@ -24,6 +28,8 @@ function VariablesMenuContent({
         borderRadius: '0 0 3px 3px',
         backgroundColor: '#fff',
         borderTop: 'none',
+        minWidth: '280px',
+        // minHeight: '240px',
       }}
     >
       <PopoverBody
@@ -36,6 +42,8 @@ function VariablesMenuContent({
           handleOptionClick={handleOptionClick}
           allowedType={allowedType}
           onCreateClick={onCreateClick}
+          popupType={popupType}
+          setInputValue={setInputValue}
         />
       </PopoverBody>
     </PopoverContent>

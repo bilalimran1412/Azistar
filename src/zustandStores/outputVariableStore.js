@@ -22,6 +22,7 @@ export const useDropdownStore = create((set, get) => ({
     };
     groupedOptions[3].options.push(newCustomOption);
     set({ groupedOptions: groupedOptions });
+    return newCustomOption;
   },
   removeCustomVariable: (value) => {
     const groupedOptions = get().groupedOptions;
@@ -31,7 +32,6 @@ export const useDropdownStore = create((set, get) => ({
     );
 
     groupedOptions[3].options = updatedOptions;
-    console.log(groupedOptions);
     set({ groupedOptions: groupedOptions });
   },
 }));
