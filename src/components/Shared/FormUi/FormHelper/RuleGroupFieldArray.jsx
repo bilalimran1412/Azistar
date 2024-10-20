@@ -144,6 +144,8 @@ const RuleGroupFieldArray = ({ name }) => {
                         name={`${name}[${index}].variable`}
                         label='Choose a variable to create scoring rules for'
                         options={SAMPLE_DROPDOWN_OPTIONS}
+                        labelVariant='h3'
+                        variant='custom'
                       />
                       {item?.variable && (
                         <Box marginTop={5}>
