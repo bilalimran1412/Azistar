@@ -66,13 +66,12 @@ export const contentType = {
 };
 
 export const sideViewLayoutType = {
-  //NEEDS TO BE FIXED
-  forms: 'form',
   //this node config data has initial values
   //this node is final for all the form values and styling
   multiQuestions: 'multiQuestions',
 
   //add initial data to config.data from form initial values
+  forms: 'form',
   pictureChoice: 'pictureChoice',
   date: 'date',
   goodBye: 'goodbye',
@@ -105,6 +104,7 @@ export const sideViewLayoutType = {
   calendly: 'calendly',
   googleAnalytics: 'googleAnalytics',
   note: 'note',
+  webhook: 'webhook',
 };
 
 //groups for creating nodes
@@ -1240,9 +1240,11 @@ export const nodeConfigurations = {
       title: 'Webhook',
       label: 'Webhook',
       nodeType: 'baseNode',
+      width: '500px',
       icon: <FaLink />,
       data: {
         multipleHandles: true,
+        layoutType: sideViewLayoutType.webhook,
         customHandle: [
           {
             id: 'success',

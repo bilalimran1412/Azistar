@@ -33,6 +33,7 @@ import ZapierNodeContent from './ZapierNodeContent';
 import CalendlyNodeContent from './CalendlyNodeContent';
 import GoogleAnalyticsNodeContent from './GoogleAnalyticsNodeContent';
 import NoteNodeContent from './NoteNodeContent';
+import WebhookNodeContent from './WebhookNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -69,4 +70,5 @@ export const SideViewContent = {
   [sideViewLayoutType.calendly]: CalendlyNodeContent,
   [sideViewLayoutType.googleAnalytics]: GoogleAnalyticsNodeContent,
   [sideViewLayoutType.note]: NoteNodeContent,
+  [sideViewLayoutType.webhook]: WebhookNodeContent,
 };
