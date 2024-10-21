@@ -24,6 +24,9 @@ const AzistarEditor = ({ type = 'inline', placeholder, setFieldValue }) => {
 
   const onEditorChange = (editorState) => {
     setEditorState(editorState);
+  };
+
+  const onEditorBlur = () => {
     debouncedOnChange();
   };
 
@@ -35,6 +38,7 @@ const AzistarEditor = ({ type = 'inline', placeholder, setFieldValue }) => {
         editorState={editorState}
         type={type}
         placeholder={placeholder}
+        onEditorBlur={onEditorBlur}
       />
     </Box>
   );

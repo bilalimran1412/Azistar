@@ -215,46 +215,50 @@ function ScriptField() {
           >
             <MdFullscreen />
           </Box>
+          {isOpen && (
+            <CustomModal
+              onClose={onModalClose}
+              isOpen={isOpen}
+              isCentered
+              size='5xl'
+              footer={
+                <Box
+                  m={6}
+                  mb={2}
+                  display='flex'
+                  justifyContent='flex-end'
+                  alignItems='center'
+                  gap={3}
+                >
+                  <Button
+                    variant='outline'
+                    colorScheme='blue'
+                    type='button'
+                    onClick={onModalClose}
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    colorScheme='blue'
+                    type='button'
+                    onClick={onModalSave}
+                  >
+                    Save
+                  </Button>
+                </Box>
+              }
+            >
+              <CodeEditor
+                value={editorValue}
+                height='600px'
+                theme='dark'
+                editable={true}
+                onChange={onChange}
+              />
+            </CustomModal>
+          )}
         </Box>
       </Box>
-      {isOpen && (
-        <CustomModal
-          onClose={onModalClose}
-          isOpen={isOpen}
-          isCentered
-          size='5xl'
-          footer={
-            <Box
-              m={6}
-              mb={2}
-              display='flex'
-              justifyContent='flex-end'
-              alignItems='center'
-              gap={3}
-            >
-              <Button
-                variant='outline'
-                colorScheme='blue'
-                type='button'
-                onClick={onModalClose}
-              >
-                Close
-              </Button>
-              <Button colorScheme='blue' type='button' onClick={onModalSave}>
-                Save
-              </Button>
-            </Box>
-          }
-        >
-          <CodeEditor
-            value={editorValue}
-            height='600px'
-            theme='dark'
-            editable={true}
-            onChange={onChange}
-          />
-        </CustomModal>
-      )}
     </>
   );
 }

@@ -10,6 +10,7 @@ const DraftEditor = ({
   setEditorState,
   type,
   placeholder,
+  onEditorBlur,
 }) => {
   const editorRef = React.useRef();
   const handleKeyCommand = (command) => {
@@ -68,6 +69,7 @@ const DraftEditor = ({
           customStyleMap={styleMap}
           blockStyleFn={myBlockStyleFn}
           onChange={onEditorChange}
+          onBlur={onEditorBlur}
         />
       </Box>
       <Toolbar

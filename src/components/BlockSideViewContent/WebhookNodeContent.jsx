@@ -10,18 +10,25 @@ import { yup } from '../../utils/yup';
 import {
   Box,
   Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
+  List,
+  ListIcon,
+  ListItem,
+  Stack,
   Text,
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import {
+  CodeEditorField,
   FormDropdown,
+  FormSettings,
   FormTextField,
+  ParamsFieldArray,
+  SaveResponseFieldArray,
+  SortableRoutingFieldArray,
   TriggerAutomationFieldArray,
 } from 'components/Shared/FormUi';
 import VariableInputField from 'components/Shared/SidebarUi/VariableInputField';
+import { InfoOutlineIcon } from '@chakra-ui/icons';
 const httpMethods = [
   { value: 'GET', label: 'GET' },
   { value: 'POST', label: 'POST' },
@@ -46,8 +53,24 @@ function WebhookNodeContent({ id }) {
   //TODO MOVE TO CONFIG
   const initialValues = {
     url: currentNode?.data?.url || '',
-    parameters: currentNode?.data?.parameters || [{ testValue: '' }],
+
+    customData: currentNode?.data?.customData || '',
+    enableParams: currentNode?.data?.enableParams || '',
+    saveResponse: currentNode?.data?.saveResponse || '',
+    customHeaders: currentNode?.data?.customHeaders || '',
+    enableRouting: currentNode?.data?.enableRouting || '',
+    body: currentNode?.data?.body || '',
+    customBody: currentNode?.data?.customBody || '',
+    enableSave: currentNode?.data?.enableSave || '',
+    routes: currentNode?.data?.routes || '',
+    data: currentNode?.data?.data || [{ testValue: '' }],
     method: currentNode?.data?.method || 'POST',
+    params: currentNode?.data?.params || [
+      { key: '', value: '', id: 'bb1a3e97-9735-5c82-90f4-bc5d29520580' },
+    ],
+    headers: currentNode?.data?.params || [
+      { key: '', value: '', id: '36f471b9-753a-57e5-9e70-57534ceaa207' },
+    ],
   };
   const validationSchema = yup.object({});
 
@@ -91,71 +114,177 @@ function WebhookNodeContent({ id }) {
             placeholder='https://'
           />
         </Flex>
-
-        {/* <PostInputField /> */}
         <InputPreview />
       </SidebarFormCard>
+      <FormSettings
+        label={'Send Params'}
+        name='enableParams'
+        labelProps={{
+          style: {
+            fontSize: '1rem',
+            letterSpacing: '0',
+            lineHeight: '24px',
+            color: 'rgb(51, 64, 94)',
+            fontWeight: '700',
+            flex: 1,
+            cursor: 'default',
+          },
+          as: 'span',
+        }}
+        containerStyles={{
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+          borderRadius: '3px',
+        }}
+        infoText='Attach parameters to the end of request URL (example: ?email=elon@tesla.com)'
+      >
+        <ParamsFieldArray name='params' />
+      </FormSettings>
+      <FormSettings
+        label={'Customize Headers'}
+        name='customHeaders'
+        labelProps={{
+          style: {
+            fontSize: '1rem',
+            letterSpacing: '0',
+            lineHeight: '24px',
+            color: 'rgb(51, 64, 94)',
+            fontWeight: '700',
+            flex: 1,
+            cursor: 'default',
+          },
+          as: 'span',
+        }}
+        containerStyles={{
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+          borderRadius: '3px',
+        }}
+        infoText='Add headers to your request (example: Content-Type: application/json)'
+      >
+        <Text fontWeight='700'>Custom header</Text>
+        <ParamsFieldArray name='headers' />
+      </FormSettings>
+      <FormSettings
+        label={'Custom Body'}
+        name='customBody'
+        labelProps={{
+          style: {
+            fontSize: '1rem',
+            letterSpacing: '0',
+            lineHeight: '24px',
+            color: 'rgb(51, 64, 94)',
+            fontWeight: '700',
+            flex: 1,
+            cursor: 'default',
+          },
+          as: 'span',
+        }}
+        containerStyles={{
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+          borderRadius: '3px',
+        }}
+      >
+        <FormattingTipsBox />
+        <CodeEditorField name='body' />
+      </FormSettings>
       <SidebarFormCard
-        title='Set data (variables) to be sent'
+        title='Test Your Request'
         contentContainerProps={{
           style: { display: 'flex' },
           flexDirection: 'column',
           gap: 4,
         }}
       >
-        <Text fontSize='14px' fontWeight='700'>
-          Manually set test values for variables
-        </Text>
-        <Text fontSize='12px'>
-          Use the inputs below to set up the variables data that you want to
-          send. The "Test value" will be used only in the test to help you set
-          up your webhook trigger
-        </Text>
-        <TriggerAutomationFieldArray name='parameters' />
+        <FormSettings
+          label={'Manually set test values for variables'}
+          name='customData'
+          labelProps={{
+            style: {
+              fontSize: '1rem',
+              letterSpacing: '0',
+              lineHeight: '24px',
+              color: 'rgb(51, 64, 94)',
+              fontWeight: '700',
+              flex: 1,
+              cursor: 'default',
+            },
+            as: 'span',
+          }}
+          containerStyles={{
+            padding: '0',
+            backgroundColor: '#fff',
+          }}
+          infoText='If your request contains variables, you can manually set their values
+          for testing purpose.'
+        >
+          <TriggerAutomationFieldArray name='data' />
+        </FormSettings>
         <SendRequest />
       </SidebarFormCard>
+      <FormSettings
+        label={'💾  Save Responses as Variables'}
+        name='enableSave'
+        labelProps={{
+          style: {
+            fontSize: '1rem',
+            letterSpacing: '0',
+            lineHeight: '24px',
+            color: 'rgb(51, 64, 94)',
+            fontWeight: '700',
+            flex: 1,
+            cursor: 'default',
+          },
+          as: 'span',
+        }}
+        containerStyles={{
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+          borderRadius: '3px',
+        }}
+      >
+        <SaveResponseFieldArray name='saveResponse' />
+      </FormSettings>
+      <FormSettings
+        label={'Response Routing'}
+        name='enableRouting'
+        labelProps={{
+          style: {
+            fontSize: '1rem',
+            letterSpacing: '0',
+            lineHeight: '24px',
+            color: 'rgb(51, 64, 94)',
+            fontWeight: '700',
+            flex: 1,
+            cursor: 'default',
+          },
+          as: 'span',
+        }}
+        containerStyles={{
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+          borderRadius: '3px',
+        }}
+        infoText='Split your flow based on response status codes (200, 400, 500, etc).'
+      >
+        <SortableRoutingFieldArray name='routes' />
+      </FormSettings>
     </SidebarFormContainer>
   );
 }
 
 export default WebhookNodeContent;
-
-// const PostInputField = () => {
-//   const { setFieldValue, values } = useFormikContext();
-//   return (
-//     <InputGroup>
-//       <InputLeftElement
-//         children={
-//           <Box
-//             bg='rgb(99, 108, 225)'
-//             color='white'
-//             padding='0 10px'
-//             display='flex'
-//             alignItems='center'
-//             height='25px'
-//           >
-//             <Text>POST</Text>
-//           </Box>
-//         }
-//         style={{
-//           left: '16px',
-//           top: '1px',
-//         }}
-//       />
-//       <Input
-//         placeholder='https://'
-//         variant='custom'
-//         value={values?.url || ''}
-//         paddingLeft='80px'
-//         width='full'
-//         onChange={(event) => {
-//           const value = event.target.value;
-//           setFieldValue('url', value);
-//         }}
-//       />
-//     </InputGroup>
-//   );
-// };
 
 const InputPreview = () => {
   const { values, setFieldValue } = useFormikContext();
@@ -177,5 +306,51 @@ const InputPreview = () => {
       )}
       <VariableInputField popupType='button' onSelect={onVariableSelect} />
     </Flex>
+  );
+};
+
+const FormattingTipsBox = () => {
+  return (
+    <Box
+      borderWidth='1px'
+      borderRadius='lg'
+      p={4}
+      bg='blue.50'
+      borderColor='blue.200'
+      mb={4}
+      fontSize='12px'
+    >
+      <Stack direction='row' alignItems='center' mb={3}>
+        <InfoOutlineIcon color='blue.500' />
+        <Text fontWeight='bold' color='blue.800' fontSize='md'>
+          Formatting Tips
+        </Text>
+      </Stack>
+      <Text color='blue.700' fontSize='sm' mb={2}>
+        Follow these rules when entering your data:
+      </Text>
+      <List spacing={2} pl={4}>
+        <ListItem>
+          <ListIcon as={InfoOutlineIcon} color='blue.400' />
+          <Text as='span' fontWeight='medium' color='blue.800'>
+            Strings and Variables:
+          </Text>{' '}
+          Must be wrapped in quotes →{' '}
+          <Text as='span' color='gray.700'>
+            "@name"
+          </Text>
+        </ListItem>
+        <ListItem>
+          <ListIcon as={InfoOutlineIcon} color='blue.400' />
+          <Text as='span' fontWeight='medium' color='blue.800'>
+            Key-Value Pairs:
+          </Text>{' '}
+          A comma is needed between two key-value pairs →{' '}
+          <Text as='span' color='gray.700'>
+            "Email: @email", "Name": "@name"
+          </Text>
+        </ListItem>
+      </List>
+    </Box>
   );
 };
