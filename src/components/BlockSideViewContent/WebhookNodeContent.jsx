@@ -3,18 +3,21 @@ import {
   SendRequest,
   SidebarFormCard,
   SidebarFormContainer,
+  WebhookDomainModal,
 } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import {
   Box,
+  Button,
   Flex,
   List,
   ListIcon,
   ListItem,
   Stack,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 import {
@@ -29,7 +32,7 @@ import {
 } from 'components/Shared/FormUi';
 import VariableInputField from 'components/Shared/SidebarUi/VariableInputField';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
-import { getFinalUrl } from 'utils/objectHelpers';
+import { filterUniqueByKey, getFinalUrl } from 'utils/objectHelpers';
 import { truncateString } from 'utils/string';
 const httpMethods = [
   { value: 'GET', label: 'GET' },
@@ -46,6 +49,7 @@ const httpMethods = [
 function WebhookNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
+  const { onClose, isOpen, onOpen } = useDisclosure();
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
   const handleClose = () => {
     setSideView(false);
@@ -58,8 +62,9 @@ function WebhookNodeContent({ id }) {
     }));
 
     if (dataOptions?.length) {
-      return dataOptions;
-    } else return [{ label: 'Entire Response Body', value: 'body' }];
+      return filterUniqueByKey(dataOptions, 'value');
+    } else
+      return [{ label: 'Entire Response Body', value: 'Entire Response Body' }];
   }, [currentNode?.data?.saveResponse]);
 
   const [dropdownOptions, setDropdownOptions] = React.useState(initialOptions);
@@ -98,131 +103,65 @@ function WebhookNodeContent({ id }) {
   };
 
   return (
-    <SidebarFormContainer
-      block={config}
-      onClose={handleClose}
-      onFormSave={onSave}
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onReset={handleClose}
-    >
-      <SidebarFormCard
-        title='URL & Method'
-        contentContainerProps={{
-          style: { display: 'flex' },
-          flexDirection: 'column',
-          gap: 4,
-        }}
+    <>
+      <SidebarFormContainer
+        block={config}
+        onClose={handleClose}
+        onFormSave={onSave}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onReset={handleClose}
       >
-        <Flex>
-          <FormDropdown
-            name='method'
-            label='Method'
-            options={httpMethods}
-            variant='custom'
-            labelVariant='h3'
-            containerStyle={{ width: '40%' }}
-          />
-          <FormTextField
-            name='url'
-            label='URL'
-            variant='custom'
-            labelVariant='h3'
-            placeholder='https://'
-          />
-        </Flex>
-        <InputPreview />
-      </SidebarFormCard>
-      <FormSettings
-        label={'Send Params'}
-        name='enableParams'
-        labelProps={{
-          style: {
-            fontSize: '1rem',
-            letterSpacing: '0',
-            lineHeight: '24px',
-            color: 'rgb(51, 64, 94)',
-            fontWeight: '700',
-            flex: 1,
-            cursor: 'default',
-          },
-          as: 'span',
-        }}
-        containerStyles={{
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
-
-          borderRadius: '3px',
-        }}
-        infoText='Attach parameters to the end of request URL (example: ?email=elon@tesla.com)'
-      >
-        <ParamsFieldArray name='params' />
-      </FormSettings>
-      <FormSettings
-        label={'Customize Headers'}
-        name='customHeaders'
-        labelProps={{
-          style: {
-            fontSize: '1rem',
-            letterSpacing: '0',
-            lineHeight: '24px',
-            color: 'rgb(51, 64, 94)',
-            fontWeight: '700',
-            flex: 1,
-            cursor: 'default',
-          },
-          as: 'span',
-        }}
-        containerStyles={{
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
-
-          borderRadius: '3px',
-        }}
-        infoText='Add headers to your request (example: Content-Type: application/json)'
-      >
-        <Text fontWeight='700'>Custom header</Text>
-        <ParamsFieldArray name='headers' />
-      </FormSettings>
-      <FormSettings
-        label={'Custom Body'}
-        name='customBody'
-        labelProps={{
-          style: {
-            fontSize: '1rem',
-            letterSpacing: '0',
-            lineHeight: '24px',
-            color: 'rgb(51, 64, 94)',
-            fontWeight: '700',
-            flex: 1,
-            cursor: 'default',
-          },
-          as: 'span',
-        }}
-        containerStyles={{
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
-
-          borderRadius: '3px',
-        }}
-      >
-        <FormattingTipsBox />
-        <CodeEditorField name='body' label='Request Body (JSON only)' />
-      </FormSettings>
-      <SidebarFormCard
-        title='Test Your Request'
-        contentContainerProps={{
-          style: { display: 'flex' },
-          flexDirection: 'column',
-          gap: 4,
-        }}
-      >
+        <SidebarFormCard
+          textStyles={{ display: 'flex', justifyContent: 'space-between' }}
+          title={
+            <>
+              URL & Method
+              {/* <>
+                <Button
+                  onClick={onOpen}
+                  variant='outline'
+                  backgroundColor={'#fff'}
+                  borderRadius='3px'
+                  fontSize='14px'
+                  maxH='30px'
+                  px='10px'
+                  textAlign='left'
+                  verticalAlign='middle'
+                >
+                  Set domain variables
+                </Button>
+              </> */}
+            </>
+          }
+          contentContainerProps={{
+            style: { display: 'flex' },
+            flexDirection: 'column',
+            gap: 4,
+          }}
+        >
+          <Flex>
+            <FormDropdown
+              name='method'
+              label='Method'
+              options={httpMethods}
+              variant='custom'
+              labelVariant='h3'
+              containerStyle={{ width: '40%' }}
+            />
+            <FormTextField
+              name='url'
+              label='URL'
+              variant='custom'
+              labelVariant='h3'
+              placeholder='https://'
+            />
+          </Flex>
+          <InputPreview />
+        </SidebarFormCard>
         <FormSettings
-          label={'Manually set test values for variables'}
-          name='customFields'
+          label={'Send Params'}
+          name='enableParams'
           labelProps={{
             style: {
               fontSize: '1rem',
@@ -236,71 +175,162 @@ function WebhookNodeContent({ id }) {
             as: 'span',
           }}
           containerStyles={{
-            padding: '0',
+            padding: '20px',
             backgroundColor: '#fff',
+            boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+            borderRadius: '3px',
           }}
-          infoText='If your request contains variables, you can manually set their values
-          for testing purpose.'
+          infoText='Attach parameters to the end of request URL (example: ?email=elon@tesla.com)'
         >
-          <TriggerAutomationFieldArray name='parameters' />
+          <ParamsFieldArray name='params' />
         </FormSettings>
-        <SendRequest type='webhook' setDropdownOptions={setDropdownOptions} />
-      </SidebarFormCard>
-      <FormSettings
-        label={'💾  Save Responses as Variables'}
-        name='enableSave'
-        labelProps={{
-          style: {
-            fontSize: '1rem',
-            letterSpacing: '0',
-            lineHeight: '24px',
-            color: 'rgb(51, 64, 94)',
-            fontWeight: '700',
-            flex: 1,
-            cursor: 'default',
-          },
-          as: 'span',
-        }}
-        containerStyles={{
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+        <FormSettings
+          label={'Customize Headers'}
+          name='customHeaders'
+          labelProps={{
+            style: {
+              fontSize: '1rem',
+              letterSpacing: '0',
+              lineHeight: '24px',
+              color: 'rgb(51, 64, 94)',
+              fontWeight: '700',
+              flex: 1,
+              cursor: 'default',
+            },
+            as: 'span',
+          }}
+          containerStyles={{
+            padding: '20px',
+            backgroundColor: '#fff',
+            boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
 
-          borderRadius: '3px',
-        }}
-      >
-        <SaveResponseFieldArray
-          name='saveResponse'
-          dropdownOptions={dropdownOptions}
-        />
-      </FormSettings>
-      <FormSettings
-        label={'Response Routing'}
-        name='enableRouting'
-        labelProps={{
-          style: {
-            fontSize: '1rem',
-            letterSpacing: '0',
-            lineHeight: '24px',
-            color: 'rgb(51, 64, 94)',
-            fontWeight: '700',
-            flex: 1,
-            cursor: 'default',
-          },
-          as: 'span',
-        }}
-        containerStyles={{
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+            borderRadius: '3px',
+          }}
+          infoText='Add headers to your request (example: Content-Type: application/json)'
+        >
+          <Text fontWeight='700'>Custom header</Text>
+          <ParamsFieldArray name='headers' />
+        </FormSettings>
+        <FormSettings
+          label={'Custom Body'}
+          name='customBody'
+          labelProps={{
+            style: {
+              fontSize: '1rem',
+              letterSpacing: '0',
+              lineHeight: '24px',
+              color: 'rgb(51, 64, 94)',
+              fontWeight: '700',
+              flex: 1,
+              cursor: 'default',
+            },
+            as: 'span',
+          }}
+          containerStyles={{
+            padding: '20px',
+            backgroundColor: '#fff',
+            boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
 
-          borderRadius: '3px',
-        }}
-        infoText='Split your flow based on response status codes (200, 400, 500, etc).'
-      >
-        <SortableRoutingFieldArray name='routes' />
-      </FormSettings>
-    </SidebarFormContainer>
+            borderRadius: '3px',
+          }}
+        >
+          <FormattingTipsBox />
+          <CodeEditorField name='body' label='Request Body (JSON only)' />
+        </FormSettings>
+        <SidebarFormCard
+          title='Test Your Request'
+          contentContainerProps={{
+            style: { display: 'flex' },
+            flexDirection: 'column',
+            gap: 4,
+          }}
+        >
+          <FormSettings
+            label={'Manually set test values for variables'}
+            name='customFields'
+            labelProps={{
+              style: {
+                fontSize: '1rem',
+                letterSpacing: '0',
+                lineHeight: '24px',
+                color: 'rgb(51, 64, 94)',
+                fontWeight: '700',
+                flex: 1,
+                cursor: 'default',
+              },
+              as: 'span',
+            }}
+            containerStyles={{
+              padding: '0',
+              backgroundColor: '#fff',
+            }}
+            infoText='If your request contains variables, you can manually set their values
+          for testing purpose.'
+          >
+            <TriggerAutomationFieldArray name='parameters' />
+          </FormSettings>
+          <SendRequest type='webhook' setDropdownOptions={setDropdownOptions} />
+        </SidebarFormCard>
+        <FormSettings
+          label={'💾  Save Responses as Variables'}
+          name='enableSave'
+          labelProps={{
+            style: {
+              fontSize: '1rem',
+              letterSpacing: '0',
+              lineHeight: '24px',
+              color: 'rgb(51, 64, 94)',
+              fontWeight: '700',
+              flex: 1,
+              cursor: 'default',
+            },
+            as: 'span',
+          }}
+          containerStyles={{
+            padding: '20px',
+            backgroundColor: '#fff',
+            boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+            borderRadius: '3px',
+          }}
+        >
+          <SaveResponseFieldArray
+            name='saveResponse'
+            dropdownOptions={dropdownOptions}
+          />
+        </FormSettings>
+        <FormSettings
+          label={'Response Routing'}
+          name='enableRouting'
+          labelProps={{
+            style: {
+              fontSize: '1rem',
+              letterSpacing: '0',
+              lineHeight: '24px',
+              color: 'rgb(51, 64, 94)',
+              fontWeight: '700',
+              flex: 1,
+              cursor: 'default',
+            },
+            as: 'span',
+          }}
+          containerStyles={{
+            padding: '20px',
+            backgroundColor: '#fff',
+            boxShadow: '0 0 0 1px #10161a26, 0 0 #10161a00, 0 0 #10161a00',
+
+            borderRadius: '3px',
+          }}
+          infoText='Split your flow based on response status codes (200, 400, 500, etc).'
+        >
+          <SortableRoutingFieldArray name='routes' />
+        </FormSettings>
+      </SidebarFormContainer>
+      {isOpen && (
+        <WebhookDomainModal onClose={onClose} id={id} isOpen={isOpen} />
+      )}
+    </>
   );
 }
 

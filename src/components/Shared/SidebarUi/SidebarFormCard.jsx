@@ -6,6 +6,7 @@ function SidebarFormCard({
   children,
   contentContainerProps,
   containerProps = {},
+  textStyles = {},
 }) {
   return (
     <Box
@@ -22,6 +23,7 @@ function SidebarFormCard({
         lineHeight='24px'
         color='rgb(51, 64, 94)'
         fontWeight='700'
+        style={{ ...textStyles }}
       >
         {title}
       </Text>
