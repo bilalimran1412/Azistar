@@ -29,6 +29,8 @@ import {
 } from 'components/Shared/FormUi';
 import VariableInputField from 'components/Shared/SidebarUi/VariableInputField';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
+import { getFinalUrl } from 'utils/objectHelpers';
+import { truncateString } from 'utils/string';
 const httpMethods = [
   { value: 'GET', label: 'GET' },
   { value: 'POST', label: 'POST' },
@@ -48,22 +50,37 @@ function WebhookNodeContent({ id }) {
   const handleClose = () => {
     setSideView(false);
   };
+
+  const initialOptions = React.useMemo(() => {
+    const dataOptions = currentNode?.data?.saveResponse?.map((item) => ({
+      label: truncateString(item.response),
+      value: item.response,
+    }));
+
+    if (dataOptions?.length) {
+      return dataOptions;
+    } else return [{ label: 'Entire Response Body', value: 'body' }];
+  }, [currentNode?.data?.saveResponse]);
+
+  const [dropdownOptions, setDropdownOptions] = React.useState(initialOptions);
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
   const initialValues = {
     url: currentNode?.data?.url || '',
 
-    customData: currentNode?.data?.customData || '',
-    enableParams: currentNode?.data?.enableParams || '',
-    saveResponse: currentNode?.data?.saveResponse || '',
+    customFields: currentNode?.data?.customFields || '',
     customHeaders: currentNode?.data?.customHeaders || '',
+    enableParams: currentNode?.data?.enableParams || '',
+    customBody: currentNode?.data?.customBody || '',
+    saveResponse: currentNode?.data?.saveResponse || [
+      { response: '', id: 'f0245680-a1b7-5495-bcb8-2d0fca03959a' },
+    ],
     enableRouting: currentNode?.data?.enableRouting || '',
     body: currentNode?.data?.body || '',
-    customBody: currentNode?.data?.customBody || '',
     enableSave: currentNode?.data?.enableSave || '',
     routes: currentNode?.data?.routes || '',
-    data: currentNode?.data?.data || [{ testValue: '' }],
+    parameters: currentNode?.data?.parameters || [{ testValue: '' }],
     method: currentNode?.data?.method || 'POST',
     params: currentNode?.data?.params || [
       { key: '', value: '', id: 'bb1a3e97-9735-5c82-90f4-bc5d29520580' },
@@ -193,7 +210,7 @@ function WebhookNodeContent({ id }) {
         }}
       >
         <FormattingTipsBox />
-        <CodeEditorField name='body' />
+        <CodeEditorField name='body' label='Request Body (JSON only)' />
       </FormSettings>
       <SidebarFormCard
         title='Test Your Request'
@@ -205,7 +222,7 @@ function WebhookNodeContent({ id }) {
       >
         <FormSettings
           label={'Manually set test values for variables'}
-          name='customData'
+          name='customFields'
           labelProps={{
             style: {
               fontSize: '1rem',
@@ -225,9 +242,9 @@ function WebhookNodeContent({ id }) {
           infoText='If your request contains variables, you can manually set their values
           for testing purpose.'
         >
-          <TriggerAutomationFieldArray name='data' />
+          <TriggerAutomationFieldArray name='parameters' />
         </FormSettings>
-        <SendRequest />
+        <SendRequest type='webhook' setDropdownOptions={setDropdownOptions} />
       </SidebarFormCard>
       <FormSettings
         label={'💾  Save Responses as Variables'}
@@ -252,7 +269,10 @@ function WebhookNodeContent({ id }) {
           borderRadius: '3px',
         }}
       >
-        <SaveResponseFieldArray name='saveResponse' />
+        <SaveResponseFieldArray
+          name='saveResponse'
+          dropdownOptions={dropdownOptions}
+        />
       </FormSettings>
       <FormSettings
         label={'Response Routing'}
@@ -289,8 +309,13 @@ export default WebhookNodeContent;
 const InputPreview = () => {
   const { values, setFieldValue } = useFormikContext();
   const onVariableSelect = (option) => {
-    setFieldValue('url', `${values?.url}${option.value}`);
+    setFieldValue('url', `${values?.url}\${{${option.value}}}`);
   };
+
+  const finalUrl = React.useMemo(() => {
+    return getFinalUrl(values);
+  }, [values]);
+
   return (
     <Flex direction='column' gap={2}>
       {values?.url && (
@@ -300,7 +325,7 @@ const InputPreview = () => {
           </Text>
 
           <Text fontSize='12px' opacity={0.7} mt={2}>
-            {values?.url}
+            {finalUrl}
           </Text>
         </Box>
       )}

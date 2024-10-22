@@ -15,11 +15,11 @@ function TriggerAutomationFieldArray({ name }) {
           {fieldValue?.map((_, index) => (
             <Flex key={index} mb={4} alignItems={'center'} gap={1}>
               <FormVariableSelectorDropdown
-                name={`parameters[${index}]`}
+                name={`${name}[${index}]`}
                 label='Variable Name'
               />
               <FormTextField
-                name={`parameters[${index}].testValue`}
+                name={`${name}[${index}].testValue`}
                 label='Test Value'
                 labelVariant='h3'
                 variant='custom'

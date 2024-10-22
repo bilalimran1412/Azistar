@@ -4,7 +4,10 @@ import React from 'react';
 import { seedID } from 'utils';
 import { SaveResponseFieldItem } from 'components/Shared/SidebarUi';
 
-function SaveResponseFieldArray({ name = 'saveResponse' }) {
+function SaveResponseFieldArray({
+  name = 'saveResponse',
+  dropdownOptions = [],
+}) {
   const [field] = useField(name);
   const fieldValue = field.value || [];
 
@@ -16,6 +19,7 @@ function SaveResponseFieldArray({ name = 'saveResponse' }) {
     });
   };
   const isLastItem = fieldValue?.length === 1;
+
   return (
     <Box>
       <FieldArray name={name}>
@@ -28,6 +32,7 @@ function SaveResponseFieldArray({ name = 'saveResponse' }) {
                 onRemove={() => remove(index)}
                 key={item.id}
                 isLastItem={isLastItem}
+                dropdownOptions={dropdownOptions}
               />
             ))}
             <Button
