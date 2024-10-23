@@ -35,6 +35,7 @@ import GoogleAnalyticsNodeContent from './GoogleAnalyticsNodeContent';
 import NoteNodeContent from './NoteNodeContent';
 import WebhookNodeContent from './WebhookNodeContent';
 import MailchimpNodeContent from './MailchimpNodeContent';
+import HubspotNodeContent from './HubspotNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -73,4 +74,5 @@ export const SideViewContent = {
   [sideViewLayoutType.note]: NoteNodeContent,
   [sideViewLayoutType.webhook]: WebhookNodeContent,
   [sideViewLayoutType.mailchimp]: MailchimpNodeContent,
+  [sideViewLayoutType.hubspot]: HubspotNodeContent,
 };

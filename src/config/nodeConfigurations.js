@@ -106,6 +106,7 @@ export const sideViewLayoutType = {
   note: 'note',
   webhook: 'webhook',
   mailchimp: 'mailchimp',
+  hubspot: 'hubspot',
 };
 
 //groups for creating nodes
@@ -955,14 +956,18 @@ export const nodeConfigurations = {
       label: 'Hubspot',
       icon: <FaHubspot />,
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Hubspot Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Connect your CRM',
-        },
-      ],
+      width: '500px',
+      data: {
+        layoutType: sideViewLayoutType.hubspot,
+      },
+      // fields: [
+      //   {
+      //     label: 'Hubspot Setup',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Connect your CRM',
+      //   },
+      // ],
     },
     {
       group: Groups.integration,

@@ -21,6 +21,7 @@ export { default as FormTagInput } from './FormTagInput';
 export { default as RuleGroupFieldArray } from './FormHelper/RuleGroupFieldArray';
 export { default as FormVariableSelectorDropdown } from './FormVariableSelectorDropdown';
 export { default as FormCheckboxGroup } from './FormCheckboxGroup';
+export * from './FormHelper/Hubspot';
 export * from './FormHelper/BusinessHours';
 export * from './FormHelper/Mailchimp';
 export * from './FormHelper/TriggerAutomationFieldArray';
