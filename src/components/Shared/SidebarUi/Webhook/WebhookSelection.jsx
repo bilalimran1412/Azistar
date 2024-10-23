@@ -12,10 +12,12 @@ import {
   Spinner,
   Box,
   PopoverCloseButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useFetchData } from 'hooks/bot/useFetchData';
 
 const WebhookSelection = ({ onSelect }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [listData, setListData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -47,19 +49,22 @@ const WebhookSelection = ({ onSelect }) => {
     );
     setFilteredData(filtered);
   };
+
   const onDomainClick = (domain) => {
-    onSelect(domain);
-    // onClose
+    onSelect && onSelect(domain);
+    onClose();
   };
 
   return (
-    <Popover>
+    <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
       <PopoverTrigger>
-        <Button colorScheme='blue'>Open List</Button>
+        <Button colorScheme='blue' onClick={onOpen}>
+          Domain Variables
+        </Button>
       </PopoverTrigger>
       <PopoverContent w='300px'>
         <PopoverCloseButton />
-        <PopoverHeader>Search List</PopoverHeader>
+        <PopoverHeader>Select Domain</PopoverHeader>
         <PopoverBody>
           <Input
             placeholder='Search...'
@@ -82,8 +87,8 @@ const WebhookSelection = ({ onSelect }) => {
                   <ListItem
                     key={index}
                     p={2}
-                    bg='gray.50'
-                    borderRadius='md'
+                    bg='gray.100'
+                    borderRadius='3px'
                     cursor='pointer'
                     _hover={{ bg: 'gray.200' }}
                     onClick={() => {

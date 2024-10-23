@@ -345,6 +345,11 @@ const InputPreview = () => {
     return getFinalUrl(values);
   }, [values]);
 
+  const onDomainSelect = (domain) => {
+    if (!domain) return;
+    setFieldValue('url', `${domain.domain}`);
+  };
+
   return (
     <Flex direction='column' gap={2}>
       {values?.url && (
@@ -360,7 +365,7 @@ const InputPreview = () => {
       )}
       <Flex gap={2}>
         <VariableInputField popupType='button' onSelect={onVariableSelect} />
-        <WebhookSelection />
+        <WebhookSelection onSelect={onDomainSelect} />
       </Flex>
     </Flex>
   );
