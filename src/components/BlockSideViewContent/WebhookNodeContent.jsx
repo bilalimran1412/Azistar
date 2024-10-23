@@ -35,6 +35,7 @@ import VariableInputField from 'components/Shared/SidebarUi/VariableInputField';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import { filterUniqueByKey, getFinalUrl } from 'utils/objectHelpers';
 import { truncateString } from 'utils/string';
+
 const httpMethods = [
   { value: 'GET', label: 'GET' },
   { value: 'POST', label: 'POST' },

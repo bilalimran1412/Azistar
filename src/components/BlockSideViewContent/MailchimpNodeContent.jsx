@@ -36,7 +36,15 @@ const interests = [
 
 const audCatInt = {
   acc1: {
-    interests,
+    interests: {
+      c1: interests,
+      c2: [
+        {
+          label: 'Acc1 option1',
+          value: 'cac1sdsz6bceds-opt1',
+        },
+      ],
+    },
     audience: [
       {
         label: 'Audience1',
@@ -59,16 +67,24 @@ const audCatInt = {
     ],
   },
   acc2: {
-    interests: [
-      {
-        label: 'acc 2 option1',
-        value: '2e134d6',
-      },
-      {
-        label: 'acc2 option2',
-        value: 'cac16bceds',
-      },
-    ],
+    interests: {
+      ac2c1: [
+        {
+          label: 'acc2 cat1 option1',
+          value: '2e1ds34d6',
+        },
+        {
+          label: 'acc2 cat1 option2',
+          value: 'cac1sd6bceds',
+        },
+      ],
+      ac2c2: [
+        {
+          label: 'ac2 cat 2 option',
+          value: 'cac1sdsz6bceds',
+        },
+      ],
+    },
     audience: [
       {
         label: 'acc2 Audience1',
@@ -143,7 +159,9 @@ function MailchimpNodeContent({ id }) {
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const fieldValues = formValues?.fieldValues?.filter((value) => value.field);
+
+    updateNodeById(id, { ...currentNode?.data, ...formValues, fieldValues });
     handleClose();
   };
   const onAuthChange = (selectedAuth) => {
@@ -228,7 +246,7 @@ function DynamicForm({ onAuthChange }) {
                   <FormCheckboxGroup
                     label=''
                     name='interests'
-                    options={optionsObject?.interests}
+                    options={optionsObject?.interests?.[selectedCategory]}
                     labelVariant='h3'
                   />
                 )}

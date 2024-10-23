@@ -27,7 +27,7 @@ function WebhookDomainModal({ onClose, isOpen }) {
   const onSave = async (formValues) => {
     console.log('Form values=>>>', formValues);
     const headers = formValues?.headers?.filter((header) => header.key);
-    console.log(headers);
+
     await mutate({
       service: 'webhook',
       config: {
