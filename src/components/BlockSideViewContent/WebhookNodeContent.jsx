@@ -4,6 +4,7 @@ import {
   SidebarFormCard,
   SidebarFormContainer,
   WebhookDomainModal,
+  WebhookSelection,
 } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
@@ -117,21 +118,19 @@ function WebhookNodeContent({ id }) {
           title={
             <>
               URL & Method
-              {/* <>
-                <Button
-                  onClick={onOpen}
-                  variant='outline'
-                  backgroundColor={'#fff'}
-                  borderRadius='3px'
-                  fontSize='14px'
-                  maxH='30px'
-                  px='10px'
-                  textAlign='left'
-                  verticalAlign='middle'
-                >
-                  Set domain variables
-                </Button>
-              </> */}
+              <Button
+                onClick={onOpen}
+                variant='outline'
+                backgroundColor={'#fff'}
+                borderRadius='3px'
+                fontSize='14px'
+                maxH='30px'
+                px='10px'
+                textAlign='left'
+                verticalAlign='middle'
+              >
+                Set domain variables
+              </Button>
             </>
           }
           contentContainerProps={{
@@ -359,7 +358,10 @@ const InputPreview = () => {
           </Text>
         </Box>
       )}
-      <VariableInputField popupType='button' onSelect={onVariableSelect} />
+      <Flex gap={2}>
+        <VariableInputField popupType='button' onSelect={onVariableSelect} />
+        <WebhookSelection />
+      </Flex>
     </Flex>
   );
 };

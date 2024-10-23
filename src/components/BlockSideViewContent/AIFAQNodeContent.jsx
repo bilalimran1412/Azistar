@@ -59,10 +59,9 @@ const TextInputComponent = () => {
 
   const {
     data: aiFAQResponse,
-
     enableFetch,
     setEnableFetch,
-  } = useFetchData(`/auth/prompt/${values?.aiFAQ}`, false);
+  } = useFetchData(`/auth/integration/prompt/${values?.aiFAQ}`, false);
 
   React.useEffect(() => {
     if (values?.aiFAQ && !enableFetch) {
@@ -88,7 +87,7 @@ const TextInputComponent = () => {
       try {
         setIsSending(true);
         const response = await fetchWrapper({
-          url: '/auth/prompt',
+          url: '/auth/integration/prompt',
           method: 'POST',
           body: { prompt: inputText },
         });
