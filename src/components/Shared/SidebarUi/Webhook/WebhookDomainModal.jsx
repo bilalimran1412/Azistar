@@ -30,7 +30,7 @@ function WebhookDomainModal({ onClose, isOpen }) {
 
     await mutate({
       service: 'webhook',
-      config: {
+      auth: {
         name: formValues.name,
         headers: headers,
         domain: formValues.domain,

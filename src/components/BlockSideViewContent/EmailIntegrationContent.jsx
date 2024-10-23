@@ -135,7 +135,7 @@ function FromEmailField({ name }) {
   React.useEffect(() => {
     if (authList?.data && !loading) {
       const options = authList?.data?.map((auth) => ({
-        label: auth.config.fromEmail,
+        label: auth.auth.fromEmail,
         value: auth?._id,
       }));
       setOptionsList((pre) => [...initialOption, ...options]);
@@ -176,8 +176,10 @@ function CreateEmailForm({ onOptionsUpdate }) {
         method: 'POST',
         body: {
           service: 'sendgrid',
-          config: {
+          auth: {
             fromEmail: values.email,
+          },
+          config: {
             secret: values.secret,
           },
         },

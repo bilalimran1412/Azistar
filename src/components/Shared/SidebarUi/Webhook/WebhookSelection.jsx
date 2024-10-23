@@ -13,6 +13,7 @@ import {
   Box,
   PopoverCloseButton,
   useDisclosure,
+  Text,
 } from '@chakra-ui/react';
 import { useFetchData } from 'hooks/bot/useFetchData';
 
@@ -26,14 +27,15 @@ const WebhookSelection = ({ onSelect }) => {
     data: webhookList,
     loading: isLoading,
     error,
-  } = useFetchData('/auth/integration/webhook');
+    setEnableFetch,
+  } = useFetchData('/auth/integration/webhook', false);
 
   React.useEffect(() => {
     if (webhookList?.data && !isLoading) {
       const webhooks = webhookList?.data?.map((listItem) => ({
-        name: listItem.config.name,
+        name: listItem?.auth?.name,
         id: listItem?._id,
-        domain: listItem.config.domain,
+        domain: listItem?.auth?.domain,
       }));
       setListData(webhooks);
       setFilteredData(webhooks);
@@ -56,7 +58,17 @@ const WebhookSelection = ({ onSelect }) => {
   };
 
   return (
-    <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+    <Popover
+      isOpen={isOpen}
+      onOpen={() => {
+        onOpen();
+        setEnableFetch(true);
+      }}
+      onClose={() => {
+        onClose();
+        setEnableFetch(false);
+      }}
+    >
       <PopoverTrigger>
         <Button colorScheme='blue' onClick={onOpen}>
           Domain Variables
@@ -78,7 +90,7 @@ const WebhookSelection = ({ onSelect }) => {
             </Box>
           ) : error ? (
             <Box color='red.500' textAlign='center'>
-              {error}
+              <Text>Unable fetch Domain variables</Text>
             </Box>
           ) : (
             <List spacing={2}>
