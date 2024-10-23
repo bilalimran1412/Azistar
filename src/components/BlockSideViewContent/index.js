@@ -34,6 +34,7 @@ import CalendlyNodeContent from './CalendlyNodeContent';
 import GoogleAnalyticsNodeContent from './GoogleAnalyticsNodeContent';
 import NoteNodeContent from './NoteNodeContent';
 import WebhookNodeContent from './WebhookNodeContent';
+import MailchimpNodeContent from './MailchimpNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -71,4 +72,5 @@ export const SideViewContent = {
   [sideViewLayoutType.googleAnalytics]: GoogleAnalyticsNodeContent,
   [sideViewLayoutType.note]: NoteNodeContent,
   [sideViewLayoutType.webhook]: WebhookNodeContent,
+  [sideViewLayoutType.mailchimp]: MailchimpNodeContent,
 };

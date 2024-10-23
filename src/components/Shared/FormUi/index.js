@@ -20,7 +20,9 @@ export { default as FormNodeRowsFieldArray } from './FormHelper/FormNodeRowsFiel
 export { default as FormTagInput } from './FormTagInput';
 export { default as RuleGroupFieldArray } from './FormHelper/RuleGroupFieldArray';
 export { default as FormVariableSelectorDropdown } from './FormVariableSelectorDropdown';
+export { default as FormCheckboxGroup } from './FormCheckboxGroup';
 export * from './FormHelper/BusinessHours';
+export * from './FormHelper/Mailchimp';
 export * from './FormHelper/TriggerAutomationFieldArray';
 export * from './FormDatePicker';
 export * from './FormDateRangePicker';

@@ -126,7 +126,7 @@ function VariableInputField({
             ) : (
               <VariableInput
                 ref={containerRef}
-                placeholder=''
+                placeholder={placeholder}
                 containerStyle={containerStyle}
                 styles={styles}
                 isOpen={isOpen}

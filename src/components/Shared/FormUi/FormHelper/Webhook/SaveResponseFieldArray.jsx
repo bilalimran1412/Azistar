@@ -11,10 +11,10 @@ function SaveResponseFieldArray({
   const [field] = useField(name);
   const fieldValue = field.value || [];
 
-  const onKeyAdd = (arrayPushHelper) => {
+  const onAdd = (arrayPushHelper) => {
     arrayPushHelper({
-      key: '',
-      value: '',
+      response: '',
+      variable: '',
       id: seedID(),
     });
   };
@@ -36,7 +36,7 @@ function SaveResponseFieldArray({
               />
             ))}
             <Button
-              onClick={() => onKeyAdd(push)}
+              onClick={() => onAdd(push)}
               variant='outline'
               backgroundColor={'#fff'}
               borderRadius='3px'

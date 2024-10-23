@@ -105,6 +105,7 @@ export const sideViewLayoutType = {
   googleAnalytics: 'googleAnalytics',
   note: 'note',
   webhook: 'webhook',
+  mailchimp: 'mailchimp',
 };
 
 //groups for creating nodes
@@ -1093,14 +1094,16 @@ export const nodeConfigurations = {
       label: 'Mailchimp',
       icon: <FaMailchimp />,
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Mailchimp Integration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Add a contact',
-        },
-      ],
+      data: { layoutType: sideViewLayoutType.mailchimp },
+      //   fields: [
+      //     {
+      //       label: 'Mailchimp Integration',
+      //       type: 'text',
+      //       variable: 'textareaFieldData',
+      //       placeholder: 'Add a contact',
+      //     },
+      //   ],
+      // },
     },
   ],
 
