@@ -10,12 +10,13 @@ import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from 'utils/yup';
+import { useFormikContext } from 'formik';
 
-const options = [
-  { label: 'Test option1', value: 'option1' },
+const authOptions = [
+  { label: 'Account 1', value: 'acc1' },
   {
-    label: 'Option2',
-    value: 'options2',
+    label: 'Account 2',
+    value: 'acc2',
   },
 ];
 const interests = [
@@ -32,6 +33,65 @@ const interests = [
     value: 'cac16bcfaa',
   },
 ];
+
+const audCatInt = {
+  acc1: {
+    interests,
+    audience: [
+      {
+        label: 'Audience1',
+        value: '1',
+      },
+      {
+        label: 'Audience2',
+        value: '12',
+      },
+    ],
+    category: [
+      {
+        label: 'cat 1',
+        value: 'c1',
+      },
+      {
+        label: 'cat 2',
+        value: 'c2',
+      },
+    ],
+  },
+  acc2: {
+    interests: [
+      {
+        label: 'acc 2 option1',
+        value: '2e134d6',
+      },
+      {
+        label: 'acc2 option2',
+        value: 'cac16bceds',
+      },
+    ],
+    audience: [
+      {
+        label: 'acc2 Audience1',
+        value: '1acc2',
+      },
+      {
+        label: 'acc2 Audience2',
+        value: '12acc2',
+      },
+    ],
+    category: [
+      {
+        label: 'acc 2cat 1',
+        value: 'ac2c1',
+      },
+      {
+        label: 'acc2 cat 2',
+        value: 'ac2c2',
+      },
+    ],
+  },
+};
+
 const dropdownOptions = [
   {
     label: 'Address',
@@ -60,6 +120,7 @@ const dropdownOptions = [
 ];
 function MailchimpNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
+  const [selectedAuth, setSelectedAuth] = React.useState(null);
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
   const handleClose = () => {
@@ -69,8 +130,8 @@ function MailchimpNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    auths: currentNode?.data?.auths || '',
-    lists: currentNode?.data?.lists || '',
+    auth: selectedAuth || currentNode?.data?.auth || '',
+    audience: currentNode?.data?.audience || '',
     category: currentNode?.data?.category || '',
     interests: currentNode?.data?.interests || '',
     email: currentNode?.data?.email || '',
@@ -85,6 +146,9 @@ function MailchimpNodeContent({ id }) {
     updateNodeById(id, { ...currentNode?.data, ...formValues });
     handleClose();
   };
+  const onAuthChange = (selectedAuth) => {
+    setSelectedAuth(selectedAuth);
+  };
 
   return (
     <SidebarFormContainer
@@ -93,7 +157,7 @@ function MailchimpNodeContent({ id }) {
       onFormSave={onSave}
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onReset={handleClose}
+      onReset={() => {}}
     >
       <Flex gap={2} alignItems='center'>
         <Text>MAILCHIMP ACCOUNT</Text>
@@ -113,42 +177,75 @@ function MailchimpNodeContent({ id }) {
           </Text>
         </Button>
       </Flex>
-      <FormDropdown
-        name='auths'
-        variant='custom'
-        options={options}
-        placeholder='Select/Connect account'
-      />
-      <FormDropdown
-        name='lists'
-        variant='custom'
-        options={options}
-        placeholder='Select the audience'
-      />
-      <FormDropdown
-        name='category'
-        variant='custom'
-        options={options}
-        placeholder='Select the category'
-      />
-      <FormCheckboxGroup
-        label=''
-        name='interests'
-        options={interests}
-        labelVariant='h3'
-      />
-      <Divider />
-      <FormVariableSelectorDropdown
-        allowedType={config?.variableType}
-        name='email'
-        label='Subscriber email'
-      />
-      <FieldValuesFieldArray
-        name='fieldValues'
-        dropdownOptions={dropdownOptions}
-      />
+
+      <DynamicForm onAuthChange={onAuthChange} />
     </SidebarFormContainer>
   );
 }
 
 export default MailchimpNodeContent;
+
+function DynamicForm({ onAuthChange }) {
+  const { values, resetForm } = useFormikContext();
+  const selectedAuth = values?.auth;
+  const selectedAudience = values?.audience;
+  const selectedCategory = values?.category;
+
+  const optionsObject = audCatInt?.[selectedAuth];
+
+  const _onAuthChange = (value) => {
+    onAuthChange(value);
+    resetForm();
+  };
+
+  return (
+    <>
+      <FormDropdown
+        name='auth'
+        variant='custom'
+        options={authOptions}
+        placeholder='Select/Connect account'
+        onChange={_onAuthChange}
+      />
+      <>
+        {selectedAuth && optionsObject?.audience?.length && (
+          <>
+            <FormDropdown
+              name='audience'
+              variant='custom'
+              options={optionsObject?.audience}
+              placeholder='Select the audience'
+            />
+            {selectedAudience && (
+              <>
+                <FormDropdown
+                  name='category'
+                  variant='custom'
+                  options={optionsObject?.category}
+                  placeholder='Select the category'
+                />
+                {selectedCategory && (
+                  <FormCheckboxGroup
+                    label=''
+                    name='interests'
+                    options={optionsObject?.interests}
+                    labelVariant='h3'
+                  />
+                )}
+                <Divider />
+                <FormVariableSelectorDropdown
+                  name='email'
+                  label='Subscriber email'
+                />
+                <FieldValuesFieldArray
+                  name='fieldValues'
+                  dropdownOptions={dropdownOptions}
+                />
+              </>
+            )}
+          </>
+        )}
+      </>
+    </>
+  );
+}

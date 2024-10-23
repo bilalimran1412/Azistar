@@ -43,6 +43,7 @@ function AzistarForm({
       enableReinitialize={enableReinitialize}
       onReset={onReset}
       validateOnMount
+
       // validateOnBlur={false}
       // validateOnChange={false}
     >
