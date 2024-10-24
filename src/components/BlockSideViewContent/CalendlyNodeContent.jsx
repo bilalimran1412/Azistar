@@ -45,6 +45,7 @@ function CalendlyNodeContent({ id }) {
     email: currentNode?.data?.email || '',
     name: currentNode?.data?.name || '',
     openVariables: currentNode?.data?.openVariables || '',
+    extraQuestion: currentNode?.data?.extraQuestion || '',
   };
   const validationSchema = yup.object({});
 

@@ -66,13 +66,12 @@ export const contentType = {
 };
 
 export const sideViewLayoutType = {
-  //NEEDS TO BE FIXED
-  forms: 'form',
   //this node config data has initial values
   //this node is final for all the form values and styling
   multiQuestions: 'multiQuestions',
 
   //add initial data to config.data from form initial values
+  forms: 'form',
   pictureChoice: 'pictureChoice',
   date: 'date',
   goodBye: 'goodbye',
@@ -103,6 +102,11 @@ export const sideViewLayoutType = {
   googleSheets: 'googleSheets',
   zapier: 'zapier',
   calendly: 'calendly',
+  googleAnalytics: 'googleAnalytics',
+  note: 'note',
+  webhook: 'webhook',
+  mailchimp: 'mailchimp',
+  hubspot: 'hubspot',
 };
 
 //groups for creating nodes
@@ -952,14 +956,18 @@ export const nodeConfigurations = {
       label: 'Hubspot',
       icon: <FaHubspot />,
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Hubspot Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Connect your CRM',
-        },
-      ],
+      width: '500px',
+      data: {
+        layoutType: sideViewLayoutType.hubspot,
+      },
+      // fields: [
+      //   {
+      //     label: 'Hubspot Setup',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Connect your CRM',
+      //   },
+      // ],
     },
     {
       group: Groups.integration,
@@ -1040,6 +1048,9 @@ export const nodeConfigurations = {
       label: 'Google Analytics',
       icon: <FaGoogle />,
       nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.googleAnalytics,
+      },
       fields: [
         {
           label: 'Analytics Setup',
@@ -1088,14 +1099,16 @@ export const nodeConfigurations = {
       label: 'Mailchimp',
       icon: <FaMailchimp />,
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Mailchimp Integration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Add a contact',
-        },
-      ],
+      data: { layoutType: sideViewLayoutType.mailchimp },
+      //   fields: [
+      //     {
+      //       label: 'Mailchimp Integration',
+      //       type: 'text',
+      //       variable: 'textareaFieldData',
+      //       placeholder: 'Add a contact',
+      //     },
+      //   ],
+      // },
     },
   ],
 
@@ -1215,6 +1228,7 @@ export const nodeConfigurations = {
       icon: <FaStickyNote />,
       data: {
         contentType: contentType.placeholderNodes,
+        layoutType: sideViewLayoutType.note,
       },
       fields: [
         {
@@ -1234,9 +1248,11 @@ export const nodeConfigurations = {
       title: 'Webhook',
       label: 'Webhook',
       nodeType: 'baseNode',
+      width: '500px',
       icon: <FaLink />,
       data: {
         multipleHandles: true,
+        layoutType: sideViewLayoutType.webhook,
         customHandle: [
           {
             id: 'success',

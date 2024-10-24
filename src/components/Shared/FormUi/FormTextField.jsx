@@ -13,7 +13,23 @@ import {
   Grid,
 } from '@chakra-ui/react';
 import { useSchemaContext } from './AzistarForm';
-
+const textAreaStyles = {
+  backgroundColor: 'white',
+  border: '1px solid rgba(16, 22, 26, .2) !important',
+  borderRadius: '3px',
+  height: 'auto',
+  padding: '6px 15px',
+  outline: 'none !important',
+  fontWeight: 400,
+  lineHeight: '20px',
+  transition: 'box-shadow .1s cubic-bezier(.4,1,.75,.9)',
+  verticalAlign: 'middle',
+  fontSize: 'large',
+  boxShadow: 'none',
+  _focus: {
+    boxShadow: '0 1px 10px -1px rgba(98, 104, 229, 0.36) !important',
+  },
+};
 const FormTextField = ({
   name,
   label,
@@ -121,10 +137,10 @@ const FormTextField = ({
             isReadOnly={readonly}
             value={autoLowerCase ? field.value.toLowerCase() : field.value}
             onChange={handleChange}
+            sx={{ ...textAreaStyles, ...rest.sx }}
             {...field}
             {...rest}
             className={className}
-            variant='custom'
           />
         ) : (
           <Input

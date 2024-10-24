@@ -80,7 +80,7 @@ function TriggerAutomationNodeContent({ id }) {
           up your webhook trigger
         </Text>
         <TriggerAutomationFieldArray name='parameters' />
-        <SendRequest />
+        <SendRequest type='trigger' />
       </SidebarFormCard>
     </SidebarFormContainer>
   );

@@ -126,12 +126,16 @@ function FromEmailField({ name }) {
   const [optionsList, setOptionsList] = React.useState(initialOption);
   const { setFieldValue } = useFormikContext();
 
-  const { data: authList, loading, refetch } = useFetchData('/auth');
+  const {
+    data: authList,
+    loading,
+    refetch,
+  } = useFetchData('/auth/integration/sendgrid');
 
   React.useEffect(() => {
     if (authList?.data && !loading) {
       const options = authList?.data?.map((auth) => ({
-        label: auth.fromEmail,
+        label: auth.auth.fromEmail,
         value: auth?._id,
       }));
       setOptionsList((pre) => [...initialOption, ...options]);
@@ -168,11 +172,16 @@ function CreateEmailForm({ onOptionsUpdate }) {
   const handleSave = async () => {
     try {
       const response = await fetchWrapper({
-        url: '/auth',
+        url: '/auth/integration',
         method: 'POST',
         body: {
-          fromEmail: values.email,
-          secret: values.secret,
+          service: 'sendgrid',
+          auth: {
+            fromEmail: values.email,
+          },
+          config: {
+            secret: values.secret,
+          },
         },
       });
 

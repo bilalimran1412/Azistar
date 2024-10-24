@@ -31,6 +31,11 @@ import SlackNodeContent from './SlackNodeContent';
 import GoogleSheetsNodeContent from './GoogleSheetsNodeContent';
 import ZapierNodeContent from './ZapierNodeContent';
 import CalendlyNodeContent from './CalendlyNodeContent';
+import GoogleAnalyticsNodeContent from './GoogleAnalyticsNodeContent';
+import NoteNodeContent from './NoteNodeContent';
+import WebhookNodeContent from './WebhookNodeContent';
+import MailchimpNodeContent from './MailchimpNodeContent';
+import HubspotNodeContent from './HubspotNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -65,4 +70,9 @@ export const SideViewContent = {
   [sideViewLayoutType.googleSheets]: GoogleSheetsNodeContent,
   [sideViewLayoutType.zapier]: ZapierNodeContent,
   [sideViewLayoutType.calendly]: CalendlyNodeContent,
+  [sideViewLayoutType.googleAnalytics]: GoogleAnalyticsNodeContent,
+  [sideViewLayoutType.note]: NoteNodeContent,
+  [sideViewLayoutType.webhook]: WebhookNodeContent,
+  [sideViewLayoutType.mailchimp]: MailchimpNodeContent,
+  [sideViewLayoutType.hubspot]: HubspotNodeContent,
 };

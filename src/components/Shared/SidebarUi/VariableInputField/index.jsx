@@ -1,13 +1,7 @@
 import React, { useRef, useState } from 'react';
 import {
   Box,
-  FormControl,
   FormLabel,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Text,
   Popover,
   PopoverTrigger,
   useDisclosure,
@@ -17,23 +11,44 @@ import {
 } from '@chakra-ui/react';
 import CreateVariableContent from './CreateVariableContent';
 import ListVariableContent from './VariablesMenuContent';
+import { useDropdownStore } from 'zustandStores';
+import { variableDropdownManager } from './utils';
+import { possibleFormatOptions } from 'config/constant';
+import VariableInput from './VariableInput';
 
 function VariableInputField({
   containerStyle,
-  name,
   allowedType = 'all',
   readOnly = true,
   label,
   placeholder,
   styles,
+  onSelect = () => {},
+  initialValue,
+  // popupType will be button or input, it will define the trigger element and design changes
+  popupType = 'input',
   ...rest
 }) {
   const [contentType, setContentType] = React.useState('list');
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState('');
+  const [inputValue, setInputValue] = useState(initialValue?.value || '');
+  const [selectedVariable, setSelectedVariable] = React.useState(initialValue);
   const containerRef = useRef(null);
   const popoverContainer = useRef(null);
-  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const groupedOptions = useDropdownStore((store) => store.groupedOptions);
+
+  const addCustomVariable = useDropdownStore(
+    (store) => store.addCustomVariable
+  );
+
+  const { enableCreate } = variableDropdownManager(
+    allowedType,
+    inputValue,
+    groupedOptions
+  );
+
+  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -46,22 +61,55 @@ function VariableInputField({
   useOutsideClick({ ref: popoverContainer, handler: onClose });
 
   const handleOptionClick = (option) => {
-    console.log(option);
+    if (popupType !== 'button') {
+      setInputValue(option?.value);
+      setSelectedVariable(option);
+    }
+    onSelect(option);
+    onClose();
   };
-  const onCreateClick = (value) => {
-    console.log(value);
+
+  const onCreateClick = () => {
     if (allowedType === 'all') {
       setContentType('create');
+    } else {
+      const createdOption = addCustomVariable(inputValue, allowedType);
+      if (popupType !== 'button') {
+        setSelectedVariable(createdOption);
+      }
+
+      onSelect(createdOption);
+      onClose();
+    }
+  };
+  const onInputChange = (target) => {
+    setInputValue(target.value);
+    if (!isOpen) {
+      onOpen();
+    }
+    if (selectedVariable) {
+      setSelectedVariable(null);
     }
   };
 
+  const onVariableContentCreate = (type) => {
+    const createdOption = addCustomVariable(inputValue, type);
+    if (popupType !== 'button') {
+      setSelectedVariable(createdOption);
+    } else {
+      setInputValue('');
+    }
+    onSelect(createdOption);
+    setContentType('list');
+    onClose();
+  };
+  const selectedVarConfig = initialValue
+    ? possibleFormatOptions[initialValue?.type]
+    : possibleFormatOptions[selectedVariable?.type];
+
   return (
     <Box>
-      {label && (
-        <FormLabel htmlFor={name} variant={'h3'}>
-          {label}
-        </FormLabel>
-      )}
+      {label && <FormLabel variant={'h3'}>{label}</FormLabel>}
       <Box ref={popoverContainer}>
         <Popover
           isOpen={isOpen}
@@ -73,124 +121,49 @@ function VariableInputField({
           offset={0}
         >
           <PopoverTrigger>
-            <Box
-              ref={containerRef}
-              tabIndex={0}
-              padding='10px 8px'
-              fontSize='12px'
-              display='inline-flex'
-              backgroundColor='#fff'
-              border='1px solid #cfd0d1'
-              width='100%'
-              height='46px'
-              boxShadow={isFocused ? '0 1px 10px -1px #6268e55c' : 'none'}
-              borderRadius={isOpen ? '3px 3px 0 0' : '3px'}
-            >
-              <FormControl
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  ...containerStyle,
-                }}
-              >
-                <InputGroup>
-                  <InputLeftElement
-                    pointerEvents='none'
-                    minHeight={0}
-                    minWidth={0}
-                    style={{
-                      height: '100%',
-                      width: '20px',
-                    }}
-                  >
-                    <Text
-                      fontSize='14px'
-                      lineHeight='16px'
-                      fontWeight='700'
-                      ml='5px'
-                      position='relative'
-                    >
-                      @
-                    </Text>
-                  </InputLeftElement>
-                  <Input
-                    id={name}
-                    // ref={inputRef}
-                    placeholder={placeholder}
-                    {...rest}
-                    style={{
-                      fontSize: '14px',
-                      height: '30px',
-                      padding: '0 30px',
-                      ...styles,
-                    }}
-                    onClick={() => {
-                      if (!isOpen) {
-                        onOpen();
-                      }
-                    }}
-                    variant='unstyled'
-                    onBlur={handleBlur}
-                    onFocus={handleFocus}
-                    value={value}
-                    onChange={({ target }) => {
-                      setValue(target.value);
-                      if (!isOpen) {
-                        onOpen();
-                      }
-                    }}
-                    autoComplete='off'
-                  />
-                  {false && (
-                    <InputRightElement
-                      minHeight={0}
-                      minWidth={0}
-                      style={{
-                        height: '100%',
-                        width: 'auto',
-                      }}
-                    >
-                      <Button
-                        minH={0}
-                        minW={0}
-                        h='22px'
-                        paddingX={4}
-                        borderRadius={0}
-                        backgroundColor='rgb(215, 55, 107)'
-                        _hover={{
-                          backgroundColor: 'rgb(215, 55, 107)',
-                        }}
-                      >
-                        <Text
-                          fontSize='12px'
-                          textTransform='uppercase'
-                          color='white'
-                        >
-                          Create
-                        </Text>
-                      </Button>
-                      {/* <RightIcon /> */}
-                    </InputRightElement>
-                  )}
-                </InputGroup>
-              </FormControl>
-            </Box>
+            {popupType === 'button' ? (
+              <Button onClick={onToggle}>Variable</Button>
+            ) : (
+              <VariableInput
+                ref={containerRef}
+                placeholder={placeholder}
+                containerStyle={containerStyle}
+                styles={styles}
+                isOpen={isOpen}
+                enableCreate={enableCreate}
+                selectedVariable={selectedVariable}
+                selectedVarConfig={selectedVarConfig}
+                onOpen={onOpen}
+                onCreateClick={onCreateClick}
+                onInputChange={onInputChange}
+                inputValue={inputValue}
+                handleBlur={handleBlur}
+                handleFocus={handleFocus}
+                isFocused={isFocused}
+                rest={rest}
+              />
+            )}
           </PopoverTrigger>
           <Portal containerRef={popoverContainer}>
             {contentType === 'list' && (
               <ListVariableContent
-                value={value}
+                inputValue={inputValue}
                 handleOptionClick={handleOptionClick}
                 allowedType={allowedType}
                 onCreateClick={onCreateClick}
+                popupType={popupType}
+                setInputValue={setInputValue}
               />
             )}
             {contentType === 'create' && (
               <CreateVariableContent
                 onClose={() => {
                   setContentType('list');
+                  onClose();
                 }}
-                value={value}
+                inputValue={inputValue}
+                onVariableContentCreate={onVariableContentCreate}
+                setInputValue={setInputValue}
               />
             )}
           </Portal>

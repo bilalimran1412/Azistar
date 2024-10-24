@@ -22,6 +22,7 @@ import {
 import { MdClose, MdDone, MdOutlineEmojiEmotions } from 'react-icons/md';
 import EmojiSelector from 'components/Shared/SidebarUi/EmojiSelector';
 import { UiIconButton } from 'components/Shared/UiComponents';
+import VariableInputField from 'components/Shared/SidebarUi/VariableInputField';
 
 const tools = [
   {
@@ -74,7 +75,7 @@ const tools = [
   },
 ];
 
-const Toolbar = ({ editorState, setEditorState }) => {
+const Toolbar = ({ editorState, setEditorState, type }) => {
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   //for link toolbar
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -134,20 +135,17 @@ const Toolbar = ({ editorState, setEditorState }) => {
     setShowEmojiPicker(false);
   };
 
-  const addEntity = () => {
+  const addEntity = (option) => {
+    if (!option) {
+      return;
+    }
     const contentState = editorState.getCurrentContent();
     const currentSelection = editorState.getSelection();
-
-    const variable = {
-      type: 'STRING',
-      sample: 'Hello',
-      text: 'sampleVariable',
-    };
 
     const contentStateWithEntity = contentState.createEntity(
       'AZISTAR_ENTITY',
       'IMMUTABLE',
-      variable
+      option
     );
 
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
@@ -155,7 +153,7 @@ const Toolbar = ({ editorState, setEditorState }) => {
       const newContentState = Modifier.insertText(
         contentStateWithEntity,
         editorState.getSelection(),
-        `${variable.text}`,
+        `${option?.label}`,
         null,
         entityKey
       );
@@ -221,56 +219,58 @@ const Toolbar = ({ editorState, setEditorState }) => {
 
   return (
     <Flex position='relative' width='fit-content' ref={toolbarRef}>
-      <button onClick={addEntity} type='button'>
-        Entity
-      </button>
-      {tools.map((item, idx) => (
-        <Button
-          key={`${item.label}-${idx}`}
-          title={item.label}
-          onClick={(e) => applyStyle(e, item.style, item.method)}
-          onMouseDown={(e) => e.preventDefault()}
-          style={{
-            color: isActive(item.style, item.method)
-              ? 'rgba(0, 0, 0, 1)'
-              : 'rgba(0, 0, 0, 0.3)',
-            backgroundColor: isActive(item.style, item.method)
-              ? '#d3d3d3'
-              : 'transparent',
-          }}
-          minH='0'
-          minW='0'
-          width='25px'
-          height='25px'
-          marginRight='2px'
-          borderRadius='2px'
-          backgroundColor='transparent'
-          mb='4px'
-          padding='5px 10px'
-          fontSize='12px'
-          _hover={{
-            backgroundColor: 'none',
-          }}
-          _active={{
-            backgroundColor: 'transparent',
-          }}
-        >
-          {item.icon || item.label}
-        </Button>
-      ))}
-      <LinkInput
-        onClose={onClose}
-        onOpen={openLinkInput}
-        isOpen={isOpen}
-        isDisabled={editorState.getSelection().isCollapsed()}
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        onConfirm={confirmLink}
-      />
-      {showEmojiPicker && (
-        <Box position='absolute'>
-          <EmojiSelector setEmoji={insertCharacter} />
-        </Box>
+      <VariableInputField popupType='button' onSelect={addEntity} />
+      {type !== 'inline' && (
+        <>
+          {tools.map((item, idx) => (
+            <Button
+              key={`${item.label}-${idx}`}
+              title={item.label}
+              onClick={(e) => applyStyle(e, item.style, item.method)}
+              onMouseDown={(e) => e.preventDefault()}
+              style={{
+                color: isActive(item.style, item.method)
+                  ? 'rgba(0, 0, 0, 1)'
+                  : 'rgba(0, 0, 0, 0.3)',
+                backgroundColor: isActive(item.style, item.method)
+                  ? '#d3d3d3'
+                  : 'transparent',
+              }}
+              minH='0'
+              minW='0'
+              width='25px'
+              height='25px'
+              marginRight='2px'
+              borderRadius='2px'
+              backgroundColor='transparent'
+              mb='4px'
+              padding='5px 10px'
+              fontSize='12px'
+              _hover={{
+                backgroundColor: 'none',
+              }}
+              _active={{
+                backgroundColor: 'transparent',
+              }}
+            >
+              {item.icon || item.label}
+            </Button>
+          ))}
+          <LinkInput
+            onClose={onClose}
+            onOpen={openLinkInput}
+            isOpen={isOpen}
+            isDisabled={editorState.getSelection().isCollapsed()}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            onConfirm={confirmLink}
+          />
+          {showEmojiPicker && (
+            <Box position='absolute'>
+              <EmojiSelector setEmoji={insertCharacter} />
+            </Box>
+          )}
+        </>
       )}
     </Flex>
   );

@@ -43,6 +43,9 @@ function AzistarForm({
       enableReinitialize={enableReinitialize}
       onReset={onReset}
       validateOnMount
+
+      // validateOnBlur={false}
+      // validateOnChange={false}
     >
       <SchemaProvider validationSchema={validationSchema}>
         <Form onKeyDown={onKeyDown} id={formID}>
