@@ -9,7 +9,7 @@ import {
 
 const getOptionGroups = (options) => {
   const groups = {};
-  options.forEach((option) => {
+  options?.forEach((option) => {
     if (option.group) {
       if (!groups[option.group]) {
         groups[option.group] = [];
@@ -57,9 +57,9 @@ const FormDropdown = ({
         className={className}
         {...rest}
       >
-        {Object.keys(optionGroups).map((groupLabel) => (
+        {Object.keys(optionGroups)?.map((groupLabel) => (
           <optgroup key={groupLabel} label={groupLabel}>
-            {optionGroups[groupLabel].map((option) => (
+            {optionGroups[groupLabel]?.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -67,7 +67,7 @@ const FormDropdown = ({
           </optgroup>
         ))}
         {Object.keys(optionGroups).length === 0 &&
-          options.map((option) => (
+          options?.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

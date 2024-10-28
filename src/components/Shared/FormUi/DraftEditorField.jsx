@@ -9,24 +9,41 @@ function DraftEditorField({
   placeholder,
   labelVariant = '',
   type = 'full',
+  containerStyles = {},
+  setNodeContent = false,
+  setRawBlocks = false,
+  setOnlyText = false,
 }) {
-  const [field, , helpers] = useField(name);
-  const { errors, touched, setFieldValue, values } = useFormikContext();
+  const [field] = useField(name);
+  const { errors, touched, setFieldValue } = useFormikContext();
 
   const handleChange = (rawBlocks, plainText) => {
-    setFieldValue('textareaFieldData', plainText);
-    setFieldValue('rawBlocks', rawBlocks);
-    helpers.setValue(plainText);
+    if (setOnlyText) {
+      setFieldValue(`${name}`, plainText);
+      return;
+    }
+    if (setNodeContent) {
+      //maybe use text
+      setFieldValue(`${name}.nodeTextContent`, plainText);
+    }
+    setFieldValue(`${name}.rawBlocks`, rawBlocks);
+
+    setFieldValue(`${name}.text`, plainText);
   };
 
   return (
-    <FormControl isInvalid={touched[name] && errors[name]}>
-      <FormLabel variant={labelVariant}>{label}</FormLabel>
+    <FormControl
+      isInvalid={touched[name] && errors[name]}
+      sx={{
+        ...containerStyles,
+      }}
+    >
+      {label && <FormLabel variant={labelVariant}>{label}</FormLabel>}
       <AzistarEditor
         type={type}
         placeholder={placeholder}
         setFieldValue={handleChange}
-        initialValue={values?.rawBlocks}
+        initialValue={field.value?.rawBlocks}
       />
       <FormErrorMessage>{errors[name]}</FormErrorMessage>
     </FormControl>

@@ -1,37 +1,39 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, FormLabel } from '@chakra-ui/react';
 import { FieldArray, useField } from 'formik';
 import React from 'react';
 import { seedID } from 'utils';
-import { ParamsFieldItem } from 'components/Shared/SidebarUi';
+import { AssociateFieldItem } from 'components/Shared/SidebarUi';
+import { MdAdd } from 'react-icons/md';
 
-function ParamsFieldArray({ name = 'params' }) {
+function AssociationFieldArray({ name }) {
   const [field] = useField(name);
   const fieldValue = field.value || [];
 
-  const onKeyAdd = (arrayPushHelper) => {
+  const onFieldAdd = (arrayPushHelper) => {
     arrayPushHelper({
       key: '',
       value: '',
       id: seedID(),
     });
   };
-  const isLastItem = fieldValue?.length === 1;
+
   return (
     <Box>
+      <FormLabel variant='h1'>Associate with</FormLabel>
       <FieldArray name={name}>
         {({ remove, push }) => (
-          <Box mt={5}>
+          <Box display='flex' flexDir='column' gap={3}>
             {fieldValue?.map((item, index) => (
-              <ParamsFieldItem
+              <AssociateFieldItem
                 item={item}
                 subFieldName={`${name}[${index}]`}
                 onRemove={() => remove(index)}
                 key={item.id}
-                isLastItem={isLastItem}
               />
             ))}
             <Button
-              onClick={() => onKeyAdd(push)}
+              leftIcon={<MdAdd />}
+              onClick={() => onFieldAdd(push)}
               variant='outline'
               backgroundColor={'#fff'}
               borderRadius='3px'
@@ -41,10 +43,11 @@ function ParamsFieldArray({ name = 'params' }) {
               py='5px'
               textAlign='left'
               verticalAlign='middle'
-              textTransform='uppercase'
               mt={3}
+              w='fit-content'
+              colorScheme='blue'
             >
-              Add Key
+              Add
             </Button>
           </Box>
         )}
@@ -53,4 +56,4 @@ function ParamsFieldArray({ name = 'params' }) {
   );
 }
 
-export { ParamsFieldArray };
+export { AssociationFieldArray };

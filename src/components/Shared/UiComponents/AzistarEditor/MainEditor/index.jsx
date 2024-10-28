@@ -13,6 +13,7 @@ const DraftEditor = ({
   onEditorBlur,
 }) => {
   const editorRef = React.useRef();
+
   const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -20,6 +21,18 @@ const DraftEditor = ({
       return true;
     }
     return false;
+  };
+  const handleFocus = () => {
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+  };
+
+  const handleToolbarAction = (updatedEditorState) => {
+    setEditorState(updatedEditorState);
+    setTimeout(() => {
+      handleFocus();
+    }, 0);
   };
 
   return (
@@ -55,11 +68,7 @@ const DraftEditor = ({
             marginLeft: '15px',
           },
         }}
-        onFocus={() => {
-          if (editorRef.current) {
-            editorRef.current.focus();
-          }
-        }}
+        onFocus={handleFocus}
       >
         <Editor
           ref={editorRef}
@@ -74,7 +83,7 @@ const DraftEditor = ({
       </Box>
       <Toolbar
         editorState={editorState}
-        setEditorState={setEditorState}
+        setEditorState={handleToolbarAction}
         type={type}
       />
     </Flex>
