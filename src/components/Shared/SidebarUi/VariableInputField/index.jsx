@@ -122,7 +122,15 @@ function VariableInputField({
         >
           <PopoverTrigger>
             {popupType === 'button' ? (
-              <Button onClick={onToggle}>Variable</Button>
+              <Button
+                onClick={onToggle}
+                bgColor='gray.200'
+                borderRadius='3px'
+                height='32px'
+                fontSize='12px'
+              >
+                Variable
+              </Button>
             ) : (
               <VariableInput
                 ref={containerRef}

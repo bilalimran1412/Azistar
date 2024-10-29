@@ -4,23 +4,32 @@ import './DraftEditor.css';
 import DraftEditor from './MainEditor';
 import { decorators } from './MainEditor/Helpers/Decorator';
 import { Box } from '@chakra-ui/react';
-import { debounce } from 'lodash';
-import { initialBlocks } from './MainEditor/Helpers/initialBlocks';
 
-const AzistarEditor = ({ type = 'inline', placeholder, setFieldValue }) => {
-  const [editorState, setEditorState] = React.useState(
-    EditorState.createWithContent(convertFromRaw(initialBlocks), decorators)
-  );
+const AzistarEditor = ({
+  type = 'inline',
+  placeholder,
+  setFieldValue,
+  initialValue,
+}) => {
+  const [editorState, setEditorState] = React.useState(() => {
+    if (initialValue) {
+      return EditorState.createWithContent(
+        convertFromRaw(initialValue),
+        decorators
+      );
+    } else {
+      return EditorState.createEmpty(decorators);
+    }
+  });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnChange = React.useCallback(
-    debounce(() => {
+  const debouncedOnChange = React.useCallback(() => {
+    try {
       const contentState = editorState.getCurrentContent();
       const plainText = contentState.getPlainText();
-      setFieldValue && setFieldValue(convertToRaw(contentState), plainText);
-    }, 300),
-    []
-  );
+      const raw = convertToRaw(contentState);
+      setFieldValue && setFieldValue(raw, plainText);
+    } catch (error) {}
+  }, [editorState, setFieldValue]);
 
   const onEditorChange = (editorState) => {
     setEditorState(editorState);
