@@ -1,5 +1,10 @@
 import React from 'react';
-import { DraftEditorField, FormDropdown } from 'components/Shared/FormUi';
+import {
+  AssociationFieldArray,
+  DraftEditorField,
+  ExtraFieldsArray,
+  FormDropdown,
+} from 'components/Shared/FormUi';
 
 function NewDealFields() {
   return (
@@ -27,6 +32,8 @@ function NewDealFields() {
         label='Stage'
         labelVariant='h1'
       />
+      <ExtraFieldsArray name='extra' />
+      <AssociationFieldArray name='associations' />
     </>
   );
 }

@@ -7,11 +7,7 @@ function DynamicActionFields() {
   const selectedEvent = values?.event;
   const RenderFieldsContent = renderer(selectedEvent);
 
-  return (
-    <>
-      <RenderFieldsContent />
-    </>
-  );
+  return <RenderFieldsContent />;
 }
 
 export { DynamicActionFields };

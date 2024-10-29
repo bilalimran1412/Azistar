@@ -1,5 +1,9 @@
 import React from 'react';
-import { DraftEditorField } from 'components/Shared/FormUi';
+import {
+  AssociationFieldArray,
+  DraftEditorField,
+  ExtraFieldsArray,
+} from 'components/Shared/FormUi';
 
 function NewContactFields() {
   return (
@@ -31,6 +35,8 @@ function NewContactFields() {
         label='Email'
         labelVariant='h1'
       />
+      <ExtraFieldsArray name='extra' />
+      <AssociationFieldArray name='associations' />
     </>
   );
 }
