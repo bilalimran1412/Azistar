@@ -1,26 +1,25 @@
-import React from 'react'
+import React from 'react';
 import {
   HubspotSendRequest,
   SidebarFormCard,
   SidebarFormContainer,
-} from '../Shared/SidebarUi'
-import { useNodeContext } from '../../views/canvas/NodeContext'
-import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations'
-import { yup } from 'utils/yup'
+} from '../Shared/SidebarUi';
+import { useNodeContext } from '../../views/canvas/NodeContext';
+import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
+import { yup } from 'utils/yup';
 import {
-  AssociationFieldArray,
   DynamicActionFields,
   FormDropdown,
   FormSettings,
   HubspotSaveResponseFieldArray,
   TriggerAutomationFieldArray,
-} from 'components/Shared/FormUi'
-import { Button, Text } from '@chakra-ui/react'
-import { truncateString } from 'utils/string'
-import { filterUniqueByKey } from 'utils/objectHelpers'
-import { useFormikContext } from 'formik'
+} from 'components/Shared/FormUi';
+import { Button, Text } from '@chakra-ui/react';
+import { truncateString } from 'utils/string';
+import { filterUniqueByKey } from 'utils/objectHelpers';
+import { useFormikContext } from 'formik';
 
-const account = [{ label: 'account 1', value: '1' }]
+const account = [{ label: 'account 1', value: '1' }];
 
 export const hubspotEvents = [
   {
@@ -71,29 +70,31 @@ export const hubspotEvents = [
     key: 'ticket',
   },
   { label: 'Get a Record', value: 'getRecord', group: 'Get' },
-]
+];
 
 function HubspotNodeContent({ id }) {
-  const { getNodeById, setSideView, updateNodeById } = useNodeContext()
-  const currentNode = getNodeById(id)
-  const config = nodeConfigurationBlockIdMap[currentNode.data.blockId]
+  const { getNodeById, setSideView, updateNodeById } = useNodeContext();
+  const currentNode = getNodeById(id);
+  const [selectedEvent, setSelectedEvent] = React.useState('');
+  const [selectedAuth, setSelectedAuth] = React.useState('');
+  const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
   const handleClose = () => {
-    setSideView(false)
-  }
+    setSideView(false);
+  };
   const initialOptions = React.useMemo(() => {
     const dataOptions = currentNode?.data?.saveResponse?.map((item) => ({
       label: truncateString(item.response),
       value: item.response,
-    }))
+    }));
 
     if (dataOptions?.length) {
-      return filterUniqueByKey(dataOptions, 'value')
+      return filterUniqueByKey(dataOptions, 'value');
     } else
-      return [{ label: 'Entire Response Body', value: 'Entire Response Body' }]
-  }, [currentNode?.data?.saveResponse])
+      return [{ label: 'Entire Response Body', value: 'Entire Response Body' }];
+  }, [currentNode?.data?.saveResponse]);
 
-  const [dropdownOptions, setDropdownOptions] = React.useState(initialOptions)
-  if (!config) return <></>
+  const [dropdownOptions, setDropdownOptions] = React.useState(initialOptions);
+  if (!config) return <></>;
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
@@ -103,20 +104,21 @@ function HubspotNodeContent({ id }) {
     ],
     auth: currentNode?.data?.auth || '',
     event: currentNode?.data?.event || '',
+    extra: currentNode?.data?.extra || '',
     enableTest: currentNode?.data?.enableTest || '',
     enableSave: currentNode?.data?.enableSave || '',
     parameters: currentNode?.data?.parameters || [{ testValue: '' }],
     saveResponse: currentNode?.data?.saveResponse || [
       { response: '', id: 'f0245680-a1b7-5495-bcb8-2d0fca03959a' },
     ],
-  }
-  const validationSchema = yup.object({})
+  };
+  const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
-    console.log('Form values=>>>', formValues)
-    updateNodeById(id, { ...currentNode?.data, ...formValues })
-    handleClose()
-  }
+    console.log('Form values=>>>', formValues);
+    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    handleClose();
+  };
 
   return (
     <SidebarFormContainer
@@ -127,17 +129,19 @@ function HubspotNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <AccountSelectionCard />
+      <AccountSelectionCard setSelectedAuth={setSelectedAuth} />
       <DynamicForm
         dropdownOptions={dropdownOptions}
         setDropdownOptions={setDropdownOptions}
+        setSelectedEvent={setSelectedEvent}
       />
     </SidebarFormContainer>
-  )
+  );
 }
 
-export default HubspotNodeContent
-function AccountSelectionCard() {
+export default HubspotNodeContent;
+
+function AccountSelectionCard({ setSelectedAuth }) {
   return (
     <SidebarFormCard
       textStyles={{ display: 'flex', justifyContent: 'space-between' }}
@@ -149,6 +153,9 @@ function AccountSelectionCard() {
         options={account}
         variant='custom'
         labelVariant='h3'
+        onChange={() => {
+          // implemented onChange state and reset form as well.
+        }}
       />
       <Button
         minH={0}
@@ -163,22 +170,22 @@ function AccountSelectionCard() {
           backgroundColor: 'rgb(215, 55, 107)',
         }}
       >
-        <Text
-          fontSize='12px'
-          textTransform='uppercase'
-          color='white'
-        >
+        <Text fontSize='12px' textTransform='uppercase' color='white'>
           Add new account
         </Text>
       </Button>
     </SidebarFormCard>
-  )
+  );
 }
 
-function DynamicForm({ dropdownOptions, setDropdownOptions }) {
-  const { values } = useFormikContext()
+function DynamicForm({
+  dropdownOptions,
+  setDropdownOptions,
+  setSelectedEvent,
+}) {
+  const { values } = useFormikContext();
   if (!values?.auth) {
-    return <></>
+    return <></>;
   }
   return (
     <>
@@ -192,6 +199,10 @@ function DynamicForm({ dropdownOptions, setDropdownOptions }) {
           options={hubspotEvents}
           variant='custom'
           labelVariant='h3'
+          onChange={(option) => {
+            console.log(option, 'selected event');
+            // also reset form as well
+          }}
         />
       </SidebarFormCard>
       {values?.event && (
@@ -232,10 +243,7 @@ function DynamicForm({ dropdownOptions, setDropdownOptions }) {
               borderRadius: '3px',
             }}
           >
-            <Text
-              fontSize='14px'
-              fontWeight='700'
-            >
+            <Text fontSize='14px' fontWeight='700'>
               Manually set values for test variables
             </Text>
             <Text>
@@ -279,5 +287,5 @@ function DynamicForm({ dropdownOptions, setDropdownOptions }) {
         </>
       )}
     </>
-  )
+  );
 }

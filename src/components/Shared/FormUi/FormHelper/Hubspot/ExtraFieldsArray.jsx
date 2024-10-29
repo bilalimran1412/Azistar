@@ -2,8 +2,8 @@ import { Box, Button, FormLabel } from '@chakra-ui/react';
 import { FieldArray, useField } from 'formik';
 import React from 'react';
 import { seedID } from 'utils';
-import { AssociateFieldItem } from 'components/Shared/SidebarUi';
 import { MdAdd } from 'react-icons/md';
+import { ExtraFieldItem } from 'components/Shared/SidebarUi';
 
 function ExtraFieldsArray({ name }) {
   const [field] = useField(name);
@@ -18,13 +18,13 @@ function ExtraFieldsArray({ name }) {
   };
 
   return (
-    <Box>
+    <Box mt={4}>
       <FormLabel variant='h1'>Extra fields</FormLabel>
       <FieldArray name={name}>
         {({ remove, push }) => (
           <Box display='flex' flexDir='column' gap={3}>
             {fieldValue?.map((item, index) => (
-              <AssociateFieldItem
+              <ExtraFieldItem
                 item={item}
                 subFieldName={`${name}[${index}]`}
                 onRemove={() => remove(index)}
