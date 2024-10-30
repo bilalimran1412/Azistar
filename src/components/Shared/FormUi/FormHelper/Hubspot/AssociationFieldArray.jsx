@@ -18,7 +18,7 @@ function AssociationFieldArray({ name }) {
   };
 
   return (
-    <Box>
+    <Box mt={4}>
       <FormLabel variant='h1'>Associate with</FormLabel>
       <FieldArray name={name}>
         {({ remove, push }) => (

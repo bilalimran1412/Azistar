@@ -45,7 +45,7 @@ const DraftEditor = ({
             color: '#9197a3',
             position: 'absolute',
             width: '80%',
-            zIndex: 1,
+            // zIndex: 1,
           },
           '.DraftEditor-root': {
             height: '100%',
@@ -60,7 +60,7 @@ const DraftEditor = ({
           },
           '.DraftEditor-editorContainer': {
             pos: 'relative',
-            zIndex: 1,
+            // zIndex: 1,
           },
           '.DraftEditor-editorContainer ul, .DraftEditor-editorContainer ol': {
             listStyleType: 'revert-layer',

@@ -31,3 +31,4 @@ export * from './FormHelper/Calendly';
 export * from './DraftEditorField';
 export * from './FormHelper/Webhook';
 export * from './CodeEditorField';
+export * from './FormReactSelect';

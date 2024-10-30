@@ -1,25 +1,15 @@
 import React from 'react';
 import { Box, Flex } from '@chakra-ui/react';
-import { DraftEditorField, FormDropdown } from 'components/Shared/FormUi';
+import { DraftEditorField } from 'components/Shared/FormUi';
 import { UiIconButton } from 'components/Shared/UiComponents';
 import { FaTrashAlt } from 'react-icons/fa';
-const options = [
-  { label: 'Contact ID', value: 'contact' },
-  { label: 'Company ID', value: 'company' },
-  { label: 'Deal ID', value: 'deal' },
-  { label: 'Ticket ID', value: 'ticket' },
-];
-function AssociateFieldItem({ onRemove, subFieldName, item }) {
+import { DynamicDropdown } from './DynamicDropdown';
+
+function ExtraFieldItem({ onRemove, subFieldName, item }) {
   return (
     <Box key={item.id} mt={1}>
       <Flex direction='row' alignItems='flex-start' gap={1}>
-        <FormDropdown
-          name={`${subFieldName}.key`}
-          placeholder='Select'
-          variant='custom'
-          options={options}
-          // containerStyle={{ flexBasis: '300px' }}
-        />
+        <DynamicDropdown subFieldName={`${subFieldName}.key`} />
         <DraftEditorField
           name={`${subFieldName}.value`}
           placeholder='Introduce your value'
@@ -43,4 +33,4 @@ function AssociateFieldItem({ onRemove, subFieldName, item }) {
   );
 }
 
-export { AssociateFieldItem };
+export { ExtraFieldItem };

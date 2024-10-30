@@ -18,63 +18,14 @@ import { Button, Text } from '@chakra-ui/react';
 import { truncateString } from 'utils/string';
 import { filterUniqueByKey } from 'utils/objectHelpers';
 import { useFormikContext } from 'formik';
+import { hubspotEvents } from 'components/Shared/SidebarUi/Hubspot/data';
 
 const account = [{ label: 'account 1', value: '1' }];
-
-export const hubspotEvents = [
-  {
-    label: 'New Contact',
-    value: 'newContact',
-    group: 'Create',
-    key: 'contact',
-    action: 'HUBSPOT_NEW_CONTACT',
-  },
-  {
-    label: 'New Company',
-    value: 'newCompany',
-    group: 'Create',
-    key: 'company',
-    action: 'HUBSPOT_NEW_COMPANY',
-  },
-  {
-    label: 'New Deal',
-    value: 'newDeal',
-    group: 'Create',
-    key: 'deal',
-    action: 'HUBSPOT_NEW_DEAL',
-  },
-  {
-    label: 'New Ticket',
-    value: 'newTicket',
-    group: 'Create',
-    key: 'ticket',
-    action: 'HUBSPOT_NEW_TICKET',
-  },
-  {
-    label: 'Update a Contact',
-    value: 'updateContact',
-    group: 'Update',
-    key: 'contact',
-  },
-  {
-    label: 'Update a Company',
-    value: 'updateCompany',
-    group: 'Update',
-    key: 'company',
-  },
-  { label: 'Update a Deal', value: 'updateDeal', group: 'Update', key: 'deal' },
-  {
-    label: 'Update a Ticket',
-    value: 'updateTicket',
-    group: 'Update',
-    key: 'ticket',
-  },
-  { label: 'Get a Record', value: 'getRecord', group: 'Get' },
-];
 
 function HubspotNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
+
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
   const handleClose = () => {
     setSideView(false);
@@ -96,12 +47,19 @@ function HubspotNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    //this message will contain all the ops and html and normal text
-    associations: currentNode?.data?.associations || [
-      { key: '', value: '', id: '9e0d99db-3ee2-55dc-b4be-200f22ca7e64' },
-    ],
     auth: currentNode?.data?.auth || '',
     event: currentNode?.data?.event || '',
+
+    associations: currentNode?.data?.associations,
+    companyName: currentNode?.data?.companyName || '',
+    firstName: currentNode?.data?.firstName || '',
+    lastName: currentNode?.data?.lastName || '',
+    email: currentNode?.data?.email || '',
+    deal: currentNode?.data?.deal || '',
+    ticket: currentNode?.data?.ticket || '',
+    pipeline: currentNode?.data?.pipeline || '',
+    stage: currentNode?.data?.stage || '',
+    extra: currentNode?.data?.extra || '',
     enableTest: currentNode?.data?.enableTest || '',
     enableSave: currentNode?.data?.enableSave || '',
     parameters: currentNode?.data?.parameters || [{ testValue: '' }],
@@ -124,7 +82,7 @@ function HubspotNodeContent({ id }) {
       onFormSave={onSave}
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onReset={handleClose}
+      onReset={() => {}}
     >
       <AccountSelectionCard />
       <DynamicForm
@@ -136,6 +94,7 @@ function HubspotNodeContent({ id }) {
 }
 
 export default HubspotNodeContent;
+
 function AccountSelectionCard() {
   return (
     <SidebarFormCard
@@ -203,7 +162,6 @@ function DynamicForm({ dropdownOptions, setDropdownOptions }) {
             }}
           >
             <DynamicActionFields />
-            {/* Implement dynamic form fields here */}
           </SidebarFormCard>
           <FormSettings
             label={'Test your request'}
