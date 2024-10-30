@@ -18,13 +18,12 @@ function AssociateFieldItem({ onRemove, subFieldName, item }) {
           placeholder='Select'
           variant='custom'
           options={options}
-          containerStyle={{ flexBasis: '150px' }}
+          containerStyle={{ flexBasis: '300px' }}
         />
         <DraftEditorField
           name={`${subFieldName}.value`}
           placeholder='Introduce your value'
           variant='custom'
-          setOnlyText={true}
           type='inline'
           containerStyles={{
             maxWidth: '220px',

@@ -6,7 +6,7 @@ import { NewTicketFields } from './NewTicketFields';
 export const renderer = (contentType) => {
   switch (contentType) {
     case 'newContact':
-      return () => <NewContactFields />;
+      return NewContactFields;
     case 'newCompany':
       return NewCompanyFields;
     case 'newDeal':
