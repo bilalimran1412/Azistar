@@ -1,7 +1,9 @@
+import { GetRecords } from './GetRecords';
 import { NewCompanyFields } from './NewCompanyFields';
 import { NewContactFields } from './NewContactFields';
 import { NewDealFields } from './NewDealFields';
 import { NewTicketFields } from './NewTicketFields';
+import { UpdateField } from './UpdateField';
 
 export const renderer = (contentType) => {
   switch (contentType) {
@@ -14,15 +16,12 @@ export const renderer = (contentType) => {
     case 'newTicket':
       return NewTicketFields;
     case 'updateContact':
-      return () => <>update cntct</>;
     case 'updateCompany':
-      return () => <>update comp</>;
     case 'updateDeal':
-      return () => <>update del</>;
     case 'updateTicket':
-      return () => <>update tick</>;
+      return UpdateField;
     case 'getRecord':
-      return () => <>rec</>;
+      return GetRecords;
     default:
       return () => <></>;
   }

@@ -12,7 +12,6 @@ function NewCompanyFields() {
         name='companyName'
         placeholder='Introduce your value'
         variant='custom'
-        setOnlyText={true}
         type='inline'
         label='Company name'
         labelVariant='h1'

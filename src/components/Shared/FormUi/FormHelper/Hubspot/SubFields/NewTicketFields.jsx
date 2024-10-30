@@ -5,7 +5,18 @@ import {
   ExtraFieldsArray,
   FormDropdown,
 } from 'components/Shared/FormUi';
-
+const ticketStageOptions = [
+  { label: 'New', value: 'new' },
+  { label: 'Waiting on contact', value: 'waiting_on_contact' },
+  { label: 'Waiting on us', value: 'waiting_on_us' },
+  { label: 'Closed', value: 'closed' },
+];
+const pipelineOptions = [
+  {
+    value: 'sales',
+    label: 'Sales pipeline',
+  },
+];
 function NewTicketFields() {
   return (
     <>
@@ -13,7 +24,6 @@ function NewTicketFields() {
         name='ticket'
         placeholder='Introduce your value'
         variant='custom'
-        setOnlyText={true}
         type='inline'
         label='Ticket name'
         labelVariant='h1'
@@ -23,6 +33,7 @@ function NewTicketFields() {
         placeholder='Choose your pipeline'
         variant='custom'
         label='Pipeline'
+        options={pipelineOptions}
         labelVariant='h1'
       />
       <FormDropdown
@@ -31,6 +42,7 @@ function NewTicketFields() {
         variant='custom'
         label='Stage'
         labelVariant='h1'
+        options={ticketStageOptions}
       />
       <ExtraFieldsArray name='extra' />
       <AssociationFieldArray name='associations' />

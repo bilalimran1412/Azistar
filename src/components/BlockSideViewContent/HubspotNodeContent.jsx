@@ -25,8 +25,7 @@ const account = [{ label: 'account 1', value: '1' }];
 function HubspotNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
-  const [selectedEvent, setSelectedEvent] = React.useState('');
-  const [selectedAuth, setSelectedAuth] = React.useState('');
+
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
   const handleClose = () => {
     setSideView(false);
@@ -48,12 +47,18 @@ function HubspotNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    //this message will contain all the ops and html and normal text
-    associations: currentNode?.data?.associations || [
-      { key: '', value: '', id: '9e0d99db-3ee2-55dc-b4be-200f22ca7e64' },
-    ],
     auth: currentNode?.data?.auth || '',
     event: currentNode?.data?.event || '',
+
+    associations: currentNode?.data?.associations,
+    companyName: currentNode?.data?.companyName || '',
+    firstName: currentNode?.data?.firstName || '',
+    lastName: currentNode?.data?.lastName || '',
+    email: currentNode?.data?.email || '',
+    deal: currentNode?.data?.deal || '',
+    ticket: currentNode?.data?.ticket || '',
+    pipeline: currentNode?.data?.pipeline || '',
+    stage: currentNode?.data?.stage || '',
     extra: currentNode?.data?.extra || '',
     enableTest: currentNode?.data?.enableTest || '',
     enableSave: currentNode?.data?.enableSave || '',
@@ -77,13 +82,12 @@ function HubspotNodeContent({ id }) {
       onFormSave={onSave}
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onReset={handleClose}
+      onReset={() => {}}
     >
-      <AccountSelectionCard setSelectedAuth={setSelectedAuth} />
+      <AccountSelectionCard />
       <DynamicForm
         dropdownOptions={dropdownOptions}
         setDropdownOptions={setDropdownOptions}
-        setSelectedEvent={setSelectedEvent}
       />
     </SidebarFormContainer>
   );
@@ -91,7 +95,7 @@ function HubspotNodeContent({ id }) {
 
 export default HubspotNodeContent;
 
-function AccountSelectionCard({ setSelectedAuth }) {
+function AccountSelectionCard() {
   return (
     <SidebarFormCard
       textStyles={{ display: 'flex', justifyContent: 'space-between' }}
@@ -103,9 +107,6 @@ function AccountSelectionCard({ setSelectedAuth }) {
         options={account}
         variant='custom'
         labelVariant='h3'
-        onChange={() => {
-          // implemented onChange state and reset form as well.
-        }}
       />
       <Button
         minH={0}
@@ -128,11 +129,7 @@ function AccountSelectionCard({ setSelectedAuth }) {
   );
 }
 
-function DynamicForm({
-  dropdownOptions,
-  setDropdownOptions,
-  setSelectedEvent,
-}) {
+function DynamicForm({ dropdownOptions, setDropdownOptions }) {
   const { values } = useFormikContext();
   if (!values?.auth) {
     return <></>;
@@ -149,10 +146,6 @@ function DynamicForm({
           options={hubspotEvents}
           variant='custom'
           labelVariant='h3'
-          onChange={(option) => {
-            console.log(option, 'selected event');
-            // also reset form as well
-          }}
         />
       </SidebarFormCard>
       {values?.event && (
@@ -169,7 +162,6 @@ function DynamicForm({
             }}
           >
             <DynamicActionFields />
-            {/* Implement dynamic form fields here */}
           </SidebarFormCard>
           <FormSettings
             label={'Test your request'}

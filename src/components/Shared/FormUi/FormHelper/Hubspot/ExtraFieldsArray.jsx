@@ -5,7 +5,7 @@ import { seedID } from 'utils';
 import { MdAdd } from 'react-icons/md';
 import { ExtraFieldItem } from 'components/Shared/SidebarUi';
 
-function ExtraFieldsArray({ name }) {
+function ExtraFieldsArray({ name, label = 'Extra fields' }) {
   const [field] = useField(name);
   const fieldValue = field.value || [];
 
@@ -19,7 +19,7 @@ function ExtraFieldsArray({ name }) {
 
   return (
     <Box mt={4}>
-      <FormLabel variant='h1'>Extra fields</FormLabel>
+      <FormLabel variant='h1'>{label}</FormLabel>
       <FieldArray name={name}>
         {({ remove, push }) => (
           <Box display='flex' flexDir='column' gap={3}>
