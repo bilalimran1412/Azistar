@@ -1,9 +1,10 @@
-import { Box, Flex, IconButton } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import React from 'react';
-import { FormMediaField, QuillEditorField } from '../FormUi';
+import { DraftEditorField, FormMediaField } from '../FormUi';
 import { FaEdit, FaGripVertical, FaRegCopy, FaTrashAlt } from 'react-icons/fa';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { UiIconButton } from '../UiComponents';
 
 function MessageFieldItem({
   index,
@@ -41,7 +42,7 @@ function MessageFieldItem({
       }}
     >
       {item.type === 'message' ? (
-        <QuillEditorField
+        <DraftEditorField
           key={item.id}
           name={`${name}[${index}].message`}
           placeholder='Enter your message'
@@ -58,23 +59,41 @@ function MessageFieldItem({
         visibility='hidden'
       >
         {item.type !== 'message' && (
-          <IconButton
+          <UiIconButton
             icon={<FaEdit />}
             onClick={() => {
               onOpen();
             }}
+            style={{
+              color: 'black',
+              background: 'white',
+            }}
           />
         )}
-        <IconButton icon={<FaRegCopy />} onClick={() => handleCopy()} />
+        <UiIconButton
+          icon={<FaRegCopy />}
+          onClick={() => handleCopy()}
+          style={{
+            color: 'black',
+            background: 'white',
+          }}
+        />
         {!isLastField && (
-          <IconButton icon={<FaTrashAlt />} onClick={() => handleDelete()} />
+          <UiIconButton
+            icon={<FaTrashAlt />}
+            onClick={() => handleDelete()}
+            style={{
+              color: 'black',
+              background: 'white',
+            }}
+          />
         )}
-        <IconButton
+        <UiIconButton
           icon={<FaGripVertical />}
           label='Drag'
           {...listeners}
           {...attributes}
-          style={{ cursor: 'grab' }}
+          style={{ cursor: 'grab', color: 'black', background: 'white' }}
         />
       </Flex>
     </Box>

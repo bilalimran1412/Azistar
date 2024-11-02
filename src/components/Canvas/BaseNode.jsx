@@ -18,6 +18,7 @@ import { useNodeContext } from '../../views/canvas/NodeContext';
 import { initialNode } from '../../config/constant';
 import CustomHandle from './CustomHandle';
 import { ButtonNodeLayout, YesNoNodeLayout } from './CustomNodeLayout';
+import { Box, Flex, Text } from '@chakra-ui/react';
 
 const BaseNode = (props) => {
   const { id, data, type } = props;
@@ -110,122 +111,169 @@ const BaseNode = (props) => {
     toggleDropdown();
   };
 
+  // means node having body
+  const isNodeExtended = false;
+  const showTags = true;
+
   return (
-    <div className={`text-node ${type}-node`} ref={nodeRef}>
-      <div className='node-content' onClick={handleClick}>
-        <div className='node_outer'>
-          <div className='icon_different'>{NodeIcon}</div>
-          <div className='node_date'>
-            <h4>{displayLabel}</h4>
-            <p dangerouslySetInnerHTML={displayContent} />
-          </div>
-          {!isStartingNode && (
-            <NodeActionDropdown
-              onCopy={() => handleAction('copy')}
-              onReplace={() => handleAction('replace')}
-              onDelete={() => handleAction('delete')}
-              onDuplicate={() => handleAction('duplicate')}
-              onCopyId={() => handleAction('copyId')}
-            />
-            // <div
-            //   className='drop_down'
-            //   onClick={(e) => {
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            //     setIsMenuVisible(!isMenuVisible);
-            //   }}
-            // >
-            //   <MdMoreHoriz size={24} />
-            // </div>
-          )}
-        </div>
-        {config?.data?.layoutType === sideViewLayoutType.buttons && (
-          <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
-        )}
-        {config?.data?.layoutType === sideViewLayoutType.yesNo && (
-          <YesNoNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
-        )}
-        {config?.data?.layoutType === sideViewLayoutType.pictureChoice && (
-          <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.cards} />
-        )}
-
-        {/* {isMultiHandleNode && (
-          <div className='item-list'>
-            {data.items &&
-              data.items.map((item) => (
-                <div key={item.id} className='item-buttons'>
-                  <span>{item.label}</span>
-                  <CustomHandle
-                    type='source'
-                    key={item.id}
-                    id={`source-${id}-${item.id}`}
-                    onClick={() => onClick(`source-${id}-${item.id}`)}
-                    styles={{
-                      right: '-10px',
+    <Box ref={nodeRef}>
+      <Box
+        sx={{
+          background: '#fff',
+          borderRadius: '4px',
+          border: '2px solid transparent',
+        }}
+      >
+        <Box
+          sx={{
+            minHeight: '60px',
+            minWidth: '220px',
+            display: 'flex',
+            position: 'relative',
+          }}
+        >
+          {/* maincontaincer */}
+          <Box
+            sx={{
+              flexGrow: '1',
+              flexDir: 'column',
+            }}
+          >
+            {/* headercontaciner */}
+            <Flex p='10px 16px'>
+              <Box flexGrow='1' display='flex' alignItems='center'>
+                <Flex flexGrow='1' gap={3} alignItems='center'>
+                  <Box
+                    as='span'
+                    width='22px'
+                    height='22px'
+                    sx={{
+                      svg: { height: '22px', width: '22px' },
                     }}
-                  />
-                </div>
-              ))}
-            {isButtonNode && (
-              <div key='placeholder' className='placeholder-button'>
-                <span>Any of the above</span>
-                <CustomHandle
-                  type='source'
-                  id={`source-placeholder-${id}`}
-                  onClick={() => onClick(`source-placeholder-${id}`)}
-                  styles={{
-                    right: '-10px',
-                  }}
-                />
-              </div>
+                  >
+                    {NodeIcon}
+                  </Box>
+
+                  <Box flexGrow='1'>
+                    <Flex justifyContent='space-between' alignItems='center'>
+                      <Flex direction='column'>
+                        <Text fontWeight='700'>Node title</Text>
+                        {!isNodeExtended && (
+                          <Box>
+                            <Text fontSize='13px'>sub title</Text>
+                          </Box>
+                        )}
+                      </Flex>
+                      <Text>...</Text>
+                    </Flex>
+                  </Box>
+                </Flex>
+              </Box>
+            </Flex>
+
+            {isNodeExtended && (
+              <Box p='7px' backgroundColor='#edeef9'>
+                conditional body
+              </Box>
             )}
-          </div>
-        )}
-        */}
-      </div>
-      {/* {isMenuVisible && (
-        <NodeActionDropdown
-          onCopy={() => handleAction('copy')}
-          onReplace={() => handleAction('replace')}
-          onDelete={() => handleAction('delete')}
-          onDuplicate={() => handleAction('duplicate')}
-          onCopyId={() => handleAction('copyId')}
-        />
-      )} */}
-      {showReplaceMenu && (
-        <NodeDropdownMenu
-          handleAddNode={handleReplaceNodeType}
-          dropdownPosition={dropdownPosition}
-          dropdownRef={dropdownRef}
-        />
-      )}
+          </Box>
+          {showTags && (
+            <Box position='absolute' top='-13px' left='10px'>
+              <Box
+                backgroundColor='#ddddff'
+                p='2px'
+                borderRadius='3px'
+                px='6px'
+                color='#33405E'
+              >
+                <Text
+                  fontSize='12px'
+                  textTransform='uppercase'
+                  fontWeight='500'
+                  lineHeight='20px'
+                  letterSpacing='0'
+                >
+                  Starter
+                </Text>
+              </Box>
+            </Box>
+          )}
+        </Box>
+        {/* <Box>
+        <Box onClick={handleClick}>
+          <Box>
+            <Box>{NodeIcon}</Box>
+            <Box>
+              <h4>{displayLabel}</h4>
+              <p dangerouslySetInnerHTML={displayContent} />
+            </Box>
+            {!isStartingNode && (
+              <NodeActionDropdown
+                onCopy={() => handleAction('copy')}
+                onReplace={() => handleAction('replace')}
+                onDelete={() => handleAction('delete')}
+                onDuplicate={() => handleAction('duplicate')}
+                onCopyId={() => handleAction('copyId')}
+              />
+            )}
+          </Box>
+          {config?.data?.layoutType === sideViewLayoutType.buttons && (
+            <ButtonNodeLayout
+              onClick={onClick}
+              id={id}
+              buttons={data?.buttons}
+            />
+          )}
+          {config?.data?.layoutType === sideViewLayoutType.yesNo && (
+            <YesNoNodeLayout
+              onClick={onClick}
+              id={id}
+              buttons={data?.buttons}
+            />
+          )}
+          {config?.data?.layoutType === sideViewLayoutType.pictureChoice && (
+            <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.cards} />
+          )}
+        </Box>
 
-      {isDropdownVisible && (
-        <NodeDropdownMenu
-          handleAddNode={handleAddNode}
-          dropdownPosition={dropdownPosition}
-          dropdownRef={dropdownRef}
-        />
-      )}
-      {!isMultiHandleNode && !disableSourceHandle && !disableAllHandles && (
-        <CustomHandle type='source' onClick={toggleDropdown} />
-      )}
-      {!!customHandles &&
-        customHandles.map((handle, idx) => (
-          <CustomHandle
-            type='source'
-            key={idx}
-            id={`source-${id}-${handle.id}`}
-            status={handle.type}
-            onClick={() => onClick(`source-${id}-${handle.id}`)}
-            styles={{ top: `${idx * 30 + 15}px` }}
-          />
-        ))}
+        <Box>
+          {showReplaceMenu && (
+            <NodeDropdownMenu
+              handleAddNode={handleReplaceNodeType}
+              dropdownPosition={dropdownPosition}
+              dropdownRef={dropdownRef}
+            />
+          )}
 
-      {!isStartingNode && !disableAllHandles && (
-        <CustomHandle id={id} type='target' />
-      )}
-    </div>
+          {isDropdownVisible && (
+            <NodeDropdownMenu
+              handleAddNode={handleAddNode}
+              dropdownPosition={dropdownPosition}
+              dropdownRef={dropdownRef}
+            />
+          )}
+          {!isMultiHandleNode && !disableSourceHandle && !disableAllHandles && (
+            <CustomHandle type='source' onClick={toggleDropdown} />
+          )}
+          {!!customHandles &&
+            customHandles.map((handle, idx) => (
+              <CustomHandle
+                type='source'
+                key={idx}
+                id={`source-${id}-${handle.id}`}
+                status={handle.type}
+                onClick={() => onClick(`source-${id}-${handle.id}`)}
+                styles={{ top: `${idx * 30 + 15}px` }}
+              />
+            ))}
+
+          {!isStartingNode && !disableAllHandles && (
+            <CustomHandle id={id} type='target' />
+          )}
+        </Box>
+      </Box> */}
+      </Box>
+    </Box>
   );
 };
 

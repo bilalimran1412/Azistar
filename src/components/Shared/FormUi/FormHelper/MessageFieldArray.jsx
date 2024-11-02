@@ -46,7 +46,7 @@ export const messageFieldArrayInitialValue = {
 };
 
 const MessageMediaField = ({ name, label, onOpen }) => {
-  const [field, _, helpers] = useField(name);
+  const [field, , helpers] = useField(name);
   // const { values, setFieldValue } = useFormikContext();
   const fieldValue = field?.value || [];
 

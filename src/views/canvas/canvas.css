@@ -1,6 +1,4 @@
-/* styles/globals.css */
-
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -27,7 +25,6 @@
   right: 10px;
 }
 
-/* Add this CSS to your component's stylesheet or an appropriate global file */
 .text-node {
   background: #ffffff;
   border: 1px solid #cccccc;
@@ -62,7 +59,7 @@
   justify-content: center;
   padding: 2px;
   border-radius: 50%;
-  background-color: #e0e0e0; /* Light grey background for the icon area */
+  background-color: #e0e0e0;
 }
 
 .ql-snow.ql-toolbar button,
@@ -110,9 +107,6 @@ button.ql-bold {
   padding: 11px 13px;
   overflow: auto;
 }
-/* .ql-editor p {
-  height: 120px;
-} */
 
 .drop_down {
   cursor: pointer;
@@ -189,4 +183,4 @@ button.ql-bold {
 }
 .react-flow__handle.target.connectingto.valid {
   opacity: 1;
-}
+} */
