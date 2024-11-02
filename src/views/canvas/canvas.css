@@ -165,7 +165,7 @@ button.ql-bold {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+}*/
 
 .react-flow__connectionline .react-flow__connection-path,
 .react-flow__edge.animated path {
@@ -183,4 +183,4 @@ button.ql-bold {
 }
 .react-flow__handle.target.connectingto.valid {
   opacity: 1;
-} */
+}

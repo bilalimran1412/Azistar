@@ -128,7 +128,6 @@ const BaseNode = (props) => {
         _hover={{
           boxShadow: '0 0 0 4px #c8c8fa',
         }}
-        onClick={handleClick}
       >
         <Box
           sx={{
@@ -144,6 +143,7 @@ const BaseNode = (props) => {
               flexGrow: '1',
               flexDir: 'column',
             }}
+            onClick={handleClick}
           >
             {/* headercontaciner */}
             <Flex p='10px 16px'>
@@ -173,7 +173,23 @@ const BaseNode = (props) => {
                           </Box>
                         )}
                       </Flex>
-                      <Text>...</Text>
+                      <Box
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                        }}
+                        className='nodrag'
+                      >
+                        {!isStartingNode && (
+                          <NodeActionDropdown
+                            onCopy={() => handleAction('copy')}
+                            onReplace={() => handleAction('replace')}
+                            onDelete={() => handleAction('delete')}
+                            onDuplicate={() => handleAction('duplicate')}
+                            onCopyId={() => handleAction('copyId')}
+                          />
+                        )}
+                      </Box>
                     </Flex>
                   </Box>
                 </Flex>
@@ -182,7 +198,28 @@ const BaseNode = (props) => {
 
             {isNodeExtended && (
               <Box p='7px' backgroundColor='#edeef9'>
-                conditional body
+                {config?.data?.layoutType === sideViewLayoutType.buttons && (
+                  <ButtonNodeLayout
+                    onClick={onClick}
+                    id={id}
+                    buttons={data?.buttons}
+                  />
+                )}
+                {config?.data?.layoutType === sideViewLayoutType.yesNo && (
+                  <YesNoNodeLayout
+                    onClick={onClick}
+                    id={id}
+                    buttons={data?.buttons}
+                  />
+                )}
+                {config?.data?.layoutType ===
+                  sideViewLayoutType.pictureChoice && (
+                  <ButtonNodeLayout
+                    onClick={onClick}
+                    id={id}
+                    buttons={data?.cards}
+                  />
+                )}
               </Box>
             )}
           </Box>
@@ -287,11 +324,43 @@ const BaseNode = (props) => {
               />
             ))}
 
+            </Box>
+            </Box> */}
+        <Box className='nodrag'>
+          {showReplaceMenu && (
+            <NodeDropdownMenu
+              handleAddNode={handleReplaceNodeType}
+              dropdownPosition={dropdownPosition}
+              dropdownRef={dropdownRef}
+            />
+          )}
+
+          {isDropdownVisible && (
+            <NodeDropdownMenu
+              handleAddNode={handleAddNode}
+              dropdownPosition={dropdownPosition}
+              dropdownRef={dropdownRef}
+            />
+          )}
+          {!isMultiHandleNode && !disableSourceHandle && !disableAllHandles && (
+            <CustomHandle type='source' onClick={toggleDropdown} />
+          )}
+          {!!customHandles &&
+            customHandles.map((handle, idx) => (
+              <CustomHandle
+                type='source'
+                key={idx}
+                id={`source-${id}-${handle.id}`}
+                status={handle.type}
+                onClick={() => onClick(`source-${id}-${handle.id}`)}
+                styles={{ top: `${idx * 30 + 15}px` }}
+              />
+            ))}
+
           {!isStartingNode && !disableAllHandles && (
             <CustomHandle id={id} type='target' />
           )}
         </Box>
-      </Box> */}
       </Box>
     </Box>
   );

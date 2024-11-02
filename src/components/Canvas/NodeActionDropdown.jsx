@@ -16,18 +16,20 @@ const NodeActionDropdown = ({
   onCopyId,
   nodeId,
 }) => {
-  const handleMenuClick = (event) => {
-    event.stopPropagation();
-  };
   return (
-    <Menu>
+    <Menu closeOnBlur={true}>
       <MenuButton
         as={IconButton}
         icon={<FiMoreHorizontal />}
         variant='outline'
-        onClick={handleMenuClick}
+        sx={{
+          minW: 0,
+          border: 'none',
+          h: '22px',
+          p: 1,
+        }}
       />
-      <MenuList onClick={handleMenuClick}>
+      <MenuList>
         <MenuItem onClick={onCopy}>Copy Node</MenuItem>
         <MenuItem onClick={onReplace}>Replace Node</MenuItem>
         <MenuItem onClick={onDelete}>Delete Node</MenuItem>

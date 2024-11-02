@@ -545,7 +545,6 @@ export const initialNode = {
   id: '1',
   data: {
     label: 'This is our parent',
-    buttons: [],
     contentType: 'startingNode',
     blockId: '1',
   },
