@@ -5,6 +5,7 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { SideViewContent } from '../BlockSideViewContent';
 import DefaultNodeContent from '../BlockSideViewContent/DefaultNodeContent';
+import { Box } from '@chakra-ui/react';
 
 const SideView = ({ closeForm }) => {
   const { getNodeById, currentNodeId } = useNodeContext();
@@ -26,14 +27,25 @@ const SideView = ({ closeForm }) => {
     : DefaultNodeContent;
 
   return (
-    <div
-      className='builder-sidebar'
+    <Box
+      position='absolute'
+      top='0'
+      h='100vh'
+      w='400px'
+      display='flex'
+      flexDirection='column'
+      zIndex='50'
+      transition='all 0.5s ease'
+      flex='1'
+      overflowX='hidden'
+      overflowY='auto'
+      bg='#f8f8f8'
       style={{
         width: config?.width ? config?.width : '400px',
       }}
     >
       {Content ? <Content id={currentNodeId} /> : <></>}
-    </div>
+    </Box>
   );
 };
 
