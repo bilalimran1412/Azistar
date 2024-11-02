@@ -9,7 +9,7 @@ function NewCompanyFields() {
   return (
     <>
       <DraftEditorField
-        name='companyName'
+        name='properties.companyName'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'

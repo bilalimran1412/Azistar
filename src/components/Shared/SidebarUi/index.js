@@ -19,3 +19,4 @@ export * from './GoogleAnalyticsConfig';
 export * from './Webhook';
 export * from './Mailchimp';
 export * from './Hubspot';
+export * from './GoogleSheets';

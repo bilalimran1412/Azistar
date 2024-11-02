@@ -20,7 +20,10 @@ import { filterUniqueByKey } from 'utils/objectHelpers';
 import { useFormikContext } from 'formik';
 import { hubspotEvents } from 'components/Shared/SidebarUi/Hubspot/data';
 
-const account = [{ label: 'account 1', value: '1' }];
+const account = [
+  { label: 'account 1', value: '1' },
+  { label: 'acct', value: '22' },
+];
 
 function HubspotNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -50,28 +53,28 @@ function HubspotNodeContent({ id }) {
     auth: currentNode?.data?.auth || '',
     event: currentNode?.data?.event || '',
 
-    associations: currentNode?.data?.associations,
-    companyName: currentNode?.data?.companyName || '',
-    firstName: currentNode?.data?.firstName || '',
-    lastName: currentNode?.data?.lastName || '',
-    email: currentNode?.data?.email || '',
-    deal: currentNode?.data?.deal || '',
-    ticket: currentNode?.data?.ticket || '',
-    pipeline: currentNode?.data?.pipeline || '',
-    stage: currentNode?.data?.stage || '',
+    properties: currentNode?.data?.properties || '',
+    filter: currentNode?.data?.filter || '',
+
+    results: currentNode?.data?.results || '',
+    resourceType: currentNode?.data?.resourceType || '',
+
     extra: currentNode?.data?.extra || '',
-    enableTest: currentNode?.data?.enableTest || '',
+    associations: currentNode?.data?.associations,
+
     enableSave: currentNode?.data?.enableSave || '',
-    parameters: currentNode?.data?.parameters || [{ testValue: '' }],
+
     saveResponse: currentNode?.data?.saveResponse || [
       { response: '', id: 'f0245680-a1b7-5495-bcb8-2d0fca03959a' },
     ],
   };
+
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
-    console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const { enableTest, parameters, ...rest } = formValues;
+    console.log('form values >>>>', rest);
+    updateNodeById(id, { ...currentNode?.data, ...rest });
     handleClose();
   };
 
@@ -82,7 +85,7 @@ function HubspotNodeContent({ id }) {
       onFormSave={onSave}
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onReset={() => {}}
+      onReset={handleClose}
     >
       <AccountSelectionCard />
       <DynamicForm
@@ -96,6 +99,16 @@ function HubspotNodeContent({ id }) {
 export default HubspotNodeContent;
 
 function AccountSelectionCard() {
+  const { setFieldValue } = useFormikContext();
+  const handleAuthChange = (option) => {
+    setFieldValue('associations', []);
+    setFieldValue('event');
+    setFieldValue('extra', []);
+    setFieldValue('properties', '');
+    setFieldValue('filter', '');
+
+    setFieldValue('enableSave', '');
+  };
   return (
     <SidebarFormCard
       textStyles={{ display: 'flex', justifyContent: 'space-between' }}
@@ -106,6 +119,7 @@ function AccountSelectionCard() {
         label='Account'
         options={account}
         variant='custom'
+        onChange={handleAuthChange}
         labelVariant='h3'
       />
       <Button
@@ -130,10 +144,19 @@ function AccountSelectionCard() {
 }
 
 function DynamicForm({ dropdownOptions, setDropdownOptions }) {
-  const { values } = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
+
   if (!values?.auth) {
     return <></>;
   }
+  const handleEventChange = (option) => {
+    setFieldValue('associations', []);
+    setFieldValue('extra', []);
+    setFieldValue('properties', '');
+    setFieldValue('filter', '');
+
+    setFieldValue('enableSave', '');
+  };
   return (
     <>
       <SidebarFormCard
@@ -146,6 +169,7 @@ function DynamicForm({ dropdownOptions, setDropdownOptions }) {
           options={hubspotEvents}
           variant='custom'
           labelVariant='h3'
+          onChange={handleEventChange}
         />
       </SidebarFormCard>
       {values?.event && (
@@ -193,10 +217,7 @@ function DynamicForm({ dropdownOptions, setDropdownOptions }) {
               values for testing purpose.
             </Text>
             <TriggerAutomationFieldArray name='parameters' />
-            <HubspotSendRequest
-              type='webhook'
-              setDropdownOptions={setDropdownOptions}
-            />
+            <HubspotSendRequest setDropdownOptions={setDropdownOptions} />
           </FormSettings>
           <FormSettings
             label={'Save Responses as Variables'}

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   DraftEditorField,
-  ExtraFieldsArray,
   FormDropdown,
   FormVariableSelectorDropdown,
 } from 'components/Shared/FormUi';
@@ -28,15 +27,15 @@ function GetRecords() {
   return (
     <>
       <FormDropdown
-        name={'type'}
+        name='resourceType'
         placeholder='Select'
         variant='custom'
         options={options}
       />
       <Flex gap={2}>
-        <DynamicDropdown subFieldName='key' filterKey='company' />
+        <DynamicDropdown subFieldName='filter.field' filterKey='company' />
         <FormDropdown
-          name='filter'
+          name='filter.operator'
           placeholder='Select Filter type'
           variant='custom'
           labelVariant='h1'
@@ -44,7 +43,7 @@ function GetRecords() {
         />
       </Flex>
       <DraftEditorField
-        name='value'
+        name='filter.value'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'

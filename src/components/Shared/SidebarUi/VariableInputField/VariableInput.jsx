@@ -155,7 +155,10 @@ export const CustomInput = ({
               _hover={{
                 backgroundColor: 'rgb(215, 55, 107)',
               }}
-              onClick={onCreateClick}
+              onClick={() => {
+                onCreateClick();
+                handleFocus();
+              }}
             >
               <Text fontSize='12px' textTransform='uppercase' color='white'>
                 Create

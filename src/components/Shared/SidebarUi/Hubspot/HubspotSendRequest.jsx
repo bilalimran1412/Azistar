@@ -17,8 +17,9 @@ import { MdFullscreen } from 'react-icons/md';
 import { getDropdownOptions } from 'utils/arrayHelper';
 import { fetchWrapper } from 'utils/fetchWrapper';
 import { getFinalUrl } from 'utils/objectHelpers';
+import { hubspotEvents } from './data';
 
-function HubspotSendRequest({ type, setDropdownOptions }) {
+function HubspotSendRequest({ setDropdownOptions }) {
   const { values } = useFormikContext();
   const { onClose, isOpen, onOpen } = useDisclosure();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -32,51 +33,40 @@ function HubspotSendRequest({ type, setDropdownOptions }) {
       }
       return acc;
     }, {});
+
     try {
       setIsLoading(true);
-      if (type === 'trigger') {
-        const method = 'POST';
-        const response = await fetchWrapper({
-          url: '/send_request',
-          method: 'POST',
-          body: {
-            url: values?.url,
-            data: formTestData,
-            method: method,
-          },
-        });
 
-        if (response?.data) {
-          setResponseMessage(response.data);
-        }
-      } else {
-        //type will be here webhook
-        const userUrl = getFinalUrl(values);
-        const method = values?.method;
-        const body = values?.body;
-        const headers = values?.headers;
-        const customFields = values?.customFields;
-        const customBody = values?.customBody;
-        const customHeaders = values?.customHeaders;
+      // //type will be here webhook
+      const authID = values?.auth;
+      const formEvent = values?.event;
+      //for updating resource type should be calculated
+      const resourceType = values?.resourceType;
+      const results = values?.results;
+      const filter = values?.filter;
+      const extra = values?.extra;
+      const associations = values?.associations;
+      const properties = values?.properties;
 
-        const response = await fetchWrapper({
-          url: '/send_request',
-          method: 'POST',
-          body: {
-            url: userUrl,
-            method: method,
-            ...(customFields && { fields: formTestData }),
-            ...(customBody && { data: body }),
-            ...(customHeaders && { headers: headers }),
-          },
-        });
+      const selectedEvent = hubspotEvents.find(
+        (event) => event.value === formEvent
+      );
+      const hubspotAction = selectedEvent.action;
 
-        if (response?.data) {
-          setResponseMessage(response.data);
-          const options = getDropdownOptions(response.data.response.data);
-          setDropdownOptions && options && setDropdownOptions(options);
-        }
-      }
+      // const response = await fetchWrapper({
+      //   url: '/send_request',
+      //   method: 'POST',
+      //   // body: {
+      //   //   url: userUrl,
+      //   //   method: method,
+      //   // },
+      // });
+
+      // if (response?.data) {
+      //   setResponseMessage(response.data);
+      //   const options = getDropdownOptions(response.data.response.data);
+      //   setDropdownOptions && options && setDropdownOptions(options);
+      // }
       setIsError(false);
     } catch (err) {
       setResponseMessage('Unable to test the request.');

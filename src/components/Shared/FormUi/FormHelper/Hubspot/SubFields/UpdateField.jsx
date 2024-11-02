@@ -22,9 +22,9 @@ function UpdateField() {
   return (
     <>
       <Flex gap={2}>
-        <DynamicDropdown subFieldName='key' />
+        <DynamicDropdown subFieldName='filter.field' />
         <FormDropdown
-          name='filter'
+          name='filter.operator'
           placeholder='Select Filter type'
           variant='custom'
           labelVariant='h1'
@@ -32,7 +32,7 @@ function UpdateField() {
         />
       </Flex>
       <DraftEditorField
-        name='value'
+        name='filter.value'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'

@@ -9,7 +9,7 @@ function NewContactFields() {
   return (
     <>
       <DraftEditorField
-        name='firstName'
+        name='properties.firstName'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'
@@ -17,7 +17,7 @@ function NewContactFields() {
         labelVariant='h1'
       />
       <DraftEditorField
-        name='lastName'
+        name='properties.lastName'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'
@@ -25,7 +25,7 @@ function NewContactFields() {
         labelVariant='h1'
       />
       <DraftEditorField
-        name='email'
+        name='properties.email'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'

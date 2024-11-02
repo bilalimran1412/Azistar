@@ -25,7 +25,7 @@ function NewDealFields() {
   return (
     <>
       <DraftEditorField
-        name='deal'
+        name='properties.dealName'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'
@@ -33,7 +33,7 @@ function NewDealFields() {
         labelVariant='h1'
       />
       <FormDropdown
-        name='pipeline'
+        name='properties.pipeline'
         placeholder='Choose your pipeline'
         variant='custom'
         label='Pipeline'
@@ -41,7 +41,7 @@ function NewDealFields() {
         options={pipelineOptions}
       />
       <FormDropdown
-        name='stage'
+        name='properties.stage'
         placeholder='Choose your stage'
         variant='custom'
         label='Stage'

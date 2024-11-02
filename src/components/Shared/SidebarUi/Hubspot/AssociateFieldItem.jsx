@@ -18,7 +18,6 @@ function AssociateFieldItem({ onRemove, subFieldName, item }) {
           placeholder='Select'
           variant='custom'
           options={options}
-          // containerStyle={{ flexBasis: '300px' }}
         />
         <DraftEditorField
           name={`${subFieldName}.value`}

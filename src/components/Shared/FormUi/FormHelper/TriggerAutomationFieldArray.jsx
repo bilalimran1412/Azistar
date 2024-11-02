@@ -23,6 +23,11 @@ function TriggerAutomationFieldArray({ name }) {
                 label='Test Value'
                 labelVariant='h3'
                 variant='custom'
+                containerSx={{
+                  'input + div': {
+                    display: 'none',
+                  },
+                }}
               />
               {!isLastItem && (
                 <Icon

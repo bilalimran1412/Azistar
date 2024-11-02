@@ -21,7 +21,7 @@ function NewTicketFields() {
   return (
     <>
       <DraftEditorField
-        name='ticket'
+        name='properties.ticketName'
         placeholder='Introduce your value'
         variant='custom'
         type='inline'
@@ -29,7 +29,7 @@ function NewTicketFields() {
         labelVariant='h1'
       />
       <FormDropdown
-        name='pipeline'
+        name='properties.pipeline'
         placeholder='Choose your pipeline'
         variant='custom'
         label='Pipeline'
@@ -37,7 +37,7 @@ function NewTicketFields() {
         labelVariant='h1'
       />
       <FormDropdown
-        name='stage'
+        name='properties.stage'
         placeholder='Choose your stage'
         variant='custom'
         label='Stage'

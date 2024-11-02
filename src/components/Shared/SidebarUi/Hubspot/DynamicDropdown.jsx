@@ -16,7 +16,6 @@ const DynamicDropdown = React.memo(({ subFieldName, filterKey = '' }) => {
     const type = filterKey || selectedEvent.key;
     const fetchOptions = async () => {
       const opt = await loadOptions(type);
-      console.log(opt);
       setOptions(opt);
     };
 
@@ -25,7 +24,7 @@ const DynamicDropdown = React.memo(({ subFieldName, filterKey = '' }) => {
     }
   }, [filterKey, selectedEvent.key]);
 
-  return <FormReactSelect name={`${subFieldName}.key`} options={options} />;
+  return <FormReactSelect name={`${subFieldName}`} options={options} />;
 });
 
 export { DynamicDropdown };

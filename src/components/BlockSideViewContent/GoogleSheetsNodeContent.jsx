@@ -16,7 +16,11 @@ import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { FaGoogle } from 'react-icons/fa';
-import { FormDropdown } from 'components/Shared/FormUi';
+import {
+  FormDropdown,
+  FormVariableSelectorDropdown,
+  RowFieldArray,
+} from 'components/Shared/FormUi';
 import { useFormikContext } from 'formik';
 import { MdClose } from 'react-icons/md';
 
@@ -57,6 +61,7 @@ function GoogleSheetsNodeContent({ id }) {
       onReset={handleClose}
     >
       <AccordionContent />
+      <ActionFormFields />
     </SidebarFormContainer>
   );
 }
@@ -181,9 +186,73 @@ function SelectFileContent() {
           label=''
           labelVariant='h3'
           variant='custom'
-          disabled={true}
+          // disabled={true}
         />
       )}
     </Box>
+  );
+}
+function ActionFormFields() {
+  const { values } = useFormikContext();
+  if (!values.sheet) {
+    return <></>;
+  }
+  return (
+    <>
+      <SidebarFormCard
+        title='Action to perform'
+        containerProps={{ padding: 4 }}
+        contentContainerProps={{ marginTop: 1 }}
+      >
+        <FormDropdown
+          name='action'
+          options={options}
+          label=''
+          labelVariant='h3'
+          variant='custom'
+        />
+      </SidebarFormCard>
+
+      <SidebarFormCard
+        title='Set a reference column'
+        containerProps={{ padding: 4 }}
+        contentContainerProps={{ marginTop: 1 }}
+      >
+        <Text mb={2}>
+          Select a reference column and its related field to identify which row
+          to update.
+        </Text>
+        <Box bg='#8a9ba826' borderRadius='3px' p='10px 12px 9px'>
+          <Flex direction='column' width='100%' alignItems='flex-end'>
+            <Box width='100%'>
+              <FormDropdown
+                label=''
+                placeholder='Select the field'
+                name={`field`}
+                options={[]}
+                variant='custom'
+              />
+              <FormVariableSelectorDropdown
+                name={`variable`}
+                placeholder='Select a variable'
+                label=''
+              />
+            </Box>
+          </Flex>
+        </Box>
+      </SidebarFormCard>
+
+      <SidebarFormCard
+        title='New row'
+        containerProps={{ padding: 4 }}
+        contentContainerProps={{ marginTop: 1 }}
+      >
+        <Text mb={2}>
+          Specify which fields should be sent to the file and assign them to
+          specific columns.
+        </Text>
+        <RowFieldArray />
+      </SidebarFormCard>
+    </>
   );
 }
