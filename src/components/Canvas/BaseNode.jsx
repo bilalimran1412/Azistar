@@ -124,6 +124,10 @@ const BaseNode = (props) => {
           border: '2px solid transparent',
           cursor: 'pointer',
         }}
+        animation='0.3s ease-in-out 0s 1 normal none bounceIn'
+        _hover={{
+          boxShadow: '0 0 0 4px #c8c8fa',
+        }}
         onClick={handleClick}
       >
         <Box
@@ -150,7 +154,10 @@ const BaseNode = (props) => {
                     width='22px'
                     height='22px'
                     sx={{
-                      svg: { height: '22px', width: '22px' },
+                      svg: {
+                        height: '22px',
+                        width: '22px',
+                      },
                     }}
                   >
                     {NodeIcon}
