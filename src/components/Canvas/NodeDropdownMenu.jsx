@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
-import { MdAdd } from 'react-icons/md';
-import { menuOptionList } from '../../config/nodeConfigurations';
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  VStack,
+  Text,
+  Flex,
+  Icon,
+} from '@chakra-ui/react';
+import { MdAdd, MdSearch } from 'react-icons/md';
+import { menuOptionList } from 'config/nodeConfigurations';
 
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -8,87 +18,61 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
   const filteredMenuItems = menuOptionList.filter((item) =>
     item.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
   return (
-    <div
-      className='dropdown-menu'
-      style={{
-        position: 'absolute',
-        padding: '10px',
-        top: dropdownPosition.y,
-        left: dropdownPosition.x,
-        zIndex: 10,
-        backgroundColor: 'white',
-        border: '1px solid #ddd',
-        borderRadius: '4px',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        minWidth: '220px',
-      }}
+    <Box
+      position='absolute'
+      paddingY={4}
+      paddingX={2}
+      top={dropdownPosition.y}
+      left={dropdownPosition.x}
+      zIndex='10'
+      bg='white'
+      border='1px solid'
+      borderColor='gray.200'
+      borderRadius='md'
+      boxShadow='lg'
+      minW='220px'
     >
-      <div className='search_frop'>
-        <div className='sc-iGgVNO pcBUt'>
-          <div className='sc-aYaIB sc-gEvDqW lfziQO hFCtfK'>
-            <span className='sc-jXbVAB Cxxqa'>
-              <svg
-                aria-hidden='true'
-                focusable='false'
-                data-prefix='far'
-                data-icon='magnifying-glass'
-                className='svg-inline--fa fa-magnifying-glass'
-                role='img'
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 512 512'
-              >
-                <path
-                  fill='currentColor'
-                  d='M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1L505 471c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L337.1 371.1z'
-                ></path>
-              </svg>
-            </span>
-          </div>
-          <input
-            placeholder='Search by name'
-            className='sc-gsFSjX hwwsqP'
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className='selected_dropdown-menu'>
+      {/* Search Input */}
+      <InputGroup mb='3'>
+        <InputLeftElement pointerEvents='none'>
+          <Icon as={MdSearch} color='gray.400' />
+        </InputLeftElement>
+        <Input
+          placeholder='Search by name'
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          focusBorderColor='blue.400'
+        />
+      </InputGroup>
+
+      {/* Menu Items */}
+      <VStack align='start' spacing='1' maxH='200px' overflowY='auto'>
         {filteredMenuItems.length > 0 ? (
           filteredMenuItems.map(({ blockId, label }) => (
-            <div
-              className='menu_btn'
+            <Flex
               key={blockId}
-              onClick={() => {
-                handleAddNode(blockId);
-              }}
-              style={{
-                padding: '3px',
-                cursor: 'pointer',
-                borderRadius: '4px',
-                transition: 'background-color 0.3s',
-                display: 'flex',
-                alignItems: 'center',
-                fontSize: '15px',
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = '#f0f0f0')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = 'transparent')
-              }
+              onClick={() => handleAddNode(blockId)}
+              align='center'
+              width='full'
+              padding='2'
+              borderRadius='md'
+              cursor='pointer'
+              _hover={{ bg: 'gray.100' }}
+              transition='background-color 0.2s'
             >
-              <MdAdd style={{ marginRight: '8px', fontSize: '16px' }} />
-              {label}
-            </div>
+              <Icon as={MdAdd} mr='2' color='blue.500' />
+              <Text fontSize='sm'>{label}</Text>
+            </Flex>
           ))
         ) : (
-          <div style={{ padding: '10px', textAlign: 'center' }}>
+          <Text padding='4' textAlign='center' color='gray.500'>
             No results found
-          </div>
+          </Text>
         )}
-      </div>
-    </div>
+      </VStack>
+    </Box>
   );
 };
 

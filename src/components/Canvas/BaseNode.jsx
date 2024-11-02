@@ -178,7 +178,7 @@ const BaseNode = (props) => {
                           event.preventDefault();
                           event.stopPropagation();
                         }}
-                        className='nodrag'
+                        className='nodrag nowheel'
                       >
                         {!isStartingNode && (
                           <NodeActionDropdown
@@ -326,7 +326,7 @@ const BaseNode = (props) => {
 
             </Box>
             </Box> */}
-        <Box className='nodrag'>
+        <Box className='nodrag nowheel'>
           {showReplaceMenu && (
             <NodeDropdownMenu
               handleAddNode={handleReplaceNodeType}

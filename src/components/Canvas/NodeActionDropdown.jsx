@@ -5,8 +5,9 @@ import {
   MenuList,
   MenuItem,
   IconButton,
+  Tooltip,
 } from '@chakra-ui/react';
-import { FiMoreHorizontal } from 'react-icons/fi';
+import { FiMoreHorizontal, FiCopy, FiRefreshCw, FiTrash } from 'react-icons/fi';
 
 const NodeActionDropdown = ({
   onCopy,
@@ -18,23 +19,37 @@ const NodeActionDropdown = ({
 }) => {
   return (
     <Menu closeOnBlur={true}>
-      <MenuButton
-        as={IconButton}
-        icon={<FiMoreHorizontal />}
-        variant='outline'
-        sx={{
-          minW: 0,
-          border: 'none',
-          h: '22px',
-          p: 1,
-        }}
-      />
+      <Tooltip label='Options' aria-label='Options Tooltip'>
+        <MenuButton
+          as={IconButton}
+          icon={<FiMoreHorizontal />}
+          variant='outline'
+          sx={{
+            minW: 0,
+            border: 'none',
+            h: '22px',
+            p: 1,
+            _hover: { bg: 'gray.100' },
+            _active: { bg: 'gray.200' },
+          }}
+        />
+      </Tooltip>
       <MenuList>
-        <MenuItem onClick={onCopy}>Copy Node</MenuItem>
-        <MenuItem onClick={onReplace}>Replace Node</MenuItem>
-        <MenuItem onClick={onDelete}>Delete Node</MenuItem>
-        <MenuItem onClick={onDuplicate}>Duplicate Node</MenuItem>
-        <MenuItem onClick={onCopyId}>Copy Block ID</MenuItem>
+        <MenuItem icon={<FiCopy />} onClick={onCopy}>
+          Copy Node
+        </MenuItem>
+        <MenuItem icon={<FiRefreshCw />} onClick={onReplace}>
+          Replace Node
+        </MenuItem>
+        <MenuItem icon={<FiTrash />} color='red.500' onClick={onDelete}>
+          Delete Node
+        </MenuItem>
+        <MenuItem icon={<FiCopy />} onClick={onDuplicate}>
+          Duplicate Node
+        </MenuItem>
+        <MenuItem icon={<FiCopy />} onClick={onCopyId}>
+          Copy Block ID
+        </MenuItem>
       </MenuList>
     </Menu>
   );
