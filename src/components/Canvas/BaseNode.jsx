@@ -113,7 +113,7 @@ const BaseNode = (props) => {
 
   // means node having body
   const isNodeExtended = false;
-  const showTags = true;
+  const showTags = false;
 
   return (
     <Box ref={nodeRef}>
@@ -122,7 +122,9 @@ const BaseNode = (props) => {
           background: '#fff',
           borderRadius: '4px',
           border: '2px solid transparent',
+          cursor: 'pointer',
         }}
+        onClick={handleClick}
       >
         <Box
           sx={{
@@ -178,7 +180,18 @@ const BaseNode = (props) => {
             )}
           </Box>
           {showTags && (
-            <Box position='absolute' top='-13px' left='10px'>
+            <Box
+              position='absolute'
+              top='-13px'
+              left='10px'
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+              }}
+              sx={{
+                cursor: 'default',
+              }}
+            >
               <Box
                 backgroundColor='#ddddff'
                 p='2px'
