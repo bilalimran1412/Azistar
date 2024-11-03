@@ -454,15 +454,22 @@ export const nodeConfigurations = {
       variableType: 'STRING',
       data: {
         layoutType: sideViewLayoutType.askAddress,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type your address, please',
+        params: {
+          nodeTextContent: 'Type your address, please',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'address',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'address',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Type your address, please',
+      },
     },
     {
       group: Groups.question,
@@ -474,15 +481,22 @@ export const nodeConfigurations = {
       variableType: 'STRING',
       data: {
         layoutType: sideViewLayoutType.askUrl,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type a Url',
+        params: {
+          nodeTextContent: 'Type a Url',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'url_0',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'url_0',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question',
+        placeholder: 'Type a Url',
+      },
     },
     {
       group: Groups.question,
