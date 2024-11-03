@@ -11,6 +11,7 @@ import NodeActionDropdown from './NodeActionDropdown';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
+  sideViewLayoutType,
 } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import CustomHandle from './CustomHandle';
@@ -59,6 +60,8 @@ const BaseNode = (props) => {
   const isStartingNode = config?.data?.contentType === contentType.startingNode;
   const isMultiHandleNode = config?.data?.multipleHandles;
   const isButtonNode = config?.data?.contentType === contentType.buttonNode;
+  const isPictureNode =
+    config?.data?.layoutType === sideViewLayoutType.pictureChoice;
   const customHandles = !isButtonNode ? config?.data?.customHandle : [];
   const disableSourceHandle =
     config?.data?.contentType === contentType.incomingOnly;
@@ -170,7 +173,7 @@ const BaseNode = (props) => {
                     >
                       <Flex direction='column'>
                         <Text fontWeight='700'>{displayLabel}</Text>
-                        {!isNodeExtended && (
+                        {(!isNodeExtended || isPictureNode) && (
                           <Box>
                             <Text
                               fontSize='12px'

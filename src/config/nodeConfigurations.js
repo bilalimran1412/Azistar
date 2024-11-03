@@ -510,16 +510,22 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.pictureChoice,
-        items: [],
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Image carousel',
+        params: {
+          nodeTextContent: 'Image carousel',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'pictures',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'pictures',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question',
+        placeholder: 'Image carousel',
+      },
     },
     {
       group: Groups.question,

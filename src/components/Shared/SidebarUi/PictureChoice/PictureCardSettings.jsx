@@ -23,6 +23,8 @@ function PictureCardSettings({
         name={`${subFieldName}.text`}
         label='Title'
         placeholder='Choice title'
+        labelVariant='h3White'
+        variant='customMini'
       />
       <FileSelector
         sectionLabel=''
@@ -38,21 +40,34 @@ function PictureCardSettings({
         name={`${subFieldName}.externalLink`}
         label='External Link'
         placeholder='https://'
+        labelVariant='h3White'
+        variant='customMini'
       />
       <ExtraOptionsAccordion>
         <FormTextField
           name={`${subFieldName}.description`}
           label='Description'
+          labelVariant='h3White'
+          variant='customMini'
         />
-        <FormTextField name={`${subFieldName}.details`} label='Details' />
+        <FormTextField
+          name={`${subFieldName}.details`}
+          label='Details'
+          labelVariant='h3White'
+          variant='customMini'
+        />
         <Flex gap={1}>
           <FormTextField
             name={`${subFieldName}.highlighted`}
             label='Highlighted'
+            labelVariant='h3White'
+            variant='customMini'
           />
           <FormTextField
             name={`${subFieldName}.buttonText`}
             label='Button Text'
+            labelVariant='h3White'
+            variant='customMini'
           />
         </Flex>
         <FileSelector

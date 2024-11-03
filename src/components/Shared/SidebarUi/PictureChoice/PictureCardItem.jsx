@@ -66,7 +66,25 @@ function PictureCardItem({
           <FormTextField
             placeholder='Click to edit'
             name={`${name}.text`}
-            className='button-input'
+            sx={{
+              border: 'none',
+              outline: 'none',
+              height: '14px',
+              fontSize: '14px',
+            }}
+            _active={{
+              border: 'none !important',
+              outline: 'none !important',
+              boxShadow: 'none',
+            }}
+            _focus={{
+              border: 'none !important',
+              outline: 'none !important',
+              boxShadow: 'none',
+            }}
+            _placeholder={{
+              color: '#ffffff80',
+            }}
             autoComplete='off'
           />
         </Box>

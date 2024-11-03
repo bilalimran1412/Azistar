@@ -14,10 +14,18 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
         />
       )}
       {config?.data?.layoutType === sideViewLayoutType.yesNo && (
-        <YesNoNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
+        <YesNoNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
       )}
       {config?.data?.layoutType === sideViewLayoutType.pictureChoice && (
-        <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.cards} />
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params.cards}
+        />
       )}
     </Box>
   );
