@@ -199,7 +199,7 @@ export const NodeProvider = ({ children }) => {
     //To remove edge filter sourceId or targetID.
     setNodes((pre) => pre.filter((n) => n.id !== nodeId));
     setEdges((pre) =>
-      pre.filter((edge) => edge.target !== nodeId || edge.source !== nodeId)
+      pre.filter((edge) => edge.target !== nodeId && edge.source !== nodeId)
     );
   }, []);
 

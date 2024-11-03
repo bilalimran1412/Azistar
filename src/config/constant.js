@@ -544,12 +544,12 @@ const blockList = [
 export const initialNode = {
   id: '1',
   data: {
-    label: 'This is our parent',
+    label: 'Starting Point',
     contentType: 'startingNode',
+    nodeTextContent: 'Where your bot begins',
     blockId: '1',
   },
   position: { x: 50, y: 100 },
-  icon: <FaFlag />,
   type: 'baseNode',
 };
 

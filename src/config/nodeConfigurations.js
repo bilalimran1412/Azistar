@@ -1368,4 +1368,9 @@ export const nodeConfigurationBlockIdMap = {
 
 export const menuOptionList = Array.from(Object.values(nodeConfigurations))
   .flatMap((a) => a)
-  .map((n) => ({ label: n.label, blockId: n.blockId, group: n.group }));
+  .map((n) => ({
+    label: n.label,
+    blockId: n.blockId,
+    group: n.group,
+    icon: n.icon,
+  }));

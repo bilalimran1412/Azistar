@@ -19,6 +19,7 @@ import { initialNode } from '../../config/constant';
 import CustomHandle from './CustomHandle';
 import { ButtonNodeLayout, YesNoNodeLayout } from './CustomNodeLayout';
 import { Box, Flex, Text } from '@chakra-ui/react';
+import { FaFlag } from 'react-icons/fa';
 
 const BaseNode = (props) => {
   const { id, data, type } = props;
@@ -44,13 +45,14 @@ const BaseNode = (props) => {
   const [showReplaceMenu, setShowReplaceMenu] = useState(false);
 
   const config = nodeConfigurationBlockIdMap[data.blockId];
+
   const placeholderText =
     config?.fields?.[0]?.placeholder || 'No data available';
 
   const displayLabel = data.label || config.title;
 
-  const displayContent = data.textareaFieldData
-    ? { __html: data.textareaFieldData }
+  const displayContent = data.nodeTextContent
+    ? { __html: data.nodeTextContent }
     : { __html: placeholderText };
 
   const handleAddNode = (blockId) => {
@@ -104,7 +106,7 @@ const BaseNode = (props) => {
     setShowReplaceMenu(false);
   };
 
-  const NodeIcon = isStartingNode ? initialNode.icon : config?.icon;
+  const NodeIcon = isStartingNode ? <FaFlag /> : config?.icon;
 
   const onClick = (id) => {
     setHandleId(id);
@@ -166,10 +168,13 @@ const BaseNode = (props) => {
                   <Box flexGrow='1'>
                     <Flex justifyContent='space-between' alignItems='center'>
                       <Flex direction='column'>
-                        <Text fontWeight='700'>Node title</Text>
+                        <Text fontWeight='700'>{displayLabel}</Text>
                         {!isNodeExtended && (
                           <Box>
-                            <Text fontSize='13px'>sub title</Text>
+                            <Text
+                              fontSize='13px'
+                              dangerouslySetInnerHTML={displayContent}
+                            />
                           </Box>
                         )}
                       </Flex>

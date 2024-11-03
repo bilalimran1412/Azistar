@@ -30,39 +30,49 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
       bg='white'
       border='1px solid'
       borderColor='gray.200'
-      borderRadius='md'
+      borderRadius='3px'
       boxShadow='lg'
-      minW='220px'
+      minW='240px'
     >
-      {/* Search Input */}
       <InputGroup mb='3'>
-        <InputLeftElement pointerEvents='none'>
-          <Icon as={MdSearch} color='gray.400' />
+        <InputLeftElement pointerEvents='none' sx={{ width: '24px' }}>
+          <Icon as={MdSearch} color='gray.400' mt={1} />
         </InputLeftElement>
         <Input
           placeholder='Search by name'
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           focusBorderColor='blue.400'
+          variant='custom'
+          sx={{ paddingLeft: 5 }}
         />
       </InputGroup>
 
-      {/* Menu Items */}
       <VStack align='start' spacing='1' maxH='200px' overflowY='auto'>
         {filteredMenuItems.length > 0 ? (
-          filteredMenuItems.map(({ blockId, label }) => (
+          filteredMenuItems.map(({ blockId, label, icon: BlockIcon }) => (
             <Flex
               key={blockId}
               onClick={() => handleAddNode(blockId)}
               align='center'
               width='full'
               padding='2'
-              borderRadius='md'
+              borderRadius='3px'
               cursor='pointer'
               _hover={{ bg: 'gray.100' }}
               transition='background-color 0.2s'
+              gap={2}
             >
-              <Icon as={MdAdd} mr='2' color='blue.500' />
+              <Box
+                sx={{
+                  width: '20px',
+                  height: '20px',
+                  display: 'flex',
+                  svg: { width: '20px', height: '20px' },
+                }}
+              >
+                {BlockIcon}
+              </Box>
               <Text fontSize='sm'>{label}</Text>
             </Flex>
           ))
