@@ -7,7 +7,11 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
   return (
     <Box>
       {config?.data?.layoutType === sideViewLayoutType.buttons && (
-        <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
       )}
       {config?.data?.layoutType === sideViewLayoutType.yesNo && (
         <YesNoNodeLayout onClick={onClick} id={id} buttons={data?.buttons} />

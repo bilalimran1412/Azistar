@@ -1,21 +1,22 @@
 import React from 'react';
 import CustomHandle from '../CustomHandle';
+import { Box, Text } from '@chakra-ui/react';
 
 function ButtonNodeLayout({ onClick, buttons, id }) {
   return (
-    <div className='item-list'>
+    <Box className='item-list'>
       {buttons &&
         buttons.map((item) => (
-          <div key={item.id} className='item-buttons'>
-            <div
+          <Box key={item.id} className='item-buttons'>
+            <Box
               style={{
                 display: 'flex',
                 gap: '10px',
                 opacity: item.text ? '1' : '0.5',
               }}
             >
-              <span>{item.text || 'Add label'}</span>
-            </div>
+              <Text>{item.text || 'Add label'}</Text>
+            </Box>
 
             <CustomHandle
               type='source'
@@ -26,11 +27,11 @@ function ButtonNodeLayout({ onClick, buttons, id }) {
                 right: '-10px',
               }}
             />
-          </div>
+          </Box>
         ))}
 
-      <div key='placeholder' className='placeholder-button'>
-        <span>Any of the above</span>
+      <Box key='placeholder' className='placeholder-button'>
+        <Text>Any of the above</Text>
         <CustomHandle
           type='source'
           id={`source-placeholder-${id}`}
@@ -39,8 +40,8 @@ function ButtonNodeLayout({ onClick, buttons, id }) {
             right: '-10px',
           }}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

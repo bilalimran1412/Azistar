@@ -110,9 +110,9 @@ const BaseNode = (props) => {
   };
 
   // means node having body
-  const isNodeExtended = false;
+  const isNodeExtended = isMultiHandleNode;
   const showTags = false;
-  console.log(data);
+
   return (
     <Box ref={nodeRef}>
       <Box
