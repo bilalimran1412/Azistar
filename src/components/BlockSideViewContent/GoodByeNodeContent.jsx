@@ -23,27 +23,39 @@ function GoodByeNodeContent({ id }) {
   const initialValues = {
     // fields: config.fields,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
+    message: currentNode?.data?.params?.message,
     //this message will contain all the ops and html and normal text
-    redirectMessage: currentNode?.data?.redirectMessage,
+    redirectMessage: currentNode?.data?.params?.redirectMessage,
 
-    socialEnable: currentNode?.data?.socialEnable || false,
-    socialUrl: currentNode?.data?.socialUrl || '',
-    socialUrlText: currentNode?.data?.socialUrlText || '',
-    startButtonEnable: currentNode?.data?.startButtonEnable || '',
-    startButtonText: currentNode?.data?.startButtonText || '',
-    redirectUrl: currentNode?.data?.redirectUrl || '',
-    redirectEnable: currentNode?.data?.redirectEnable || '',
-    redirectTimeout: currentNode?.data?.redirectTimeout || '',
+    socialEnable:
+      currentNode?.data?.params?.socialEnable ||
+      config?.data?.params.socialEnable,
+    startButtonEnable:
+      currentNode?.data?.params?.startButtonEnable ||
+      config?.data?.params.startButtonEnable,
+    redirectEnable:
+      currentNode?.data?.params?.redirectEnable ||
+      config?.data?.params.redirectEnable,
+    socialUrl: currentNode?.data?.params?.socialUrl || '',
+    socialUrlText: currentNode?.data?.params?.socialUrlText || '',
+    startButtonText: currentNode?.data?.params?.startButtonText || '',
+    redirectUrl: currentNode?.data?.params?.redirectUrl || '',
+    redirectTimeout:
+      currentNode?.data?.params?.redirectTimeout ||
+      config?.data?.params.redirectTimeout,
   };
 
   const validationSchema = yup.object({
-    message: yup.string().required('Good bye message is required'),
+    message: yup.mixed().required('Good bye message is required'),
   });
 
   const onSave = (formValues) => {
     console.log('Good bye node Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, {
+      params: {
+        ...formValues,
+      },
+    });
     handleClose();
   };
   return (

@@ -11,13 +11,12 @@ import NodeActionDropdown from './NodeActionDropdown';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
-  sideViewLayoutType,
 } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import CustomHandle from './CustomHandle';
-import { ButtonNodeLayout, YesNoNodeLayout } from './CustomNodeLayout';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { FaFlag } from 'react-icons/fa';
+import BaseNodeDynamicLayout from './BaseNodeDynamicLayout';
 
 const BaseNode = (props) => {
   const { id, data } = props;
@@ -113,7 +112,7 @@ const BaseNode = (props) => {
   // means node having body
   const isNodeExtended = false;
   const showTags = false;
-
+  console.log(data);
   return (
     <Box ref={nodeRef}>
       <Box
@@ -214,28 +213,12 @@ const BaseNode = (props) => {
 
             {isNodeExtended && (
               <Box p='7px' backgroundColor='#edeef9'>
-                {config?.data?.layoutType === sideViewLayoutType.buttons && (
-                  <ButtonNodeLayout
-                    onClick={onClick}
-                    id={id}
-                    buttons={data?.buttons}
-                  />
-                )}
-                {config?.data?.layoutType === sideViewLayoutType.yesNo && (
-                  <YesNoNodeLayout
-                    onClick={onClick}
-                    id={id}
-                    buttons={data?.buttons}
-                  />
-                )}
-                {config?.data?.layoutType ===
-                  sideViewLayoutType.pictureChoice && (
-                  <ButtonNodeLayout
-                    onClick={onClick}
-                    id={id}
-                    buttons={data?.cards}
-                  />
-                )}
+                <BaseNodeDynamicLayout
+                  config={config}
+                  data={data}
+                  id={id}
+                  onClick={onClick}
+                />
               </Box>
             )}
           </Box>

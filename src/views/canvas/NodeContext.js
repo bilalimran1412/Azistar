@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import {
-  edgeType,
-  initialGroupedOptions,
-  initialNode,
-  sample,
-} from '../../config/constant';
+import { edgeType, initialGroupedOptions } from '../../config/constant';
 import {
   contentType,
   nodeConfigurationBlockIdMap,

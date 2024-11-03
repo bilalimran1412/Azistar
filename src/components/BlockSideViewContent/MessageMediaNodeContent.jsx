@@ -21,7 +21,7 @@ function MessageMediaNodeContent({ id }) {
   const initialValues = {
     // fields: config.fields,
     mediaAndMessage:
-      currentNode?.data?.mediaAndMessage ||
+      currentNode?.data?.params?.mediaAndMessage ||
       messageFieldArrayInitialValue?.[config?.data?.initialItem],
   };
 
@@ -32,9 +32,10 @@ function MessageMediaNodeContent({ id }) {
     const groupedValues = groupBy(formValues.mediaAndMessage, 'type');
 
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
-      ...(groupedValues || {}),
+      params: {
+        ...formValues,
+        ...(groupedValues || {}),
+      },
     });
     handleClose();
   };
