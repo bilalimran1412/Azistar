@@ -15,6 +15,7 @@ import { messageFieldArrayInitialValue } from '../Shared/FormUi/FormHelper/Messa
 import { Divider, Flex, Text } from '@chakra-ui/react';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { useFormikContext } from 'formik';
+import { evaluateInitialValue } from 'utils/form';
 
 const minMaxOptions = [
   {
@@ -39,7 +40,6 @@ const buttonFeatureOptions = [
   {
     name: 'randomizeOrder',
     label: 'Randomize order',
-
     options: [
       { label: 'No', value: false },
       { label: 'Yes', value: true },
@@ -74,31 +74,34 @@ function ButtonNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    fields: config.fields,
     mediaAndMessage:
       currentNode?.data?.mediaAndMessage ||
       messageFieldArrayInitialValue?.message,
-    variable: currentNode?.data?.variable || '',
+    variable: currentNode?.data?.variable || config?.data.params.variable,
 
-    buttons: currentNode?.data?.buttons || config.data?.buttons || '',
-    minMaxOptions:
-      currentNode?.data?.minMaxOptions || config.data?.minMaxOptions || '',
+    buttons: currentNode?.data?.buttons || config.data?.params?.buttons || '',
+    minMaxOptions: evaluateInitialValue(
+      currentNode?.data?.minMaxOptions || config.data?.params?.minMaxOptions
+    ),
     buttonsAlignment:
       currentNode?.data?.buttonsAlignment ||
-      config.data?.buttonsAlignment ||
+      config.data?.params?.buttonsAlignment ||
       '',
-    randomizeOrder:
-      currentNode?.data?.randomizeOrder || config.data?.randomizeOrder || '',
-    searchableOptions:
+    randomizeOrder: evaluateInitialValue(
+      currentNode?.data?.randomizeOrder || config.data?.params?.randomizeOrder
+    ),
+    searchableOptions: evaluateInitialValue(
       currentNode?.data?.searchableOptions ||
-      config.data?.searchableOptions ||
-      '',
-    multipleChoices:
-      currentNode?.data?.multipleChoices || config.data?.multipleChoices || '',
-    outputAsArray:
-      currentNode?.data?.outputAsArray || config.data?.outputAsArray || '',
-    min: currentNode?.data?.min || config.data?.min || '',
-    max: currentNode?.data?.max || config.data?.max || '',
+        config.data?.params?.searchableOptions
+    ),
+    multipleChoices: evaluateInitialValue(
+      currentNode?.data?.multipleChoices || config.data?.params?.multipleChoices
+    ),
+    outputAsArray: evaluateInitialValue(
+      currentNode?.data?.outputAsArray || config.data?.params?.outputAsArray
+    ),
+    min: currentNode?.data?.min || config.data?.params?.min || '',
+    max: currentNode?.data?.max || config.data?.params?.max || '',
   };
 
   const validationSchema = yup.object({});
@@ -110,10 +113,11 @@ function ButtonNodeContent({ id }) {
     const groupedValues = groupBy(formValues.mediaAndMessage, 'type');
 
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
-      variableName,
-      ...(groupedValues || {}),
+      params: {
+        ...formValues,
+        variableName,
+        ...(groupedValues || {}),
+      },
     });
 
     handleClose();
@@ -136,6 +140,7 @@ function ButtonNodeContent({ id }) {
           key={options.name}
           label={options.label}
           options={options.options}
+          labelVariant='h3'
         />
       ))}
       <Divider />
@@ -144,6 +149,7 @@ function ButtonNodeContent({ id }) {
         key={multipleChoice.name}
         label={multipleChoice.label}
         options={multipleChoice.options}
+        labelVariant='h3'
       />
       <MultipleChoiceSubFields />
       <Divider />
@@ -187,27 +193,33 @@ function MultipleChoiceSubFields() {
             <FormCheckbox
               name='outputAsArray'
               label='Save output as an Array type variable'
+              labelVariant='basic'
             />
           </Flex>
           <Flex direction='column' bg='lightgray' p={3}>
             <FormCustomOptionSelector
               name='minMaxOptions'
               label='Set min/max options'
+              labelVariant='h3'
               options={minMaxOptions}
             />
             {values?.minMaxOptions && (
-              <>
+              <Flex gap={4} direction='column'>
                 <FormDropdown
                   name='min'
                   label='Minimum'
                   options={minMaxDropdownOptions}
+                  labelVariant='h2'
+                  variant='custom'
                 />
                 <FormDropdown
                   name='max'
                   label='Maximum'
                   options={maxDropdownOptions}
+                  labelVariant='h2'
+                  variant='custom'
                 />
-              </>
+              </Flex>
             )}
           </Flex>
         </Flex>

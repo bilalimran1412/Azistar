@@ -190,7 +190,16 @@ export const nodeConfigurations = {
         multipleHandles: true,
         layoutType: sideViewLayoutType.buttons,
         contentType: contentType.buttonNode,
+
         params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'options',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'options',
+          },
           buttons: [
             {
               text: 'Button',
@@ -479,10 +488,6 @@ export const nodeConfigurations = {
             sortOrder: 2,
           },
         ],
-        // items: [
-        //   { id: 'button-yes', label: 'Yes', isDeletable: false },
-        //   { id: 'button-no', label: 'No', isDeletable: false },
-        // ],
       },
       fields: [
         {

@@ -33,6 +33,7 @@ const theme = extendTheme({
           fontSize: '14px',
           fontWeight: 700,
         },
+
         h2: {
           fontSize: '12px !important',
           fontWeight: 700,
@@ -42,10 +43,14 @@ const theme = extendTheme({
           fontSize: '12px',
           fontWeight: 400,
         },
-        // h4: {
-        //   fontSize: '11px',
-        //   fontWeight: 400,
-        // },
+        h3White: {
+          fontSize: '12px',
+          fontWeight: 400,
+          color: 'white',
+        },
+        h4: {
+          fontSize: '11px',
+        },
       },
     },
     Textarea: {

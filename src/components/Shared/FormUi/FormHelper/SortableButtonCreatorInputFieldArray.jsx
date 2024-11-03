@@ -12,7 +12,7 @@ import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 const ButtonCreatorInputFieldArray = ({
-  label = 'Buttons Editor',
+  label = 'Buttons editor',
   name,
   showExternalLinkField = true,
 }) => {
@@ -73,7 +73,7 @@ const ButtonCreatorInputFieldArray = ({
 
   return (
     <Box width='100%'>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel variant='h1'>{label}</FormLabel>
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
