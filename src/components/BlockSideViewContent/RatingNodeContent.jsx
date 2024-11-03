@@ -19,7 +19,7 @@ const splitEmojiString = (str) =>
     str.match(
       /(\p{Emoji_Presentation}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Emoji_Modifier})/gu
     ) || []
-  ).filter((char) => char.trim() !== '' && char !== '\uFE0F'); // Filter out empty and variation selectors
+  ).filter((char) => char.trim() !== '' && char !== '\uFE0F');
 
 function RatingNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
