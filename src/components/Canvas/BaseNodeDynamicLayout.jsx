@@ -27,6 +27,13 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
           buttons={data?.params?.cards}
         />
       )}
+      {config?.data?.layoutType === sideViewLayoutType.rating && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
     </Box>
   );
 }

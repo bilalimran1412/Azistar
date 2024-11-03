@@ -510,6 +510,7 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.pictureChoice,
+        renderSubHeader: true,
         params: {
           nodeTextContent: 'Image carousel',
           variable: {
@@ -610,21 +611,41 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.rating,
-
-        items: [
-          { id: 'rating-level-1', label: '1 Star Rating', isDeletable: false },
-          { id: 'rating-level-2', label: '2 Star Rating', isDeletable: false },
-          { id: 'rating-level-3', label: '3 Star Rating', isDeletable: false },
-        ],
-      },
-      fields: [
-        {
-          label: 'Rating Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Create an evaluation',
+        renderSubHeader: true,
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'rating',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'rating',
+          },
+          items: [
+            {
+              id: 'rating-level-1',
+              label: '1 Star Rating',
+              isDeletable: false,
+            },
+            {
+              id: 'rating-level-2',
+              label: '2 Star Rating',
+              isDeletable: false,
+            },
+            {
+              id: 'rating-level-3',
+              label: '3 Star Rating',
+              isDeletable: false,
+            },
+          ],
+          rating: 'star-3',
+          nodeTextContent: 'Create an evaluation',
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Create an evaluation',
+      },
     },
     {
       group: Groups.question,
