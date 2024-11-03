@@ -3,6 +3,7 @@ import { MdAdd, MdDelete } from 'react-icons/md';
 import { useDropdownToggle } from './utils/nodeutils';
 import NodeDropdownMenu from './NodeDropdownMenu';
 import { useNodeContext } from '../../views/canvas/NodeContext';
+import { Box } from '@chakra-ui/react';
 
 function BaseEdgeLayout({
   edgeId,
@@ -30,7 +31,7 @@ function BaseEdgeLayout({
   const shown = isHover || isDropdownVisible;
 
   return (
-    <div
+    <Box
       style={{
         position: 'absolute',
         transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
@@ -45,24 +46,46 @@ function BaseEdgeLayout({
       className='nodrag nopan'
       ref={nodeRef}
     >
-      <div
-        className='icon_dropdown'
+      <Box
+        cursor='pointer'
+        display='flex'
+        alignItems='center'
+        justifyContent='center'
+        p='2px'
+        borderRadius='50%'
+        top='50%'
+        transform='translateY(-50%)'
+        right='-11px'
+        bg='#4ab8b3'
         onClick={toggleDropdown}
+        fontSize='18px'
+        color='#fff'
         style={{
           position: 'relative',
         }}
       >
         <MdAdd />
-      </div>
-      <div
-        className='icon_dropdown'
+      </Box>
+      <Box
+        cursor='pointer'
+        display='flex'
+        alignItems='center'
+        justifyContent='center'
+        p='2px'
+        borderRadius='50%'
+        top='50%'
+        transform='translateY(-50%)'
+        right='-11px'
+        bg='#4ab8b3'
+        fontSize='18px'
+        color='#fff'
         onClick={onEdgeClick}
         style={{
           position: 'relative',
         }}
       >
         <MdDelete />
-      </div>
+      </Box>
       {isDropdownVisible && (
         <NodeDropdownMenu
           handleAddNode={handleAddNode}
@@ -70,7 +93,7 @@ function BaseEdgeLayout({
           dropdownRef={dropdownRef}
         />
       )}
-    </div>
+    </Box>
   );
 }
 
