@@ -65,7 +65,7 @@ function DateNodeContent({ id }) {
 
     variable:
       currentNode?.data?.params?.variable || config.data?.params?.variable,
-    format: currentNode?.data?.format || config.data?.params?.format,
+    format: currentNode?.data?.params?.format || config.data?.params?.format,
     showDatePicker:
       currentNode?.data?.params?.showDatePicker ||
       evaluateInitialValue(config.data?.params?.showDatePicker),

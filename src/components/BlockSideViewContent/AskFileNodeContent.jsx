@@ -1,11 +1,12 @@
 import React from 'react';
 import { Divider } from '@chakra-ui/react';
-import { FormCustomOptionSelector, QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField, FormCustomOptionSelector } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import { evaluateInitialValue } from 'utils/form';
 
 const fileUploadOptions = [
   { label: 'No', value: false },
@@ -19,17 +20,19 @@ function AskFileNodeContent({ id }) {
     setSideView(false);
   };
   if (!config) return <></>;
-  // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  //ALLOWMUTIPLE
-  const initialValues = {
-    fields: config.fields,
-    //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
 
-    allowMultiples: currentNode?.data?.allowMultiples || false,
+  const initialValues = {
+    //this message will contain all the ops and html and normal text
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params?.variable,
+    allowMultiples:
+      currentNode?.data?.params?.allowMultiples ||
+      evaluateInitialValue(config.data?.params?.allowMultiples),
   };
 
   const validationSchema = yup.object({});
@@ -37,7 +40,7 @@ function AskFileNodeContent({ id }) {
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    updateNodeById(id, { params: { ...formValues, variableName } });
     handleClose();
   };
 
@@ -50,10 +53,12 @@ function AskFileNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        labelVariant='h1'
+        setNodeContent={true}
       />
       <FormCustomOptionSelector
         options={fileUploadOptions}

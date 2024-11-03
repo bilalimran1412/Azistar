@@ -425,15 +425,24 @@ export const nodeConfigurations = {
       variableType: 'STRING',
       data: {
         layoutType: sideViewLayoutType.askFile,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'File upload',
+        params: {
+          nodeTextContent: 'File upload',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'file',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'file',
+          },
+          allowMultiples: false,
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+
+        placeholder: 'File upload',
+      },
     },
     {
       group: Groups.question,
