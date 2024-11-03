@@ -6,7 +6,7 @@ const FormMediaField = ({ value, onCopy }) => {
   return (
     <Box
       width='100%'
-      minH='100px'
+      minH='110px'
       h='100px'
       pos='relative'
       _hover={{ '> .iconGroup': { visibility: 'visible' } }}

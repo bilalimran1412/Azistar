@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { MdAdd, MdMoreHoriz } from 'react-icons/md';
 import {
   useDropdownToggle,
   handleCopyNode,
@@ -15,20 +14,20 @@ import {
   sideViewLayoutType,
 } from '../../config/nodeConfigurations';
 import { useNodeContext } from '../../views/canvas/NodeContext';
-import { initialNode } from '../../config/constant';
 import CustomHandle from './CustomHandle';
 import { ButtonNodeLayout, YesNoNodeLayout } from './CustomNodeLayout';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { FaFlag } from 'react-icons/fa';
 
 const BaseNode = (props) => {
-  const { id, data, type } = props;
+  const { id, data } = props;
   const {
     isDropdownVisible,
     toggleDropdown,
     dropdownPosition,
     nodeRef,
     dropdownRef,
+    setDropdownVisible,
   } = useDropdownToggle();
 
   const {
@@ -41,7 +40,6 @@ const BaseNode = (props) => {
   } = useNodeContext();
   const [handleId, setHandleId] = React.useState('');
 
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [showReplaceMenu, setShowReplaceMenu] = useState(false);
 
   const config = nodeConfigurationBlockIdMap[data.blockId];
@@ -69,6 +67,7 @@ const BaseNode = (props) => {
     config?.data?.contentType === contentType.placeholderNodes;
 
   const handleClick = () => {
+    setDropdownVisible(false);
     if (isStartingNode) {
       return;
     }
@@ -77,8 +76,6 @@ const BaseNode = (props) => {
   };
 
   const handleAction = (actionType) => {
-    setIsMenuVisible(false);
-
     switch (actionType) {
       case 'copy':
         handleCopyNode(id, nodes, handleAddNewNode);
@@ -133,8 +130,9 @@ const BaseNode = (props) => {
       >
         <Box
           sx={{
-            minHeight: '60px',
+            // minHeight: '60px',
             minWidth: '220px',
+            // minH: '60px',
             display: 'flex',
             position: 'relative',
           }}
@@ -148,9 +146,9 @@ const BaseNode = (props) => {
             onClick={handleClick}
           >
             {/* headercontaciner */}
-            <Flex p='10px 16px'>
+            <Flex p='8px 16px'>
               <Box flexGrow='1' display='flex' alignItems='center'>
-                <Flex flexGrow='1' gap={3} alignItems='center'>
+                <Flex flexGrow='1' gap={4} alignItems='center'>
                   <Box
                     as='span'
                     width='22px'
@@ -166,14 +164,27 @@ const BaseNode = (props) => {
                   </Box>
 
                   <Box flexGrow='1'>
-                    <Flex justifyContent='space-between' alignItems='center'>
+                    <Flex
+                      justifyContent='space-between'
+                      alignItems='center'
+                      gap={4}
+                    >
                       <Flex direction='column'>
                         <Text fontWeight='700'>{displayLabel}</Text>
                         {!isNodeExtended && (
                           <Box>
                             <Text
-                              fontSize='13px'
+                              fontSize='12px'
                               dangerouslySetInnerHTML={displayContent}
+                              title={displayContent.__html}
+                              sx={{
+                                display: '-webkit-box',
+                                overflow: 'hidden',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: 2,
+                                textOverflow: 'ellipsis',
+                                maxWidth: '150px',
+                              }}
                             />
                           </Box>
                         )}

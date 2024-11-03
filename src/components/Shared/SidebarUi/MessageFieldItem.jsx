@@ -67,6 +67,7 @@ function MessageFieldItem({
             style={{
               color: 'black',
               background: 'white',
+              borderRadius: '3px',
             }}
           />
         )}
@@ -76,6 +77,7 @@ function MessageFieldItem({
           style={{
             color: 'black',
             background: 'white',
+            borderRadius: '3px',
           }}
         />
         {!isLastField && (
@@ -85,6 +87,7 @@ function MessageFieldItem({
             style={{
               color: 'black',
               background: 'white',
+              borderRadius: '3px',
             }}
           />
         )}
@@ -93,7 +96,12 @@ function MessageFieldItem({
           label='Drag'
           {...listeners}
           {...attributes}
-          style={{ cursor: 'grab', color: 'black', background: 'white' }}
+          style={{
+            cursor: 'grab',
+            color: 'black',
+            background: 'white',
+            borderRadius: '3px',
+          }}
         />
       </Flex>
     </Box>

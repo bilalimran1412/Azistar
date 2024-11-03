@@ -266,7 +266,7 @@ const Toolbar = ({ editorState, setEditorState, type }) => {
             onConfirm={confirmLink}
           />
           {showEmojiPicker && (
-            <Box position='absolute'>
+            <Box position='absolute' zIndex={1}>
               <EmojiSelector setEmoji={insertCharacter} />
             </Box>
           )}

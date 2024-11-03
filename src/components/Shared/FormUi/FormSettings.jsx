@@ -27,19 +27,32 @@ const FormSettings = ({
       <Box
         display='flex'
         justifyContent='space-between'
-        alignItems='center'
-        onClick={handleToggle}
-        cursor='pointer'
+        alignItems='flex-start'
       >
-        <FormLabel
-          mb={0}
-          htmlFor={name}
-          ml={1}
-          variant={labelVariant}
-          {...labelProps}
-        >
-          {label}
-        </FormLabel>
+        <Box>
+          <FormLabel
+            mb={0}
+            htmlFor={name}
+            ml={1}
+            variant={labelVariant}
+            {...labelProps}
+            onClick={handleToggle}
+          >
+            {label}
+          </FormLabel>
+          {infoText && (
+            <Text
+              opacity={0.6}
+              mt={2}
+              fontStyle='italic'
+              fontSize='12px'
+              ml={2}
+              cursor='default'
+            >
+              {infoText}
+            </Text>
+          )}
+        </Box>
         <Switch
           defaultChecked={field.value}
           onChange={handleToggle}
@@ -47,11 +60,7 @@ const FormSettings = ({
           name={name}
         />
       </Box>
-      {infoText && (
-        <Text opacity={0.6} mt={4} fontStyle='italic' className='font12'>
-          {infoText}
-        </Text>
-      )}
+
       <Collapse in={isExpanded}>
         <Box mt={2} display='flex' flexDirection='column' gap='1rem'>
           {children}

@@ -19,7 +19,7 @@ function MessageMediaNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    fields: config.fields,
+    // fields: config.fields,
     mediaAndMessage:
       currentNode?.data?.mediaAndMessage ||
       messageFieldArrayInitialValue?.[config?.data?.initialItem],

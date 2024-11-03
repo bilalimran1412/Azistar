@@ -28,7 +28,7 @@ const NodeActionDropdown = ({
             minW: 0,
             border: 'none',
             h: '22px',
-            p: 1,
+            w: '36px',
             _hover: { bg: 'gray.100' },
             _active: { bg: 'gray.200' },
           }}

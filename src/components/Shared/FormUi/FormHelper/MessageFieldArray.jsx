@@ -117,7 +117,7 @@ const MessageMediaField = ({ name, label, onOpen }) => {
             strategy={verticalListSortingStrategy}
           >
             <VStack align='stretch'>
-              <FormLabel>{label}</FormLabel>
+              <FormLabel variant='h1'>{label}</FormLabel>
               {(fieldValue || [])?.map((item, index) => (
                 <MessageFieldItem
                   key={item.id}

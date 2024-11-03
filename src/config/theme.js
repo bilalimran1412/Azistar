@@ -34,8 +34,8 @@ const theme = extendTheme({
           fontWeight: 700,
         },
         h2: {
-          fontSize: '13px !important',
-          fontWeight: 500,
+          fontSize: '12px !important',
+          fontWeight: 700,
           letterSpacing: 0,
         },
         h3: {

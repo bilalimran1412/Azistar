@@ -1,9 +1,9 @@
 import React from 'react';
 import { Divider, Flex, Image, Text } from '@chakra-ui/react';
 import {
+  DraftEditorField,
   FormSettings,
   FormTextField,
-  QuillEditorField,
 } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
@@ -21,7 +21,7 @@ function GoodByeNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    fields: config.fields,
+    // fields: config.fields,
     //this message will contain all the ops and html and normal text
     message: currentNode?.data?.message,
     //this message will contain all the ops and html and normal text
@@ -55,10 +55,11 @@ function GoodByeNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        labelVariant='h1'
       />
       <Divider />
       <FormSettings
@@ -66,18 +67,23 @@ function GoodByeNodeContent({ id }) {
         label='Social share icons'
         infoText='Add buttons to this message to let your users share this chatbot in the popular social networks'
         bgColor='inherit'
+        labelVariant='h2'
+        containerStyles={{ padding: 0 }}
+        labelProps={{ style: { cursor: 'pointer' } }}
       >
         <FormTextField
           placeholder='https://'
           name='socialUrl'
           label='Url social share'
-          className='input'
+          labelVariant='h3'
+          variant='custom'
         />
         <FormTextField
           placeholder=''
           name='socialUrlText'
           label='Share description'
-          className='input'
+          labelVariant='h3'
+          variant='custom'
         />
         <Flex marginLeft={1} direction='column' gap={2}>
           <Text>Example:</Text>
@@ -90,12 +96,16 @@ function GoodByeNodeContent({ id }) {
         label='Start again button'
         infoText='This will provide buttons to start again the conversation (going back to the first flow message)'
         bgColor='inherit'
+        labelVariant='h2'
+        containerStyles={{ padding: 0 }}
+        labelProps={{ style: { cursor: 'pointer' } }}
       >
         <FormTextField
           placeholder='Click to edit'
           name='startButtonText'
           label=''
-          className='input'
+          labelVariant='h3'
+          variant='custom'
         />
       </FormSettings>
       <Divider />
@@ -103,23 +113,29 @@ function GoodByeNodeContent({ id }) {
         name='redirectEnable'
         label='Redirect to url'
         bgColor='inherit'
+        labelVariant='h2'
+        containerStyles={{ padding: 0 }}
+        labelProps={{ style: { cursor: 'pointer' } }}
       >
         <FormTextField
           placeholder='https://'
           name='redirectUrl'
           label='Url to redirect'
-          className='input'
+          labelVariant='h3'
+          variant='custom'
         />
-        <QuillEditorField
+        <DraftEditorField
           label='Type here your redirect message (use {timeout} as dynamic countdown)'
           placeholder='Redirecting you in {timeout}...'
           name='redirectMessage'
+          labelVariant='h3'
         />
         <FormTextField
           placeholder='Enter time'
           name='redirectTimeout'
           label='Redirection time (in seconds)'
-          className='input'
+          labelVariant='h3'
+          variant='custom'
         />
       </FormSettings>
       <Divider />

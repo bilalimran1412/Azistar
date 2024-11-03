@@ -133,15 +133,8 @@ export const nodeConfigurations = {
       data: {
         layoutType: sideViewLayoutType.messageMedia,
         initialItem: 'message',
+        nodeTextContent: 'Add text message or display media',
       },
-      fields: [
-        {
-          label: 'Message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Enter your message',
-        },
-      ],
     },
     {
       group: Groups.messages,
@@ -154,15 +147,8 @@ export const nodeConfigurations = {
         contentType: contentType.uploadMedia,
         layoutType: sideViewLayoutType.messageMedia,
         initialItem: 'media',
+        nodeTextContent: 'Display media or add text message',
       },
-      fields: [
-        {
-          label: 'Media File',
-          type: 'file',
-          variable: 'fileField',
-          placeholder: 'Upload media',
-        },
-      ],
     },
     {
       group: Groups.messages,
@@ -174,15 +160,14 @@ export const nodeConfigurations = {
       data: {
         contentType: contentType.incomingOnly,
         layoutType: sideViewLayoutType.goodBye,
+        nodeTextContent: 'A farewell message',
       },
-      fields: [
-        {
-          label: 'Type here your goodbye message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Message Text',
-        },
-      ],
+      fields: {
+        label: 'Type here your goodbye message',
+        type: 'text',
+        variable: 'textareaFieldData',
+        placeholder: 'Message Text',
+      },
     },
   ],
 
