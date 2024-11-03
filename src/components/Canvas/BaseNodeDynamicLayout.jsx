@@ -34,6 +34,13 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
           buttons={data?.params?.buttons}
         />
       )}
+      {config?.data?.layoutType === sideViewLayoutType.opinionScale && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
     </Box>
   );
 }

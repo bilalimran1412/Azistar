@@ -659,23 +659,27 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.opinionScale,
-        items: [
-          { id: 'opinion-level-worst', label: '0- Worst', isDeletable: false },
-          { id: 'opinion-level-1', label: '1', isDeletable: false },
-          { id: 'opinion-level-2', label: '2', isDeletable: false },
-          { id: 'opinion-level-3', label: '3', isDeletable: false },
-          { id: 'opinion-level-4', label: '4', isDeletable: false },
-          { id: 'opinion-level-5', label: '5- Best', isDeletable: false },
-        ],
-      },
-      fields: [
-        {
-          label: 'Scale Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Pick a value',
+        renderSubHeader: true,
+        params: {
+          from: '0',
+          leftLabel: 'Worst',
+          to: '5',
+          rightLabel: 'Best',
+          nodeTextContent: 'Pick a value',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'scale',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'scale',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question text',
+        placeholder: 'Pick a value',
+      },
     },
     {
       group: Groups.question,

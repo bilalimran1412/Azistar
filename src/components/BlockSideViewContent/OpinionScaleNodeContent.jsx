@@ -1,11 +1,12 @@
 import React from 'react';
 import { Divider } from '@chakra-ui/react';
-import { FormTextField, QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField, FormTextField } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import { seedID } from 'utils';
 
 function OpinionScaleNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -15,27 +16,44 @@ function OpinionScaleNodeContent({ id }) {
     setSideView(false);
   };
   if (!config) return <></>;
-  // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  // OTHER
-  const initialValues = {
-    fields: config.fields,
-    //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
 
-    from: currentNode?.data?.from || '0',
-    leftLabel: currentNode?.data?.leftLabel || 'Worst',
-    to: currentNode?.data?.to || '5',
-    rightLabel: currentNode?.data?.rightLabel || 'Best',
+  const initialValues = {
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params?.variable,
+
+    from: currentNode?.data?.params?.from || config.data?.params?.from,
+    leftLabel:
+      currentNode?.data?.params?.leftLabel || config.data?.params?.leftLabel,
+    to: currentNode?.data?.params?.to || config.data?.params?.to,
+    rightLabel:
+      currentNode?.data?.params?.rightLabel || config.data?.params?.rightLabel,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    const { leftLabel, rightLabel, from, to } = formValues;
+
+    const buttons = [];
+    console.log(+from < +to);
+    buttons.push({ id: seedID(), text: `${from} - ${leftLabel}` });
+    if (+from < +to) {
+      for (let i = +from + 1; i < +to; i++) {
+        buttons.push({ id: seedID(), text: String(i) });
+      }
+    } else {
+      for (let i = +from - 1; i > +to; i--) {
+        buttons.push({ id: seedID(), text: String(i) });
+      }
+    }
+    buttons.push({ id: seedID(), text: `${+to} - ${rightLabel}` });
+    updateNodeById(id, { params: { ...formValues, variableName, buttons } });
     handleClose();
   };
 
@@ -48,10 +66,12 @@ function OpinionScaleNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        setNodeContent={true}
+        labelVariant='h1'
       />
 
       <Divider />
@@ -59,20 +79,29 @@ function OpinionScaleNodeContent({ id }) {
         name='from'
         label='From'
         placeholder={0}
-        className='input'
+        labelVariant='h3'
+        variant='custom'
       />
       <FormTextField
         name='leftLabel'
         label='Left Label'
         placeholder={'Worst'}
-        className='input'
+        labelVariant='h3'
+        variant='custom'
       />
-      <FormTextField name='to' label='To' placeholder={0} className='input' />
+      <FormTextField
+        name='to'
+        label='To'
+        placeholder={0}
+        labelVariant='h3'
+        variant='custom'
+      />
       <FormTextField
         name='rightLabel'
         label='Right Label'
         placeholder={'Best'}
-        className='input'
+        labelVariant='h3'
+        variant='custom'
       />
 
       <FormVariableSelectorDropdown
