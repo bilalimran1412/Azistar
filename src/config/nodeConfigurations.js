@@ -494,7 +494,7 @@ export const nodeConfigurations = {
         },
       },
       fields: {
-        label: 'Question',
+        label: 'Question Text',
         placeholder: 'Type a Url',
       },
     },
@@ -523,31 +523,31 @@ export const nodeConfigurations = {
         },
       },
       fields: {
-        label: 'Question',
+        label: 'Question Text',
         placeholder: 'Image carousel',
       },
     },
-    {
-      group: Groups.question,
-      blockId: 'a24d9b82-ff58-516f-9bdd-24009f239c62',
-      title: 'Auto-complete',
-      label: 'Auto-complete',
-      nodeType: 'baseNode',
-      icon: <FaSearch />,
-      data: {
-        multipleHandles: true,
-        contentType: contentType.buttonNode,
-        items: [],
-      },
-      fields: [
-        {
-          label: 'Autocomplete Text',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Input Suggestions',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.question,
+    //   blockId: 'a24d9b82-ff58-516f-9bdd-24009f239c62',
+    //   title: 'Auto-complete',
+    //   label: 'Auto-complete',
+    //   nodeType: 'baseNode',
+    //   icon: <FaSearch />,
+    //   data: {
+    //     multipleHandles: true,
+    //     contentType: contentType.buttonNode,
+    //     items: [],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Autocomplete Text',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Input Suggestions',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.question,
       blockId: '1665b528-5727-54e7-8873-a95265ce56c0',
@@ -561,35 +561,42 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.yesNo,
-        buttons: [
-          {
-            text: 'Yes',
-            id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
-            buttonStyle: 'icon',
-            icon: 'coding',
-            externalLink: '',
-            isSettingExpand: false,
-            sortOrder: 1,
+        params: {
+          buttons: [
+            {
+              text: 'Yes',
+              id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
+              buttonStyle: 'icon',
+              icon: 'coding',
+              externalLink: '',
+              isSettingExpand: false,
+              sortOrder: 1,
+            },
+            {
+              text: 'No',
+              id: '975bea52-4bb7-63e4-a33b-d65afde26b2b',
+              buttonStyle: 'icon',
+              icon: 'coding',
+              externalLink: '',
+              isSettingExpand: false,
+              sortOrder: 2,
+            },
+          ],
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'yes_no',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'yes_no',
           },
-          {
-            text: 'No',
-            id: '975bea52-4bb7-63e4-a33b-d65afde26b2b',
-            buttonStyle: 'icon',
-            icon: 'coding',
-            externalLink: '',
-            isSettingExpand: false,
-            sortOrder: 2,
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Yes/No choice',
+          nodeTextContent: 'Yes/No choice',
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Yes/No choice',
+      },
     },
     {
       group: Groups.question,

@@ -9,7 +9,7 @@ import {
   Flex,
   Icon,
 } from '@chakra-ui/react';
-import { MdAdd, MdSearch } from 'react-icons/md';
+import { MdSearch } from 'react-icons/md';
 import { menuOptionList } from 'config/nodeConfigurations';
 
 const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
@@ -33,6 +33,7 @@ const NodeDropdownMenu = ({ handleAddNode, dropdownPosition }) => {
       borderRadius='3px'
       boxShadow='lg'
       minW='240px'
+      className='nowheel nodrag'
     >
       <InputGroup mb='3'>
         <InputLeftElement pointerEvents='none' sx={{ width: '24px' }}>
