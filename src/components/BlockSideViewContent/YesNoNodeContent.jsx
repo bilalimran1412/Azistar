@@ -20,9 +20,7 @@ function YesNoNodeContent({ id }) {
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  // MESSAGE TOO
+
   const initialValues = {
     message: currentNode?.data?.params?.message || {
       text: config.fields.placeholder,

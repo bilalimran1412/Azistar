@@ -621,23 +621,6 @@ export const nodeConfigurations = {
             type: 'STRING',
             value: 'rating',
           },
-          items: [
-            {
-              id: 'rating-level-1',
-              label: '1 Star Rating',
-              isDeletable: false,
-            },
-            {
-              id: 'rating-level-2',
-              label: '2 Star Rating',
-              isDeletable: false,
-            },
-            {
-              id: 'rating-level-3',
-              label: '3 Star Rating',
-              isDeletable: false,
-            },
-          ],
           rating: 'star-3',
           nodeTextContent: 'Create an evaluation',
         },
@@ -690,23 +673,20 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.forms,
-        rows: [
-          {
-            questions: [],
-            layout: '1',
-            id: 'd3f24283-0a2a-54d8-ae94-88741791b3a9',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Form Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Form title: Answer the following questions',
-          value: 'Form title: Answer the following questions',
+        params: {
+          rows: [
+            {
+              questions: [],
+              layout: '1',
+              id: 'd3f24283-0a2a-54d8-ae94-88741791b3a9',
+            },
+          ],
         },
-      ],
+      },
+      fields: {
+        label: 'Form Setup',
+        placeholder: 'Form title: Answer the following questions',
+      },
     },
     {
       group: Groups.question,
