@@ -133,7 +133,9 @@ export const nodeConfigurations = {
       data: {
         layoutType: sideViewLayoutType.messageMedia,
         initialItem: 'message',
-        nodeTextContent: 'Add text message or display media',
+        params: {
+          nodeTextContent: 'Add text message or display media',
+        },
       },
     },
     {
@@ -147,7 +149,9 @@ export const nodeConfigurations = {
         contentType: contentType.uploadMedia,
         layoutType: sideViewLayoutType.messageMedia,
         initialItem: 'media',
-        nodeTextContent: 'Display media or add text message',
+        params: {
+          nodeTextContent: 'Display media or add text message',
+        },
       },
     },
     {
@@ -160,18 +164,20 @@ export const nodeConfigurations = {
       data: {
         contentType: contentType.incomingOnly,
         layoutType: sideViewLayoutType.goodBye,
-        nodeTextContent: 'A farewell message',
         params: {
+          nodeTextContent: 'A farewell message',
           socialEnable: false,
           startButtonEnable: false,
           redirectEnable: false,
           redirectTimeout: 3,
+          socialUrl: '',
+          socialUrlText: '',
+          startButtonText: 'Start Again',
+          redirectUrl: '',
         },
       },
       fields: {
         label: 'Type here your goodbye message',
-        type: 'text',
-        variable: 'textareaFieldData',
         placeholder: 'Message Text',
       },
     },
@@ -190,7 +196,6 @@ export const nodeConfigurations = {
         multipleHandles: true,
         layoutType: sideViewLayoutType.buttons,
         contentType: contentType.buttonNode,
-
         params: {
           variable: {
             category: 'CUSTOM_VARIABLES',
@@ -223,8 +228,6 @@ export const nodeConfigurations = {
       },
       fields: {
         label: 'Button Text',
-        type: 'button',
-        variable: 'textareaFieldData',
         placeholder: 'Enter button text',
       },
     },
@@ -237,16 +240,23 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.askName,
-      },
-      fields: [
-        {
-          value: "What's your name?",
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "What's your name?",
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'name',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'name',
+          },
+          nodeTextContent: "What's your name?",
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: "What's your name?",
+      },
+
       variableType: 'STRING',
     },
     {
@@ -257,18 +267,28 @@ export const nodeConfigurations = {
       label: 'Ask a Question',
       nodeType: 'baseNode',
       icon: <FaQuestionCircle />,
-
       data: {
         layoutType: sideViewLayoutType.askQuestion,
-      },
-      fields: [
-        {
-          label: 'Question Text',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Ask anything',
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'text',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'text',
+          },
+          errorMessage: `I'm afraid I didn't understand, could you try again, please?`,
+          min: 0,
+          max: 99999,
+          sizeOfTextArea: 'long',
+          nodeTextContent: 'Ask anything',
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Ask anything',
+      },
     },
     {
       group: Groups.question,
@@ -278,17 +298,24 @@ export const nodeConfigurations = {
       icon: <FaEnvelope />,
       data: {
         layoutType: sideViewLayoutType.askEmail,
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'email',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'email',
+          },
+          nodeTextContent: "What's your email?",
+        },
       },
       variableType: 'STRING',
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "What's your email?",
-        },
-      ],
+      fields: {
+        label: 'Question Text',
+        placeholder: "What's your email?",
+      },
     },
     {
       group: Groups.question,
@@ -300,15 +327,26 @@ export const nodeConfigurations = {
       icon: <FaCalculator />,
       data: {
         layoutType: sideViewLayoutType.askNumber,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type a number, please',
+        params: {
+          nodeTextContent: 'Type a number, please',
+          settings: false,
+          min: 0,
+          max: 99999,
+          format: 'auto',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'number',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'number',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Type a number, please',
+      },
     },
     {
       group: Groups.question,
@@ -319,16 +357,24 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.askPhone,
+        params: {
+          nodeTextContent: "What's your number?",
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'phone',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'phone',
+          },
+          showCountryCodeSelector: false,
+        },
       },
       variableType: 'STRING',
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "What's your number?",
-        },
-      ],
+      fields: {
+        label: 'Question Text',
+        placeholder: "What's your number?",
+      },
     },
     {
       group: Groups.question,
@@ -341,15 +387,33 @@ export const nodeConfigurations = {
 
       data: {
         layoutType: sideViewLayoutType.date,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Select a date, please',
+        params: {
+          nodeTextContent: 'Select a date, please',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'date',
+            readOnly: false,
+            sample: '',
+            type: 'DATE',
+            value: 'date',
+          },
+          format: 'yyyy/MM/dd',
+          enabledDateType: 'all',
+          showDatePicker: true,
+          enabledDaysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+          error: "I'm afraid I didn't understand, could you try again, please?",
+          enabledCustomRanges: [
+            {
+              fromDate: '',
+              toDate: '',
+            },
+          ],
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Select a date, please',
+      },
     },
     {
       group: Groups.question,

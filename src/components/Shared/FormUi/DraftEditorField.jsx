@@ -2,6 +2,7 @@ import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/react';
 import { useField, useFormikContext } from 'formik';
 import React from 'react';
 import AzistarEditor from '../UiComponents/AzistarEditor';
+import { ContentState, convertToRaw } from 'draft-js';
 
 function DraftEditorField({
   name,
@@ -24,12 +25,22 @@ function DraftEditorField({
     }
     if (setNodeContent) {
       //maybe use text
-      setFieldValue(`${name}.nodeTextContent`, plainText);
+      setFieldValue(`nodeTextContent`, plainText);
     }
     setFieldValue(`${name}.rawBlocks`, rawBlocks);
 
     setFieldValue(`${name}.text`, plainText);
   };
+
+  const initialValue = React.useMemo(() => {
+    const blocks = field.value?.rawBlocks;
+    const initialText = field.value?.text;
+    if (blocks) return blocks;
+    if (initialText) {
+      const contentState = ContentState.createFromText(initialText);
+      return convertToRaw(contentState);
+    } else return null;
+  }, [field.value?.rawBlocks, field.value?.text]);
 
   return (
     <FormControl
@@ -43,7 +54,7 @@ function DraftEditorField({
         type={type}
         placeholder={placeholder}
         setFieldValue={handleChange}
-        initialValue={field.value?.rawBlocks}
+        initialValue={initialValue}
       />
       <FormErrorMessage>{errors[name]}</FormErrorMessage>
     </FormControl>

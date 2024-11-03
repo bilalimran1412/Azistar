@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Divider } from '@chakra-ui/react';
 import {
+  DraftEditorField,
   FormCustomOptionSelector,
   FormSettings,
   FormTextField,
-  QuillEditorField,
 } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
@@ -13,8 +13,8 @@ import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 
 const selectionOptions = [
-  { label: 'Long', value: 'long' },
   { label: 'Short', value: 'short' },
+  { label: 'Long', value: 'long' },
 ];
 function AskQuestionNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -24,28 +24,32 @@ function AskQuestionNodeContent({ id }) {
     setSideView(false);
   };
   if (!config) return <></>;
-  // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  // OTHERFIELDS
+
   const initialValues = {
-    fields: config.fields,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
-    settings: currentNode?.data?.settings || '',
-    sizeOfTextArea: currentNode?.data?.sizeOfTextArea || '',
-    min: currentNode?.data?.min || '',
-    max: currentNode?.data?.max || '',
-    regex: currentNode?.data?.regex || '',
-    errorMessage: currentNode?.data?.errorMessage || '',
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+    variable:
+      currentNode?.data?.params?.variable || config.data.params.variable,
+    settings: currentNode?.data?.params?.settings || '',
+    sizeOfTextArea:
+      currentNode?.data?.params?.sizeOfTextArea ||
+      config.data.params.sizeOfTextArea,
+    min: currentNode?.data?.params?.min || config.data.params.min,
+    max: currentNode?.data?.params?.max || config.data.params.max,
+    regex: currentNode?.data?.params?.regex || '',
+    errorMessage:
+      currentNode?.data?.params?.errorMessage ||
+      config.data.params.errorMessage,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    updateNodeById(id, { params: { ...formValues, variableName } });
     handleClose();
   };
 
@@ -58,27 +62,54 @@ function AskQuestionNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        labelVariant='h1'
+        setNodeContent={true}
       />
-      <FormSettings name='settings' label='Settings'>
+      <FormSettings
+        name='settings'
+        label='Settings'
+        containerStyles={{ borderRadius: '3px', background: '#8a9ba826' }}
+        labelVariant='h2'
+        labelProps={{ style: { cursor: 'pointer' } }}
+      >
         <FormCustomOptionSelector
           name='sizeOfTextArea'
           label='Size of text area'
           options={selectionOptions}
+          labelVariant='h3'
         />
-        <Box display='flex' justifyContent='space-between' gap='1rem'>
-          <FormTextField name='min' label='Min. Characters' className='input' />
-          <FormTextField name='max' label='Max. Characters' className='input' />
+        <Box display='flex' justifyContent='space-between' gap='1rem' mt={4}>
+          <FormTextField
+            name='min'
+            label='Min. Characters'
+            className='input'
+            labelVariant='h3'
+            variant='custom'
+          />
+          <FormTextField
+            name='max'
+            label='Max. Characters'
+            className='input'
+            labelVariant='h3'
+            variant='custom'
+          />
         </Box>
-        <FormTextField name='regex' label='Regex Pattern' className='input' />
+        <FormTextField
+          name='regex'
+          label='Regex Pattern'
+          className='input'
+          labelVariant='h3'
+          variant='custom'
+        />
         <FormTextField
           name='errorMessage'
           type='textarea'
           label='Validation Error Message'
-          className='input'
+          labelVariant='h3'
         />
       </FormSettings>
       <Divider />

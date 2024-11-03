@@ -75,33 +75,39 @@ function ButtonNodeContent({ id }) {
 
   const initialValues = {
     mediaAndMessage:
-      currentNode?.data?.mediaAndMessage ||
+      currentNode?.data?.params?.mediaAndMessage ||
       messageFieldArrayInitialValue?.message,
-    variable: currentNode?.data?.variable || config?.data.params.variable,
+    variable:
+      currentNode?.data?.params?.variable || config?.data.params.variable,
 
-    buttons: currentNode?.data?.buttons || config.data?.params?.buttons || '',
+    buttons:
+      currentNode?.data?.params?.buttons || config.data?.params?.buttons || '',
     minMaxOptions: evaluateInitialValue(
-      currentNode?.data?.minMaxOptions || config.data?.params?.minMaxOptions
+      currentNode?.data?.params?.minMaxOptions ||
+        config.data?.params?.minMaxOptions
     ),
     buttonsAlignment:
-      currentNode?.data?.buttonsAlignment ||
+      currentNode?.data?.params?.buttonsAlignment ||
       config.data?.params?.buttonsAlignment ||
       '',
     randomizeOrder: evaluateInitialValue(
-      currentNode?.data?.randomizeOrder || config.data?.params?.randomizeOrder
+      currentNode?.data?.params?.randomizeOrder ||
+        config.data?.params?.randomizeOrder
     ),
     searchableOptions: evaluateInitialValue(
-      currentNode?.data?.searchableOptions ||
+      currentNode?.data?.params?.searchableOptions ||
         config.data?.params?.searchableOptions
     ),
     multipleChoices: evaluateInitialValue(
-      currentNode?.data?.multipleChoices || config.data?.params?.multipleChoices
+      currentNode?.data?.params?.multipleChoices ||
+        config.data?.params?.multipleChoices
     ),
     outputAsArray: evaluateInitialValue(
-      currentNode?.data?.outputAsArray || config.data?.params?.outputAsArray
+      currentNode?.data?.params?.outputAsArray ||
+        config.data?.params?.outputAsArray
     ),
-    min: currentNode?.data?.min || config.data?.params?.min || '',
-    max: currentNode?.data?.max || config.data?.params?.max || '',
+    min: currentNode?.data?.params?.min || config.data?.params?.min || '',
+    max: currentNode?.data?.params?.max || config.data?.params?.max || '',
   };
 
   const validationSchema = yup.object({});

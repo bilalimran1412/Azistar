@@ -36,10 +36,17 @@ function GoodByeNodeContent({ id }) {
     redirectEnable:
       currentNode?.data?.params?.redirectEnable ||
       config?.data?.params.redirectEnable,
-    socialUrl: currentNode?.data?.params?.socialUrl || '',
-    socialUrlText: currentNode?.data?.params?.socialUrlText || '',
-    startButtonText: currentNode?.data?.params?.startButtonText || '',
-    redirectUrl: currentNode?.data?.params?.redirectUrl || '',
+    socialUrl:
+      currentNode?.data?.params?.socialUrl || config?.data?.params.socialUrl,
+    socialUrlText:
+      currentNode?.data?.params?.socialUrlText ||
+      config?.data?.params.socialUrlText,
+    startButtonText:
+      currentNode?.data?.params?.startButtonText ||
+      config?.data?.params.startButtonText,
+    redirectUrl:
+      currentNode?.data?.params?.redirectUrl ||
+      config?.data?.params.redirectUrl,
     redirectTimeout:
       currentNode?.data?.params?.redirectTimeout ||
       config?.data?.params.redirectTimeout,

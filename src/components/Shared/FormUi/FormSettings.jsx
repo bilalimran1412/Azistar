@@ -12,7 +12,7 @@ const FormSettings = ({
   labelProps = {},
   labelVariant = '',
 }) => {
-  const [field, meta, helpers] = useField({ name, type: 'checkbox' });
+  const [field, , helpers] = useField({ name, type: 'checkbox' });
 
   const isExpanded = React.useMemo(() => {
     return field.value;

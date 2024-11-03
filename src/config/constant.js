@@ -546,7 +546,9 @@ export const initialNode = {
   data: {
     label: 'Starting Point',
     contentType: 'startingNode',
-    nodeTextContent: 'Where your bot begins',
+    params: {
+      nodeTextContent: 'Where your bot begins',
+    },
     blockId: '1',
   },
   position: { x: 50, y: 100 },

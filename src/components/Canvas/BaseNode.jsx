@@ -44,12 +44,12 @@ const BaseNode = (props) => {
   const config = nodeConfigurationBlockIdMap[data.blockId];
 
   const placeholderText =
-    config?.fields?.[0]?.placeholder || 'No data available';
+    config?.data?.params?.nodeTextContent || 'No data available';
 
   const displayLabel = data.label || config.title;
 
-  const displayContent = data.nodeTextContent
-    ? { __html: data.nodeTextContent }
+  const displayContent = data?.params?.nodeTextContent
+    ? { __html: data?.params?.nodeTextContent }
     : { __html: placeholderText };
 
   const handleAddNode = (blockId) => {
