@@ -74,25 +74,25 @@ function WebhookNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
   const initialValues = {
-    url: currentNode?.data?.url || '',
+    url: currentNode?.data?.params?.url || '',
 
-    customFields: currentNode?.data?.customFields || '',
-    customHeaders: currentNode?.data?.customHeaders || '',
-    enableParams: currentNode?.data?.enableParams || '',
-    customBody: currentNode?.data?.customBody || '',
-    saveResponse: currentNode?.data?.saveResponse || [
+    customFields: currentNode?.data?.params?.customFields || '',
+    customHeaders: currentNode?.data?.params?.customHeaders || '',
+    enableParams: currentNode?.data?.params?.enableParams || '',
+    customBody: currentNode?.data?.params?.customBody || '',
+    saveResponse: currentNode?.data?.params?.saveResponse || [
       { response: '', id: 'f0245680-a1b7-5495-bcb8-2d0fca03959a' },
     ],
-    enableRouting: currentNode?.data?.enableRouting || '',
-    body: currentNode?.data?.body || '',
-    enableSave: currentNode?.data?.enableSave || '',
-    routes: currentNode?.data?.routes || '',
-    parameters: currentNode?.data?.parameters || [{ testValue: '' }],
-    method: currentNode?.data?.method || 'POST',
-    params: currentNode?.data?.params || [
+    enableRouting: currentNode?.data?.params?.enableRouting || '',
+    body: currentNode?.data?.params?.body || '',
+    enableSave: currentNode?.data?.params?.enableSave || '',
+    routes: currentNode?.data?.params?.routes || '',
+    parameters: currentNode?.data?.params?.parameters || [{ testValue: '' }],
+    method: currentNode?.data?.params?.method || 'POST',
+    params: currentNode?.data?.params?.params || [
       { key: '', value: '', id: 'bb1a3e97-9735-5c82-90f4-bc5d29520580' },
     ],
-    headers: currentNode?.data?.params || [
+    headers: currentNode?.data?.params?.params || [
       { key: '', value: '', id: '36f471b9-753a-57e5-9e70-57534ceaa207' },
     ],
   };
@@ -100,7 +100,10 @@ function WebhookNodeContent({ id }) {
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const nodeTextContent = formValues.url;
+    updateNodeById(id, {
+      params: { ...formValues, ...(nodeTextContent && { nodeTextContent }) },
+    });
     handleClose();
   };
 

@@ -1384,15 +1384,14 @@ export const nodeConfigurations = {
       data: {
         contentType: contentType.placeholderNodes,
         layoutType: sideViewLayoutType.note,
-      },
-      fields: [
-        {
-          label: 'Note',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type your note here...',
+        params: {
+          nodeTextContent: 'Create private note for you',
         },
-      ],
+      },
+      fields: {
+        label: 'Note',
+        placeholder: 'Type your note here...',
+      },
     },
   ],
 
@@ -1418,15 +1417,10 @@ export const nodeConfigurations = {
             type: 'failure',
           },
         ],
-      },
-      fields: [
-        {
-          label: 'Webhook URL',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'https requests',
+        params: {
+          nodeTextContent: 'https requests',
         },
-      ],
+      },
     },
     {
       group: Groups.lowCode,

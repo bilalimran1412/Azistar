@@ -1,5 +1,5 @@
 import React from 'react';
-import { QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
@@ -18,13 +18,13 @@ function NoteNodeContent({ id }) {
   // VARIABLE;
   const initialValues = {
     //this message will contain all the ops and html and normal text
-    note: currentNode?.data?.note || '',
+    note: currentNode?.data?.params?.note || '',
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 
@@ -37,10 +37,12 @@ function NoteNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='note'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        setNodeContent={true}
+        labelVariant='h1'
       />
     </SidebarFormContainer>
   );
