@@ -60,8 +60,11 @@ const BaseNode = (props) => {
   const isMultiHandleNode = config?.data?.multipleHandles;
   const isButtonNode = config?.data?.contentType === contentType.buttonNode;
   const customHandles = !isButtonNode ? config?.data?.customHandle : [];
+
   const disableSourceHandle =
-    config?.data?.contentType === contentType.incomingOnly;
+    config?.data?.contentType === contentType.incomingOnly &&
+    !data?.params.enableExit;
+
   const disableAllHandles =
     config?.data?.contentType === contentType.placeholderNodes;
 

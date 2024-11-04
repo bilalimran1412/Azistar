@@ -1172,30 +1172,30 @@ export const nodeConfigurations = {
         },
       },
     },
-    {
-      group: Groups.integration,
-      blockId: '48ff9e8f-7567-5db9-adb9-aac489c583a3',
-      title: 'Stripe',
-      label: 'Stripe',
-      icon: <FaStripeS />,
-      nodeType: 'baseNode',
-      data: {
-        multipleHandles: true,
-        contentType: contentType.buttonNode,
-        items: [
-          { id: 'Success', label: 'Success', isDeletable: false },
-          { id: 'Failed', label: 'Failed', isDeletable: false },
-        ],
-      },
-      fields: [
-        {
-          label: 'Stripe Integration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: '0 USD',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '48ff9e8f-7567-5db9-adb9-aac489c583a3',
+    //   title: 'Stripe',
+    //   label: 'Stripe',
+    //   icon: <FaStripeS />,
+    //   nodeType: 'baseNode',
+    //   data: {
+    //     multipleHandles: true,
+    //     contentType: contentType.buttonNode,
+    //     items: [
+    //       { id: 'Success', label: 'Success', isDeletable: false },
+    //       { id: 'Failed', label: 'Failed', isDeletable: false },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Stripe Integration',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: '0 USD',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.integration,
       blockId: 'd6ca1ed1-810f-544a-bd7a-9d9feca6e144',
@@ -1205,48 +1205,43 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.googleAnalytics,
+        params: {
+          nodeTextContent: 'Send a GA event',
+        },
       },
-      fields: [
-        {
-          label: 'Analytics Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Send a GA event',
-        },
-      ],
     },
-    {
-      group: Groups.integration,
-      blockId: '0c6fee80-ccae-5d89-b2b6-0484d34f4803',
-      title: 'Segment',
-      label: 'Segment',
-      icon: <FaAlignCenter />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Segment Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Collect user events',
-        },
-      ],
-    },
-    {
-      group: Groups.integration,
-      blockId: 'f29c80a2-85b1-5499-ac50-6c682599b9e1',
-      title: 'Salesforce',
-      label: 'Salesforce',
-      icon: <FaSalesforce />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Salesforce Integration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Add leads',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '0c6fee80-ccae-5d89-b2b6-0484d34f4803',
+    //   title: 'Segment',
+    //   label: 'Segment',
+    //   icon: <FaAlignCenter />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Segment Setup',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Collect user events',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.integration,
+    //   blockId: 'f29c80a2-85b1-5499-ac50-6c682599b9e1',
+    //   title: 'Salesforce',
+    //   label: 'Salesforce',
+    //   icon: <FaSalesforce />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Salesforce Integration',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Add leads',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.integration,
       blockId: '2eef6c57-fc89-5c90-8f70-d0bec2546724',
@@ -1254,7 +1249,12 @@ export const nodeConfigurations = {
       label: 'Mailchimp',
       icon: <FaMailchimp />,
       nodeType: 'baseNode',
-      data: { layoutType: sideViewLayoutType.mailchimp },
+      data: {
+        layoutType: sideViewLayoutType.mailchimp,
+        params: {
+          nodeTextContent: 'Add a contact',
+        },
+      },
       //   fields: [
       //     {
       //       label: 'Mailchimp Integration',
@@ -1276,16 +1276,20 @@ export const nodeConfigurations = {
       icon: <FaRobot />,
       nodeType: 'baseNode',
       data: {
+        contentType: contentType.incomingOnly,
         layoutType: sideViewLayoutType.aiFaq,
-      },
-      fields: [
-        {
-          label: 'FAQs Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Automated help',
+        params: {
+          nodeTextContent: 'Automated help',
         },
-      ],
+      },
+      // fields: [
+      //   {
+      //     label: 'FAQs Setup',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Automated help',
+      //   },
+      // ],
     },
     {
       group: Groups.aiAssistant,

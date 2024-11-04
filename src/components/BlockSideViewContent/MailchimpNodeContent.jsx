@@ -146,12 +146,12 @@ function MailchimpNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    auth: selectedAuth || currentNode?.data?.auth || '',
-    audience: currentNode?.data?.audience || '',
-    category: currentNode?.data?.category || '',
-    interests: currentNode?.data?.interests || '',
-    email: currentNode?.data?.email || '',
-    fieldValues: currentNode?.data?.fieldValues || [
+    auth: selectedAuth || currentNode?.data?.params?.auth || '',
+    audience: currentNode?.data?.params?.audience || '',
+    category: currentNode?.data?.params?.category || '',
+    interests: currentNode?.data?.params?.interests || '',
+    email: currentNode?.data?.params?.email || '',
+    fieldValues: currentNode?.data?.params?.fieldValues || [
       { field: '', id: 'ac2e1be9-fdb7-5e62-abe3-b20b4d2b2bb2' },
     ],
   };
@@ -161,7 +161,7 @@ function MailchimpNodeContent({ id }) {
     console.log('Form values=>>>', formValues);
     const fieldValues = formValues?.fieldValues?.filter((value) => value.field);
 
-    updateNodeById(id, { ...currentNode?.data, ...formValues, fieldValues });
+    updateNodeById(id, { params: { ...formValues, fieldValues } });
     handleClose();
   };
   const onAuthChange = (selectedAuth) => {

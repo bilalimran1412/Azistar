@@ -19,21 +19,25 @@ function GoogleAnalyticsConfigForm({ id, onClose, isOpen }) {
   const { getNodeById, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const initialValues = {
-    title: currentNode?.data?.googleAnalyticsConfig?.title || '',
-    description: currentNode?.data?.googleAnalyticsConfig?.description || '',
+    title: currentNode?.data?.params?.googleAnalyticsConfig?.title || '',
+    description:
+      currentNode?.data?.params?.googleAnalyticsConfig?.description || '',
     googleAnalyticsID:
-      currentNode?.data?.googleAnalyticsConfig?.googleAnalyticsID || '',
-    metaImage: currentNode?.data?.googleAnalyticsConfig?.metaImage || '',
-    favIcon: currentNode?.data?.googleAnalyticsConfig?.favIcon || '',
-    snippets: currentNode?.data?.googleAnalyticsConfig?.snippets || '',
+      currentNode?.data?.params?.googleAnalyticsConfig?.googleAnalyticsID || '',
+    metaImage:
+      currentNode?.data?.params?.googleAnalyticsConfig?.metaImage || '',
+    favIcon: currentNode?.data?.params?.googleAnalyticsConfig?.favIcon || '',
+    snippets: currentNode?.data?.params?.googleAnalyticsConfig?.snippets || '',
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     updateNodeById(id, {
-      ...currentNode?.data,
-      googleAnalyticsConfig: formValues,
+      params: {
+        ...currentNode?.data?.params,
+        googleAnalyticsConfig: formValues,
+      },
     });
     onClose();
   };
