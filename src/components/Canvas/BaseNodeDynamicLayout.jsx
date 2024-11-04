@@ -41,6 +41,22 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
           buttons={data?.params?.buttons}
         />
       )}
+      {config?.data?.layoutType === sideViewLayoutType.abTesting && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+          renderAny={false}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.persistentMenu && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+          renderAny={false}
+        />
+      )}
     </Box>
   );
 }

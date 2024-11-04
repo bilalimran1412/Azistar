@@ -2,7 +2,7 @@ import React from 'react';
 import CustomHandle from '../CustomHandle';
 import { Box, Text } from '@chakra-ui/react';
 
-function ButtonNodeLayout({ onClick, buttons, id }) {
+function ButtonNodeLayout({ onClick, buttons, id, renderAny = true }) {
   return (
     <Box sx={{ display: 'flex' }} flexDirection='column' gap={1}>
       {buttons &&
@@ -39,32 +39,33 @@ function ButtonNodeLayout({ onClick, buttons, id }) {
             />
           </Box>
         ))}
-
-      <Box
-        key='placeholder'
-        bg='rgb(221, 221, 255)'
-        outline='1px solid #6361f0'
-        color='#6361f0'
-        borderRadius='4px'
-        display='flex'
-        my='3px'
-        position='relative'
-        justifyContent='space-between'
-        p='6px 25px'
-        textTransform='capitalize'
-        w='100%'
-        fontSize='14px'
-      >
-        <Text>Any of the above</Text>
-        <CustomHandle
-          type='source'
-          id={`source-placeholder-${id}`}
-          onClick={() => onClick(`source-placeholder-${id}`)}
-          styles={{
-            right: '-5px',
-          }}
-        />
-      </Box>
+      {renderAny && (
+        <Box
+          key='placeholder'
+          bg='rgb(221, 221, 255)'
+          outline='1px solid #6361f0'
+          color='#6361f0'
+          borderRadius='4px'
+          display='flex'
+          my='3px'
+          position='relative'
+          justifyContent='space-between'
+          p='6px 25px'
+          textTransform='capitalize'
+          w='100%'
+          fontSize='14px'
+        >
+          <Text>Any of the above</Text>
+          <CustomHandle
+            type='source'
+            id={`source-placeholder-${id}`}
+            onClick={() => onClick(`source-placeholder-${id}`)}
+            styles={{
+              right: '-5px',
+            }}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

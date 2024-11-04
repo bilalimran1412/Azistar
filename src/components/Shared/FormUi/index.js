@@ -24,6 +24,7 @@ export { default as FormCheckboxGroup } from './FormCheckboxGroup';
 export * from './FormHelper/Hubspot';
 export * from './FormHelper/BusinessHours';
 export * from './FormHelper/Mailchimp';
+export * from './FormHelper/SortablePersistentMenuFieldArray';
 export * from './FormHelper/TriggerAutomationFieldArray';
 export * from './FormDatePicker';
 export * from './FormDateRangePicker';

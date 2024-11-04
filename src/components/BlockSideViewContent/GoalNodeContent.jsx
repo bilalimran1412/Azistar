@@ -36,15 +36,18 @@ function GoalNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    goalID: currentNode?.data?.goal || '',
-    goalName: currentNode?.data?.goalName || '',
+    goalID: currentNode?.data?.params?.goal || '',
+    goalName: currentNode?.data?.params?.goalName || '',
   };
 
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const nodeTextContent = formValues?.goalName;
+    updateNodeById(id, {
+      params: { ...formValues, ...(nodeTextContent && { nodeTextContent }) },
+    });
     handleClose();
   };
 

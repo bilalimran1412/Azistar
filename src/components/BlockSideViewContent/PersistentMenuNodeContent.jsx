@@ -3,7 +3,7 @@ import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
-import SortablePersistentMenuFieldArray from 'components/Shared/FormUi/FormHelper/SortablePersistentMenuFieldArray';
+import { SortablePersistentMenuFieldArray } from 'components/Shared/FormUi';
 
 function PersistentMenuNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -15,7 +15,7 @@ function PersistentMenuNodeContent({ id }) {
   if (!config) return <></>;
 
   const initialValues = {
-    buttons: currentNode?.data?.buttons || '',
+    buttons: currentNode?.data?.params?.buttons || '',
   };
   const validationSchema = yup.object({});
 
@@ -23,8 +23,9 @@ function PersistentMenuNodeContent({ id }) {
     console.log('Form values=>>>', formValues);
 
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
+      params: {
+        ...formValues,
+      },
     });
     handleClose();
   };

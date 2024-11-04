@@ -934,16 +934,11 @@ export const nodeConfigurations = {
       icon: <FaMapMarker />,
       data: {
         layoutType: sideViewLayoutType.goal,
+        params: {
+          nodeTextContent: 'Track conversion rates',
+        },
       },
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Goal Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Track conversion rates',
-        },
-      ],
     },
     {
       group: Groups.logic,
@@ -954,22 +949,20 @@ export const nodeConfigurations = {
       icon: <FaRandom />,
 
       data: {
+        renderSubHeader: true,
+
         layoutType: sideViewLayoutType.abTesting,
         multipleHandles: true,
         contentType: contentType.buttonNode,
-        items: [
-          { id: 'ab-test-a', label: 'A (50%)', isDeletable: false },
-          { id: 'ab-test-b', label: 'B (50%)', isDeletable: false },
-        ],
+        params: {
+          abSplit: 50,
+          nodeTextContent: '50/50 split',
+          buttons: [
+            { id: 'ab-test-a', text: 'A (50%)', isDeletable: false },
+            { id: 'ab-test-b', text: 'B (50%)', isDeletable: false },
+          ],
+        },
       },
-      // fields: [
-      //   {
-      //     label: 'Test Setup',
-      //     type: 'text',
-      //     variable: 'textareaFieldData',
-      //     placeholder: 'Setup A/B testing',
-      //   },
-      // ],
     },
     {
       group: Groups.logic,
@@ -978,15 +971,16 @@ export const nodeConfigurations = {
       label: 'Persistent Menu',
       icon: <FaBars />,
       nodeType: 'baseNode',
-      data: { layoutType: sideViewLayoutType.persistentMenu },
-      fields: [
-        {
-          label: 'Menu Items',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "Add & set the menu's items",
+      data: {
+        renderSubHeader: true,
+        contentType: contentType.buttonNode,
+
+        layoutType: sideViewLayoutType.persistentMenu,
+        multipleHandles: true,
+        params: {
+          nodeTextContent: "Add & set the menu's items",
         },
-      ],
+      },
     },
   ],
 
@@ -1000,15 +994,11 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.emailIntegration,
-      },
-      fields: [
-        {
-          label: 'Email Content',
-          type: 'textarea',
-          variable: 'textareaFieldData',
-          placeholder: 'To your leads & team',
+        params: {
+          nodeTextContent: 'To your leads & team',
+          branding: false,
         },
-      ],
+      },
     },
     {
       group: Groups.integration,
@@ -1018,16 +1008,11 @@ export const nodeConfigurations = {
       icon: <FaFileExcel />,
       data: {
         layoutType: sideViewLayoutType.googleSheets,
+        params: {
+          nodeTextContent: 'Save & obtain data',
+        },
       },
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Sheet Link',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Save & obtain data',
-        },
-      ],
     },
     {
       group: Groups.integration,
@@ -1038,49 +1023,44 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.zapier,
+        params: {
+          nodeTextContent: 'Integrate with zapier',
+        },
       },
       width: '500px',
-      fields: [
-        {
-          label: 'Zap Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Integrate with zapier',
-        },
-      ],
     },
-    {
-      group: Groups.integration,
-      blockId: '794665d9-f7ab-55bf-8cc3-8b3d49080d3d',
-      title: 'Airtable',
-      label: 'Airtable',
-      icon: <FaAlignCenter />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Airtable Link',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Save & get user data',
-        },
-      ],
-    },
-    {
-      group: Groups.integration,
-      blockId: '220e251b-4f7e-5b96-89d3-5df84e90e087',
-      title: 'Dialogflow',
-      label: 'Dialogflow',
-      icon: <FaAlignCenter />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Dialogflow Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Add NLP',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '794665d9-f7ab-55bf-8cc3-8b3d49080d3d',
+    //   title: 'Airtable',
+    //   label: 'Airtable',
+    //   icon: <FaAlignCenter />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Airtable Link',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Save & get user data',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '220e251b-4f7e-5b96-89d3-5df84e90e087',
+    //   title: 'Dialogflow',
+    //   label: 'Dialogflow',
+    //   icon: <FaAlignCenter />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Dialogflow Setup',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Add NLP',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.integration,
       blockId: '173663dd-d54c-5abc-b57c-37c9f6c48cbd',
@@ -1091,6 +1071,9 @@ export const nodeConfigurations = {
       width: '500px',
       data: {
         layoutType: sideViewLayoutType.hubspot,
+        params: {
+          nodeTextContent: 'Connect your CRM',
+        },
       },
       // fields: [
       //   {

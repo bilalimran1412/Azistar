@@ -47,7 +47,7 @@ function PersistentMenuSettings({
             buttonStyle: value,
           });
         }}
-        labelVariant='h3'
+        labelVariant='h3White'
         variant='customMini'
       />
       {fieldValue?.buttonStyle === 'link' && (
@@ -56,14 +56,14 @@ function PersistentMenuSettings({
           label='External Link'
           variant='customMini'
           placeholder='https://'
-          labelVariant='h3'
+          labelVariant='h3White'
         />
       )}
 
       <FormDropdown
         name={`${subFieldName}.buttonType`}
         label=''
-        labelVariant='h3'
+        labelVariant='h3White'
         variant='customMini'
         options={buttonTypeOptions}
         onChange={(value) => {

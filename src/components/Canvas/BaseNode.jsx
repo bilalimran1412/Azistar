@@ -110,7 +110,7 @@ const BaseNode = (props) => {
   };
 
   // means node having body
-  const isNodeExtended = isMultiHandleNode && !customHandles.length;
+  const isNodeExtended = isMultiHandleNode && !customHandles?.length;
   const showTags = false;
   const renderSubHeader = config?.data?.renderSubHeader;
 

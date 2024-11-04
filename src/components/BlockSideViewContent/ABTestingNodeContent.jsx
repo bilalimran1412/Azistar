@@ -19,9 +19,7 @@ function ABTestingNodeContent({ id }) {
 
   console.log(currentNode?.data?.abSplit, currentNode?.data);
   const initialValues = {
-    // not required
-    // fields: config.fields,
-    abSplit: currentNode?.data?.abSplit || '',
+    abSplit: currentNode?.data?.params?.abSplit || config?.data?.params.abSplit,
   };
   const validationSchema = yup.object({});
 
@@ -29,11 +27,19 @@ function ABTestingNodeContent({ id }) {
     console.log('Form values=>>>', formValues);
     const aPercent = formValues?.abSplit;
     const bPercent = 100 - aPercent;
+    const buttons = [
+      { id: 'ab-test-a', text: `A (${aPercent}%)` },
+      { id: 'ab-test-b', text: `B (${bPercent}%)` },
+    ];
+    const nodeTextContent = `${aPercent}/${bPercent} split`;
     updateNodeById(id, {
-      ...currentNode?.data,
-      aPercent,
-      bPercent,
-      ...formValues,
+      params: {
+        aPercent,
+        bPercent,
+        buttons,
+        nodeTextContent,
+        ...formValues,
+      },
     });
     handleClose();
   };
