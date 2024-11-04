@@ -59,6 +59,7 @@ const BaseNode = (props) => {
   const isStartingNode = config?.data?.contentType === contentType.startingNode;
   const isMultiHandleNode = config?.data?.multipleHandles;
   const isButtonNode = config?.data?.contentType === contentType.buttonNode;
+  const failureHandle = config?.data?.contentType === contentType.failureOnly;
   const customHandles = !isButtonNode ? config?.data?.customHandle : [];
 
   const disableSourceHandle =
@@ -259,76 +260,6 @@ const BaseNode = (props) => {
             </Box>
           )}
         </Box>
-        {/* <Box>
-        <Box onClick={handleClick}>
-          <Box>
-            <Box>{NodeIcon}</Box>
-            <Box>
-              <h4>{displayLabel}</h4>
-              <p dangerouslySetInnerHTML={displayContent} />
-            </Box>
-            {!isStartingNode && (
-              <NodeActionDropdown
-                onCopy={() => handleAction('copy')}
-                onReplace={() => handleAction('replace')}
-                onDelete={() => handleAction('delete')}
-                onDuplicate={() => handleAction('duplicate')}
-                onCopyId={() => handleAction('copyId')}
-              />
-            )}
-          </Box>
-          {config?.data?.layoutType === sideViewLayoutType.buttons && (
-            <ButtonNodeLayout
-              onClick={onClick}
-              id={id}
-              buttons={data?.buttons}
-            />
-          )}
-          {config?.data?.layoutType === sideViewLayoutType.yesNo && (
-            <YesNoNodeLayout
-              onClick={onClick}
-              id={id}
-              buttons={data?.buttons}
-            />
-          )}
-          {config?.data?.layoutType === sideViewLayoutType.pictureChoice && (
-            <ButtonNodeLayout onClick={onClick} id={id} buttons={data?.cards} />
-          )}
-        </Box>
-
-        <Box>
-          {showReplaceMenu && (
-            <NodeDropdownMenu
-              handleAddNode={handleReplaceNodeType}
-              dropdownPosition={dropdownPosition}
-              dropdownRef={dropdownRef}
-            />
-          )}
-
-          {isDropdownVisible && (
-            <NodeDropdownMenu
-              handleAddNode={handleAddNode}
-              dropdownPosition={dropdownPosition}
-              dropdownRef={dropdownRef}
-            />
-          )}
-          {!isMultiHandleNode && !disableSourceHandle && !disableAllHandles && (
-            <CustomHandle type='source' onClick={toggleDropdown} />
-          )}
-          {!!customHandles &&
-            customHandles.map((handle, idx) => (
-              <CustomHandle
-                type='source'
-                key={idx}
-                id={`source-${id}-${handle.id}`}
-                status={handle.type}
-                onClick={() => onClick(`source-${id}-${handle.id}`)}
-                styles={{ top: `${idx * 30 + 15}px` }}
-              />
-            ))}
-
-            </Box>
-            </Box> */}
         <Box className='nodrag nowheel'>
           {showReplaceMenu && (
             <NodeDropdownMenu
@@ -337,7 +268,6 @@ const BaseNode = (props) => {
               dropdownRef={dropdownRef}
             />
           )}
-
           {isDropdownVisible && (
             <NodeDropdownMenu
               handleAddNode={handleAddNode}
@@ -345,9 +275,28 @@ const BaseNode = (props) => {
               dropdownRef={dropdownRef}
             />
           )}
-          {!isMultiHandleNode && !disableSourceHandle && !disableAllHandles && (
-            <CustomHandle type='source' onClick={toggleDropdown} />
-          )}
+          {/* showing normal end handle */}
+          {!isMultiHandleNode &&
+            !disableSourceHandle &&
+            !disableAllHandles &&
+            !failureHandle && (
+              <CustomHandle type='source' onClick={toggleDropdown} />
+            )}
+          {/* showing only single end handle but of failure type required in human
+          take over */}
+          {!isMultiHandleNode &&
+            !disableSourceHandle &&
+            !disableAllHandles &&
+            failureHandle && (
+              <CustomHandle
+                type='source'
+                id={`failure-${id}`}
+                onClick={() => {
+                  onClick(`failure-${id}`, 'failure');
+                }}
+                status='failure'
+              />
+            )}
           {!!customHandles &&
             customHandles.map((handle, idx) => (
               <CustomHandle
@@ -361,7 +310,6 @@ const BaseNode = (props) => {
                 styles={{ top: `${idx * 30 + 15}px` }}
               />
             ))}
-
           {!isStartingNode && !disableAllHandles && (
             <CustomHandle id={id} type='target' />
           )}

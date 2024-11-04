@@ -18,12 +18,12 @@ function HumanTakeoverNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    assignedAgent: currentNode?.data?.assignedAgent || '',
+    assignedAgent: currentNode?.data?.params?.assignedAgent || '',
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 
