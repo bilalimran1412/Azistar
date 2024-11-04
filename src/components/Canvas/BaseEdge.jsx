@@ -21,6 +21,7 @@ export default function CustomEdge({
   markerEnd,
   data,
   sourceHandleId,
+  type,
 }) {
   const { setEdges } = useReactFlow();
   const [edgePath, labelX, labelY] = getBezierPath({
@@ -39,7 +40,12 @@ export default function CustomEdge({
 
   return (
     <>
-      <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
+      <BaseEdge
+        path={edgePath}
+        markerEnd={markerEnd}
+        style={style}
+        className={type}
+      />
       <EdgeLabelRenderer>
         <BaseEdgeLayout
           edgeId={id}
@@ -50,6 +56,7 @@ export default function CustomEdge({
           sourceNodeId={source}
           sourceHandleId={sourceHandleId}
           targetId={target}
+          type={type}
         />
       </EdgeLabelRenderer>
     </>

@@ -207,6 +207,7 @@ export const initialGroupedOptions = [
 ];
 
 export const edgeType = 'baseEdge';
+export const errorEdgeType = 'errorBaseEdge';
 const buttonsList = {
   id: 'button1',
   label: 'Edit Button',

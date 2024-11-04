@@ -37,7 +37,7 @@ const BaseNode = (props) => {
     handleAddNewNode,
     handleNodeRemove,
   } = useNodeContext();
-  const [handleId, setHandleId] = React.useState('');
+  const [handle, setHandle] = React.useState('');
 
   const [showReplaceMenu, setShowReplaceMenu] = useState(false);
 
@@ -53,7 +53,7 @@ const BaseNode = (props) => {
     : { __html: placeholderText };
 
   const handleAddNode = (blockId) => {
-    addNewNode(id, blockId, handleId);
+    addNewNode(id, blockId, handle);
     toggleDropdown();
   };
   const isStartingNode = config?.data?.contentType === contentType.startingNode;
@@ -104,8 +104,8 @@ const BaseNode = (props) => {
 
   const NodeIcon = isStartingNode ? <FaFlag /> : config?.icon;
 
-  const onClick = (id) => {
-    setHandleId(id);
+  const onClick = (id, type) => {
+    setHandle({ id, type });
     toggleDropdown();
   };
 
@@ -352,7 +352,9 @@ const BaseNode = (props) => {
                 key={idx}
                 id={`source-${id}-${handle.id}`}
                 status={handle.type}
-                onClick={() => onClick(`source-${id}-${handle.id}`)}
+                onClick={() =>
+                  onClick(`source-${id}-${handle.id}`, handle.type)
+                }
                 styles={{ top: `${idx * 30 + 15}px` }}
               />
             ))}

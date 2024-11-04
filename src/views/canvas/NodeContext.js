@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { edgeType, initialGroupedOptions } from '../../config/constant';
+import {
+  edgeType,
+  errorEdgeType,
+  initialGroupedOptions,
+} from '../../config/constant';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
@@ -42,7 +46,7 @@ export const NodeProvider = ({ children }) => {
   const [canvasInstance, setCanvasInstance] = React.useState(null);
 
   const addNewNode = useCallback(
-    (sourceId, blockId, sourceHandleId) => {
+    (sourceId, blockId, sourceHandle) => {
       const nodeToCreate = nodeConfigurationBlockIdMap[blockId];
       const sourceNode = nodes.find((n) => n.id === sourceId);
       const newNodeId = uuidv4();
@@ -62,12 +66,15 @@ export const NodeProvider = ({ children }) => {
         },
       };
 
+      const sourceHandleId = sourceHandle?.id;
+      const type = sourceHandle.type;
+
       const newEdge = {
         id: `e${sourceId}-${newNodeId}`,
         source: sourceId,
         target: newNodeId,
         animated: true,
-        type: edgeType,
+        type: type === 'failure' ? errorEdgeType : edgeType,
         ...(sourceHandleId && { sourceHandle: sourceHandleId }),
       };
 
