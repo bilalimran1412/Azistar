@@ -893,7 +893,18 @@ export const nodeConfigurations = {
       width: '500px',
 
       data: {
+        multipleHandles: true,
         layoutType: sideViewLayoutType.leadScoring,
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
         params: {
           nodeTextContent: 'Give each lead a score',
           ruleGroups: [
