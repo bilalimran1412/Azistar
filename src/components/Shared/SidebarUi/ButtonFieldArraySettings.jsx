@@ -50,6 +50,8 @@ function ButtonFieldArraySettings({
             buttonStyle: value || 'text',
           });
         }}
+        labelVariant='h3White'
+        variant='customMini'
       />
       {fieldItem?.buttonStyle === 'icon' && (
         <IconSelector
@@ -85,6 +87,8 @@ function ButtonFieldArraySettings({
           name={`${subFieldName}.externalLink`}
           label='External Link'
           placeholder='https://'
+          labelVariant='h3White'
+          variant='customMini'
         />
       )}
     </Flex>

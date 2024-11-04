@@ -165,7 +165,7 @@ export const CustomInput = ({
               </Text>
             </Button>
           )}
-          {selectedVariable && selectedVarConfig && (
+          {selectedVariable && selectedVarConfig && !enableCreate && (
             <Box
               bg='gray.200'
               borderRadius='full'

@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import {
-  edgeType,
-  initialGroupedOptions,
-  initialNode,
-  sample,
-} from '../../config/constant';
+import { edgeType, initialGroupedOptions } from '../../config/constant';
 import {
   contentType,
   nodeConfigurationBlockIdMap,
@@ -199,7 +194,7 @@ export const NodeProvider = ({ children }) => {
     //To remove edge filter sourceId or targetID.
     setNodes((pre) => pre.filter((n) => n.id !== nodeId));
     setEdges((pre) =>
-      pre.filter((edge) => edge.target !== nodeId || edge.source !== nodeId)
+      pre.filter((edge) => edge.target !== nodeId && edge.source !== nodeId)
     );
   }, []);
 

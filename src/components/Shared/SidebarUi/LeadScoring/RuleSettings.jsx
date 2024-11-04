@@ -49,7 +49,7 @@ function RuleSettings({
                 condition: value,
               });
             }}
-            labelVariant='h3'
+            labelVariant='h3White'
             variant='customMini'
           />
         </Box>
@@ -57,7 +57,7 @@ function RuleSettings({
           <FormTextField
             name={`${subFieldName}.args[0]`}
             label='Argument'
-            labelVariant='h3'
+            labelVariant='h3White'
             variant='customMini'
             fullWidth={false}
             {...(dateInput && { type: 'date' })}
@@ -72,7 +72,7 @@ function RuleSettings({
           <FormTextField
             name={`${subFieldName}.args[1]`}
             label=''
-            labelVariant='h3'
+            labelVariant='h3White'
             variant='customMini'
             fullWidth={false}
             {...(dateInput && { type: 'date' })}
@@ -83,7 +83,7 @@ function RuleSettings({
         <FormDropdown
           name={`${subFieldName}.scoreSign`}
           label='Then assign this score'
-          labelVariant='h3'
+          labelVariant='h3White'
           variant='customMini'
           options={scoreSignOptions}
           onChange={(value) => {
@@ -95,7 +95,7 @@ function RuleSettings({
         <FormTextField
           name={`${subFieldName}.score`}
           label='Value'
-          labelVariant='h3'
+          labelVariant='h3White'
           variant='customMini'
         />
       </Flex>

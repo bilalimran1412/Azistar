@@ -1,6 +1,6 @@
 import React from 'react';
 import { Divider } from '@chakra-ui/react';
-import { QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
@@ -19,10 +19,14 @@ function AskNameNodeContent({ id }) {
   //TODO MOVE TO CONFIG
   // VARIABLE
   const initialValues = {
-    fields: config.fields,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params.variable,
   };
 
   const validationSchema = yup.object({});
@@ -30,7 +34,7 @@ function AskNameNodeContent({ id }) {
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    updateNodeById(id, { params: { ...formValues, variableName } });
     handleClose();
   };
 
@@ -43,10 +47,12 @@ function AskNameNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        labelVariant='h1'
+        setNodeContent={true}
       />
       <Divider />
       <FormVariableSelectorDropdown

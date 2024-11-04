@@ -34,7 +34,7 @@ const findActiveQuestion = (activeItem, fieldValue) => {
     ?.find((question) => question?.id === activeItem?.id);
 };
 
-function FormNodeRowsFieldArray({ name }) {
+function FormNodeRowsFieldArray({ name, setActiveSidebar, activeSidebar }) {
   const [activeItem, setActiveItem] = React.useState(null);
   const [field, , helpers] = useField(name);
   const arrayHelpersRef = React.useRef(null);
@@ -414,6 +414,8 @@ function FormNodeRowsFieldArray({ name }) {
                         handleQuestionDelete={(qIndex) => {
                           handleQuestionDelete(index, qIndex);
                         }}
+                        setActiveSidebar={setActiveSidebar}
+                        activeSidebar={activeSidebar}
                       />
                     </DroppableRowContainer>
                   );
@@ -457,6 +459,8 @@ function QuestionSortableContext({
   subFieldName,
   handleQuestionDelete,
   handleAddQuestion,
+  setActiveSidebar,
+  activeSidebar,
 }) {
   return (
     <>
@@ -474,6 +478,8 @@ function QuestionSortableContext({
               handleQuestionDelete={() => {
                 handleQuestionDelete(qIndex);
               }}
+              setActiveSidebar={setActiveSidebar}
+              activeSidebar={activeSidebar}
             />
           ))}
           {row.questions?.length === 1 && (

@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import { FormNodePortal } from './FormNodePortal';
 
-export function FormNodeSettings() {
+export function FormNodeSettings({ setActiveSidebar, activeSidebar }) {
   return (
     <Flex gap={3} direction='column'>
       <Divider />
@@ -16,7 +16,13 @@ export function FormNodeSettings() {
         <Text fontSize='large' fontWeight='700'>
           Settings
         </Text>
-        <FormNodePortal isCard={false} type='settings' />
+        <FormNodePortal
+          isCard={false}
+          type='settings'
+          activeSidebar={activeSidebar}
+          setActiveSidebar={setActiveSidebar}
+          contentKey='setting'
+        />
       </Flex>
     </Flex>
   );
@@ -28,7 +34,7 @@ export function NodeSettingsPortalContent() {
         name='sendLabel'
         label='Submit button label'
         variant='custom'
-        labelVariant='basic'
+        labelVariant='h3'
       />
       <Divider />
       <FormSettings
@@ -36,12 +42,14 @@ export function NodeSettingsPortalContent() {
         name='hasSkipButton'
         bgColor='inherit'
         containerStyles={{ padding: 0 }}
+        labelVariant='h3'
+        labelProps={{ style: { cursor: 'pointer' } }}
       >
         <FormTextField
           name='skipLabel'
           label='Skip button label'
           variant='custom'
-          labelVariant='basic'
+          labelVariant='h3'
         />
       </FormSettings>
       <Divider />
@@ -49,19 +57,19 @@ export function NodeSettingsPortalContent() {
         name='extra.errorMessage'
         label='Required field error message'
         variant='custom'
-        labelVariant='basic'
+        labelVariant='h3'
       />
       <Divider />
       <FormCheckbox
         name='extra.markRequired'
         label='Mark required fields with a * on the label'
-        labelVariant='basic'
+        labelVariant='h3'
       />
       <Divider />
       <FormCheckbox
         name='extra.mobileResponsive'
         label='Stack fields on mobile'
-        labelVariant='basic'
+        labelVariant='h3'
       />
     </>
   );

@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   DateSelectorFieldArray,
+  DraftEditorField,
   FormDropdown,
   FormWeekdaysSelect,
-  QuillEditorField,
 } from '../Shared/FormUi';
 import * as yup from 'yup';
 import { Divider } from '@chakra-ui/react';
@@ -13,6 +13,7 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { useFormikContext } from 'formik';
+import { evaluateInitialValue } from 'utils/form';
 
 const formatOptions = [
   { value: 'yyyy/MM/dd', label: 'YYYY/MM/DD - 2023/09/19' },
@@ -47,7 +48,6 @@ const defaultRange = [
   },
 ];
 function DateNodeContent({ id }) {
-  // const [dateOption, setDateOption] = React.useState('');
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -55,23 +55,30 @@ function DateNodeContent({ id }) {
     setSideView(false);
   };
   if (!config) return <></>;
-  // const handelAvailableOptionChange = (value) => {
-  //   setDateOption(value);
-  // };
-  //TODO MOVE TO CONFIG
+
   const initialValues = {
-    fields: config.fields,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message || '',
-    variable: currentNode?.data?.variable || '',
-    format: currentNode?.data?.format || '',
-    showDatePicker: currentNode?.data?.showDatePicker || false,
-    enabledDateType: currentNode?.data?.enabledDateType || '',
-    enabledDaysOfWeek: currentNode?.data?.enabledDaysOfWeek || [
-      1, 0, 2, 3, 4, 5, 6,
-    ],
-    enabledCustomRanges: currentNode?.data?.enabledCustomRanges || defaultRange,
-    error: "I'm afraid I didn't understand, could you try again, please?",
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params?.variable,
+    format: currentNode?.data?.params?.format || config.data?.params?.format,
+    showDatePicker:
+      currentNode?.data?.params?.showDatePicker ??
+      evaluateInitialValue(config.data?.params?.showDatePicker),
+    enabledDateType:
+      currentNode?.data?.params?.enabledDateType ||
+      config.data?.params?.enabledDateType,
+    enabledDaysOfWeek:
+      currentNode?.data?.params?.enabledDaysOfWeek ||
+      config.data?.params?.enabledDateType,
+    enabledCustomRanges:
+      currentNode?.data?.params?.enabledCustomRanges ||
+      config.data?.params?.enabledCustomRanges,
+    error: config.data?.params?.error,
   };
 
   const validationSchema = yup.object({
@@ -92,10 +99,11 @@ function DateNodeContent({ id }) {
     const enabledDateType = formValues.enabledDateType;
 
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
-      variableName,
-      ...(enabledDateType !== 'custom' && { enabledCustomRanges: '' }),
+      params: {
+        ...formValues,
+        variableName,
+        ...(enabledDateType !== 'custom' && { enabledCustomRanges: '' }),
+      },
     });
 
     handleClose();
@@ -110,18 +118,25 @@ function DateNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
         placeholder='Example: <<Select a date, please>>'
         label='Question text'
+        labelVariant='h1'
+        setNodeContent={true}
       />
       <FormDropdown
         name='format'
         variant='custom'
         options={formatOptions}
         label='Format to save the date'
+        labelVariant='h3'
       />
-      <FormCheckbox name='showDatePicker' label='Show date picker' />
+      <FormCheckbox
+        name='showDatePicker'
+        label='Show date picker'
+        labelVariant='h3'
+      />
       <Divider />
       <DateTypeDropdown />
       <DateSelectorField />
@@ -148,6 +163,7 @@ function DateTypeDropdown() {
       variant='custom'
       options={enabledDatesOptions}
       label='Set available dates'
+      labelVariant='h3'
       onChange={() => setFieldValue('enabledCustomRanges', defaultRange)}
     />
   );

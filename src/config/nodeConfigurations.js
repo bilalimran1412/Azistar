@@ -133,15 +133,10 @@ export const nodeConfigurations = {
       data: {
         layoutType: sideViewLayoutType.messageMedia,
         initialItem: 'message',
-      },
-      fields: [
-        {
-          label: 'Message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Enter your message',
+        params: {
+          nodeTextContent: 'Add text message or display media',
         },
-      ],
+      },
     },
     {
       group: Groups.messages,
@@ -154,15 +149,10 @@ export const nodeConfigurations = {
         contentType: contentType.uploadMedia,
         layoutType: sideViewLayoutType.messageMedia,
         initialItem: 'media',
-      },
-      fields: [
-        {
-          label: 'Media File',
-          type: 'file',
-          variable: 'fileField',
-          placeholder: 'Upload media',
+        params: {
+          nodeTextContent: 'Display media or add text message',
         },
-      ],
+      },
     },
     {
       group: Groups.messages,
@@ -174,15 +164,22 @@ export const nodeConfigurations = {
       data: {
         contentType: contentType.incomingOnly,
         layoutType: sideViewLayoutType.goodBye,
-      },
-      fields: [
-        {
-          label: 'Type here your goodbye message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Message Text',
+        params: {
+          nodeTextContent: 'A farewell message',
+          socialEnable: false,
+          startButtonEnable: false,
+          redirectEnable: false,
+          redirectTimeout: 3,
+          socialUrl: '',
+          socialUrlText: '',
+          startButtonText: 'Start Again',
+          redirectUrl: '',
         },
-      ],
+      },
+      fields: {
+        label: 'Type here your goodbye message',
+        placeholder: 'Message Text',
+      },
     },
   ],
 
@@ -199,35 +196,40 @@ export const nodeConfigurations = {
         multipleHandles: true,
         layoutType: sideViewLayoutType.buttons,
         contentType: contentType.buttonNode,
-        buttons: [
-          {
-            text: 'Button',
-            id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
-            buttonStyle: 'text',
-            icon: null,
-            externalLink: '',
-            isSettingExpand: false,
-            sortOrder: 1,
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'options',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'options',
           },
-        ],
-        minMaxOptions: false,
-        buttonsAlignment: 'horizontal',
-        randomizeOrder: false,
-        searchableOptions: false,
-        multipleChoices: false,
-        outputAsArray: false,
-        min: 1,
-        max: 'all',
-        // items: [{ id: 'button-1', label: 'Edit Button', isDeletable: false }],
-      },
-      fields: [
-        {
-          label: 'Button Text',
-          type: 'button',
-          variable: 'textareaFieldData',
-          placeholder: 'Enter button text',
+          buttons: [
+            {
+              text: 'Button',
+              id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
+              buttonStyle: 'text',
+              icon: null,
+              externalLink: '',
+              isSettingExpand: false,
+              sortOrder: 1,
+            },
+          ],
+          minMaxOptions: false,
+          buttonsAlignment: 'horizontal',
+          randomizeOrder: false,
+          searchableOptions: false,
+          multipleChoices: false,
+          outputAsArray: false,
+          min: 1,
+          max: 'all',
         },
-      ],
+      },
+      fields: {
+        label: 'Button Text',
+        placeholder: 'Enter button text',
+      },
     },
     {
       group: Groups.question,
@@ -238,16 +240,23 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.askName,
-      },
-      fields: [
-        {
-          value: "What's your name?",
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "What's your name?",
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'name',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'name',
+          },
+          nodeTextContent: "What's your name?",
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: "What's your name?",
+      },
+
       variableType: 'STRING',
     },
     {
@@ -258,18 +267,28 @@ export const nodeConfigurations = {
       label: 'Ask a Question',
       nodeType: 'baseNode',
       icon: <FaQuestionCircle />,
-
       data: {
         layoutType: sideViewLayoutType.askQuestion,
-      },
-      fields: [
-        {
-          label: 'Question Text',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Ask anything',
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'text',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'text',
+          },
+          errorMessage: `I'm afraid I didn't understand, could you try again, please?`,
+          min: 0,
+          max: 99999,
+          sizeOfTextArea: 'long',
+          nodeTextContent: 'Ask anything',
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Ask anything',
+      },
     },
     {
       group: Groups.question,
@@ -279,17 +298,24 @@ export const nodeConfigurations = {
       icon: <FaEnvelope />,
       data: {
         layoutType: sideViewLayoutType.askEmail,
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'email',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'email',
+          },
+          nodeTextContent: "What's your email?",
+        },
       },
       variableType: 'STRING',
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "What's your email?",
-        },
-      ],
+      fields: {
+        label: 'Question Text',
+        placeholder: "What's your email?",
+      },
     },
     {
       group: Groups.question,
@@ -301,15 +327,26 @@ export const nodeConfigurations = {
       icon: <FaCalculator />,
       data: {
         layoutType: sideViewLayoutType.askNumber,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type a number, please',
+        params: {
+          nodeTextContent: 'Type a number, please',
+          settings: false,
+          min: 0,
+          max: 99999,
+          format: 'auto',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'number',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'number',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Type a number, please',
+      },
     },
     {
       group: Groups.question,
@@ -320,16 +357,24 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.askPhone,
+        params: {
+          nodeTextContent: "What's your number?",
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'phone',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'phone',
+          },
+          showCountryCodeSelector: false,
+        },
       },
       variableType: 'STRING',
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "What's your number?",
-        },
-      ],
+      fields: {
+        label: 'Question Text',
+        placeholder: "What's your number?",
+      },
     },
     {
       group: Groups.question,
@@ -342,15 +387,33 @@ export const nodeConfigurations = {
 
       data: {
         layoutType: sideViewLayoutType.date,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Select a date, please',
+        params: {
+          nodeTextContent: 'Select a date, please',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'date',
+            readOnly: false,
+            sample: '',
+            type: 'DATE',
+            value: 'date',
+          },
+          format: 'yyyy/MM/dd',
+          enabledDateType: 'all',
+          showDatePicker: true,
+          enabledDaysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+          error: "I'm afraid I didn't understand, could you try again, please?",
+          enabledCustomRanges: [
+            {
+              fromDate: '',
+              toDate: '',
+            },
+          ],
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Select a date, please',
+      },
     },
     {
       group: Groups.question,
@@ -362,15 +425,24 @@ export const nodeConfigurations = {
       variableType: 'STRING',
       data: {
         layoutType: sideViewLayoutType.askFile,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'File upload',
+        params: {
+          nodeTextContent: 'File upload',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'file',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'file',
+          },
+          allowMultiples: false,
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+
+        placeholder: 'File upload',
+      },
     },
     {
       group: Groups.question,
@@ -382,15 +454,22 @@ export const nodeConfigurations = {
       variableType: 'STRING',
       data: {
         layoutType: sideViewLayoutType.askAddress,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type your address, please',
+        params: {
+          nodeTextContent: 'Type your address, please',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'address',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'address',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Type your address, please',
+      },
     },
     {
       group: Groups.question,
@@ -402,15 +481,22 @@ export const nodeConfigurations = {
       variableType: 'STRING',
       data: {
         layoutType: sideViewLayoutType.askUrl,
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type a Url',
+        params: {
+          nodeTextContent: 'Type a Url',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'url_0',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'url_0',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Type a Url',
+      },
     },
     {
       group: Groups.question,
@@ -424,38 +510,45 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.pictureChoice,
-        items: [],
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Image carousel',
+        renderSubHeader: true,
+        params: {
+          nodeTextContent: 'Image carousel',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'pictures',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'pictures',
+          },
         },
-      ],
-    },
-    {
-      group: Groups.question,
-      blockId: 'a24d9b82-ff58-516f-9bdd-24009f239c62',
-      title: 'Auto-complete',
-      label: 'Auto-complete',
-      nodeType: 'baseNode',
-      icon: <FaSearch />,
-      data: {
-        multipleHandles: true,
-        contentType: contentType.buttonNode,
-        items: [],
       },
-      fields: [
-        {
-          label: 'Autocomplete Text',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Input Suggestions',
-        },
-      ],
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Image carousel',
+      },
     },
+    // {
+    //   group: Groups.question,
+    //   blockId: 'a24d9b82-ff58-516f-9bdd-24009f239c62',
+    //   title: 'Auto-complete',
+    //   label: 'Auto-complete',
+    //   nodeType: 'baseNode',
+    //   icon: <FaSearch />,
+    //   data: {
+    //     multipleHandles: true,
+    //     contentType: contentType.buttonNode,
+    //     items: [],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Autocomplete Text',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Input Suggestions',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.question,
       blockId: '1665b528-5727-54e7-8873-a95265ce56c0',
@@ -469,39 +562,42 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.yesNo,
-        buttons: [
-          {
-            text: 'Yes',
-            id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
-            buttonStyle: 'icon',
-            icon: 'coding',
-            externalLink: '',
-            isSettingExpand: false,
-            sortOrder: 1,
+        params: {
+          buttons: [
+            {
+              text: 'Yes',
+              id: '975bea52-8ba7-53e4-a33b-d23acde26b2b',
+              buttonStyle: 'icon',
+              icon: 'coding',
+              externalLink: '',
+              isSettingExpand: false,
+              sortOrder: 1,
+            },
+            {
+              text: 'No',
+              id: '975bea52-4bb7-63e4-a33b-d65afde26b2b',
+              buttonStyle: 'icon',
+              icon: 'coding',
+              externalLink: '',
+              isSettingExpand: false,
+              sortOrder: 2,
+            },
+          ],
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'yes_no',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'yes_no',
           },
-          {
-            text: 'No',
-            id: '975bea52-4bb7-63e4-a33b-d65afde26b2b',
-            buttonStyle: 'icon',
-            icon: 'coding',
-            externalLink: '',
-            isSettingExpand: false,
-            sortOrder: 2,
-          },
-        ],
-        // items: [
-        //   { id: 'button-yes', label: 'Yes', isDeletable: false },
-        //   { id: 'button-no', label: 'No', isDeletable: false },
-        // ],
-      },
-      fields: [
-        {
-          label: 'Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Yes/No choice',
+          nodeTextContent: 'Yes/No choice',
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Yes/No choice',
+      },
     },
     {
       group: Groups.question,
@@ -515,21 +611,24 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.rating,
-
-        items: [
-          { id: 'rating-level-1', label: '1 Star Rating', isDeletable: false },
-          { id: 'rating-level-2', label: '2 Star Rating', isDeletable: false },
-          { id: 'rating-level-3', label: '3 Star Rating', isDeletable: false },
-        ],
-      },
-      fields: [
-        {
-          label: 'Rating Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Create an evaluation',
+        renderSubHeader: true,
+        params: {
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'rating',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'rating',
+          },
+          rating: 'star-3',
+          nodeTextContent: 'Create an evaluation',
         },
-      ],
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Create an evaluation',
+      },
     },
     {
       group: Groups.question,
@@ -543,23 +642,27 @@ export const nodeConfigurations = {
         multipleHandles: true,
         contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.opinionScale,
-        items: [
-          { id: 'opinion-level-worst', label: '0- Worst', isDeletable: false },
-          { id: 'opinion-level-1', label: '1', isDeletable: false },
-          { id: 'opinion-level-2', label: '2', isDeletable: false },
-          { id: 'opinion-level-3', label: '3', isDeletable: false },
-          { id: 'opinion-level-4', label: '4', isDeletable: false },
-          { id: 'opinion-level-5', label: '5- Best', isDeletable: false },
-        ],
-      },
-      fields: [
-        {
-          label: 'Scale Question',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Pick a value',
+        renderSubHeader: true,
+        params: {
+          from: '0',
+          leftLabel: 'Worst',
+          to: '5',
+          rightLabel: 'Best',
+          nodeTextContent: 'Pick a value',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'scale',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'scale',
+          },
         },
-      ],
+      },
+      fields: {
+        label: 'Question text',
+        placeholder: 'Pick a value',
+      },
     },
     {
       group: Groups.question,
@@ -570,23 +673,30 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.forms,
-        rows: [
-          {
-            questions: [],
-            layout: '1',
-            id: 'd3f24283-0a2a-54d8-ae94-88741791b3a9',
+        params: {
+          nodeTextContent: 'Form title: Answer the following questions',
+
+          rows: [
+            {
+              questions: [],
+              layout: '1',
+              id: 'd3f24283-0a2a-54d8-ae94-88741791b3a9',
+            },
+          ],
+          extra: {
+            errorMessage: 'This field is required',
+            markRequired: true,
+            mobileResponsive: false,
           },
-        ],
-      },
-      fields: [
-        {
-          label: 'Form Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Form title: Answer the following questions',
-          value: 'Form title: Answer the following questions',
+          hasSkipButton: false,
+          sendLabel: 'Send',
+          skipLabel: 'Skip',
         },
-      ],
+      },
+      fields: {
+        label: 'Message',
+        placeholder: 'Form title: Answer the following questions',
+      },
     },
     {
       group: Groups.question,
@@ -601,160 +711,160 @@ export const nodeConfigurations = {
         // multipleHandles: true,
         // contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.multiQuestions,
-        sendLabel: 'Send',
-        isAdvancedEnabled: false,
-      },
-      fields: [
-        {
-          label: 'Message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Example: Answer the following questions',
-          value: 'Form title: Answer the following questions',
+
+        params: {
+          nodeTextContent: 'Form title: Answer the following questions',
+          sendLabel: 'Send',
+          isAdvancedEnabled: false,
+          elements: '',
         },
-      ],
+      },
+      fields: {
+        label: 'Message',
+        placeholder: 'Form title: Answer the following questions',
+      },
     },
   ],
 
   logic: [
-    {
-      group: Groups.logic,
-      blockId: 'fbf0fd29-1a57-5871-9c92-862376afa3a2',
-      title: 'Conditions',
-      label: 'Conditions',
-      nodeType: 'baseNode',
-      icon: <FaCodeBranch />,
+    // {
+    //   group: Groups.logic,
+    //   blockId: 'fbf0fd29-1a57-5871-9c92-862376afa3a2',
+    //   title: 'Conditions',
+    //   label: 'Conditions',
+    //   nodeType: 'baseNode',
+    //   icon: <FaCodeBranch />,
 
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Condition Logic',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define condition logic',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: 'a070b269-079e-57f0-ab92-4db0b03d0aa7',
-      title: 'Set a Variable',
-      label: 'Set a Variable',
-      icon: <FaMemory />,
-      nodeType: 'baseNode',
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Variable Name',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Enter variable name',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: 'd86c094b-9064-5f94-9b04-dad568b2654c',
-      title: 'Keyword Jump',
-      label: 'Keyword Jump',
-      nodeType: 'baseNode',
-      icon: <FaKeyboard />,
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Condition Logic',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define condition logic',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: 'a070b269-079e-57f0-ab92-4db0b03d0aa7',
+    //   title: 'Set a Variable',
+    //   label: 'Set a Variable',
+    //   icon: <FaMemory />,
+    //   nodeType: 'baseNode',
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Variable Name',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Enter variable name',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: 'd86c094b-9064-5f94-9b04-dad568b2654c',
+    //   title: 'Keyword Jump',
+    //   label: 'Keyword Jump',
+    //   nodeType: 'baseNode',
+    //   icon: <FaKeyboard />,
 
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Keyword',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Switch Conditions',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: '6002b8e7-027c-5f10-9d47-06bb0de58b55',
-      title: 'Global Keywords',
-      label: 'Global Keywords',
-      icon: <FaGlobe />,
-      nodeType: 'baseNode',
-      data: {
-        contentType: contentType.placeholderNodes,
-      },
-      fields: [
-        {
-          label: 'Keywords',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define global keywords',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: '3f719865-7bd5-5623-b0bb-8752ea2ab8fb',
-      title: 'Formulas',
-      label: 'Formulas',
-      nodeType: 'baseNode',
-      icon: <FaCompress />,
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Keyword',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Switch Conditions',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: '6002b8e7-027c-5f10-9d47-06bb0de58b55',
+    //   title: 'Global Keywords',
+    //   label: 'Global Keywords',
+    //   icon: <FaGlobe />,
+    //   nodeType: 'baseNode',
+    //   data: {
+    //     contentType: contentType.placeholderNodes,
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Keywords',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define global keywords',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: '3f719865-7bd5-5623-b0bb-8752ea2ab8fb',
+    //   title: 'Formulas',
+    //   label: 'Formulas',
+    //   nodeType: 'baseNode',
+    //   icon: <FaCompress />,
 
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Formula',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define formula',
-        },
-      ],
-    },
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Formula',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define formula',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.logic,
       blockId: '3ff411f3-165c-5c50-9d3e-15cec796564d',
@@ -764,15 +874,14 @@ export const nodeConfigurations = {
       icon: <FaExchangeAlt />,
       data: {
         layoutType: sideViewLayoutType.botJump,
-      },
-      fields: [
-        {
-          label: 'Jump Target',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Jump to an other bot',
+        params: {
+          nodeTextContent: 'Jump to other bot',
+          botID: '',
+          nodeID: '',
+          specificEnabled: false,
+          botName: '',
         },
-      ],
+      },
     },
     {
       group: Groups.logic,
@@ -781,18 +890,41 @@ export const nodeConfigurations = {
       label: 'Lead Scoring',
       icon: <FaSortNumericDown />,
       variableType: 'NUMBER',
+      width: '500px',
+
       data: {
+        multipleHandles: true,
         layoutType: sideViewLayoutType.leadScoring,
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
+        params: {
+          nodeTextContent: 'Give each lead a score',
+          ruleGroups: [
+            {
+              id: '3966f68c-7473-5035-ae1b-75919fec6276',
+              isExpanded: false,
+              rules: [],
+            },
+          ],
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'score',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'score',
+          },
+        },
       },
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Scoring Logic',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Give each lead a score',
-        },
-      ],
     },
     {
       group: Groups.logic,
@@ -1368,4 +1500,9 @@ export const nodeConfigurationBlockIdMap = {
 
 export const menuOptionList = Array.from(Object.values(nodeConfigurations))
   .flatMap((a) => a)
-  .map((n) => ({ label: n.label, blockId: n.blockId, group: n.group }));
+  .map((n) => ({
+    label: n.label,
+    blockId: n.blockId,
+    group: n.group,
+    icon: n.icon,
+  }));

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Divider } from '@chakra-ui/react';
-import { FormDropdown, QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField, FormDropdown } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import { seedID } from 'utils';
 
 const dropdownOptions = [
   { value: 'star-3', label: '⭐️⭐️⭐️' },
@@ -13,6 +14,13 @@ const dropdownOptions = [
   { value: 'star-10', label: '⭐️⭐️⭐⭐️⭐️⭐️⭐⭐️⭐️⭐️' },
   { value: 'mood', label: '😡 🙁 😐 🙂 😍' },
 ];
+const splitEmojiString = (str) =>
+  (
+    str.match(
+      /(\p{Emoji_Presentation}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Emoji_Modifier})/gu
+    ) || []
+  ).filter((char) => char.trim() !== '' && char !== '\uFE0F');
+
 function RatingNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
@@ -21,24 +29,35 @@ function RatingNodeContent({ id }) {
     setSideView(false);
   };
   if (!config) return <></>;
-  // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  // MESSAGE TOO
-  const initialValues = {
-    fields: config.fields,
-    //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
 
-    rating: currentNode?.data?.rating,
+  const initialValues = {
+    //this message will contain all the ops and html and normal text
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params?.variable,
+    rating: currentNode?.data?.params?.rating || config.data?.params?.rating,
   };
-  const validationSchema = yup.object({});
+  const validationSchema = yup.object({
+    rating: yup.string().required('Rating is required.'),
+  });
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    const ratingValue = formValues?.rating;
+    const rating = dropdownOptions.find(
+      (option) => option.value === ratingValue
+    );
+
+    const buttons = splitEmojiString(rating.label).map((char) => ({
+      id: seedID(),
+      text: char,
+    }));
+    updateNodeById(id, { params: { ...formValues, variableName, buttons } });
     handleClose();
   };
 
@@ -51,14 +70,16 @@ function RatingNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        setNodeContent={true}
+        labelVariant='h1'
       />
 
       <Divider />
-      <FormDropdown name='rating' options={dropdownOptions} />
+      <FormDropdown name='rating' options={dropdownOptions} variant='custom' />
       <Divider />
       <FormVariableSelectorDropdown
         allowedType={config?.variableType}

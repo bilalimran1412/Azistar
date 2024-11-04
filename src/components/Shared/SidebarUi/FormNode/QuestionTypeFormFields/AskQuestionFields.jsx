@@ -30,7 +30,7 @@ function AskQuestionFields({ subFieldName }) {
         <FormCustomOptionSelector
           label='Size of text area'
           name={`${subFieldName}.inputSize`}
-          labelVariant='basic'
+          labelVariant='h3'
           options={sizeOptions}
         />
         <Flex gap={4}>
@@ -38,26 +38,26 @@ function AskQuestionFields({ subFieldName }) {
             name={`${subFieldName}.min`}
             label='Min. characters'
             variant='custom'
-            labelVariant='basic'
+            labelVariant='h3'
           />
           <FormTextField
             name={`${subFieldName}.max`}
             label='Max. characters'
             variant='custom'
-            labelVariant='basic'
+            labelVariant='h3'
           />
         </Flex>
         <FormTextField
           name={`${subFieldName}.pattern`}
           label='Regex Pattern'
           variant='custom'
-          labelVariant='basic'
+          labelVariant='h3'
         />
         <FormTextField
           name={`${subFieldName}.errorMessage`}
           label='Error Message'
           variant='custom'
-          labelVariant='basic'
+          labelVariant='h3'
           type='textarea'
         />
       </Flex>

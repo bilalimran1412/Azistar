@@ -25,6 +25,7 @@ function VariableInputField({
   styles,
   onSelect = () => {},
   initialValue,
+  labelVariant = 'h3',
   // popupType will be button or input, it will define the trigger element and design changes
   popupType = 'input',
   ...rest
@@ -109,7 +110,7 @@ function VariableInputField({
 
   return (
     <Box>
-      {label && <FormLabel variant={'h3'}>{label}</FormLabel>}
+      {label && <FormLabel variant={labelVariant}>{label}</FormLabel>}
       <Box ref={popoverContainer}>
         <Popover
           isOpen={isOpen}

@@ -5,7 +5,7 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import {
   ButtonCreatorInputFieldArray,
-  QuillEditorField,
+  DraftEditorField,
 } from '../Shared/FormUi';
 import { Divider } from '@chakra-ui/react';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
@@ -20,16 +20,16 @@ function YesNoNodeContent({ id }) {
   };
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  // MESSAGE TOO
+
   const initialValues = {
-    fields: config.fields,
-    message: currentNode?.data?.message,
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
 
-    variable: currentNode?.data?.variable || '',
-
-    buttons: currentNode?.data?.buttons || config.data?.buttons,
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params?.variable,
+    buttons: currentNode?.data?.params?.buttons || config.data?.param?.buttons,
   };
 
   const validationSchema = yup.object({});
@@ -39,9 +39,7 @@ function YesNoNodeContent({ id }) {
     const variableName = formValues.variable.value;
 
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
-      variableName,
+      params: { ...formValues, variableName },
     });
 
     handleClose();
@@ -56,13 +54,16 @@ function YesNoNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        setNodeContent={true}
+        labelVariant='h1'
       />
       <ButtonCreatorInputFieldArray
         name='buttons'
+        label='Buttons'
         showExternalLinkField={false}
       />
 

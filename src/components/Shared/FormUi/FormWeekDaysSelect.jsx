@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, FormLabel, Text } from '@chakra-ui/react';
 
 const FormWeekDaysSelect = ({ name, label, ...rest }) => {
   const [field, meta, helpers] = useField(name);
@@ -20,11 +20,7 @@ const FormWeekDaysSelect = ({ name, label, ...rest }) => {
 
   return (
     <Box>
-      {label && (
-        <Text fontSize='sm' mb={2}>
-          {label}
-        </Text>
-      )}
+      {label && <FormLabel variant='h3'>{label}</FormLabel>}
       <Box display='flex' gap={2} {...rest}>
         {daysOfWeek.map((day, index) => (
           <Box

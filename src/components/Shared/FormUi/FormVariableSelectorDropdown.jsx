@@ -8,6 +8,7 @@ export default function FormVariableSelectorDropdown({
   allowedType = 'all',
   label = 'Save answers in the variable',
   readOnly = true,
+  labelVariant,
   placeholder = '',
 }) {
   const [field, , helpers] = useField(name);
@@ -16,6 +17,7 @@ export default function FormVariableSelectorDropdown({
     <VariableInputField
       popupType='input'
       placeholder={placeholder}
+      labelVariant={labelVariant}
       initialValue={field.value}
       label={label}
       allowedType={allowedType}

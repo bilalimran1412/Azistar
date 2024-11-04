@@ -34,15 +34,18 @@ function BotJumpNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    botID: currentNode?.data?.botID || '',
-    nodeID: currentNode?.data?.nodeID || '',
-    specificEnabled: currentNode?.data?.specificEnabled || false,
-    botName: currentNode?.data?.botName || '',
+    botID: currentNode?.data?.params?.botID || '',
+    nodeID: currentNode?.data?.params?.nodeID || '',
+    specificEnabled: currentNode?.data?.params?.specificEnabled || false,
+    botName: currentNode?.data?.params?.botName || '',
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const nodeTextContent = formValues.botName;
+    updateNodeById(id, {
+      params: { ...formValues, ...(nodeTextContent && { nodeTextContent }) },
+    });
     handleClose();
   };
 
@@ -55,7 +58,7 @@ function BotJumpNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <Text>
+      <Text fontWeight='500'>
         Select a bot you want to Jump To. You can point to a specific block,
         otherwise, it will jump to the starting point.
       </Text>
@@ -64,6 +67,7 @@ function BotJumpNodeContent({ id }) {
         label='Point to a specific block'
         name='specificEnabled'
         options={options}
+        labelVariant='h3'
       />
       <BlockIdInput />
     </SidebarFormContainer>

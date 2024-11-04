@@ -1,11 +1,12 @@
 import React from 'react';
 import { Divider } from '@chakra-ui/react';
-import { FormCheckbox, QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField, FormCheckbox } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import { evaluateInitialValue } from 'utils/form';
 
 function AskPhoneNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -18,20 +19,25 @@ function AskPhoneNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    fields: config.fields,
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message,
-    variable: currentNode?.data?.variable,
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    variable:
+      currentNode?.data?.params?.variable || config?.data.params.variable,
 
     showCountryCodeSelector:
-      currentNode?.data?.showCountryCodeSelector || false,
+      currentNode?.data?.params?.showCountryCodeSelector ||
+      evaluateInitialValue(config.data.params.showCountryCodeSelector),
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-    updateNodeById(id, { ...currentNode?.data, ...formValues, variableName });
+    updateNodeById(id, { params: { ...formValues, variableName } });
     handleClose();
   };
 
@@ -44,15 +50,18 @@ function AskPhoneNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        labelVariant='h1'
+        setNodeContent={true}
       />
       <Divider />
       <FormCheckbox
         name='showCountryCodeSelector'
-        checkboxLabel={'Show country code selector'}
+        label={'Show country code selector'}
+        labelVariant='h3'
       />
       <Divider />
       <FormVariableSelectorDropdown

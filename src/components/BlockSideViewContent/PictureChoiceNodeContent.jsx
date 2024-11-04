@@ -6,7 +6,7 @@ import { yup } from '../../utils/yup';
 import { Divider } from '@chakra-ui/react';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import {
-  QuillEditorField,
+  DraftEditorField,
   SortablePictureCardFieldArray,
 } from '../Shared/FormUi';
 
@@ -19,17 +19,16 @@ function PictureChoiceNodeContent({ id }) {
     setSideView(false);
   };
   if (!config) return <></>;
-  // console.log('creating sidebar for block', config);
-  //TODO MOVE TO CONFIG
-  // VARIABLE
-  // OTHER
-  const initialValues = {
-    fields: config.fields,
 
-    variable: currentNode?.data?.variable,
-    //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message || '',
-    cards: currentNode?.data?.cards || '',
+  const initialValues = {
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    variable:
+      currentNode?.data?.params?.variable || config.data?.params?.variable,
+    cards: currentNode?.data?.params?.cards || '',
   };
 
   const validationSchema = yup.object({});
@@ -37,13 +36,9 @@ function PictureChoiceNodeContent({ id }) {
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const variableName = formValues.variable.value;
-
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
-      variableName,
+      params: { ...formValues, variableName },
     });
-
     handleClose();
   };
 
@@ -56,10 +51,12 @@ function PictureChoiceNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        setNodeContent={true}
+        labelVariant='h1'
       />
       <Divider />
       <SortablePictureCardFieldArray name='cards' />

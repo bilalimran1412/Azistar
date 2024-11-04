@@ -8,7 +8,7 @@ import { seedID } from '../../../../utils';
 // todo implement emoji picker
 
 const ButtonCreatorInputFieldArray = ({
-  label = 'Buttons Editor',
+  label = 'Buttons editor',
   name,
   disableDelete,
   showExternalLinkField = true,
@@ -46,7 +46,7 @@ const ButtonCreatorInputFieldArray = ({
 
   return (
     <Box width='100%'>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel variant='h2'>{label}</FormLabel>
 
       <FieldArray
         name={name}

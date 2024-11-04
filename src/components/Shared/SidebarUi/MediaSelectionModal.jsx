@@ -115,6 +115,7 @@ function MediaSelectModal({
                     placeholder='https://'
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
+                    variant='custom'
                   />
                 </TabPanel>
                 <TabPanel display='flex' flexDirection='column' p={10} gap={10}>
