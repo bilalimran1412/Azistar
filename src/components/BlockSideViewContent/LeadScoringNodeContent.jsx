@@ -17,20 +17,16 @@ function LeadScoringNodeContent({ id }) {
   if (!config) return <></>;
 
   const initialValues = {
-    variable: currentNode?.data?.variable || '',
-    ruleGroups: currentNode?.data?.ruleGroups || [
-      {
-        id: '3966f68c-7473-5035-ae1b-75919fec6276',
-        isExpanded: false,
-        rules: [],
-      },
-    ],
+    variable:
+      currentNode?.data?.params?.variable || config?.data?.params?.variable,
+    ruleGroups:
+      currentNode?.data?.params?.ruleGroups || config?.data?.params?.ruleGroups,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 
@@ -61,6 +57,7 @@ function LeadScoringNodeContent({ id }) {
           label='Choose the variable you would like to save the final score as'
           allowedType={config?.variableType}
           name='variable'
+          labelVariant='h2'
         />
         <Text color='#5c7080' fontSize='12px' mt='5px'>
           The variable format must be NUMBER

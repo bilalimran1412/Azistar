@@ -890,18 +890,30 @@ export const nodeConfigurations = {
       label: 'Lead Scoring',
       icon: <FaSortNumericDown />,
       variableType: 'NUMBER',
+      width: '500px',
+
       data: {
         layoutType: sideViewLayoutType.leadScoring,
+        params: {
+          nodeTextContent: 'Give each lead a score',
+          ruleGroups: [
+            {
+              id: '3966f68c-7473-5035-ae1b-75919fec6276',
+              isExpanded: false,
+              rules: [],
+            },
+          ],
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'score',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'score',
+          },
+        },
       },
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Scoring Logic',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Give each lead a score',
-        },
-      ],
     },
     {
       group: Groups.logic,
