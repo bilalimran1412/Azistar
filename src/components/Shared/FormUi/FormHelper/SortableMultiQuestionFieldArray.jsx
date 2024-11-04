@@ -21,7 +21,14 @@ const SortableMultiQuestionFieldArray = ({ label = '', name }) => {
       isOpen: true,
       sortOrder: fieldValue?.length + 1,
       config: {
-        name: `multi_question_${fieldValue?.length + 1}`,
+        name: {
+          category: 'CUSTOM_VARIABLES',
+          label: `multi_question_${fieldValue?.length + 1}`,
+          readOnly: false,
+          sample: '',
+          type: '',
+          value: `multi_question_${fieldValue?.length + 1}`,
+        },
         type: 'text',
         required: false,
         className: 'full',

@@ -27,7 +27,7 @@ function MultiQuestionExtraOptions({ fieldValue, subFieldName }) {
                   containerStyle={{
                     flexBasis: isLastUnpaired ? '100%' : '48%',
                   }}
-                  labelVariant='h3'
+                  labelVariant='h3White'
                   variant='customMini'
                 />
               );
@@ -41,7 +41,7 @@ function MultiQuestionExtraOptions({ fieldValue, subFieldName }) {
                 containerStyle={{
                   flexBasis: isLastUnpaired ? '100%' : '48%',
                 }}
-                labelVariant='h3'
+                labelVariant='h3White'
                 variant='customMini'
               />
             );

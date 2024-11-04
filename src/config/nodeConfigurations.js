@@ -694,7 +694,7 @@ export const nodeConfigurations = {
         },
       },
       fields: {
-        label: 'Form Setup',
+        label: 'Message',
         placeholder: 'Form title: Answer the following questions',
       },
     },
@@ -711,160 +711,160 @@ export const nodeConfigurations = {
         // multipleHandles: true,
         // contentType: contentType.buttonNode,
         layoutType: sideViewLayoutType.multiQuestions,
-        sendLabel: 'Send',
-        isAdvancedEnabled: false,
-      },
-      fields: [
-        {
-          label: 'Message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Example: Answer the following questions',
-          value: 'Form title: Answer the following questions',
+
+        params: {
+          nodeTextContent: 'Form title: Answer the following questions',
+          sendLabel: 'Send',
+          isAdvancedEnabled: false,
+          elements: '',
         },
-      ],
+      },
+      fields: {
+        label: 'Message',
+        placeholder: 'Form title: Answer the following questions',
+      },
     },
   ],
 
   logic: [
-    {
-      group: Groups.logic,
-      blockId: 'fbf0fd29-1a57-5871-9c92-862376afa3a2',
-      title: 'Conditions',
-      label: 'Conditions',
-      nodeType: 'baseNode',
-      icon: <FaCodeBranch />,
+    // {
+    //   group: Groups.logic,
+    //   blockId: 'fbf0fd29-1a57-5871-9c92-862376afa3a2',
+    //   title: 'Conditions',
+    //   label: 'Conditions',
+    //   nodeType: 'baseNode',
+    //   icon: <FaCodeBranch />,
 
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Condition Logic',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define condition logic',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: 'a070b269-079e-57f0-ab92-4db0b03d0aa7',
-      title: 'Set a Variable',
-      label: 'Set a Variable',
-      icon: <FaMemory />,
-      nodeType: 'baseNode',
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Variable Name',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Enter variable name',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: 'd86c094b-9064-5f94-9b04-dad568b2654c',
-      title: 'Keyword Jump',
-      label: 'Keyword Jump',
-      nodeType: 'baseNode',
-      icon: <FaKeyboard />,
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Condition Logic',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define condition logic',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: 'a070b269-079e-57f0-ab92-4db0b03d0aa7',
+    //   title: 'Set a Variable',
+    //   label: 'Set a Variable',
+    //   icon: <FaMemory />,
+    //   nodeType: 'baseNode',
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Variable Name',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Enter variable name',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: 'd86c094b-9064-5f94-9b04-dad568b2654c',
+    //   title: 'Keyword Jump',
+    //   label: 'Keyword Jump',
+    //   nodeType: 'baseNode',
+    //   icon: <FaKeyboard />,
 
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Keyword',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Switch Conditions',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: '6002b8e7-027c-5f10-9d47-06bb0de58b55',
-      title: 'Global Keywords',
-      label: 'Global Keywords',
-      icon: <FaGlobe />,
-      nodeType: 'baseNode',
-      data: {
-        contentType: contentType.placeholderNodes,
-      },
-      fields: [
-        {
-          label: 'Keywords',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define global keywords',
-        },
-      ],
-    },
-    {
-      group: Groups.logic,
-      blockId: '3f719865-7bd5-5623-b0bb-8752ea2ab8fb',
-      title: 'Formulas',
-      label: 'Formulas',
-      nodeType: 'baseNode',
-      icon: <FaCompress />,
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Keyword',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Switch Conditions',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: '6002b8e7-027c-5f10-9d47-06bb0de58b55',
+    //   title: 'Global Keywords',
+    //   label: 'Global Keywords',
+    //   icon: <FaGlobe />,
+    //   nodeType: 'baseNode',
+    //   data: {
+    //     contentType: contentType.placeholderNodes,
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Keywords',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define global keywords',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.logic,
+    //   blockId: '3f719865-7bd5-5623-b0bb-8752ea2ab8fb',
+    //   title: 'Formulas',
+    //   label: 'Formulas',
+    //   nodeType: 'baseNode',
+    //   icon: <FaCompress />,
 
-      data: {
-        multipleHandles: true,
-        customHandle: [
-          {
-            id: 'success',
-            type: 'success',
-          },
-          {
-            id: 'failure',
-            type: 'failure',
-          },
-        ],
-      },
-      fields: [
-        {
-          label: 'Formula',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define formula',
-        },
-      ],
-    },
+    //   data: {
+    //     multipleHandles: true,
+    //     customHandle: [
+    //       {
+    //         id: 'success',
+    //         type: 'success',
+    //       },
+    //       {
+    //         id: 'failure',
+    //         type: 'failure',
+    //       },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Formula',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define formula',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.logic,
       blockId: '3ff411f3-165c-5c50-9d3e-15cec796564d',
@@ -874,15 +874,14 @@ export const nodeConfigurations = {
       icon: <FaExchangeAlt />,
       data: {
         layoutType: sideViewLayoutType.botJump,
-      },
-      fields: [
-        {
-          label: 'Jump Target',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Jump to an other bot',
+        params: {
+          nodeTextContent: 'Jump to other bot',
+          botID: '',
+          nodeID: '',
+          specificEnabled: false,
+          botName: '',
         },
-      ],
+      },
     },
     {
       group: Groups.logic,

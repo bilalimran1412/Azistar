@@ -36,15 +36,19 @@ function MultiQuestionSetting({
           });
         }}
         variant='customMini'
-        labelVariant='h3'
+        labelVariant='h3White'
       />
-      <FormVariableSelectorDropdown name={`${subFieldName}.name`} />
+      <FormVariableSelectorDropdown
+        name={`${subFieldName}.name`}
+        labelVariant='h3White'
+        label='Save answer in'
+      />
       <Box display='flex' gap={1} flexDirection='column'>
         <FormTextField
           name={`${subFieldNameMain}.label`}
           label='Label'
           placeholder='Label'
-          labelVariant='h3'
+          labelVariant='h3White'
           variant='customMini'
         />
         <OptionsCreatorFieldArray
@@ -55,6 +59,7 @@ function MultiQuestionSetting({
           <FormToggleSwitch
             name={`${subFieldName}.required`}
             label='Is required?'
+            labelVariant='h3White'
           />
         )}
         <MultiQuestionExtraOptions

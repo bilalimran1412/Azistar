@@ -5,11 +5,11 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { Divider } from '@chakra-ui/react';
 import {
+  DraftEditorField,
   FormSettings,
   FormTextField,
-  QuillEditorField,
+  SortableMultiQuestionFieldArray,
 } from '../Shared/FormUi';
-import SortableMultiQuestionFieldArray from '../Shared/FormUi/FormHelper/SortableMultiQuestionFieldArray';
 
 function MultiQuestionsNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
@@ -23,16 +23,21 @@ function MultiQuestionsNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    fields: config.fields,
-
     //this message will contain all the ops and html and normal text
-    message: currentNode?.data?.message || config?.fields[0]?.value || '',
-    sendLabel: currentNode?.data?.message || config?.data?.sendLabel || '',
-    isAdvancedEnabled:
-      currentNode?.data?.isAdvancedEnabled ||
-      config?.data?.isAdvancedEnabled ||
+    message: currentNode?.data?.params?.message || {
+      text: config.fields.placeholder,
+    },
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+
+    sendLabel:
+      currentNode?.data?.params?.sendLabel ||
+      config?.data?.params?.sendLabel ||
       '',
-    elements: currentNode?.data?.elements || '',
+    isAdvancedEnabled:
+      currentNode?.data?.params?.isAdvancedEnabled ||
+      config?.data?.params?.isAdvancedEnabled ||
+      '',
+    elements: currentNode?.data?.params?.elements || '',
   };
 
   const validationSchema = yup.object({});
@@ -41,8 +46,9 @@ function MultiQuestionsNodeContent({ id }) {
     console.log('Form values=>>>', formValues);
 
     updateNodeById(id, {
-      ...currentNode?.data,
-      ...formValues,
+      params: {
+        ...formValues,
+      },
     });
 
     handleClose();
@@ -57,10 +63,12 @@ function MultiQuestionsNodeContent({ id }) {
       validationSchema={validationSchema}
       onReset={handleClose}
     >
-      <QuillEditorField
+      <DraftEditorField
         name='message'
-        placeholder={config.fields[0].placeholder}
-        label={config.fields[0].label}
+        placeholder={config.fields.placeholder}
+        label={config.fields.label}
+        labelVariant='h1'
+        setNodeContent={true}
       />
       <Divider />
       <SortableMultiQuestionFieldArray name='elements' />
@@ -70,6 +78,8 @@ function MultiQuestionsNodeContent({ id }) {
         label='Advanced Options'
         bgColor='inherit'
         containerStyles={{ padding: 0 }}
+        labelVariant='h3'
+        labelProps={{ style: { cursor: 'pointer' } }}
       >
         <FormTextField
           name='sendLabel'
