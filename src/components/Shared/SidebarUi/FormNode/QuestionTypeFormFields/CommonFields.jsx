@@ -1,5 +1,6 @@
-import { Divider, Flex } from '@chakra-ui/react';
+import { Box, Divider, Flex } from '@chakra-ui/react';
 import {
+  DraftEditorField,
   FormDropdown,
   FormTextField,
   FormToggleSwitch,
@@ -17,41 +18,49 @@ function CommonFields({ subFieldName, children }) {
         name={`${subFieldName}.label`}
         label='Label'
         variant='custom'
-        labelVariant='basic'
+        labelVariant='h3'
         placeholder='Label Text'
       />
-      <FormToggleSwitch name={`${subFieldName}.isRequired`} label='Required' />
+      <FormToggleSwitch
+        name={`${subFieldName}.isRequired`}
+        label='Required'
+        labelVariant='h3'
+      />
+
       <Divider />
       <FormTextField
         name={`${subFieldName}.helpText`}
         label='Help text'
         variant='custom'
-        labelVariant='basic'
+        labelVariant='h3'
         placeholder='Text below the field'
       />
       <Flex gap={4}>
         <FormDropdown
-          labelVariant='basic'
+          labelVariant='h3'
           variant='custom'
           options={options}
           label='Hints'
           name={`${subFieldName}.hint`}
         />
-        <FormTextField
+        <DraftEditorField
           name={`${subFieldName}.hintText`}
           label='Help text'
           variant='custom'
-          labelVariant='basic'
+          labelVariant='h3'
           placeholder='Hints inside the field'
+          type='inline'
         />
       </Flex>
       <Divider />
       {children}
-      <FormVariableSelectorDropdown
-        label='Save answers in the variable'
-        name={`${subFieldName}.name`}
-        allowedType='STRING'
-      />
+      <Box position='relative'>
+        <FormVariableSelectorDropdown
+          label='Save answers in the variable'
+          name={`${subFieldName}.name`}
+          allowedType='STRING'
+        />
+      </Box>
     </>
   );
 }

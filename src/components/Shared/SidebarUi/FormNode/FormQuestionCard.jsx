@@ -12,6 +12,8 @@ export function FormQuestionCard({
   handleQuestionDelete,
   subFieldName,
   id,
+  setActiveSidebar,
+  activeSidebar,
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id, data: { type: 'question' } });
@@ -62,10 +64,12 @@ export function FormQuestionCard({
               _hover={{ backgroundColor: 'transparent' }}
               icon={<FaGripVertical />}
             />
-
             <FormNodePortal
               type={questionConfig?.layoutType}
               subFieldName={subFieldName}
+              setActiveSidebar={setActiveSidebar}
+              activeSidebar={activeSidebar}
+              contentKey={id}
             />
             <UiIconButton
               color='lightgray'

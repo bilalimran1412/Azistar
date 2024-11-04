@@ -13,6 +13,7 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
 import { useFormikContext } from 'formik';
+import { evaluateInitialValue } from 'utils/form';
 
 const formatOptions = [
   { value: 'yyyy/MM/dd', label: 'YYYY/MM/DD - 2023/09/19' },
@@ -65,7 +66,9 @@ function DateNodeContent({ id }) {
     variable:
       currentNode?.data?.params?.variable || config.data?.params?.variable,
     format: currentNode?.data?.params?.format || config.data?.params?.format,
-    showDatePicker: currentNode?.data?.params?.showDatePicker,
+    showDatePicker:
+      currentNode?.data?.params?.showDatePicker ??
+      evaluateInitialValue(config.data?.params?.showDatePicker),
     enabledDateType:
       currentNode?.data?.params?.enabledDateType ||
       config.data?.params?.enabledDateType,

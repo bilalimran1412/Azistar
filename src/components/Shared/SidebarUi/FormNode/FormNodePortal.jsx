@@ -10,7 +10,14 @@ import {
   AskQuestionFields,
 } from './QuestionTypeFormFields';
 
-function FormNodePortal({ type, isCard = true, subFieldName }) {
+function FormNodePortal({
+  type,
+  isCard = true,
+  subFieldName,
+  setActiveSidebar,
+  activeSidebar,
+  contentKey,
+}) {
   const componentMap = {
     settings: NodeSettingsPortalContent,
     [sideViewLayoutType.askQuestion]: AskQuestionFields,
@@ -22,7 +29,12 @@ function FormNodePortal({ type, isCard = true, subFieldName }) {
   const Content = componentMap[type];
 
   return (
-    <FixedSidebarPortal isCard={isCard}>
+    <FixedSidebarPortal
+      isCard={isCard}
+      setActiveSidebar={setActiveSidebar}
+      activeSidebar={activeSidebar}
+      contentKey={contentKey}
+    >
       {Content ? <Content subFieldName={subFieldName} /> : <></>}
     </FixedSidebarPortal>
   );

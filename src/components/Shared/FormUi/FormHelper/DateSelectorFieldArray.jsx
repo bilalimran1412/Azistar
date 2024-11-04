@@ -39,12 +39,16 @@ function DateSelectorFieldArray({ name, enabledDateType }) {
                         name={`${name}.${index}.fromDate`}
                         type='date'
                         label='From Date'
+                        labelVariant='h3'
+                        variant='custom'
                         fullWidth={false}
                       />
                       <FormTextField
                         name={`${name}.${index}.toDate`}
                         type='date'
                         label='To Date'
+                        labelVariant='h3'
+                        variant='custom'
                         fullWidth={false}
                       />
                       {!isLastField && (

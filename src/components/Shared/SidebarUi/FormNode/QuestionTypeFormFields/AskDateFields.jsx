@@ -53,13 +53,14 @@ function AskDateFields({ subFieldName }) {
         <FormDropdown
           name='format'
           variant='custom'
-          labelVariant='basic'
+          labelVariant='h3'
           options={formatOptions}
           label='Format to save the date'
         />
         <FormCheckbox
           label='Show date picker'
           name={`${subFieldName}.showDatePicker`}
+          labelVariant='h3'
         />
         <Divider />
         <DateTypeDropdown name={`${subFieldName}.enabledCustomRanges`} />
@@ -84,6 +85,7 @@ function DateTypeDropdown({ name }) {
       name='enabledDateType'
       variant='custom'
       options={enabledDatesOptions}
+      labelVariant='h3'
       label='Set available dates'
       onChange={() => setFieldValue(name, defaultRange)}
     />

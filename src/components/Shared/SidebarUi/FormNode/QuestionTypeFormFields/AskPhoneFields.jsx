@@ -16,6 +16,7 @@ function AskPhoneFields({ subFieldName }) {
         <FormCheckbox
           label='Show country code selector'
           name={`${subFieldName}.showCountryCodeSelector`}
+          labelVariant='h3'
         />
       </Flex>
       <Divider />

@@ -674,6 +674,8 @@ export const nodeConfigurations = {
       data: {
         layoutType: sideViewLayoutType.forms,
         params: {
+          nodeTextContent: 'Form title: Answer the following questions',
+
           rows: [
             {
               questions: [],
@@ -681,6 +683,14 @@ export const nodeConfigurations = {
               id: 'd3f24283-0a2a-54d8-ae94-88741791b3a9',
             },
           ],
+          extra: {
+            errorMessage: 'This field is required',
+            markRequired: true,
+            mobileResponsive: false,
+          },
+          hasSkipButton: false,
+          sendLabel: 'Send',
+          skipLabel: 'Skip',
         },
       },
       fields: {

@@ -9,7 +9,13 @@ import {
   Grid,
 } from '@chakra-ui/react';
 
-const FormToggleSwitch = ({ name, label, containerStyle = {}, ...rest }) => {
+const FormToggleSwitch = ({
+  name,
+  label,
+  containerStyle = {},
+  labelVariant,
+  ...rest
+}) => {
   const [field, meta, helpers] = useField(name);
 
   const isError = meta.touched && !!meta.error;
@@ -30,11 +36,9 @@ const FormToggleSwitch = ({ name, label, containerStyle = {}, ...rest }) => {
       >
         <FormLabel
           htmlFor={name}
-          margin={0}
-          fontSize={16}
           width='auto'
           cursor='pointer'
-          className='font13'
+          variant={labelVariant}
         >
           {label}
         </FormLabel>

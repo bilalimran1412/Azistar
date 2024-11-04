@@ -23,14 +23,14 @@ function AskNumberFields({ subFieldName }) {
             label='Format'
             options={formatOptions}
             variant='custom'
-            labelVariant='basic'
+            labelVariant='h3'
           />
           <FormTextField
             name={`${subFieldName}.prefix`}
             label='Prefix'
             placeholder='Examples: $, %/'
             variant='custom'
-            labelVariant='basic'
+            labelVariant='h3'
           />
         </Flex>
         <Flex gap={4}>
@@ -38,13 +38,13 @@ function AskNumberFields({ subFieldName }) {
             name={`${subFieldName}.min`}
             label='Min. Value'
             variant='custom'
-            labelVariant='basic'
+            labelVariant='h3'
           />
           <FormTextField
             name={`${subFieldName}.max`}
             label='Max. Value'
             variant='custom'
-            labelVariant='basic'
+            labelVariant='h3'
           />
         </Flex>
       </Flex>
