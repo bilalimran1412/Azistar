@@ -5,11 +5,11 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import FormVariableSelectorDropdown from 'components/Shared/FormUi/FormVariableSelectorDropdown';
 import {
+  DraftEditorField,
   FormCheckbox,
   FormDropdown,
   FormSettings,
   FormTextField,
-  QuillEditorField,
   SortableInviteQuestionsFieldArray,
 } from 'components/Shared/FormUi';
 import { Button, Divider, Text } from '@chakra-ui/react';
@@ -33,25 +33,26 @@ function CalendlyNodeContent({ id }) {
   //TODO MOVE TO CONFIG
   // VARIABLE
   const initialValues = {
-    duration: currentNode?.data?.duration || '',
-    text: currentNode?.data?.text || '',
-    enableAllEvent: currentNode?.data?.enableAllEvent || '',
-    account: currentNode?.data?.account || '',
-    buttonText: currentNode?.data?.buttonText || '',
-    skipText: currentNode?.data?.skipText || '',
-    eventType: currentNode?.data?.eventType || '',
-    startTime: currentNode?.data?.startTime || '',
-    endTime: currentNode?.data?.endTime || '',
-    email: currentNode?.data?.email || '',
-    name: currentNode?.data?.name || '',
-    openVariables: currentNode?.data?.openVariables || '',
-    extraQuestion: currentNode?.data?.extraQuestion || '',
+    duration: currentNode?.data?.params?.duration || '',
+    text: currentNode?.data?.params?.text || '',
+    enableAllEvent: currentNode?.data?.params?.enableAllEvent || '',
+    account: currentNode?.data?.params?.account || '',
+    buttonText: currentNode?.data?.params?.buttonText || '',
+    skipText: currentNode?.data?.params?.skipText || '',
+    eventType: currentNode?.data?.params?.eventType || '',
+    startTime: currentNode?.data?.params?.startTime || '',
+    endTime: currentNode?.data?.params?.endTime || '',
+    email: currentNode?.data?.params?.email || '',
+    name: currentNode?.data?.params?.name || '',
+    openVariables: currentNode?.data?.params?.openVariables || '',
+    extraQuestion: currentNode?.data?.params?.extraQuestion || '',
+    buttons: config?.data.params?.buttons,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 
@@ -114,7 +115,7 @@ function CalendlyNodeContent({ id }) {
           Personalize the message and the button you want to show to your end
           users inside the botflow.
         </Text>
-        <QuillEditorField
+        <DraftEditorField
           name='text'
           label='Invite message'
           labelVariant='h3'

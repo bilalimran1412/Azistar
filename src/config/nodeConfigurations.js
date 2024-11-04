@@ -1008,6 +1008,17 @@ export const nodeConfigurations = {
       icon: <FaFileExcel />,
       data: {
         layoutType: sideViewLayoutType.googleSheets,
+        multipleHandles: true,
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
         params: {
           nodeTextContent: 'Save & obtain data',
         },
@@ -1074,15 +1085,18 @@ export const nodeConfigurations = {
         params: {
           nodeTextContent: 'Connect your CRM',
         },
+        multipleHandles: true,
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
       },
-      // fields: [
-      //   {
-      //     label: 'Hubspot Setup',
-      //     type: 'text',
-      //     variable: 'textareaFieldData',
-      //     placeholder: 'Connect your CRM',
-      //   },
-      // ],
     },
     {
       group: Groups.integration,
@@ -1093,15 +1107,10 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.slackIntegration,
-      },
-      fields: [
-        {
-          label: 'Slack Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Send notifications',
+        params: {
+          nodeTextContent: 'Send notifications',
         },
-      ],
+      },
     },
     {
       group: Groups.integration,
@@ -1109,28 +1118,59 @@ export const nodeConfigurations = {
       title: 'Calendly',
       label: 'Calendly',
       icon: <FaCalendarCheck />,
+      variableType: 'STRING',
       nodeType: 'baseNode',
       data: {
         multipleHandles: true,
         layoutType: sideViewLayoutType.calendly,
         contentType: contentType.buttonNode,
-        items: [
-          { id: 'event-booked', label: 'Event booked', isDeletable: false },
-          {
-            id: 'event-cancelled',
-            label: 'Event cancelled',
-            isDeletable: false,
+
+        renderSubHeader: true,
+        params: {
+          nodeTextContent: 'Schedule meetings',
+          eventType: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'calendly_event_type',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'calendly_event_type',
           },
-        ],
-      },
-      fields: [
-        {
-          label: 'Calendly Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Schedule meetings',
+
+          startTime: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'calendly_start_time',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'calendly_start_time',
+          },
+
+          endTime: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'calendly_end_time',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'calendly_end_time',
+          },
+
+          buttons: [
+            {
+              id: 'event-booked',
+              text: 'Event booked',
+              isDeletable: false,
+              status: 'success',
+            },
+            {
+              id: 'event-cancelled',
+              text: 'Event cancelled',
+              isDeletable: false,
+              status: 'failure',
+            },
+          ],
         },
-      ],
+      },
     },
     {
       group: Groups.integration,
