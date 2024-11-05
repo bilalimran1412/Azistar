@@ -69,14 +69,7 @@ const SortablePersistentMenuFieldArray = ({
 
   return (
     <Box width='100%'>
-      <FormLabel
-        style={{
-          fontWeight: '700',
-          fontSize: '14px',
-        }}
-      >
-        {label}
-      </FormLabel>
+      <FormLabel variant='h2'>{label}</FormLabel>
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -128,4 +121,4 @@ const SortablePersistentMenuFieldArray = ({
   );
 };
 
-export default SortablePersistentMenuFieldArray;
+export { SortablePersistentMenuFieldArray };

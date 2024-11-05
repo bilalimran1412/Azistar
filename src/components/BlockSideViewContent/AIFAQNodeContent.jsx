@@ -20,15 +20,15 @@ function AIFAQNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    aiFAQ: currentNode?.data?.aiFAQ || '',
-    enableExit: currentNode?.data?.enableExit || '',
+    aiFAQ: currentNode?.data?.params?.aiFAQ || '',
+    enableExit: currentNode?.data?.params?.enableExit || '',
   };
 
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 
@@ -45,6 +45,7 @@ function AIFAQNodeContent({ id }) {
       <FormToggleSwitch
         label='Enable an exit to this block'
         name='enableExit'
+        labelVariant='h3'
       />
     </SidebarFormContainer>
   );

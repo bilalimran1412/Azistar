@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Divider, FormLabel, Text } from '@chakra-ui/react';
-import { FormDropdown, QuillEditorField } from '../Shared/FormUi';
+import { DraftEditorField, FormDropdown } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
@@ -21,14 +21,19 @@ function SlackNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
   const initialValues = {
     //this message will contain all the ops and html and normal text
-    text: currentNode?.data?.text || '',
-    slack: currentNode?.data?.slack || '',
+    text: currentNode?.data?.params?.text || '',
+    slack: currentNode?.data?.params?.slack || '',
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, {
+      params: {
+        ...formValues,
+      },
+    });
     handleClose();
   };
 
@@ -66,11 +71,12 @@ function SlackNodeContent({ id }) {
         labelVariant='h3'
         variant='custom'
       />
-      <QuillEditorField
+      <DraftEditorField
         placeholder='Example New lead on board @name'
         name='text'
         label='Slack Message'
         labelVariant='h3'
+        setNodeContent={true}
       />
     </SidebarFormContainer>
   );

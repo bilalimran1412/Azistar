@@ -50,16 +50,17 @@ function BusinessHoursNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
   const initialValues = {
-    timezone: currentNode?.data.timezone || '',
-    openHours: currentNode?.data.openHours || defaultOpenHours,
-    closedDays: currentNode?.data.closedDays || '',
-    specialDays: currentNode?.data.specialDays || '',
+    timezone: currentNode?.data?.params?.timezone || '',
+    openHours: currentNode?.data?.params?.openHours || defaultOpenHours,
+    closedDays: currentNode?.data?.params?.closedDays || '',
+    specialDays: currentNode?.data?.params?.specialDays || '',
+    buttons: config?.data?.params?.buttons,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 

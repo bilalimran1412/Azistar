@@ -1,36 +1,25 @@
 import {
-  FaAlignCenter,
   FaBars,
   FaBolt,
-  FaBox,
-  FaBullseye,
   FaCalculator,
   FaCalendarCheck,
   FaClipboardList,
   FaClock,
-  FaCode,
-  FaCodeBranch,
-  FaCodepen,
   FaCogs,
   FaCommentAlt,
   FaCommentSlash,
-  FaCompress,
-  FaDatabase,
   FaEnvelope,
   FaExchangeAlt,
   FaFile,
   FaFileExcel,
   FaFilm,
-  FaGlobe,
   FaGoogle,
   FaHubspot,
   FaInternetExplorer,
-  FaKeyboard,
   FaLink,
   FaMailBulk,
   FaMailchimp,
   FaMapMarker,
-  FaMemory,
   FaPhone,
   FaQuestionCircle,
   FaRandom,
@@ -39,15 +28,12 @@ import {
   FaRegImage,
   FaRegSquare,
   FaRobot,
-  FaSalesforce,
-  FaSearch,
   FaSignOutAlt,
   FaSlack,
   FaSlidersH,
   FaSortNumericDown,
   FaStar,
   FaStickyNote,
-  FaStripeS,
   FaTasks,
   FaToggleOn,
   FaUser,
@@ -59,10 +45,12 @@ import { initialNode } from './constant';
 export const contentType = {
   uploadMedia: 'uploadMedia',
   buttonNode: 'buttonNode',
+  noSidebar: 'noSidebar',
   //such nodes which do not have incoming/outgoing edges (note, global keyword)
   placeholderNodes: 'placeHolderNodes',
   incomingOnly: 'incomingOnly',
   startingNode: 'startingNode',
+  failureOnly: 'failureHandleOnly',
 };
 
 export const sideViewLayoutType = {
@@ -934,16 +922,11 @@ export const nodeConfigurations = {
       icon: <FaMapMarker />,
       data: {
         layoutType: sideViewLayoutType.goal,
+        params: {
+          nodeTextContent: 'Track conversion rates',
+        },
       },
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Goal Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Track conversion rates',
-        },
-      ],
     },
     {
       group: Groups.logic,
@@ -954,22 +937,20 @@ export const nodeConfigurations = {
       icon: <FaRandom />,
 
       data: {
+        renderSubHeader: true,
+
         layoutType: sideViewLayoutType.abTesting,
         multipleHandles: true,
         contentType: contentType.buttonNode,
-        items: [
-          { id: 'ab-test-a', label: 'A (50%)', isDeletable: false },
-          { id: 'ab-test-b', label: 'B (50%)', isDeletable: false },
-        ],
+        params: {
+          abSplit: 50,
+          nodeTextContent: '50/50 split',
+          buttons: [
+            { id: 'ab-test-a', text: 'A (50%)', isDeletable: false },
+            { id: 'ab-test-b', text: 'B (50%)', isDeletable: false },
+          ],
+        },
       },
-      // fields: [
-      //   {
-      //     label: 'Test Setup',
-      //     type: 'text',
-      //     variable: 'textareaFieldData',
-      //     placeholder: 'Setup A/B testing',
-      //   },
-      // ],
     },
     {
       group: Groups.logic,
@@ -978,15 +959,16 @@ export const nodeConfigurations = {
       label: 'Persistent Menu',
       icon: <FaBars />,
       nodeType: 'baseNode',
-      data: { layoutType: sideViewLayoutType.persistentMenu },
-      fields: [
-        {
-          label: 'Menu Items',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: "Add & set the menu's items",
+      data: {
+        renderSubHeader: true,
+        contentType: contentType.buttonNode,
+
+        layoutType: sideViewLayoutType.persistentMenu,
+        multipleHandles: true,
+        params: {
+          nodeTextContent: "Add & set the menu's items",
         },
-      ],
+      },
     },
   ],
 
@@ -1000,15 +982,11 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.emailIntegration,
-      },
-      fields: [
-        {
-          label: 'Email Content',
-          type: 'textarea',
-          variable: 'textareaFieldData',
-          placeholder: 'To your leads & team',
+        params: {
+          nodeTextContent: 'To your leads & team',
+          branding: false,
         },
-      ],
+      },
     },
     {
       group: Groups.integration,
@@ -1018,16 +996,22 @@ export const nodeConfigurations = {
       icon: <FaFileExcel />,
       data: {
         layoutType: sideViewLayoutType.googleSheets,
+        multipleHandles: true,
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
+        params: {
+          nodeTextContent: 'Save & obtain data',
+        },
       },
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Sheet Link',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Save & obtain data',
-        },
-      ],
     },
     {
       group: Groups.integration,
@@ -1038,49 +1022,44 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.zapier,
+        params: {
+          nodeTextContent: 'Integrate with zapier',
+        },
       },
       width: '500px',
-      fields: [
-        {
-          label: 'Zap Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Integrate with zapier',
-        },
-      ],
     },
-    {
-      group: Groups.integration,
-      blockId: '794665d9-f7ab-55bf-8cc3-8b3d49080d3d',
-      title: 'Airtable',
-      label: 'Airtable',
-      icon: <FaAlignCenter />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Airtable Link',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Save & get user data',
-        },
-      ],
-    },
-    {
-      group: Groups.integration,
-      blockId: '220e251b-4f7e-5b96-89d3-5df84e90e087',
-      title: 'Dialogflow',
-      label: 'Dialogflow',
-      icon: <FaAlignCenter />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Dialogflow Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Add NLP',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '794665d9-f7ab-55bf-8cc3-8b3d49080d3d',
+    //   title: 'Airtable',
+    //   label: 'Airtable',
+    //   icon: <FaAlignCenter />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Airtable Link',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Save & get user data',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '220e251b-4f7e-5b96-89d3-5df84e90e087',
+    //   title: 'Dialogflow',
+    //   label: 'Dialogflow',
+    //   icon: <FaAlignCenter />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Dialogflow Setup',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Add NLP',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.integration,
       blockId: '173663dd-d54c-5abc-b57c-37c9f6c48cbd',
@@ -1091,15 +1070,21 @@ export const nodeConfigurations = {
       width: '500px',
       data: {
         layoutType: sideViewLayoutType.hubspot,
+        params: {
+          nodeTextContent: 'Connect your CRM',
+        },
+        multipleHandles: true,
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
       },
-      // fields: [
-      //   {
-      //     label: 'Hubspot Setup',
-      //     type: 'text',
-      //     variable: 'textareaFieldData',
-      //     placeholder: 'Connect your CRM',
-      //   },
-      // ],
     },
     {
       group: Groups.integration,
@@ -1110,15 +1095,10 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.slackIntegration,
-      },
-      fields: [
-        {
-          label: 'Slack Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Send notifications',
+        params: {
+          nodeTextContent: 'Send notifications',
         },
-      ],
+      },
     },
     {
       group: Groups.integration,
@@ -1126,53 +1106,84 @@ export const nodeConfigurations = {
       title: 'Calendly',
       label: 'Calendly',
       icon: <FaCalendarCheck />,
+      variableType: 'STRING',
       nodeType: 'baseNode',
       data: {
         multipleHandles: true,
         layoutType: sideViewLayoutType.calendly,
         contentType: contentType.buttonNode,
-        items: [
-          { id: 'event-booked', label: 'Event booked', isDeletable: false },
-          {
-            id: 'event-cancelled',
-            label: 'Event cancelled',
-            isDeletable: false,
+
+        renderSubHeader: true,
+        params: {
+          nodeTextContent: 'Schedule meetings',
+          eventType: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'calendly_event_type',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'calendly_event_type',
           },
-        ],
-      },
-      fields: [
-        {
-          label: 'Calendly Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Schedule meetings',
+
+          startTime: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'calendly_start_time',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'calendly_start_time',
+          },
+
+          endTime: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'calendly_end_time',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'calendly_end_time',
+          },
+
+          buttons: [
+            {
+              id: 'event-booked',
+              text: 'Event booked',
+              isDeletable: false,
+              status: 'success',
+            },
+            {
+              id: 'event-cancelled',
+              text: 'Event cancelled',
+              isDeletable: false,
+              status: 'failure',
+            },
+          ],
         },
-      ],
-    },
-    {
-      group: Groups.integration,
-      blockId: '48ff9e8f-7567-5db9-adb9-aac489c583a3',
-      title: 'Stripe',
-      label: 'Stripe',
-      icon: <FaStripeS />,
-      nodeType: 'baseNode',
-      data: {
-        multipleHandles: true,
-        contentType: contentType.buttonNode,
-        items: [
-          { id: 'Success', label: 'Success', isDeletable: false },
-          { id: 'Failed', label: 'Failed', isDeletable: false },
-        ],
       },
-      fields: [
-        {
-          label: 'Stripe Integration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: '0 USD',
-        },
-      ],
     },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '48ff9e8f-7567-5db9-adb9-aac489c583a3',
+    //   title: 'Stripe',
+    //   label: 'Stripe',
+    //   icon: <FaStripeS />,
+    //   nodeType: 'baseNode',
+    //   data: {
+    //     multipleHandles: true,
+    //     contentType: contentType.buttonNode,
+    //     items: [
+    //       { id: 'Success', label: 'Success', isDeletable: false },
+    //       { id: 'Failed', label: 'Failed', isDeletable: false },
+    //     ],
+    //   },
+    //   fields: [
+    //     {
+    //       label: 'Stripe Integration',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: '0 USD',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.integration,
       blockId: 'd6ca1ed1-810f-544a-bd7a-9d9feca6e144',
@@ -1182,48 +1193,43 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.googleAnalytics,
+        params: {
+          nodeTextContent: 'Send a GA event',
+        },
       },
-      fields: [
-        {
-          label: 'Analytics Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Send a GA event',
-        },
-      ],
     },
-    {
-      group: Groups.integration,
-      blockId: '0c6fee80-ccae-5d89-b2b6-0484d34f4803',
-      title: 'Segment',
-      label: 'Segment',
-      icon: <FaAlignCenter />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Segment Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Collect user events',
-        },
-      ],
-    },
-    {
-      group: Groups.integration,
-      blockId: 'f29c80a2-85b1-5499-ac50-6c682599b9e1',
-      title: 'Salesforce',
-      label: 'Salesforce',
-      icon: <FaSalesforce />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Salesforce Integration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Add leads',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.integration,
+    //   blockId: '0c6fee80-ccae-5d89-b2b6-0484d34f4803',
+    //   title: 'Segment',
+    //   label: 'Segment',
+    //   icon: <FaAlignCenter />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Segment Setup',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Collect user events',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.integration,
+    //   blockId: 'f29c80a2-85b1-5499-ac50-6c682599b9e1',
+    //   title: 'Salesforce',
+    //   label: 'Salesforce',
+    //   icon: <FaSalesforce />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Salesforce Integration',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Add leads',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.integration,
       blockId: '2eef6c57-fc89-5c90-8f70-d0bec2546724',
@@ -1231,7 +1237,12 @@ export const nodeConfigurations = {
       label: 'Mailchimp',
       icon: <FaMailchimp />,
       nodeType: 'baseNode',
-      data: { layoutType: sideViewLayoutType.mailchimp },
+      data: {
+        layoutType: sideViewLayoutType.mailchimp,
+        params: {
+          nodeTextContent: 'Add a contact',
+        },
+      },
       //   fields: [
       //     {
       //       label: 'Mailchimp Integration',
@@ -1253,33 +1264,37 @@ export const nodeConfigurations = {
       icon: <FaRobot />,
       nodeType: 'baseNode',
       data: {
+        contentType: contentType.incomingOnly,
         layoutType: sideViewLayoutType.aiFaq,
+        params: {
+          nodeTextContent: 'Automated help',
+        },
       },
-      fields: [
-        {
-          label: 'FAQs Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Automated help',
-        },
-      ],
+      // fields: [
+      //   {
+      //     label: 'FAQs Setup',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Automated help',
+      //   },
+      // ],
     },
-    {
-      group: Groups.aiAssistant,
-      blockId: '3e05a8b2-32d1-520d-ad4e-9697fac8bc34',
-      title: 'AI Lead Gen Assistant',
-      label: 'AI Lead Gen Assistant',
-      icon: <FaBullseye />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Lead Gen Setup',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Smart lead engagement',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.aiAssistant,
+    //   blockId: '3e05a8b2-32d1-520d-ad4e-9697fac8bc34',
+    //   title: 'AI Lead Gen Assistant',
+    //   label: 'AI Lead Gen Assistant',
+    //   icon: <FaBullseye />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Lead Gen Setup',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Smart lead engagement',
+    //     },
+    //   ],
+    // },
   ],
 
   inboxAndBuilderTools: [
@@ -1291,32 +1306,42 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       icon: <FaClock />,
       data: {
-        layoutType: 'businessHours',
+        layoutType: sideViewLayoutType.businessHours,
         multipleHandles: true,
+        renderSubHeader: true,
         contentType: contentType.buttonNode,
-        items: [
-          { id: 'open', label: 'Open', isDeletable: false },
-          { id: 'closed', label: 'Closed', isDeletable: false },
-        ],
-      },
-      fields: [
-        {
-          label: 'Business Hours',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Split the flow',
+        params: {
+          nodeTextContent: 'Split the flow',
+          buttons: [
+            {
+              id: 'open',
+              text: 'Open',
+              isDeletable: false,
+              status: 'success',
+            },
+            {
+              id: 'closed',
+              text: 'Closed',
+              isDeletable: false,
+              status: 'failure',
+            },
+          ],
         },
-      ],
+      },
     },
     {
       group: Groups.inboxAndBuilderTools,
       blockId: 'f5baed1c-01b1-5a0c-bb73-157eac902473',
       title: 'Human Takeover',
-      label: 'Chat to your users',
+      label: 'Human Takeover',
       icon: <FaUser />,
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.humanTakeover,
+        contentType: contentType.failureOnly,
+        params: {
+          nodeTextContent: 'Chat to your users',
+        },
       },
     },
     {
@@ -1326,31 +1351,37 @@ export const nodeConfigurations = {
       label: 'Close Chat',
       icon: <FaSignOutAlt />,
       nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Close Message',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Set status to closed',
+      data: {
+        contentType: contentType.noSidebar,
+        params: {
+          nodeTextContent: 'Set status to closed',
         },
-      ],
+      },
+      // fields: [
+      //   {
+      //     label: 'Close Message',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Set status to closed',
+      //   },
+      // ],
     },
-    {
-      group: Groups.inboxAndBuilderTools,
-      blockId: '29d89034-306b-5feb-a242-e0cbe1c330d9',
-      title: 'Bricks',
-      label: 'Bricks',
-      icon: <FaBox />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Brick Configuration',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Configure chat bricks',
-        },
-      ],
-    },
+    // {
+    //   group: Groups.inboxAndBuilderTools,
+    //   blockId: '29d89034-306b-5feb-a242-e0cbe1c330d9',
+    //   title: 'Bricks',
+    //   label: 'Bricks',
+    //   icon: <FaBox />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Brick Configuration',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Configure chat bricks',
+    //     },
+    //   ],
+    // },
     {
       group: Groups.inboxAndBuilderTools,
       blockId: 'fc4bd563-8d62-5bc2-8a32-9452732899a5',
@@ -1361,15 +1392,14 @@ export const nodeConfigurations = {
       data: {
         contentType: contentType.placeholderNodes,
         layoutType: sideViewLayoutType.note,
-      },
-      fields: [
-        {
-          label: 'Note',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Type your note here...',
+        params: {
+          nodeTextContent: 'Create private note for you',
         },
-      ],
+      },
+      fields: {
+        label: 'Note',
+        placeholder: 'Type your note here...',
+      },
     },
   ],
 
@@ -1395,15 +1425,10 @@ export const nodeConfigurations = {
             type: 'failure',
           },
         ],
-      },
-      fields: [
-        {
-          label: 'Webhook URL',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'https requests',
+        params: {
+          nodeTextContent: 'https requests',
         },
-      ],
+      },
     },
     {
       group: Groups.lowCode,
@@ -1436,55 +1461,55 @@ export const nodeConfigurations = {
         },
       ],
     },
-    {
-      group: Groups.lowCode,
-      blockId: '9d136442-9115-54b8-8a24-971b484f64e7',
-      title: 'Code',
-      label: 'Code',
-      icon: <FaCode />,
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Code Snippet',
-          type: 'textarea',
-          variable: 'textareaFieldData',
-          placeholder: 'Enter custom code',
-        },
-      ],
-    },
-    {
-      group: Groups.lowCode,
-      blockId: 'adc831c1-dfe5-564a-b319-a0600bbe52d2',
-      title: 'Code Set',
-      label: 'Code Set',
-      icon: <FaCodepen />,
+    // {
+    //   group: Groups.lowCode,
+    //   blockId: '9d136442-9115-54b8-8a24-971b484f64e7',
+    //   title: 'Code',
+    //   label: 'Code',
+    //   icon: <FaCode />,
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Code Snippet',
+    //       type: 'textarea',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Enter custom code',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.lowCode,
+    //   blockId: 'adc831c1-dfe5-564a-b319-a0600bbe52d2',
+    //   title: 'Code Set',
+    //   label: 'Code Set',
+    //   icon: <FaCodepen />,
 
-      nodeType: 'baseNode',
-      fields: [
-        {
-          label: 'Code Set',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Define a set of codes',
-        },
-      ],
-    },
-    {
-      group: Groups.lowCode,
-      blockId: '25e21d1a-f5ca-5df2-8fe4-36f6355506b7',
-      title: 'Dynamic Data',
-      label: 'Dynamic Data',
-      nodeType: 'baseNode',
-      icon: <FaDatabase />,
-      fields: [
-        {
-          label: 'Data Source',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'Display dynamic values',
-        },
-      ],
-    },
+    //   nodeType: 'baseNode',
+    //   fields: [
+    //     {
+    //       label: 'Code Set',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Define a set of codes',
+    //     },
+    //   ],
+    // },
+    // {
+    //   group: Groups.lowCode,
+    //   blockId: '25e21d1a-f5ca-5df2-8fe4-36f6355506b7',
+    //   title: 'Dynamic Data',
+    //   label: 'Dynamic Data',
+    //   nodeType: 'baseNode',
+    //   icon: <FaDatabase />,
+    //   fields: [
+    //     {
+    //       label: 'Data Source',
+    //       type: 'text',
+    //       variable: 'textareaFieldData',
+    //       placeholder: 'Display dynamic values',
+    //     },
+    //   ],
+    // },
   ],
 };
 

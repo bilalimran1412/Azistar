@@ -17,7 +17,6 @@ function PictureCardSettings({
       padding='10px 12px 9px'
       direction='column'
       gap={5}
-      className='button-select-container'
     >
       <FormTextField
         name={`${subFieldName}.text`}

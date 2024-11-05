@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { sideViewLayoutType } from 'config/nodeConfigurations';
 import { ButtonNodeLayout } from './CustomNodeLayout';
+import CalendlyLayout from './CustomNodeLayout/CalendlyLayout';
 
 function BaseNodeDynamicLayout({ config, onClick, id, data }) {
   return (
@@ -36,6 +37,36 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
       )}
       {config?.data?.layoutType === sideViewLayoutType.opinionScale && (
         <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.abTesting && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+          renderAny={false}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.persistentMenu && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+          renderAny={false}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.calendly && (
+        <CalendlyLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.businessHours && (
+        <CalendlyLayout
           onClick={onClick}
           id={id}
           buttons={data?.params?.buttons}

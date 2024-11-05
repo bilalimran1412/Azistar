@@ -35,7 +35,14 @@ function CommonFields({ subFieldName, children }) {
         labelVariant='h3'
         placeholder='Text below the field'
       />
-      <Flex gap={4}>
+      <Flex
+        gap={4}
+        sx={{
+          '.chakra-popover__popper': {
+            marginLeft: '-40px !important',
+          },
+        }}
+      >
         <FormDropdown
           labelVariant='h3'
           variant='custom'
@@ -54,7 +61,14 @@ function CommonFields({ subFieldName, children }) {
       </Flex>
       <Divider />
       {children}
-      <Box position='relative'>
+      <Box
+        position='relative'
+        sx={{
+          '.chakra-popover__popper': {
+            marginLeft: '15px !important',
+          },
+        }}
+      >
         <FormVariableSelectorDropdown
           label='Save answers in the variable'
           name={`${subFieldName}.name`}

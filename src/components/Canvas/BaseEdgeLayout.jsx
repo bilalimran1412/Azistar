@@ -14,6 +14,7 @@ function BaseEdgeLayout({
   isHover,
   sourceHandleId,
   targetId,
+  type,
 }) {
   const {
     isDropdownVisible,
@@ -56,7 +57,7 @@ function BaseEdgeLayout({
         top='50%'
         transform='translateY(-50%)'
         right='-11px'
-        bg='#4ab8b3'
+        bg={type === 'errorBaseEdge' ? '#d7376b' : '#4ab8b3'}
         onClick={toggleDropdown}
         fontSize='18px'
         color='#fff'
@@ -76,7 +77,7 @@ function BaseEdgeLayout({
         top='50%'
         transform='translateY(-50%)'
         right='-11px'
-        bg='#4ab8b3'
+        bg={type === 'errorBaseEdge' ? '#d7376b' : '#4ab8b3'}
         fontSize='18px'
         color='#fff'
         onClick={onEdgeClick}

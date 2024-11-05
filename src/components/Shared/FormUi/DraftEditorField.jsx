@@ -35,12 +35,18 @@ function DraftEditorField({
   const initialValue = React.useMemo(() => {
     const blocks = field.value?.rawBlocks;
     const initialText = field.value?.text;
+    const onlyText = field.value && typeof field.value === 'string';
     if (blocks) return blocks;
+    if (onlyText) {
+      const contentState = ContentState.createFromText(field.value);
+      return convertToRaw(contentState);
+    }
     if (initialText) {
       const contentState = ContentState.createFromText(initialText);
       return convertToRaw(contentState);
-    } else return null;
-  }, [field.value?.rawBlocks, field.value?.text]);
+    }
+    return null;
+  }, [field.value]);
 
   return (
     <FormControl

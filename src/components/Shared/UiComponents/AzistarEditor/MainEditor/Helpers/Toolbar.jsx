@@ -219,8 +219,12 @@ const Toolbar = ({ editorState, setEditorState, type }) => {
 
   return (
     <Flex position='relative' width='fit-content' ref={toolbarRef}>
-      <Box mr={2}>
-        <VariableInputField popupType='button' onSelect={addEntity} />
+      <Box mr={2} pos='relative'>
+        <VariableInputField
+          popupType='button'
+          onSelect={addEntity}
+          placeholder='fields'
+        />
       </Box>
       {type !== 'inline' && (
         <>

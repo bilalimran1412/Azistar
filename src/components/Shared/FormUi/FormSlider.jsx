@@ -20,10 +20,12 @@ const FormSlider = ({ name, label, ...props }) => {
 
   return (
     <FormControl>
-      <FormLabel htmlFor={name}>{label}</FormLabel>
+      <FormLabel htmlFor={name} variant='h2'>
+        {label}
+      </FormLabel>
       <Box display='flex' alignItems='center' justifyContent='space-between'>
-        <Badge colorScheme='teal'>A: {Math.round(sliderValue)}</Badge>
-        <Badge colorScheme='teal'>B: {100 - Math.round(sliderValue)}</Badge>
+        <Badge colorScheme='teal'>A: {Math.round(sliderValue)}%</Badge>
+        <Badge colorScheme='teal'>B: {100 - Math.round(sliderValue)}%</Badge>
       </Box>
       <Slider
         id={name}
@@ -60,7 +62,7 @@ const FormSlider = ({ name, label, ...props }) => {
           color='white'
           placement='top'
           isOpen={sliderValue !== 0}
-          label={`${sliderValue}%`}
+          label={`${sliderValue}`}
         >
           <SliderThumb />
         </Tooltip>

@@ -25,7 +25,7 @@ function ZapierNodeContent({ id }) {
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 

@@ -5,11 +5,11 @@ import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
 import { yup } from '../../utils/yup';
 import { Box, Button, Divider, Text } from '@chakra-ui/react';
 import {
+  DraftEditorField,
   FormDropdown,
   FormTagInput,
   FormTextField,
   FormToggleSwitch,
-  QuillEditorField,
 } from 'components/Shared/FormUi';
 import { fetchWrapper } from 'utils/fetchWrapper';
 import { useFetchData } from 'hooks/bot/useFetchData';
@@ -26,21 +26,26 @@ function EmailIntegrationContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    authID: currentNode?.data?.authID || '',
-    fromEmail: currentNode?.data?.fromEmail || '',
-    emailsList: currentNode?.data?.emailsList || '',
-    emailSubject: currentNode?.data?.emailSubject || '',
-    emailMessage: currentNode?.data?.emailMessage || '',
-    branding: currentNode?.data?.branding || false,
+    authID: currentNode?.data?.params?.authID || '',
+    fromEmail: currentNode?.data?.params?.fromEmail || '',
+    emailsList: currentNode?.data?.params?.emailsList || '',
+    emailSubject: currentNode?.data?.params?.emailSubject || '',
+    emailMessage: currentNode?.data?.params?.emailMessage || '',
+    branding: currentNode?.data?.params?.branding || false,
     email: '',
     secret: '',
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const { secret, email, ...rest } = formValues;
-    updateNodeById(id, { ...currentNode?.data, ...rest });
+    updateNodeById(id, {
+      params: {
+        ...rest,
+      },
+    });
     handleClose();
   };
 
@@ -85,12 +90,6 @@ function EmailIntegrationContent({ id }) {
       <Divider />
       <FromEmailField name='authID' />
       <Divider />
-      {/* <FormTextField
-        name='emailsList'
-        label='Send to'
-        variant='custom'
-        labelVariant='h3'
-      /> */}
       <FormTagInput name={'emailsList'} labelVariant='h3' label='Send to' />
 
       <Text fontSize='12px'>
@@ -98,15 +97,16 @@ function EmailIntegrationContent({ id }) {
         Press Enter to add more!
       </Text>
       <Divider />
-      <QuillEditorField
+      <DraftEditorField
         name='emailSubject'
         placeholder='Add a subject'
         label={'Email subject'}
         labelVariant='h3'
+        setNodeContent={true}
       />
       <Divider />
 
-      <QuillEditorField
+      <DraftEditorField
         name='emailMessage'
         placeholder='Message Text'
         label={'Email Message'}
@@ -114,7 +114,11 @@ function EmailIntegrationContent({ id }) {
       />
       <Divider />
 
-      <FormToggleSwitch name='branding' label='Remove Azistar branding' />
+      <FormToggleSwitch
+        name='branding'
+        label='Remove Azistar branding'
+        labelVariant='h3'
+      />
     </SidebarFormContainer>
   );
 }

@@ -21,6 +21,7 @@ const nodeTypes = {
 
 const edgeTypes = {
   baseEdge: CustomEdge,
+  errorBaseEdge: CustomEdge,
 };
 
 const ReactFlowCanvas = () => {
@@ -37,7 +38,7 @@ const ReactFlowCanvas = () => {
       setEdges((eds) =>
         applyEdgeChanges(changes, eds).map((e) => ({
           ...e,
-          type: 'baseEdge',
+          // type: 'baseEdge',
           animated: true,
         }))
       ),
@@ -52,11 +53,17 @@ const ReactFlowCanvas = () => {
             ? edge.sourceHandle !== params.sourceHandle
             : edge.source !== params.source;
         });
-        const newEdges = addEdge(params, existingEdges).map((e) => ({
-          ...e,
-          type: 'baseEdge',
-          animated: true,
-        }));
+        const isErrorEdge = params.sourceHandle?.includes('failure');
+        const newEdges = addEdge(params, existingEdges).map((e) => {
+          return {
+            ...e,
+            type:
+              isErrorEdge && e.sourceHandle === params.sourceHandle
+                ? 'errorBaseEdge'
+                : e.type,
+            animated: true,
+          };
+        });
         return newEdges;
       });
     },

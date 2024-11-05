@@ -50,21 +50,21 @@ function HubspotNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    auth: currentNode?.data?.auth || '',
-    event: currentNode?.data?.event || '',
+    auth: currentNode?.data?.params?.auth || '',
+    event: currentNode?.data?.params?.event || '',
 
-    properties: currentNode?.data?.properties || '',
-    filter: currentNode?.data?.filter || '',
+    properties: currentNode?.data?.params?.properties || '',
+    filter: currentNode?.data?.params?.filter || '',
 
-    results: currentNode?.data?.results || '',
-    resourceType: currentNode?.data?.resourceType || '',
+    results: currentNode?.data?.params?.results || '',
+    resourceType: currentNode?.data?.params?.resourceType || '',
 
-    extra: currentNode?.data?.extra || '',
-    associations: currentNode?.data?.associations,
+    extra: currentNode?.data?.params?.extra || '',
+    associations: currentNode?.data?.params?.associations,
 
-    enableSave: currentNode?.data?.enableSave || '',
+    enableSave: currentNode?.data?.params?.enableSave || '',
 
-    saveResponse: currentNode?.data?.saveResponse || [
+    saveResponse: currentNode?.data?.params?.saveResponse || [
       { response: '', id: 'f0245680-a1b7-5495-bcb8-2d0fca03959a' },
     ],
   };
@@ -73,8 +73,9 @@ function HubspotNodeContent({ id }) {
 
   const onSave = (formValues) => {
     const { enableTest, parameters, ...rest } = formValues;
+    const event = hubspotEvents.find((ev) => ev.value === rest.event);
     console.log('form values >>>>', rest);
-    updateNodeById(id, { ...currentNode?.data, ...rest });
+    updateNodeById(id, { params: { ...rest, nodeTextContent: event.label } });
     handleClose();
   };
 

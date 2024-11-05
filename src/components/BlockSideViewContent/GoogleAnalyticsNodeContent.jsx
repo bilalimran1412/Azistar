@@ -20,17 +20,17 @@ function GoogleAnalyticsNodeContent({ id }) {
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
   const initialValues = {
-    category: currentNode?.data?.category || '',
-    advancedConfig: currentNode?.data?.advancedConfig || '',
-    action: currentNode?.data?.action || '',
-    label: currentNode?.data?.label || '',
-    value: currentNode?.data?.value || '',
+    category: currentNode?.data?.params?.category || '',
+    advancedConfig: currentNode?.data?.params?.advancedConfig || '',
+    action: currentNode?.data?.params?.action || '',
+    label: currentNode?.data?.params?.label || '',
+    value: currentNode?.data?.params?.value ?? 0,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 

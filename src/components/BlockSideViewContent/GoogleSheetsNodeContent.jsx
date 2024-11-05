@@ -39,15 +39,15 @@ function GoogleSheetsNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
 
   const initialValues = {
-    account: currentNode?.data?.account || '',
-    spreadSheet: currentNode?.data?.spreadSheet || '',
-    sheet: currentNode?.data?.sheet || '',
+    account: currentNode?.data?.params?.account || '',
+    spreadSheet: currentNode?.data?.params?.spreadSheet || '',
+    sheet: currentNode?.data?.params?.sheet || '',
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    updateNodeById(id, { params: { ...formValues } });
     handleClose();
   };
 

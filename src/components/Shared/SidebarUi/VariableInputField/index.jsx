@@ -28,6 +28,7 @@ function VariableInputField({
   labelVariant = 'h3',
   // popupType will be button or input, it will define the trigger element and design changes
   popupType = 'input',
+  popoverProps,
   ...rest
 }) {
   const [contentType, setContentType] = React.useState('list');
@@ -120,6 +121,7 @@ function VariableInputField({
           closeDelay={100}
           openDelay={100}
           offset={0}
+          {...popoverProps}
         >
           <PopoverTrigger>
             {popupType === 'button' ? (
@@ -127,10 +129,13 @@ function VariableInputField({
                 onClick={onToggle}
                 bgColor='gray.200'
                 borderRadius='3px'
-                height='32px'
-                fontSize='12px'
+                height='30px'
+                fontSize='10px'
+                padding='5px 10px'
+                minW='30px'
+                textTransform='uppercase'
               >
-                Variable
+                {placeholder || `Variable`}
               </Button>
             ) : (
               <VariableInput
