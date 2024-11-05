@@ -8,9 +8,12 @@ import { useFormikContext } from 'formik';
 import { Box, Button, FormLabel, HStack, Textarea } from '@chakra-ui/react';
 import { FormToggleSwitch } from 'components/Shared/FormUi';
 import { useFetchData } from 'hooks/bot/useFetchData';
+import { useUpdateNodeInternals } from '@xyflow/react';
 
 function AIFAQNodeContent({ id }) {
-  const { getNodeById, setSideView, updateNodeById } = useNodeContext();
+  const { getNodeById, setSideView, updateNodeById, setEdges } =
+    useNodeContext();
+  const updateNodeInternals = useUpdateNodeInternals();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
   const handleClose = () => {
@@ -29,6 +32,10 @@ function AIFAQNodeContent({ id }) {
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     updateNodeById(id, { params: { ...formValues } });
+    if (!formValues?.enableExit) {
+      setEdges((edges) => edges.filter((edge) => edge.source !== id));
+    }
+    updateNodeInternals(id);
     handleClose();
   };
 

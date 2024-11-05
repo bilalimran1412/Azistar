@@ -50,7 +50,8 @@ const httpMethods = [
 ];
 
 function WebhookNodeContent({ id }) {
-  const { getNodeById, setSideView, updateNodeById } = useNodeContext();
+  const { getNodeById, setSideView, updateNodeById, setEdges } =
+    useNodeContext();
   const currentNode = getNodeById(id);
   const { onClose, isOpen, onOpen } = useDisclosure();
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -85,7 +86,7 @@ function WebhookNodeContent({ id }) {
     saveResponse: currentNode?.data?.params?.saveResponse || [
       { response: '', id: 'f0245680-a1b7-5495-bcb8-2d0fca03959a' },
     ],
-    enableRouting: currentNode?.data?.params?.enableRouting || '',
+    enableRouting: currentNode?.data?.params?.enableRouting || false,
     body: currentNode?.data?.params?.body || '',
     enableSave: currentNode?.data?.params?.enableSave || '',
     routes: currentNode?.data?.params?.routes || [
@@ -119,6 +120,14 @@ function WebhookNodeContent({ id }) {
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const nodeTextContent = formValues.url;
+    const isChanged =
+      Boolean(formValues?.enableRouting) !==
+      Boolean(currentNode?.data?.params?.enableRouting);
+    if (isChanged) {
+      setEdges((edges) => edges?.filter((edge) => edge.source !== id));
+      updateNodeInternals(id);
+    }
+
     if (formValues?.enableRouting) {
       updateNodeById(id, {
         ...currentNode?.data,
@@ -141,7 +150,7 @@ function WebhookNodeContent({ id }) {
         },
       });
     }
-    updateNodeInternals(id);
+
     handleClose();
   };
 
