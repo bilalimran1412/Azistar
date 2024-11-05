@@ -1415,6 +1415,8 @@ export const nodeConfigurations = {
       data: {
         multipleHandles: true,
         layoutType: sideViewLayoutType.webhook,
+        renderSubHeader: true,
+
         customHandle: [
           {
             id: 'success',
@@ -1441,6 +1443,9 @@ export const nodeConfigurations = {
       data: {
         layoutType: sideViewLayoutType.triggerAutomation,
         multipleHandles: true,
+        params: {
+          nodeTextContent: 'https://',
+        },
         customHandle: [
           {
             id: 'success',
@@ -1452,14 +1457,14 @@ export const nodeConfigurations = {
           },
         ],
       },
-      fields: [
-        {
-          label: 'Automation Details',
-          type: 'text',
-          variable: 'textareaFieldData',
-          placeholder: 'https://',
-        },
-      ],
+      // fields: [
+      //   {
+      //     label: 'Automation Details',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'https://',
+      //   },
+      // ],
     },
     // {
     //   group: Groups.lowCode,

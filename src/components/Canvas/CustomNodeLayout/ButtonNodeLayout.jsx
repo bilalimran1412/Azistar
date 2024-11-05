@@ -2,7 +2,13 @@ import React from 'react';
 import CustomHandle from '../CustomHandle';
 import { Box, Text } from '@chakra-ui/react';
 
-function ButtonNodeLayout({ onClick, buttons, id, renderAny = true }) {
+function ButtonNodeLayout({
+  onClick,
+  buttons,
+  id,
+  renderAny = true,
+  placeholder = 'Add label',
+}) {
   return (
     <Box sx={{ display: 'flex' }} flexDirection='column' gap={1}>
       {buttons &&
@@ -25,7 +31,7 @@ function ButtonNodeLayout({ onClick, buttons, id, renderAny = true }) {
                 opacity: item.text ? '1' : '0.5',
               }}
             >
-              <Text>{item.text || 'Add label'}</Text>
+              <Text>{item.text || placeholder}</Text>
             </Box>
 
             <CustomHandle

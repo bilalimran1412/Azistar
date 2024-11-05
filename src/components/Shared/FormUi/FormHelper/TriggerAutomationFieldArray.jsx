@@ -16,7 +16,7 @@ function TriggerAutomationFieldArray({ name }) {
             <Flex key={index} mb={4} alignItems={'center'} gap={1}>
               <FormVariableSelectorDropdown
                 name={`${name}[${index}]`}
-                label='Variable Name'
+                label='Field Name'
               />
               <FormTextField
                 name={`${name}[${index}].testValue`}

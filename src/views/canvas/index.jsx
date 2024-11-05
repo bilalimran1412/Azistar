@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Alert, AlertIcon, Spinner, Text } from '@chakra-ui/react';
 import { NodeProvider, useNodeContext } from './NodeContext';
 import { ReactFlowProvider } from '@xyflow/react';
+import { useDropdownStore } from 'zustandStores';
 
 //TODO UNCOMMENT FOR CONNECTING TO DB
 function BotBuilderPage() {
@@ -30,11 +31,12 @@ function BotBuilder() {
     setNodes,
     setEdges,
     setBotID,
-    setGroupedOptions,
-    groupedOptions,
     botID: contextBotId,
   } = useNodeContext();
 
+  const setGroupedVariables = useDropdownStore(
+    (store) => store.setGroupedVariables
+  );
   const { data: botCopy, loading, error } = useFetchData(`/bot/${botId}/copy`);
 
   const diagram = React.useMemo(
@@ -46,24 +48,9 @@ function BotBuilder() {
   React.useEffect(() => {
     if (nodes?.length) setNodes(nodes);
     if (edges?.length) setEdges(edges);
-
-    if (botCopy?.data[0]?.customVariables) {
-      const updatedOptions = {
-        label: 'CUSTOM VARIABLES',
-        data: 'CUSTOM_VARIABLES',
-        options: [...(botCopy?.data[0]?.customVariables || [])],
-      };
-      setGroupedOptions((prev) => {
-        const exists = prev.some(
-          (option) => option.data === updatedOptions.data
-        );
-
-        if (exists) {
-          return prev;
-        }
-
-        return [...prev, updatedOptions];
-      });
+    const customVariables = botCopy?.data[0]?.customVariables;
+    if (customVariables?.length) {
+      setGroupedVariables(customVariables);
       if (!contextBotId) {
         setBotID(botId);
       }

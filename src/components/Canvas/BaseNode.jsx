@@ -56,10 +56,13 @@ const BaseNode = (props) => {
     addNewNode(id, blockId, handle);
     toggleDropdown();
   };
+  const useDynamicData = data?.enableDynamicNode;
   const noSidebarNode = config?.data?.contentType === contentType.noSidebar;
   const isStartingNode = config?.data?.contentType === contentType.startingNode;
   const isMultiHandleNode = config?.data?.multipleHandles;
-  const isButtonNode = config?.data?.contentType === contentType.buttonNode;
+  const isButtonNode = useDynamicData
+    ? data?.contentType === contentType.buttonNode
+    : config?.data?.contentType === contentType.buttonNode;
   const failureHandle = config?.data?.contentType === contentType.failureOnly;
   const customHandles = !isButtonNode ? config?.data?.customHandle : [];
 
