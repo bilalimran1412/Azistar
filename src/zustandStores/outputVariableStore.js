@@ -3,12 +3,12 @@ import { initialGroupedOptions as initialValue } from 'config/constant';
 
 export const useDropdownStore = create((set, get) => ({
   groupedOptions: initialValue,
-  // inputValue: '',
 
-  // setInputValue: (inputValue) => {
-  //   const formattedValue = inputValue?.toLowerCase();
-  //   set({ inputValue: formattedValue });
-  // },
+  setGroupedVariables: (customVariable) => {
+    const groupedOptions = get().groupedOptions;
+    groupedOptions[3].options = customVariable;
+    set({ groupedOptions: groupedOptions });
+  },
 
   addCustomVariable: (value, variableType) => {
     const groupedOptions = get().groupedOptions;
