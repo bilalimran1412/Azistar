@@ -40,9 +40,10 @@ function RuleSettings({
       padding='10px 12px 9px'
       direction='column'
       gap={5}
-      className='button-select-container'
       sx={{
-        '.chakra-popover__popper': {},
+        '.chakra-popover__popper': {
+          marginLeft: '-90px !important',
+        },
       }}
     >
       <Flex
@@ -93,6 +94,7 @@ function RuleSettings({
                   containerStyles={{
                     width: '50%',
                   }}
+                  setOnlyText={true}
                 />
               </>
             )}
@@ -136,6 +138,7 @@ function RuleSettings({
                 containerStyles={{
                   width: '50%',
                 }}
+                setOnlyText={true}
               />
             </>
           )}

@@ -21,7 +21,6 @@ function MultiQuestionSetting({
       padding='10px 12px 9px'
       direction='column'
       gap={5}
-      className='button-select-container'
     >
       <FormDropdown
         name={`${subFieldName}.type`}
