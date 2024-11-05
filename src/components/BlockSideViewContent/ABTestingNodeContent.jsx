@@ -17,7 +17,6 @@ function ABTestingNodeContent({ id }) {
   //TODO MOVE TO CONFIG
   // MAKE IT 50 50
 
-  console.log(currentNode?.data?.abSplit, currentNode?.data);
   const initialValues = {
     abSplit: currentNode?.data?.params?.abSplit || config?.data?.params.abSplit,
   };

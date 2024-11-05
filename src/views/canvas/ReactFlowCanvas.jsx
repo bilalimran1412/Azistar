@@ -38,7 +38,7 @@ const ReactFlowCanvas = () => {
       setEdges((eds) =>
         applyEdgeChanges(changes, eds).map((e) => ({
           ...e,
-          type: 'baseEdge',
+          // type: 'baseEdge',
           animated: true,
         }))
       ),

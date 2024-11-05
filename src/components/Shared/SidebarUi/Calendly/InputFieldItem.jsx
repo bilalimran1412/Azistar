@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import { useSortable } from '@dnd-kit/sortable';
-import { FormTextField } from 'components/Shared/FormUi';
+import { DraftEditorField } from 'components/Shared/FormUi';
 import { UiIconButton } from 'components/Shared/UiComponents';
 import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
 import { CSS } from '@dnd-kit/utilities';
@@ -31,14 +31,15 @@ function CalendlyInputFieldItem({ onRemove, subFieldName, question, index }) {
       }}
     >
       <Flex direction='row' alignItems='center'>
-        <FormTextField
+        <DraftEditorField
           name={`${subFieldName}.question`}
           label={`Question ${index + 1}`}
           placeholder='Value'
           variant='custom'
           labelVariant='h1'
+          type='inline'
         />
-        <Flex mt={4}>
+        <Flex mt={-1}>
           <Box>
             <UiIconButton
               icon={<FaGripVertical />}

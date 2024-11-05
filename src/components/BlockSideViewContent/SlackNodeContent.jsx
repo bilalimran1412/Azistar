@@ -23,12 +23,17 @@ function SlackNodeContent({ id }) {
     //this message will contain all the ops and html and normal text
     text: currentNode?.data?.params?.text || '',
     slack: currentNode?.data?.params?.slack || '',
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { params: { ...formValues } });
+    updateNodeById(id, {
+      params: {
+        ...formValues,
+      },
+    });
     handleClose();
   };
 

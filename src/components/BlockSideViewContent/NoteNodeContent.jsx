@@ -19,6 +19,7 @@ function NoteNodeContent({ id }) {
   const initialValues = {
     //this message will contain all the ops and html and normal text
     note: currentNode?.data?.params?.note || '',
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
   };
   const validationSchema = yup.object({});
 

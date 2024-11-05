@@ -56,6 +56,7 @@ const BaseNode = (props) => {
     addNewNode(id, blockId, handle);
     toggleDropdown();
   };
+  const noSidebarNode = config?.data?.contentType === contentType.noSidebar;
   const isStartingNode = config?.data?.contentType === contentType.startingNode;
   const isMultiHandleNode = config?.data?.multipleHandles;
   const isButtonNode = config?.data?.contentType === contentType.buttonNode;
@@ -71,7 +72,7 @@ const BaseNode = (props) => {
 
   const handleClick = () => {
     setDropdownVisible(false);
-    if (isStartingNode) {
+    if (isStartingNode || noSidebarNode) {
       return;
     }
     setCurrentNodeId(id);

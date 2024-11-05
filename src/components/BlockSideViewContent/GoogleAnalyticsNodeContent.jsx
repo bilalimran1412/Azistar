@@ -24,7 +24,7 @@ function GoogleAnalyticsNodeContent({ id }) {
     advancedConfig: currentNode?.data?.params?.advancedConfig || '',
     action: currentNode?.data?.params?.action || '',
     label: currentNode?.data?.params?.label || '',
-    value: currentNode?.data?.params?.value || '',
+    value: currentNode?.data?.params?.value ?? 0,
   };
   const validationSchema = yup.object({});
 

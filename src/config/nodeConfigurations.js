@@ -28,6 +28,7 @@ import {
   FaRegImage,
   FaRegSquare,
   FaRobot,
+  FaSignOutAlt,
   FaSlack,
   FaSlidersH,
   FaSortNumericDown,
@@ -44,6 +45,7 @@ import { initialNode } from './constant';
 export const contentType = {
   uploadMedia: 'uploadMedia',
   buttonNode: 'buttonNode',
+  noSidebar: 'noSidebar',
   //such nodes which do not have incoming/outgoing edges (note, global keyword)
   placeholderNodes: 'placeHolderNodes',
   incomingOnly: 'incomingOnly',
@@ -1342,22 +1344,28 @@ export const nodeConfigurations = {
         },
       },
     },
-    // {
-    //   group: Groups.inboxAndBuilderTools,
-    //   blockId: '00ce8611-8885-563d-9240-37d4942c8e3d',
-    //   title: 'Close Chat',
-    //   label: 'Close Chat',
-    //   icon: <FaSignOutAlt />,
-    //   nodeType: 'baseNode',
-    //   // fields: [
-    //   //   {
-    //   //     label: 'Close Message',
-    //   //     type: 'text',
-    //   //     variable: 'textareaFieldData',
-    //   //     placeholder: 'Set status to closed',
-    //   //   },
-    //   // ],
-    // },
+    {
+      group: Groups.inboxAndBuilderTools,
+      blockId: '00ce8611-8885-563d-9240-37d4942c8e3d',
+      title: 'Close Chat',
+      label: 'Close Chat',
+      icon: <FaSignOutAlt />,
+      nodeType: 'baseNode',
+      data: {
+        contentType: contentType.noSidebar,
+        params: {
+          nodeTextContent: 'Set status to closed',
+        },
+      },
+      // fields: [
+      //   {
+      //     label: 'Close Message',
+      //     type: 'text',
+      //     variable: 'textareaFieldData',
+      //     placeholder: 'Set status to closed',
+      //   },
+      // ],
+    },
     // {
     //   group: Groups.inboxAndBuilderTools,
     //   blockId: '29d89034-306b-5feb-a242-e0cbe1c330d9',

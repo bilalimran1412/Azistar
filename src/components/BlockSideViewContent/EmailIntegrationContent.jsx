@@ -34,13 +34,18 @@ function EmailIntegrationContent({ id }) {
     branding: currentNode?.data?.params?.branding || false,
     email: '',
     secret: '',
+    nodeTextContent: currentNode?.data?.params?.nodeTextContent,
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const { secret, email, ...rest } = formValues;
-    updateNodeById(id, { params: { ...rest } });
+    updateNodeById(id, {
+      params: {
+        ...rest,
+      },
+    });
     handleClose();
   };
 

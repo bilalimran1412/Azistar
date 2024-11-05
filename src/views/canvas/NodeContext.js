@@ -89,6 +89,9 @@ export const NodeProvider = ({ children }) => {
         setEdges((prev) => [...prev, newEdge]);
       }
       setNodes((prev) => [...prev, newNode]);
+      if (nodeToCreate?.data?.contentType === contentType.noSidebar) {
+        return;
+      }
       setSideViewVisible(true);
     },
     [nodes]
@@ -141,7 +144,9 @@ export const NodeProvider = ({ children }) => {
       } else {
         console.warn(`Edge with ID ${edgeID} not found.`);
       }
-
+      if (nodeToCreate?.data?.contentType === contentType.noSidebar) {
+        return;
+      }
       setSideViewVisible(true);
     },
     [nodes, edges]
