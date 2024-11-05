@@ -67,10 +67,10 @@ function FormNodeRowsFieldArray({ name, setActiveSidebar, activeSidebar }) {
         errorMessage: 'Please enter a valid value',
       }),
       ...(questionType === sideViewLayoutType.date && {
-        format: '',
+        format: 'yyyy/MM/dd',
         enabledCustomRanges: defaultRange,
-        showDatePicker: false,
-        enabledDateType: '',
+        showDatePicker: true,
+        enabledDateType: 'all',
         enabledDaysOfWeek: [1, 0, 2, 3, 4, 5, 6],
       }),
       ...(questionType === sideViewLayoutType.askNumber && {
