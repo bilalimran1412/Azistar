@@ -72,6 +72,14 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
           buttons={data?.params?.buttons}
         />
       )}
+      {config?.data?.layoutType === sideViewLayoutType.webhook && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+          placeholder='Add status code'
+        />
+      )}
     </Box>
   );
 }

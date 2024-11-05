@@ -35,6 +35,7 @@ import VariableInputField from 'components/Shared/SidebarUi/VariableInputField';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
 import { filterUniqueByKey, getFinalUrl } from 'utils/objectHelpers';
 import { truncateString } from 'utils/string';
+import { useUpdateNodeInternals } from '@xyflow/react';
 
 const httpMethods = [
   { value: 'GET', label: 'GET' },
@@ -70,6 +71,7 @@ function WebhookNodeContent({ id }) {
   }, [currentNode?.data?.saveResponse]);
 
   const [dropdownOptions, setDropdownOptions] = React.useState(initialOptions);
+  const updateNodeInternals = useUpdateNodeInternals();
   if (!config) return <></>;
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
@@ -86,7 +88,23 @@ function WebhookNodeContent({ id }) {
     enableRouting: currentNode?.data?.params?.enableRouting || '',
     body: currentNode?.data?.params?.body || '',
     enableSave: currentNode?.data?.params?.enableSave || '',
-    routes: currentNode?.data?.params?.routes || '',
+    routes: currentNode?.data?.params?.routes || [
+      {
+        id: 'd8e44211-ab57-4e79-aa32-1518e4bba3e4',
+        text: '200',
+        sortOrder: 1,
+      },
+      {
+        id: 'f71ec1f8-3677-4c1a-b420-f7fc44ca090b',
+        text: '400',
+        sortOrder: 2,
+      },
+      {
+        id: 'f58defbd-9916-4712-b661-7ca335f78be9',
+        text: '500',
+        sortOrder: 3,
+      },
+    ],
     parameters: currentNode?.data?.params?.parameters || [{ testValue: '' }],
     method: currentNode?.data?.params?.method || 'POST',
     params: currentNode?.data?.params?.params || [
@@ -101,9 +119,29 @@ function WebhookNodeContent({ id }) {
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
     const nodeTextContent = formValues.url;
-    updateNodeById(id, {
-      params: { ...formValues, ...(nodeTextContent && { nodeTextContent }) },
-    });
+    if (formValues?.enableRouting) {
+      updateNodeById(id, {
+        ...currentNode?.data,
+        contentType: 'buttonNode',
+        enableDynamicNode: true,
+        params: {
+          ...formValues,
+          buttons: formValues.routes,
+          ...(nodeTextContent && { nodeTextContent }),
+        },
+      });
+    } else {
+      updateNodeById(id, {
+        ...currentNode?.data,
+        contentType: '',
+        enableDynamicNode: false,
+        params: {
+          ...formValues,
+          ...(nodeTextContent && { nodeTextContent }),
+        },
+      });
+    }
+    updateNodeInternals(id);
     handleClose();
   };
 

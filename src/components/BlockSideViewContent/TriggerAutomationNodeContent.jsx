@@ -28,14 +28,17 @@ function TriggerAutomationNodeContent({ id }) {
   // console.log('creating sidebar for block', config);
   //TODO MOVE TO CONFIG
   const initialValues = {
-    url: currentNode?.data?.url || '',
-    parameters: currentNode?.data?.parameters || [{ testValue: '' }],
+    url: currentNode?.data?.params?.url || 'https://',
+    parameters: currentNode?.data?.params?.parameters || [{ testValue: '' }],
   };
   const validationSchema = yup.object({});
 
   const onSave = (formValues) => {
     console.log('Form values=>>>', formValues);
-    updateNodeById(id, { ...currentNode?.data, ...formValues });
+    const nodeTextContent = formValues.url;
+    updateNodeById(id, {
+      params: { ...formValues, ...(nodeTextContent && { nodeTextContent }) },
+    });
     handleClose();
   };
 
