@@ -127,7 +127,18 @@ function WebhookNodeContent({ id }) {
       setEdges((edges) => edges?.filter((edge) => edge.source !== id));
       updateNodeInternals(id);
     }
+    const previousHandles = currentNode?.data?.params?.buttons;
+    const newHandles = formValues?.routes;
 
+    const removedHandles = previousHandles?.filter(
+      (prevItem) => !newHandles.some((newItem) => newItem.id === prevItem.id)
+    );
+    removedHandles?.forEach((removedHandle) => {
+      const id = removedHandle.id;
+      setEdges((edges) =>
+        edges?.filter((edge) => !edge?.sourceHandle?.includes(id))
+      );
+    });
     if (formValues?.enableRouting) {
       updateNodeById(id, {
         ...currentNode?.data,
