@@ -40,6 +40,7 @@ const DraftEditor = ({
       <Box
         height={type === 'inline' ? '45px' : '120px'}
         fontSize='14px'
+        className='draft-editor-container'
         sx={{
           '.public-DraftEditorPlaceholder-root': {
             color: '#9197a3',

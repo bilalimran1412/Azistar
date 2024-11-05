@@ -1,5 +1,9 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { FormDropdown, FormTextField } from 'components/Shared/FormUi';
+import {
+  DraftEditorField,
+  FormDropdown,
+  FormTextField,
+} from 'components/Shared/FormUi';
 import React from 'react';
 import { conditionsOptions, getLabel } from './data';
 
@@ -37,8 +41,22 @@ function RuleSettings({
       direction='column'
       gap={5}
       className='button-select-container'
+      sx={{
+        '.chakra-popover__popper': {},
+      }}
     >
-      <Flex gap={4}>
+      <Flex
+        gap={4}
+        sx={{
+          '.DraftEditor-root': {
+            padding: '7px 13px  !important',
+            maxH: '36px',
+          },
+          '.draft-editor-container': {
+            maxH: '36px',
+          },
+        }}
+      >
         <Box width='50%'>
           <FormDropdown
             name={`${subFieldName}.condition`}
@@ -54,29 +72,73 @@ function RuleSettings({
           />
         </Box>
         {selectedOption?.args > 0 && (
-          <FormTextField
-            name={`${subFieldName}.args[0]`}
-            label='Argument'
-            labelVariant='h3White'
-            variant='customMini'
-            fullWidth={false}
-            {...(dateInput && { type: 'date' })}
-          />
+          <>
+            {dateInput ? (
+              <FormTextField
+                name={`${subFieldName}.args[0]`}
+                label='Argument'
+                labelVariant='h3White'
+                variant='customMini'
+                fullWidth={false}
+                type='date'
+              />
+            ) : (
+              <>
+                <DraftEditorField
+                  name={`${subFieldName}.args[0]`}
+                  label='Argument'
+                  labelVariant='h3White'
+                  variant='custom'
+                  type='inline'
+                  containerStyles={{
+                    width: '50%',
+                  }}
+                />
+              </>
+            )}
+          </>
         )}
       </Flex>
       {selectedOption?.args === 2 && (
-        <Flex alignItems='flex-end' direction='column'>
+        <Flex
+          alignItems='flex-end'
+          direction='column'
+          sx={{
+            '.DraftEditor-root': {
+              padding: '7px 13px !important',
+              maxH: '36px',
+            },
+            '.draft-editor-container': {
+              maxH: '36px',
+            },
+          }}
+        >
           <Text textAlign='center' width='50%' fontSize='small' color='#fff'>
             AND
           </Text>
-          <FormTextField
-            name={`${subFieldName}.args[1]`}
-            label=''
-            labelVariant='h3White'
-            variant='customMini'
-            fullWidth={false}
-            {...(dateInput && { type: 'date' })}
-          />
+          {dateInput ? (
+            <FormTextField
+              name={`${subFieldName}.args[1]`}
+              label=''
+              labelVariant='h3White'
+              variant='customMini'
+              fullWidth={false}
+              {...(dateInput && { type: 'date' })}
+            />
+          ) : (
+            <>
+              <DraftEditorField
+                name={`${subFieldName}.args[1]`}
+                label=''
+                labelVariant='h3White'
+                variant='custom'
+                type='inline'
+                containerStyles={{
+                  width: '50%',
+                }}
+              />
+            </>
+          )}
         </Flex>
       )}
       <Flex gap={4}>
