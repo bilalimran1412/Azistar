@@ -33,4 +33,5 @@ export * from './DraftEditorField';
 export * from './FormHelper/Webhook';
 export * from './CodeEditorField';
 export * from './FormReactSelect';
+export * from './FormHelper/WhatsappNodes';
 export * from './FormHelper/GoogleSheets';

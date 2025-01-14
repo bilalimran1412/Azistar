@@ -41,6 +41,7 @@ import {
 } from 'react-icons/fa';
 
 import { initialNode } from './constant';
+import { FaRegRectangleList } from 'react-icons/fa6';
 
 export const contentType = {
   uploadMedia: 'uploadMedia',
@@ -95,6 +96,13 @@ export const sideViewLayoutType = {
   webhook: 'webhook',
   mailchimp: 'mailchimp',
   hubspot: 'hubspot',
+  waReplyButtons: 'waReplyButtons',
+  waListButtons: 'waListButtons',
+  waKeywordOptions: 'waKeywordOptions',
+  waSendTemplate: 'waSendTemplate',
+  waOptInOut: 'waOptInOut',
+  waOptInCheck: 'waOptInCheck',
+  waAudience: 'waAudience'
 };
 
 //groups for creating nodes
@@ -107,6 +115,7 @@ const Groups = {
   aiAssistant: 'Ai Assistant',
   inboxAndBuilderTools: 'Inbox & Builder Tools',
   lowCode: 'Low Code',
+  whatsappEssentials: 'Whatsapp essentials',
 };
 
 export const nodeConfigurations = {
@@ -1515,6 +1524,173 @@ export const nodeConfigurations = {
     //     },
     //   ],
     // },
+  ],
+
+  whatsappEssentials: [
+    {
+      group: Groups.whatsappEssentials,
+      blockId: 'e03f52d9-9c47-5457-be8a-25190feaa95d',
+      title: 'Reply buttons',
+      label: 'Reply buttons',
+      icon: <FaRegRectangleList />,
+      nodeType: 'baseNode',
+      variableType: 'NUMBER',
+      data: {
+        layoutType: sideViewLayoutType.waReplyButtons,
+        multipleHandles: true,
+        renderSubHeader: true,
+        params: {
+          nodeTextContent: 'Offer quick responses',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'reply_buttons',
+            readOnly: false,
+            sample: '',
+            type: 'NUMBER',
+            value: 'reply_buttons',
+          },
+        },
+      },
+      fields: {
+        label: 'Text',
+        placeholder: 'Text body',
+      },
+    },
+    {
+      group: Groups.whatsappEssentials,
+      blockId: '55fc3057-c605-5d48-8674-4994947da94d',
+      title: 'List buttons',//
+      label: 'List buttons',//
+      icon: <FaRegRectangleList />,//
+      nodeType: 'baseNode',
+      variableType: 'STRING',//
+      data: {
+        layoutType: sideViewLayoutType.waListButtons,//
+        multipleHandles: true,//
+        renderSubHeader: true,//
+        params: {
+          nodeTextContent: 'Single choice menu',//
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'list',//
+            readOnly: false,
+            sample: '',
+            type: 'STRING',//
+            value: 'list',//
+          },
+        },
+      },
+      fields: {
+        label: 'Text',//
+        placeholder: 'Text body',//
+      },
+    },
+    {
+      group: Groups.whatsappEssentials,
+      blockId: '86571277-beb3-5781-8654-1582f65743d1',
+      title: 'Keyword options',
+      label: 'Keyword options',
+      icon: <FaRegRectangleList />,
+      nodeType: 'baseNode',
+      variableType: 'STRING',
+      data: {
+        layoutType: sideViewLayoutType.waKeywordOptions,
+        multipleHandles: true,
+        renderSubHeader: true,
+        params: {
+          nodeTextContent: 'Number & word choices',
+          variable: {
+            category: 'CUSTOM_VARIABLES',
+            label: 'choice',
+            readOnly: false,
+            sample: '',
+            type: 'STRING',
+            value: 'choice',
+          },
+        },
+      },
+      fields: {
+        label: 'Question Text',
+        placeholder: 'Number & word choices',
+      },
+    },
+    {
+      group: Groups.whatsappEssentials,
+      blockId: 'dd3c6f52-2893-527f-8753-0b0021eef221',
+      title: 'Send a Message Template',
+      label: 'Send a Message Template',
+      icon: <FaRegRectangleList />,
+      nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.waSendTemplate,
+        params: {
+          nodeTextContent: 'Select template to send',
+        },
+      },
+    },
+
+    {
+      group: Groups.whatsappEssentials,
+      blockId: '57e83061-f632-519d-8fa9-b284eb31ef21',
+      title: 'Opt-in/out',
+      label: 'Opt-in/out',
+      nodeType: 'baseNode',
+      icon: <FaToggleOn />,
+      data: {
+        multipleHandles: true,
+        contentType: contentType.buttonNode,
+        layoutType: sideViewLayoutType.waOptInOut,
+        params: {
+          buttons: [
+            {
+              id: 'yes-button-wa',
+              text: 'Yes',
+              isDeletable: false,
+              status: 'success',
+            },
+            {
+              id: 'no-button-wa',
+              text: 'NO',
+              isDeletable: false,
+              status: 'failure',
+            },
+          ],
+          nodeTextContent: 'Get new subscribers',
+        },
+      },
+      fields: {
+        label: 'Text',
+        placeholder: 'Would you like to receive news & updates from us?',
+      },
+    },
+    {
+      group: Groups.whatsappEssentials,
+      blockId: '61753286-9669-5430-a0e9-60abec8cf1c9',
+      title: 'Opt-in check',
+      label: 'Opt-in check',
+      icon: <FaRegRectangleList />,
+      nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.waOptInCheck,
+        params: {
+          nodeTextContent: 'Split the flow',
+        },
+      },
+    },
+    {
+      group: Groups.whatsappEssentials,
+      blockId: 'e4f6ac58-b94c-5446-b0fe-29e278bfdfa9',
+      title: 'Audience',
+      label: 'Audience',
+      icon: <FaRegRectangleList />,
+      nodeType: 'baseNode',
+      data: {
+        layoutType: sideViewLayoutType.waAudience,
+        params: {
+          nodeTextContent: 'Add a subscribed user',
+        },
+      },
+    },
   ],
 };
 

@@ -20,3 +20,4 @@ export * from './Webhook';
 export * from './Mailchimp';
 export * from './Hubspot';
 export * from './GoogleSheets';
+export * from './Whatsapp';

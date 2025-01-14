@@ -15,6 +15,7 @@ const theme = extendTheme({
     heading: '"DM Sans", sans-serif',
   },
   fontSizes: {
+    larger: '16px',
     large: '14px',
     medium: '13px',
     small: '12px',

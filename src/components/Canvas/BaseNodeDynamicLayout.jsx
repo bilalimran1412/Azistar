@@ -80,6 +80,20 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
           placeholder='Add status code'
         />
       )}
+      {config?.data?.layoutType === sideViewLayoutType.waReplyButtons && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.waOptInOut && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
     </Box>
   );
 }

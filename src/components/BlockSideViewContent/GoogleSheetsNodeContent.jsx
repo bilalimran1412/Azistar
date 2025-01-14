@@ -28,6 +28,25 @@ const options = [
   { label: 'gmailuser@gmail.com', value: '23' },
   { label: 'User1@gmail.com', value: '32' },
 ];
+const sheetsOpt = [
+  { label: 'sheet 1', value: 'sheet1' },
+  { label: 'sheet 2', value: 'sheet2' },
+];
+const actionOpt = [
+  {
+    label: 'Insert a new row',
+    value: 'insert',
+  },
+  {
+    label: 'Update a row',
+    value: 'update',
+  },
+  {
+    label: 'Get data from file',
+    value: 'get',
+  },
+];
+
 function GoogleSheetsNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
@@ -42,6 +61,13 @@ function GoogleSheetsNodeContent({ id }) {
     account: currentNode?.data?.params?.account || '',
     spreadSheet: currentNode?.data?.params?.spreadSheet || '',
     sheet: currentNode?.data?.params?.sheet || '',
+    fieldValues: [
+      {
+        field: '',
+        variable: '',
+        id: '8dbfd657-7928-5c85-972e-e04aa2ab6e50',
+      },
+    ],
   };
   const validationSchema = yup.object({});
 
@@ -69,10 +95,22 @@ function GoogleSheetsNodeContent({ id }) {
 export default GoogleSheetsNodeContent;
 
 function AccordionContent() {
+  const [accordionIndex, setAccordionIndex] = React.useState(0);
+
+  const handleCloseAccordion = () => {
+    setAccordionIndex(-1);
+  };
+  const handleToggle = () => {
+    if (accordionIndex === -1) {
+      setAccordionIndex(0);
+    } else {
+      setAccordionIndex(-1);
+    }
+  };
   return (
     <Accordion
       allowToggle
-      defaultIndex={0}
+      index={accordionIndex}
       style={{
         marginTop: '-10px',
       }}
@@ -80,9 +118,12 @@ function AccordionContent() {
     >
       <AccordionItem border='none'>
         <h2>
-          <AccordionButton backgroundColor='rgba(0, 0, 0, 0.04)'>
+          <AccordionButton
+            backgroundColor='rgba(0, 0, 0, 0.04)'
+            onClick={handleToggle}
+          >
             <Box flex='1' textAlign='left'>
-              <Text>Create Account or File</Text>
+              <Text>Account and File</Text>
             </Box>
             <AccordionIcon />
           </AccordionButton>
@@ -131,7 +172,7 @@ function AccordionContent() {
               containerProps={{ padding: 4 }}
               contentContainerProps={{ marginTop: 1 }}
             >
-              <SelectFileContent />
+              <SelectFileContent onSelect={handleCloseAccordion} />
             </SidebarFormCard>
           </Flex>
         </AccordionPanel>
@@ -140,7 +181,7 @@ function AccordionContent() {
   );
 }
 
-function SelectFileContent() {
+function SelectFileContent({ onSelect }) {
   const { values, setFieldValue } = useFormikContext();
 
   const setFile = () => {
@@ -149,7 +190,11 @@ function SelectFileContent() {
   const clearValue = () => {
     setFieldValue('spreadSheet', '');
   };
-
+  const handleSheetChange = (value) => {
+    if (value) {
+      onSelect();
+    }
+  };
   return (
     <Box display='flex' flexDirection='column' gap={2}>
       <Text>Select a file to save or obtain data.</Text>
@@ -182,11 +227,11 @@ function SelectFileContent() {
       {values?.spreadSheet && (
         <FormDropdown
           name='sheet'
-          options={options}
+          options={sheetsOpt}
           label=''
           labelVariant='h3'
+          onChange={handleSheetChange}
           variant='custom'
-          // disabled={true}
         />
       )}
     </Box>
@@ -206,42 +251,53 @@ function ActionFormFields() {
       >
         <FormDropdown
           name='action'
-          options={options}
+          options={actionOpt}
           label=''
           labelVariant='h3'
           variant='custom'
         />
       </SidebarFormCard>
-
-      <SidebarFormCard
-        title='Set a reference column'
-        containerProps={{ padding: 4 }}
-        contentContainerProps={{ marginTop: 1 }}
-      >
-        <Text mb={2}>
-          Select a reference column and its related field to identify which row
-          to update.
-        </Text>
-        <Box bg='#8a9ba826' borderRadius='3px' p='10px 12px 9px'>
-          <Flex direction='column' width='100%' alignItems='flex-end'>
-            <Box width='100%'>
-              <FormDropdown
-                label=''
-                placeholder='Select the field'
-                name={`field`}
-                options={[]}
-                variant='custom'
-              />
-              <FormVariableSelectorDropdown
-                name={`variable`}
-                placeholder='Select a variable'
-                label=''
-              />
-            </Box>
-          </Flex>
-        </Box>
-      </SidebarFormCard>
-
+      <ConditionalActionForm />
+    </>
+  );
+}
+function ConditionalActionForm() {
+  const { values } = useFormikContext();
+  if (!values?.action) {
+    return <></>;
+  }
+  return (
+    <>
+      {values?.action !== 'insert' && (
+        <SidebarFormCard
+          title='Set a reference column'
+          containerProps={{ padding: 4 }}
+          contentContainerProps={{ marginTop: 1 }}
+        >
+          <Text mb={2}>
+            Select a reference column and its related field to identify which
+            row to update.
+          </Text>
+          <Box bg='#8a9ba826' borderRadius='3px' p='10px 12px 9px'>
+            <Flex direction='column' width='100%' alignItems='flex-end'>
+              <Box width='100%'>
+                <FormDropdown
+                  label=''
+                  placeholder='Select the field'
+                  name={`field`}
+                  options={[]}
+                  variant='custom'
+                />
+                <FormVariableSelectorDropdown
+                  name={`variable`}
+                  placeholder='Select a variable'
+                  label=''
+                />
+              </Box>
+            </Flex>
+          </Box>
+        </SidebarFormCard>
+      )}
       <SidebarFormCard
         title='New row'
         containerProps={{ padding: 4 }}
