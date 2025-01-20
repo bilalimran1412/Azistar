@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, FormLabel } from '@chakra-ui/react';
+import { Box, Button, Flex, FormLabel } from '@chakra-ui/react';
 import { FieldArray, useField } from 'formik';
 import {
   arrayMove,
@@ -8,23 +8,12 @@ import {
 } from '@dnd-kit/sortable';
 import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import {
-  ButtonFieldArrayAddButton,
-  ListButtonFieldItem,
-} from 'components/Shared/SidebarUi';
+import { ListButtonFieldItem } from 'components/Shared/SidebarUi';
 import { seedID } from 'utils';
 
 const SortableListButtons = ({ name, label = 'Section and Item' }) => {
   const [field, , helpers] = useField(name);
   const fieldValue = field.value || [];
-
-  const handleAddButton = (arrayHelpers) => {
-    arrayHelpers.push({
-      id: seedID(),
-      text: '',
-      sortOrder: fieldValue?.length + 1,
-    });
-  };
 
   const handleDelete = (index, arrayHelpers) => {
     arrayHelpers.remove(index);
@@ -52,10 +41,43 @@ const SortableListButtons = ({ name, label = 'Section and Item' }) => {
     }
   };
 
-  return (
-    <Box width='100%'>
-      <FormLabel variant='h2'>{label}</FormLabel>
+  const handleAddItem = (arrayHelpers) => {
+    arrayHelpers.push({
+      id: seedID(),
+      text: '',
+      description: '',
+      value: '',
+      sortOrder: fieldValue?.length + 1,
+      isCategory: false,
+    });
+  };
 
+  const handleAddSection = (arrayHelpers) => {
+    arrayHelpers.push({
+      id: seedID(),
+      text: '',
+      sortOrder: fieldValue?.length + 1,
+      isCategory: true,
+    });
+  };
+
+  return (
+    <Box
+      width='100%'
+      sx={{
+        '& .item': {
+          width: '95%',
+          alignSelf: 'flex-end',
+        },
+        // '& .category': {
+        //   mt: '20px !important',
+        // },
+        // '& .category:first-of-type': {
+        //   mt: 0,
+        // },
+      }}
+    >
+      <FormLabel variant='h2'>{label}</FormLabel>
       <DndContext
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -82,20 +104,37 @@ const SortableListButtons = ({ name, label = 'Section and Item' }) => {
                   <ListButtonFieldItem
                     key={fieldItem.id}
                     id={fieldItem.id}
+                    isCategory={fieldItem?.isCategory}
                     name={`${name}[${index}]`}
                     handleDeleteClick={() => handleDelete(index, arrayHelpers)}
                   />
                 ))}
-
-                <>
-                  {/* //section Button 
-                item button with limit of 10 items as totla */}
-                  <ButtonFieldArrayAddButton
-                    handleAddButton={() => {
-                      handleAddButton(arrayHelpers);
+                <Flex flexDir='column' gap='12px'>
+                  <Button
+                    className='item'
+                    borderRadius='4px'
+                    textColor='#fff'
+                    variant='outline'
+                    _hover={{
+                      bgColor: 'lightgray',
                     }}
-                  />
-                </>
+                    onClick={() => handleAddItem(arrayHelpers)}
+                  >
+                    Add new Item
+                  </Button>
+                  <Button
+                    borderRadius='4px'
+                    textColor='#fff'
+                    variant='outline'
+                    _hover={{
+                      bgColor: 'lightgray',
+                    }}
+                    bgColor='#9ca3af'
+                    onClick={() => handleAddSection(arrayHelpers)}
+                  >
+                    Add new section
+                  </Button>
+                </Flex>
               </Flex>
             )}
           />

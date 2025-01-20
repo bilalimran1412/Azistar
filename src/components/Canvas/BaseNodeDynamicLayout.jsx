@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@chakra-ui/react';
 import { sideViewLayoutType } from 'config/nodeConfigurations';
-import { ButtonNodeLayout } from './CustomNodeLayout';
+import { ButtonNodeLayout, ListButtonNodeLayout } from './CustomNodeLayout';
 import CalendlyLayout from './CustomNodeLayout/CalendlyLayout';
 
 function BaseNodeDynamicLayout({ config, onClick, id, data }) {
@@ -96,6 +96,13 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
       )}
       {config?.data?.layoutType === sideViewLayoutType.waKeywordOptions && (
         <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
+      {config?.data?.layoutType === sideViewLayoutType.waListButtons && (
+        <ListButtonNodeLayout
           onClick={onClick}
           id={id}
           buttons={data?.params?.buttons}

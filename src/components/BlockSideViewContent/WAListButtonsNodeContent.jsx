@@ -4,7 +4,7 @@ import {
   DraftEditorField,
   FormTextField,
   FormVariableSelectorDropdown,
-  SortableReplyButtons,
+  SortableListButtons,
 } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
@@ -79,7 +79,7 @@ function WAListButtonsNodeContent({ id }) {
         variant='custom'
       />
 
-      <SortableReplyButtons
+      <SortableListButtons
         name='buttons'
         label='Sections & items (Max. 10 items)'
       />
