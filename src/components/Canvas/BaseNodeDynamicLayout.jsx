@@ -94,6 +94,13 @@ function BaseNodeDynamicLayout({ config, onClick, id, data }) {
           buttons={data?.params?.buttons}
         />
       )}
+      {config?.data?.layoutType === sideViewLayoutType.waKeywordOptions && (
+        <ButtonNodeLayout
+          onClick={onClick}
+          id={id}
+          buttons={data?.params?.buttons}
+        />
+      )}
     </Box>
   );
 }

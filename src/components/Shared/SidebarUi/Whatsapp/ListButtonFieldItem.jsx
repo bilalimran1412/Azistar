@@ -6,7 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { FormTextField } from 'components/Shared/FormUi';
 import { UiIconButton } from 'components/Shared/UiComponents';
 
-function ReplyButtonFieldItem({ name, id, handleDeleteClick, disableDelete }) {
+function ListButtonFieldItem({ name, id, handleDeleteClick }) {
   const {
     attributes,
     setNodeRef,
@@ -78,17 +78,15 @@ function ReplyButtonFieldItem({ name, id, handleDeleteClick, disableDelete }) {
             {...attributes}
             style={{ cursor: 'grab' }}
           />
-          {!disableDelete && (
-            <UiIconButton
-              icon={<FaTrashAlt />}
-              label='Delete'
-              onClick={handleDeleteClick}
-            />
-          )}
+          <UiIconButton
+            icon={<FaTrashAlt />}
+            label='Delete'
+            onClick={handleDeleteClick}
+          />
         </Box>
       </Box>
     </Box>
   );
 }
 
-export { ReplyButtonFieldItem };
+export { ListButtonFieldItem };

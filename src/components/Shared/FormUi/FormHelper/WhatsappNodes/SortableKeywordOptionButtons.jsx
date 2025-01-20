@@ -10,14 +10,13 @@ import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
   ButtonFieldArrayAddButton,
-  ReplyButtonFieldItem,
+  KeywordOptionButtonFieldItem,
 } from 'components/Shared/SidebarUi';
 import { seedID } from 'utils';
 
-const SortableReplyButtons = ({
+const SortableKeywordOptionButtons = ({
   name,
-  limit = 3,
-  label = 'Buttons (up to 3)',
+  label = 'Buttons',
   disableDelete = false,
 }) => {
   const [field, , helpers] = useField(name);
@@ -28,6 +27,7 @@ const SortableReplyButtons = ({
       id: seedID(),
       text: '',
       sortOrder: fieldValue?.length + 1,
+      keywords: [`${fieldValue?.length + 1}`],
     });
   };
 
@@ -49,10 +49,10 @@ const SortableReplyButtons = ({
         (item) => item.id === `${over.id}`
       );
       const updatedOrder = arrayMove(fieldValue, draggedIndex, overIndex);
-      const sortedBySortOrder = updatedOrder.map((updatedItem, index) => ({
-        ...updatedItem,
-        sortOrder: index + 1,
-      }));
+      const sortedBySortOrder = updatedOrder.map((updatedItem, index) => {
+        updatedItem['keywords'][0] = `${index}`;
+        return { ...updatedItem, sortOrder: index + 1 };
+      });
       helpers.setValue(sortedBySortOrder);
     }
   };
@@ -79,12 +79,12 @@ const SortableReplyButtons = ({
                 rounded={'3px'}
                 width='100%'
                 direction='column'
-                gap={3}
+                gap={8}
                 overflow='hidden'
                 whiteSpace='nowrap'
               >
                 {fieldValue?.map((fieldItem, index) => (
-                  <ReplyButtonFieldItem
+                  <KeywordOptionButtonFieldItem
                     key={fieldItem.id}
                     id={fieldItem.id}
                     name={`${name}[${index}]`}
@@ -92,13 +92,11 @@ const SortableReplyButtons = ({
                     handleDeleteClick={() => handleDelete(index, arrayHelpers)}
                   />
                 ))}
-                {fieldValue?.length < limit && (
-                  <ButtonFieldArrayAddButton
-                    handleAddButton={() => {
-                      handleAddButton(arrayHelpers);
-                    }}
-                  />
-                )}
+                <ButtonFieldArrayAddButton
+                  handleAddButton={() => {
+                    handleAddButton(arrayHelpers);
+                  }}
+                />
               </Flex>
             )}
           />
@@ -108,4 +106,4 @@ const SortableReplyButtons = ({
   );
 };
 
-export { SortableReplyButtons };
+export { SortableKeywordOptionButtons };

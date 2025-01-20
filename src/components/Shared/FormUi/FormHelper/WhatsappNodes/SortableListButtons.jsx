@@ -10,16 +10,11 @@ import { closestCenter, DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
   ButtonFieldArrayAddButton,
-  ReplyButtonFieldItem,
+  ListButtonFieldItem,
 } from 'components/Shared/SidebarUi';
 import { seedID } from 'utils';
 
-const SortableReplyButtons = ({
-  name,
-  limit = 3,
-  label = 'Buttons (up to 3)',
-  disableDelete = false,
-}) => {
+const SortableListButtons = ({ name, label = 'Section and Item' }) => {
   const [field, , helpers] = useField(name);
   const fieldValue = field.value || [];
 
@@ -84,21 +79,23 @@ const SortableReplyButtons = ({
                 whiteSpace='nowrap'
               >
                 {fieldValue?.map((fieldItem, index) => (
-                  <ReplyButtonFieldItem
+                  <ListButtonFieldItem
                     key={fieldItem.id}
                     id={fieldItem.id}
                     name={`${name}[${index}]`}
-                    disableDelete={disableDelete}
                     handleDeleteClick={() => handleDelete(index, arrayHelpers)}
                   />
                 ))}
-                {fieldValue?.length < limit && (
+
+                <>
+                  {/* //section Button 
+                item button with limit of 10 items as totla */}
                   <ButtonFieldArrayAddButton
                     handleAddButton={() => {
                       handleAddButton(arrayHelpers);
                     }}
                   />
-                )}
+                </>
               </Flex>
             )}
           />
@@ -108,4 +105,4 @@ const SortableReplyButtons = ({
   );
 };
 
-export { SortableReplyButtons };
+export { SortableListButtons };

@@ -3,15 +3,15 @@ import { Divider } from '@chakra-ui/react';
 import {
   DraftEditorField,
   FormTextField,
+  FormVariableSelectorDropdown,
   SortableReplyButtons,
 } from '../Shared/FormUi';
 import { SidebarFormContainer } from '../Shared/SidebarUi';
 import { useNodeContext } from '../../views/canvas/NodeContext';
 import { nodeConfigurationBlockIdMap } from '../../config/nodeConfigurations';
-import { yup } from '../../utils/yup';
-import FormVariableSelectorDropdown from '../Shared/FormUi/FormVariableSelectorDropdown';
+import { yup } from 'utils/yup';
 
-function WAReplyButtonsNodeContent({ id }) {
+function WAListButtonsNodeContent({ id }) {
   const { getNodeById, setSideView, updateNodeById } = useNodeContext();
   const currentNode = getNodeById(id);
   const config = nodeConfigurationBlockIdMap[currentNode.data.blockId];
@@ -26,6 +26,7 @@ function WAReplyButtonsNodeContent({ id }) {
     },
 
     nodeTextContent: currentNode?.data?.params?.nodeTextContent,
+    listHeader: currentNode?.data?.params?.listHeader || 'Menu',
     header: currentNode?.data?.params?.header,
     footer: currentNode?.data?.params?.footer,
     buttons: currentNode?.data?.params?.buttons,
@@ -71,8 +72,17 @@ function WAReplyButtonsNodeContent({ id }) {
         variant='custom'
         type='textarea'
       />
+      <FormTextField
+        name='listHeader'
+        label='List header / CTA'
+        labelVariant='h3'
+        variant='custom'
+      />
 
-      <SortableReplyButtons name='buttons' />
+      <SortableReplyButtons
+        name='buttons'
+        label='Sections & items (Max. 10 items)'
+      />
       <Divider />
       <FormVariableSelectorDropdown
         allowedType={config?.variableType}
@@ -82,4 +92,4 @@ function WAReplyButtonsNodeContent({ id }) {
   );
 }
 
-export default WAReplyButtonsNodeContent;
+export default WAListButtonsNodeContent;

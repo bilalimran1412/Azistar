@@ -37,6 +37,12 @@ import WebhookNodeContent from './WebhookNodeContent';
 import MailchimpNodeContent from './MailchimpNodeContent';
 import HubspotNodeContent from './HubspotNodeContent';
 import WAReplyButtonsNodeContent from './WAReplyButtonsNodeContent';
+import WAOptInOutNodeContent from './WAOptInOutNodeContent';
+import WAOptInOutCheckNodeContent from './WAOptInOutCheckNodeContent';
+import WAAudienceNodeContent from './WAAudienceNodeContent';
+import WASendMessageNodeContent from './WASendMessageNodeContent';
+import WAKeywordOptionNodeContent from './WAKeywordOptionNodeContent';
+import WAListButtonsNodeContent from './WAListButtonsNodeContent';
 
 export const SideViewContent = {
   [sideViewLayoutType.goodBye]: GoodByeNodeContent,
@@ -77,4 +83,10 @@ export const SideViewContent = {
   [sideViewLayoutType.mailchimp]: MailchimpNodeContent,
   [sideViewLayoutType.hubspot]: HubspotNodeContent,
   [sideViewLayoutType.waReplyButtons]: WAReplyButtonsNodeContent,
+  [sideViewLayoutType.waListButtons]: WAListButtonsNodeContent,
+  [sideViewLayoutType.waKeywordOptions]: WAKeywordOptionNodeContent,
+  [sideViewLayoutType.waSendTemplate]: WASendMessageNodeContent,
+  [sideViewLayoutType.waOptInOut]: WAOptInOutNodeContent,
+  [sideViewLayoutType.waOptInCheck]: WAOptInOutCheckNodeContent,
+  [sideViewLayoutType.waAudience]: WAAudienceNodeContent,
 };

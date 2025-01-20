@@ -1527,6 +1527,8 @@ export const nodeConfigurations = {
   ],
 
   whatsappEssentials: [
+
+    //reply buttons
     {
       group: Groups.whatsappEssentials,
       blockId: 'e03f52d9-9c47-5457-be8a-25190feaa95d',
@@ -1556,6 +1558,7 @@ export const nodeConfigurations = {
         placeholder: 'Text body',
       },
     },
+
     {
       group: Groups.whatsappEssentials,
       blockId: '55fc3057-c605-5d48-8674-4994947da94d',
@@ -1585,6 +1588,7 @@ export const nodeConfigurations = {
         placeholder: 'Text body',//
       },
     },
+    //keywords options
     {
       group: Groups.whatsappEssentials,
       blockId: '86571277-beb3-5781-8654-1582f65743d1',
@@ -1628,7 +1632,7 @@ export const nodeConfigurations = {
         },
       },
     },
-
+    //opt-in/out
     {
       group: Groups.whatsappEssentials,
       blockId: '57e83061-f632-519d-8fa9-b284eb31ef21',
@@ -1639,6 +1643,7 @@ export const nodeConfigurations = {
       data: {
         multipleHandles: true,
         contentType: contentType.buttonNode,
+        renderSubHeader: true,
         layoutType: sideViewLayoutType.waOptInOut,
         params: {
           buttons: [
@@ -1650,7 +1655,7 @@ export const nodeConfigurations = {
             },
             {
               id: 'no-button-wa',
-              text: 'NO',
+              text: 'No',
               isDeletable: false,
               status: 'failure',
             },
@@ -1663,6 +1668,7 @@ export const nodeConfigurations = {
         placeholder: 'Would you like to receive news & updates from us?',
       },
     },
+    //opt-in/out check
     {
       group: Groups.whatsappEssentials,
       blockId: '61753286-9669-5430-a0e9-60abec8cf1c9',
@@ -1672,9 +1678,22 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.waOptInCheck,
+        renderSubHeader: true,
+        multipleHandles: true,
         params: {
           nodeTextContent: 'Split the flow',
+
         },
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
       },
     },
     {
@@ -1686,9 +1705,21 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.waAudience,
+        renderSubHeader: true,
+        multipleHandles: true,
         params: {
           nodeTextContent: 'Add a subscribed user',
         },
+        customHandle: [
+          {
+            id: 'success',
+            type: 'success',
+          },
+          {
+            id: 'failure',
+            type: 'failure',
+          },
+        ],
       },
     },
   ],
