@@ -24,7 +24,7 @@ function WAAudienceNodeContent({ id }) {
 
   const initialValues = {
     nodeTextContent: currentNode?.data?.params?.nodeTextContent,
-    number: currentNode?.data?.params?.number,
+    channelId: currentNode?.data?.params?.channelId,
     audience: currentNode?.data?.params?.audience,
     enableTest: currentNode?.data?.params?.enableTest,
   };
@@ -74,7 +74,7 @@ function NumberCard() {
       <FormDropdown
         options={numberOptions}
         label=''
-        name='number'
+        name='channelId'
         variant='custom'
         disabled={!values?.enableTest}
       />

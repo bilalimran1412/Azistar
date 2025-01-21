@@ -1627,6 +1627,7 @@ export const nodeConfigurations = {
       nodeType: 'baseNode',
       data: {
         layoutType: sideViewLayoutType.waSendTemplate,
+        contentType: contentType.incomingOnly,
         params: {
           nodeTextContent: 'Select template to send',
         },
